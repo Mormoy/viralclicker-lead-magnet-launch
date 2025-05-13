@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '@/components/logo';
 import VideoPlayer from '@/components/video-player';
-import { ArrowRight, Video, Calendar, Phone } from 'lucide-react';
+import TestimonialSection from '@/components/testimonial-section';
+import { ArrowRight, Calendar } from 'lucide-react';
 
 const Webinar = () => {
   const navigate = useNavigate();
@@ -87,58 +88,11 @@ const Webinar = () => {
           </div>
         </section>
 
-        <section className="py-12 bg-viralDark/50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold text-white text-center mb-8">
-              Lo que nuestros clientes dicen
-            </h2>
-            
-            <div className="max-w-3xl mx-auto bg-viralDark/80 border border-gray-800 rounded-lg p-6">
-              <p className="text-white/90 italic text-lg mb-4 text-center">
-                "Gracias a ViralClicker hemos aumentado nuestras conversiones en un 150% en solo 3 meses."
-              </p>
-              <p className="text-viralOrange text-center font-semibold">
-                - María González, CEO de MarketingPro
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl font-bold text-white mb-6">
-                ¿Por qué elegir ViralClicker?
-              </h2>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-viralDark/50 border border-gray-800 rounded-lg p-5">
-                  <div className="flex gap-3 mb-3">
-                    <div className="bg-viralOrange/20 p-2 rounded">
-                      <Phone className="text-viralOrange h-5 w-5" />
-                    </div>
-                    <h3 className="text-white font-bold">Más contactos</h3>
-                  </div>
-                  <p className="text-white/70">
-                    Aumente significativamente la cantidad de leads cualificados para su negocio.
-                  </p>
-                </div>
-                
-                <div className="bg-viralDark/50 border border-gray-800 rounded-lg p-5">
-                  <div className="flex gap-3 mb-3">
-                    <div className="bg-viralOrange/20 p-2 rounded">
-                      <Video className="text-viralOrange h-5 w-5" />
-                    </div>
-                    <h3 className="text-white font-bold">Videollamadas</h3>
-                  </div>
-                  <p className="text-white/70">
-                    Atención personalizada para cada cliente potencial, aumentando las tasas de conversión.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Testimonials Section */}
+        <TestimonialSection />
+        
+        {/* Metrics Section */}
+        <MetricsSection />
       </main>
 
       {/* Footer */}

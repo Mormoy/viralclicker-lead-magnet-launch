@@ -3,6 +3,9 @@ import { useState } from 'react';
 import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
+import VideoThumbnail from '@/components/video-thumbnail';
+import TrustedBrands from '@/components/trusted-brands';
+import MetricsSection from '@/components/metrics-section';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -29,32 +32,40 @@ const Index = () => {
       </div>
 
       {/* Hero Section */}
-      <main className="flex-grow flex items-center">
+      <main className="flex-grow">
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-center">
               <span className="text-white">Capte más </span>
               <span className="text-viralOrange">leads calificados</span>
               <span className="text-white"> y aumente sus ventas</span>
             </h1>
             
-            <p className="text-white/80 text-lg md:text-xl mb-10">
+            <p className="text-white/80 text-lg md:text-xl mb-10 text-center">
               Optimizamos su presencia digital para conectar con clientes potenciales y 
               convertir visitas en ventas.
             </p>
             
-            <button 
-              onClick={openForm}
-              className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105"
-            >
-              ¡Quiero aumentar mis ventas!
-            </button>
+            <div className="mb-10">
+              <VideoThumbnail onPlay={openForm} />
+            </div>
             
-            <p className="text-white/70 mt-10">
-              Más de 500 empresas confían en nosotros
-            </p>
+            <div className="flex justify-center">
+              <button 
+                onClick={openForm}
+                className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 animate-pulse"
+              >
+                ¡Quiero aumentar mis ventas!
+              </button>
+            </div>
           </div>
         </div>
+        
+        {/* Trust Indicators */}
+        <TrustedBrands />
+        
+        {/* Metrics Section */}
+        <MetricsSection />
       </main>
 
       {/* Footer */}
