@@ -5,6 +5,7 @@ import Logo from '@/components/logo';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
+import TrustedBrands from '@/components/trusted-brands';
 import { ArrowRight, Calendar } from 'lucide-react';
 
 const Webinar = () => {
@@ -23,15 +24,85 @@ const Webinar = () => {
     } else {
       setLeadData(JSON.parse(savedLead));
     }
+    
+    // Track webinar page visit
+    const metrics = JSON.parse(savedLead || '{}')?.metrics || {};
+    const updatedMetrics = {
+      ...metrics,
+      webinarPageVisit: true,
+      webinarPageVisitTime: new Date().toISOString()
+    };
+    
+    // Update metrics in localStorage
+    if (savedLead) {
+      const leadData = JSON.parse(savedLead);
+      localStorage.setItem("viralclicker_lead", JSON.stringify({
+        ...leadData,
+        metrics: updatedMetrics
+      }));
+    }
+    
+    // Track when user leaves webinar
+    const handleBeforeUnload = () => {
+      const savedData = localStorage.getItem("viralclicker_lead");
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        const metrics = data.metrics || {};
+        localStorage.setItem("viralclicker_lead", JSON.stringify({
+          ...data,
+          metrics: {
+            ...metrics,
+            webinarExitTime: new Date().toISOString()
+          }
+        }));
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [navigate]);
 
   const handleVideoEnd = () => {
     setVideoEnded(true);
+    
+    // Track webinar completion
+    const savedLead = localStorage.getItem("viralclicker_lead");
+    if (savedLead) {
+      const leadData = JSON.parse(savedLead);
+      const metrics = leadData.metrics || {};
+      localStorage.setItem("viralclicker_lead", JSON.stringify({
+        ...leadData,
+        metrics: {
+          ...metrics,
+          webinarCompleted: true,
+          webinarCompletedTime: new Date().toISOString()
+        }
+      }));
+    }
+    
     // Auto scroll to booking section
     document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const openCalendly = () => {
+    // Track calendly click
+    const savedLead = localStorage.getItem("viralclicker_lead");
+    if (savedLead) {
+      const leadData = JSON.parse(savedLead);
+      const metrics = leadData.metrics || {};
+      localStorage.setItem("viralclicker_lead", JSON.stringify({
+        ...leadData,
+        metrics: {
+          ...metrics,
+          calendlyClicked: true,
+          calendlyClickTime: new Date().toISOString()
+        }
+      }));
+    }
+    
     window.open(calendlyUrl, '_blank');
   };
 
@@ -88,6 +159,9 @@ const Webinar = () => {
             )}
           </div>
         </section>
+        
+        {/* Trusted Brands Section */}
+        <TrustedBrands />
 
         {/* Testimonials Section */}
         <TestimonialSection />

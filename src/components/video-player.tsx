@@ -1,5 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
+import ContactModal from "./contact-modal";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -7,6 +8,8 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showContactButton, setShowContactButton] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // For demo purposes, using a placeholder video. In production, replace with your actual webinar video
@@ -21,7 +24,17 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       if (onVideoEnd) onVideoEnd();
     };
 
+    const handleTimeUpdate = () => {
+      // Show contact button after 5 seconds of video playback
+      if (video.currentTime > 5 && !showContactButton) {
+        setShowContactButton(true);
+        // Track that webinar started
+        localStorage.setItem("viralclicker_webinar_started", "true");
+      }
+    };
+
     video.addEventListener('ended', handleEnded);
+    video.addEventListener('timeupdate', handleTimeUpdate);
     
     // Auto-play functionality
     const playPromise = video.play();
@@ -40,8 +53,9 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 
     return () => {
       video.removeEventListener('ended', handleEnded);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
     };
-  }, [onVideoEnd]);
+  }, [onVideoEnd, showContactButton]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -54,6 +68,16 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       video.pause();
       setIsPlaying(false);
     }
+  };
+
+  const handleContactRequest = () => {
+    setIsModalOpen(true);
+    // Track contact request
+    localStorage.setItem("viralclicker_contact_requested", "true");
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -76,6 +100,19 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
           </div>
         </div>
       )}
+      
+      {showContactButton && isPlaying && (
+        <div className="absolute bottom-4 right-4">
+          <button
+            onClick={handleContactRequest}
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"
+          >
+            Quiero que me contacten
+          </button>
+        </div>
+      )}
+      
+      <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

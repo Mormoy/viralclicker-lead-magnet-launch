@@ -16,6 +16,8 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     phone: "",
     email: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formspreeEndpoint = "https://formspree.io/f/xqaqydkw";
 
   const [errors, setErrors] = useState({
     name: "",
@@ -44,13 +46,48 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     return !Object.values(newErrors).some(error => error);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (validate()) {
-      localStorage.setItem("viralclicker_lead", JSON.stringify(formData));
-      toast.success("Datos registrados correctamente");
-      navigate("/webinar");
+      setIsSubmitting(true);
+      
+      try {
+        // Track form submission time
+        const submissionTime = new Date().toISOString();
+        const userMetrics = {
+          landingPageVisit: true,
+          formSubmissionTime: submissionTime,
+        };
+        
+        // Save lead data and metrics in localStorage
+        localStorage.setItem("viralclicker_lead", JSON.stringify({
+          ...formData,
+          metrics: userMetrics
+        }));
+        
+        // Send data to Formspree
+        const response = await fetch(formspreeEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            userMetrics
+          })
+        });
+        
+        if (response.ok) {
+          toast.success("Datos registrados correctamente");
+          navigate("/webinar");
+        } else {
+          toast.error("Error al enviar el formulario. Inténtelo de nuevo.");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        toast.error("Error al enviar el formulario. Inténtelo de nuevo.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -132,9 +169,10 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
             
             <button
               type="submit"
-              className="w-full bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-4 rounded transition-colors"
+              disabled={isSubmitting}
+              className="w-full bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-70"
             >
-              Acceder ahora
+              {isSubmitting ? "Procesando..." : "Acceder ahora"}
             </button>
             
             <p className="text-white/60 text-xs text-center mt-4">
