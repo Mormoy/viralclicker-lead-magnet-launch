@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '@/components/logo';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
+import MetricsSection from '@/components/metrics-section';
 import { ArrowRight, Calendar } from 'lucide-react';
 
 const Webinar = () => {
