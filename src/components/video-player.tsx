@@ -13,7 +13,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // For demo purposes, using a placeholder video. In production, replace with your actual webinar video
-  const videoSrc = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4";
+  const videoSrc = "https://www.viralclicker.com/videos/video01.mp4";
 
   useEffect(() => {
     const video = videoRef.current;
