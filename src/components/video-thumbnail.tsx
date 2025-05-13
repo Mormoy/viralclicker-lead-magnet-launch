@@ -22,7 +22,7 @@ const VideoThumbnail = ({ onPlay, className }: VideoThumbnailProps) => {
       <AspectRatio ratio={16/9}>
         <div className="bg-viralDark/50 w-full h-full absolute z-10"></div>
         <img 
-          src="/webinar-preview.jpg" 
+          src="/components/Captura de pantalla 2025-05-13 173458.png" 
           alt="Video webinar de ViralClicker" 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
