@@ -14,8 +14,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   
   // Define a proper video URL that will work
  // const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // Standard example video
-  //const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
-  const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
+  const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
+ // const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
   
   useEffect(() => {
     const video = videoRef.current;
