@@ -6,17 +6,17 @@ import { toast } from "../hooks/use-toast";
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
 }
-
+/*
 const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+  */
   // High resolution video from a reliable source (Pexels)
   const videoUrl = "https://player.vimeo.com/progressive_redirect/playback/773068902/rendition/1080p/file.mp4?loc=external&oauth2_token_id=1747418641";
-  
+  /*
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -180,3 +180,4 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 };
 
 export default VideoPlayer;
+*/
