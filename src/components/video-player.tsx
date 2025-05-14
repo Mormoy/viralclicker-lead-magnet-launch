@@ -13,7 +13,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // For demo purposes, using a placeholder video. In production, replace with your actual webinar video
-  const videoSrc = "https://www.viralclicker.com/videos/video01.mp4";
+  const videoSrc = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/view?usp=sharing";
 
   useEffect(() => {
     const video = videoRef.current;
