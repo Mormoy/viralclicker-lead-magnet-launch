@@ -12,8 +12,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Direct link to video using export=download format
-  const videoUrl = "https://youtu.be/eKHL93PYDO4";
+  // Video de ejemplo de YouTube (URL pública y confiable)
+  const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
 
   useEffect(() => {
     const video = videoRef.current;
@@ -22,12 +22,14 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     const handleEnded = () => {
       setIsPlaying(false);
       if (onVideoEnd) onVideoEnd();
+      console.log("Video ended");
     };
 
     const handleTimeUpdate = () => {
       // Show contact button after 10 seconds of video playback
       if (video.currentTime > 10 && !showContactButton) {
         setShowContactButton(true);
+        console.log("Contact button shown at:", video.currentTime);
         // Track that webinar started
         localStorage.setItem("viralclicker_webinar_started", "true");
       }
@@ -43,6 +45,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   }, [onVideoEnd, showContactButton]);
 
   const togglePlay = () => {
+    console.log("Toggle play clicked");
     const video = videoRef.current;
     if (!video) return;
 
@@ -63,11 +66,13 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     } else {
       video.pause();
       setIsPlaying(false);
+      console.log("Video paused");
     }
   };
 
   const handleContactRequest = () => {
     setIsModalOpen(true);
+    console.log("Contact request button clicked");
     // Track contact request
     localStorage.setItem("viralclicker_contact_requested", "true");
     
@@ -91,22 +96,6 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(false);
   };
 
-  // Check if video is loaded
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    
-    const handleCanPlay = () => {
-      console.log("Video can play now");
-    };
-    
-    video.addEventListener('canplay', handleCanPlay);
-    
-    return () => {
-      video.removeEventListener('canplay', handleCanPlay);
-    };
-  }, []);
-
   return (
     <div className="relative w-full max-w-3xl mx-auto">
       <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
@@ -114,7 +103,6 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
           ref={videoRef}
           className="w-full h-full object-cover"
           src={videoUrl}
-          controls={false}
           playsInline
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"

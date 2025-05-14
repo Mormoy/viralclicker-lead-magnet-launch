@@ -1,30 +1,18 @@
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const TrustedBrands = () => {
-  const brandLogos = ['/brand-1.svg', '/brand-2.svg', '/brand-3.svg', '/brand-4.svg', '/brand-5.svg'];
-
-  // Use placeholder images for brands
-  const placeholderImages = [
-    'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=200&h=80&q=80', 
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=200&h=80&q=80', 
-    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=200&h=80&q=80', 
-    'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=200&h=80&q=80', 
-    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=200&h=80&q=80'
+  // Imágenes de prueba estables y confiables
+  const brandImages = [
+    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+1',
+    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+2', 
+    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+3', 
+    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+4', 
+    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+5'
   ];
   
-  const [currentImageIndex, setCurrentImageIndex] = useState<number[]>([]);
-
-  useEffect(() => {
-    // Initialize with random images
-    setCurrentImageIndex(brandLogos.map(() => Math.floor(Math.random() * placeholderImages.length)));
-  }, []);
-
   const containerVariants = {
-    hidden: {
-      opacity: 0
-    },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
@@ -35,16 +23,11 @@ const TrustedBrands = () => {
   };
 
   const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20
-    },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5
-      }
+      transition: { duration: 0.5 }
     }
   };
 
@@ -75,15 +58,12 @@ const TrustedBrands = () => {
           variants={containerVariants} 
           initial="hidden" 
           whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.3
-          }}
+          viewport={{ once: true, amount: 0.3 }}
         >
-          {placeholderImages.map((image, index) => (
+          {brandImages.map((image, index) => (
             <motion.div 
               key={index} 
-              className="h-16 md:h-20 w-32 md:w-40 flex items-center justify-center bg-gray-700/30 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-viralOrange/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
+              className="h-16 md:h-20 w-32 md:w-40 flex items-center justify-center bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 border border-gray-600 hover:border-viralOrange/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
               variants={itemVariants}
               whileHover={{ 
                 scale: 1.05,
@@ -93,7 +73,7 @@ const TrustedBrands = () => {
               <img 
                 src={image} 
                 alt={`Brand logo ${index + 1}`} 
-                className="h-full object-contain filter brightness-0 invert hover:brightness-100 hover:invert-0 transition-all duration-300" 
+                className="h-full object-contain transition-all duration-300" 
               />
             </motion.div>
           ))}
