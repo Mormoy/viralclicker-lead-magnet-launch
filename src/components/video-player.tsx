@@ -13,9 +13,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // For demo purposes, using a placeholder video. In production, replace with your actual webinar video
-  //const videoSrc = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/view?usp=sharing"
-     
-    ;
+  const videoSrc = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4";
 
   useEffect(() => {
     const video = videoRef.current;
@@ -76,6 +74,21 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(true);
     // Track contact request
     localStorage.setItem("viralclicker_contact_requested", "true");
+    
+    // Update lead data with contact request info
+    const savedLead = localStorage.getItem("viralclicker_lead");
+    if (savedLead) {
+      const leadData = JSON.parse(savedLead);
+      const metrics = leadData.metrics || {};
+      localStorage.setItem("viralclicker_lead", JSON.stringify({
+        ...leadData,
+        metrics: {
+          ...metrics,
+          contactRequested: true,
+          contactRequestTime: new Date().toISOString()
+        }
+      }));
+    }
   };
 
   const closeModal = () => {
