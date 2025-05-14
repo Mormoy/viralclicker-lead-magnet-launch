@@ -14,7 +14,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   
   // Define a proper video URL that will work
  // const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // Standard example video
-  const videoUrl = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/view";
+  const videoUrl = "https://www.viralclicker.com/videos/VIdeo01.mp4";
  // const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
   
   useEffect(() => {
