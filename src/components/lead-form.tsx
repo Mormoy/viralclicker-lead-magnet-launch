@@ -35,7 +35,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   const validate = () => {
     const newErrors = {
       name: formData.name ? "" : "Nombre es obligatorio",
-      phone: formData.phone ? "" : "Teléfono es obligatorio",
+      phone: formData.phone ? "" : "WhatsApp es obligatorio",
       email: formData.email ? (
         /^\S+@\S+\.\S+$/.test(formData.email) ? 
           "" : "Email no válido"
@@ -133,7 +133,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
             
             <div>
               <label htmlFor="phone" className="block text-white mb-1">
-                Teléfono
+                WhatsApp
               </label>
               <input
                 type="tel"
@@ -141,7 +141,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Tu número de teléfono"
+                placeholder="Tu número de WhatsApp"
                 className={`w-full p-3 bg-gray-800 text-white rounded border ${
                   errors.phone ? "border-red-500" : "border-gray-700"
                 }`}

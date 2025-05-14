@@ -12,8 +12,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // For demo purposes, using a placeholder video. In production, replace with your actual webinar video
-  const videoSrc = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4";
+  // Video from Google Drive
+  const videoUrl = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/preview";
 
   useEffect(() => {
     const video = videoRef.current;
@@ -25,8 +25,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     };
 
     const handleTimeUpdate = () => {
-      // Show contact button after 5 seconds of video playback
-      if (video.currentTime > 5 && !showContactButton) {
+      // Show contact button after 10 seconds of video playback
+      if (video.currentTime > 10 && !showContactButton) {
         setShowContactButton(true);
         // Track that webinar started
         localStorage.setItem("viralclicker_webinar_started", "true");
@@ -97,13 +97,17 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 
   return (
     <div className="relative w-full max-w-3xl mx-auto">
-      <video
-        ref={videoRef}
-        className="w-full rounded-lg shadow-lg"
-        src={videoSrc}
-        controls={false}
-        playsInline
-      />
+      <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          src="https://drive.google.com/uc?export=download&id=1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04"
+          controls={false}
+          playsInline
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+        />
+      </div>
       
       {!isPlaying && (
         <div 

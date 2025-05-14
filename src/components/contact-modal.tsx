@@ -17,7 +17,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
           </DialogTitle>
         </DialogHeader>
         <div className="py-4 text-center">
-          <p className="mb-4">Nuestro equipo se pondrá en contacto con usted.</p>
+          <p className="mb-4">Gracias, pronto alguien de nuestro equipo se pondrá en contacto.</p>
           <button
             onClick={onClose}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full"
