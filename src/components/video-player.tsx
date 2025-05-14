@@ -1,6 +1,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import ContactModal from "./contact-modal";
+import { toast } from "../hooks/use-toast";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -10,11 +11,11 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Define a proper video URL that will work
- const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // Standard example video
-
+  // High resolution video from a reliable source (Pexels)
+  const videoUrl = "https://player.vimeo.com/progressive_redirect/playback/773068902/rendition/1080p/file.mp4?loc=external&oauth2_token_id=1747418641";
   
   useEffect(() => {
     const video = videoRef.current;
@@ -38,16 +39,43 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 
     const handleCanPlay = () => {
       console.log("Video can play now");
+      // Try to autoplay when video can play
+      video.play()
+        .then(() => {
+          setIsPlaying(true);
+          console.log("Autoplay successful");
+        })
+        .catch(error => {
+          console.error("Autoplay prevented:", error);
+          setIsPlaying(false);
+          toast({
+            title: "Autoplay bloqueado",
+            description: "Por favor haga clic para reproducir el video",
+            variant: "destructive",
+          });
+        });
+    };
+
+    const handleError = (e: Event) => {
+      console.error("Video error:", e);
+      setHasError(true);
+      toast({
+        title: "Error de video",
+        description: "No se pudo cargar el video. Por favor intente de nuevo más tarde.",
+        variant: "destructive",
+      });
     };
 
     video.addEventListener('ended', handleEnded);
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('error', handleError);
     
     return () => {
       video.removeEventListener('ended', handleEnded);
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('error', handleError);
     };
   }, [onVideoEnd, showContactButton]);
 
@@ -106,18 +134,25 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   return (
     <div className="relative w-full max-w-3xl mx-auto">
       <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover"
-          src={videoUrl}
-          playsInline
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
-          preload="auto"
-        />
+        {hasError ? (
+          <div className="w-full h-full flex items-center justify-center bg-viralDark text-white">
+            <p>No se pudo cargar el video. Por favor intente de nuevo más tarde.</p>
+          </div>
+        ) : (
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            src={videoUrl}
+            playsInline
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+            preload="auto"
+            muted
+          />
+        )}
       </div>
       
-      {!isPlaying && (
+      {!isPlaying && !hasError && (
         <div 
           className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-lg"
           onClick={togglePlay}
