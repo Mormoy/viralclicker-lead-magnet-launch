@@ -12,10 +12,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Video de ejemplo de YouTube (URL pública y confiable)
-  // const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
-  const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
-  
+  // Define a proper video URL that will work
+  const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // Standard example video
   
   useEffect(() => {
     const video = videoRef.current;
@@ -37,12 +35,18 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       }
     };
 
+    const handleCanPlay = () => {
+      console.log("Video can play now");
+    };
+
     video.addEventListener('ended', handleEnded);
     video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('canplay', handleCanPlay);
     
     return () => {
       video.removeEventListener('ended', handleEnded);
       video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('canplay', handleCanPlay);
     };
   }, [onVideoEnd, showContactButton]);
 
