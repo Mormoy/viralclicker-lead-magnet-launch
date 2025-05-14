@@ -6,9 +6,9 @@ import { toast } from "../hooks/use-toast";
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
 }
-/*
+
 const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  /*const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -178,6 +178,6 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     </div>
   );
 };
-
-export default VideoPlayer;
 */
+export default VideoPlayer;
+
