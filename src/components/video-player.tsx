@@ -13,7 +13,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // Direct link to video using export=download format
-  const videoUrl = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/view";
+  const videoUrl = "https://youtu.be/eKHL93PYDO4";
 
   useEffect(() => {
     const video = videoRef.current;
