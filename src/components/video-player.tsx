@@ -15,7 +15,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // High resolution video from a reliable source (Pexels)
-  const videoUrl = "https://player.vimeo.com/progressive_redirect/playback/773068902/rendition/1080p/file.mp4?loc=external&oauth2_token_id=1747418641";
+  const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
   
   useEffect(() => {
     const video = videoRef.current;
