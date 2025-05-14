@@ -15,7 +15,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   // Video de ejemplo de YouTube (URL pública y confiable)
   // const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
   // const videoUrl = "https://youtu.be/eKHL93PYDO4";
-  const src = "https://youtu.be/eKHL93PYDO4";
+  const src = "https://youtu.be/eKHL93PYDO4" ;
   
   useEffect(() => {
     const video = videoRef.current;
