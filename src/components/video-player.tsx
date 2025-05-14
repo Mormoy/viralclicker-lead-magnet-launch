@@ -12,8 +12,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Video from Google Drive
-  const videoUrl = "https://drive.google.com/file/d/1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04/preview";
+  // Direct link to video using export=download format
+  const videoUrl = "https://drive.google.com/uc?export=download&id=1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04";
 
   useEffect(() => {
     const video = videoRef.current;
@@ -36,21 +36,6 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     video.addEventListener('ended', handleEnded);
     video.addEventListener('timeupdate', handleTimeUpdate);
     
-    // Auto-play functionality
-    const playPromise = video.play();
-    
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(error => {
-          // Auto-play was prevented, show play button
-          setIsPlaying(false);
-          console.log("Autoplay prevented:", error);
-        });
-    }
-
     return () => {
       video.removeEventListener('ended', handleEnded);
       video.removeEventListener('timeupdate', handleTimeUpdate);
@@ -62,8 +47,19 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     if (!video) return;
 
     if (video.paused) {
-      video.play();
-      setIsPlaying(true);
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            console.log("Video playing successfully");
+          })
+          .catch(error => {
+            // Auto-play was prevented
+            setIsPlaying(false);
+            console.error("Play prevented:", error);
+          });
+      }
     } else {
       video.pause();
       setIsPlaying(false);
@@ -95,17 +91,34 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(false);
   };
 
+  // Check if video is loaded
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    const handleCanPlay = () => {
+      console.log("Video can play now");
+    };
+    
+    video.addEventListener('canplay', handleCanPlay);
+    
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+    };
+  }, []);
+
   return (
     <div className="relative w-full max-w-3xl mx-auto">
       <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
-          src="https://drive.google.com/uc?export=download&id=1LZUX2f7FWw7Ks0dAZcw65Zb-g6QTUB04"
+          src={videoUrl}
           controls={false}
           playsInline
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
+          preload="auto"
         />
       </div>
       
