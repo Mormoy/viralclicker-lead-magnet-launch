@@ -79,11 +79,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     });
   };
   
-  // Create the Vimeo embed URL with parameters to:
-  // - Enable autoplay
-  // - Disable user controls
-  // - Prevent access to Vimeo page
-  // - Force audio to be enabled
+  // Create the Vimeo embed URL with parameters
   const vimeoEmbedUrl = `https://player.vimeo.com/video/${vimeoVideoId}?autoplay=1&muted=0&controls=0&playsinline=1&background=0&loop=0&transparent=0&app_id=122963&player_id=ViralClickerPlayer&dnt=1`;
 
   return (
@@ -104,15 +100,13 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               allowFullScreen
               onError={handleIframeError}
             ></iframe>
-            {/* Transparent overlay to completely block interaction with the iframe */}
-            <div className="absolute inset-0 z-10" style={{ pointerEvents: 'auto' }}></div>
           </div>
         )}
       </div>
       
-      {/* Contact button that appears after 10 seconds */}
+      {/* Contact button that appears after 10 seconds - positioned outside the video container */}
       {showContactButton && isPlaying && (
-        <div className="absolute bottom-6 right-6">
+        <div className="absolute bottom-6 right-6 z-20">
           <button
             onClick={handleContactRequest}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"

@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 
 const TrustedBrands = () => {
-  // Imágenes de prueba estables y confiables
+  // Placeholder brand images
   const brandImages = [
     'https://placehold.co/200x80/333/FFF/svg?text=BRAND+1', 
     'https://placehold.co/200x80/333/FFF/svg?text=BRAND+2', 
@@ -39,7 +39,7 @@ const TrustedBrands = () => {
   };
   
   return (
-    <section className="bg-gray-900 py-16 text-white">
+    <section className="bg-[#222222] py-16 text-white">
       <div className="container mx-auto px-4">
         <motion.h2 
           className="text-3xl font-bold text-center mb-12 text-white relative" 
@@ -70,7 +70,7 @@ const TrustedBrands = () => {
           {brandImages.map((image, index) => (
             <motion.div 
               key={index} 
-              className="h-16 md:h-20 w-32 md:w-40 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-700 hover:border-viralOrange/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
+              className="h-16 md:h-20 w-32 md:w-40 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-gray-800 hover:border-viralOrange/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
               variants={itemVariants} 
               whileHover={{
                 scale: 1.05,
