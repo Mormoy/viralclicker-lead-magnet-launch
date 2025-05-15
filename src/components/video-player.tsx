@@ -8,14 +8,14 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
-  /*const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   // High resolution video from a reliable source (Pexels)
-  const videoUrl = "https://www.youtube.com/watch?v=eKHL93PYDO4";
+  const videoUrl = "https://player.vimeo.com/external/330420305.hd.mp4?s=9a19c4d3a70d6bbd29c361ddcd0ac52733f00b18&profile_id=174&oauth2_token_id=57447761";
   
   useEffect(() => {
     const video = videoRef.current;
@@ -180,4 +180,3 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 };
 
 export default VideoPlayer;
-
