@@ -17,8 +17,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // New Ody.sh video URL
-  const videoIframeUrl = "https://ody.sh/JKmb9txLkw";
+  // New Wistia video URL
+  const videoIframeUrl = "https://javierfranciscus.wistia.com/medias/vowlyl4qfm?embedType=web_component&seo=false&videoWidth=960";
   const calendlyUrl = "https://calendly.com/moromoyllc";
 
   useEffect(() => {
