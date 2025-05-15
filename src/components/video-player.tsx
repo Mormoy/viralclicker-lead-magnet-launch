@@ -15,8 +15,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // Facebook video iframe URL from the provided source
-  const facebookVideoIframe = "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1838689550042782%26rdid%3DhtBVgSOrCIE9ficL&width=1920&show_text=false&appId=1326995771901998&height=1080";
+  // Archive.org video iframe URL
+  const archiveVideoIframe = "https://archive.org/embed/Nairok";
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
@@ -72,7 +72,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
-    console.error("Facebook iframe error occurred");
+    console.error("Video iframe error occurred");
     setHasError(true);
     toast({
       title: "Error de video",
@@ -91,14 +91,17 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         ) : (
           <div className="relative w-full h-full">
             <iframe
-              src={facebookVideoIframe}
+              src={archiveVideoIframe}
               className="w-full h-full"
-              title="Facebook video player"
+              title="Archive.org video player"
               frameBorder="0"
+              width="1920"
+              height="1080"
               allowFullScreen={true}
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
               scrolling="no"
               style={{ border: 'none', overflow: 'hidden' }}
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
               onError={handleIframeError}
             ></iframe>
           </div>
