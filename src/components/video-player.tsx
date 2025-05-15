@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import ContactModal from "./contact-modal";
 import { toast } from "../hooks/use-toast";
@@ -17,9 +16,22 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // New Wistia video URL
-  const videoIframeUrl = "https://javierfranciscus.wistia.com/medias/vowlyl4qfm?embedType=web_component&seo=false&videoWidth=960";
+  // New Wistia video URL and configuration
+  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false";
   const calendlyUrl = "https://calendly.com/moromoyllc";
+
+  // Add script to the document
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://fast.wistia.net/player.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script when component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
@@ -134,20 +146,18 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
           <div className="relative w-full h-full">
             <iframe
               src={videoIframeUrl}
-              className="w-full h-full"
-              title="Video player"
+              className="wistia_embed"
+              title="NAIROK_GEN_VIRALCLICKER Video"
               frameBorder="0"
-              width="1920" 
-              height="1080"
-              allowFullScreen={true}
+              width="1920px"
+              height="1280px"
               allow="autoplay; fullscreen"
+              allowFullScreen
               scrolling="no"
-              style={{ border: 'none', overflow: 'hidden' }}
+              name="wistia_embed"
+              allowTransparency="true"
+              style={{ border: 'none', overflow: 'hidden', width: '100%', height: '100%' }}
               onError={handleIframeError}
-              {...{
-                'webkit-allowfullscreen': 'true',
-                'mozallowfullscreen': 'true'
-              }}
             ></iframe>
           </div>
         )}
