@@ -33,7 +33,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         onVideoEnd();
         console.log("Video ended");
       }
-    }, 80000); // 1:20 minutes for demo purposes
+    }, 180000); // 1:20 minutes for demo purposes
     
     // Start playback immediately
     setIsPlaying(true);
