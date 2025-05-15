@@ -139,13 +139,15 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               frameBorder="0"
               width="1920" 
               height="1080"
-              webkitallowfullscreen="true"
-              mozallowfullscreen="true"
               allowFullScreen={true}
               allow="autoplay; fullscreen"
               scrolling="no"
               style={{ border: 'none', overflow: 'hidden' }}
               onError={handleIframeError}
+              {...{
+                'webkit-allowfullscreen': 'true',
+                'mozallowfullscreen': 'true'
+              }}
             ></iframe>
           </div>
         )}
