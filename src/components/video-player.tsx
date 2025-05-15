@@ -14,7 +14,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   
   // YouTube video ID para un video de 3 minutos en alta resolución
-  const youtubeVideoId = "ScMzIvxBSi4"; // Reemplazado por un video de ejemplo de YouTube
+  const youtubeVideoId = "eKHL93PYDO4"; // Reemplazado por un video de ejemplo de YouTube
   
   useEffect(() => {
     // Crear un temporizador para mostrar el botón de contacto después de 10 segundos
