@@ -15,8 +15,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // Miami Carga video iframe URL
-  const videoIframeUrl = "https://www.miamicarga.com/video-viral-clicker";
+  // ViralClicker video URL
+  const videoIframeUrl = "https://www.viralclicker.com/videos/VIdeo01.mp4";
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
