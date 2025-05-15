@@ -1,7 +1,8 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ContactModal from "./contact-modal";
 import { toast } from "../hooks/use-toast";
+import { Button } from "./ui/button";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -13,8 +14,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   
-  // Vimeo video ID extracted from the provided link
-  const vimeoVideoId = "1084617174/33fa81d0b8";
+  // Facebook video URL
+  const facebookVideoUrl = "https://www.facebook.com/share/v/161ALrK1s6/";
   
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
@@ -24,7 +25,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       localStorage.setItem("viralclicker_webinar_started", "true");
     }, 10000);
     
-    // Create a timer to simulate the end of the video (after 3 minutes)
+    // Create a timer to simulate the end of the video (after 1:20 minutes for demo)
     const videoEndTimer = setTimeout(() => {
       setIsPlaying(false);
       if (onVideoEnd) {
@@ -70,7 +71,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
 
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
-    console.error("Vimeo iframe error occurred");
+    console.error("Facebook iframe error occurred");
     setHasError(true);
     toast({
       title: "Error de video",
@@ -79,9 +80,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     });
   };
   
-  // Create the Vimeo embed URL with parameters
-  const vimeoEmbedUrl = `https://player.vimeo.com/video/${vimeoVideoId}?autoplay=1&muted=0&controls=0&playsinline=1&background=0&loop=0&transparent=0&app_id=122963&player_id=ViralClickerPlayer&dnt=1`;
-
+  // We're using an iframe with Facebook embedded player
+  // Facebook uses data attributes for configuration
   return (
     <div className="relative w-full max-w-3xl mx-auto">
       <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
@@ -92,13 +92,20 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         ) : (
           <div className="relative w-full h-full">
             <iframe
+              src={facebookVideoUrl}
               className="w-full h-full"
-              src={vimeoEmbedUrl}
-              title="Vimeo video player"
+              title="Facebook video player"
               frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              allowFullScreen={true}
+              scrolling="no"
+              data-autoplay="true"
+              data-autopause="false"
+              data-muted="false"
+              data-show-captions="false"
+              data-show-text="false"
               onError={handleIframeError}
+              style={{ border: 'none', overflow: 'hidden' }}
             ></iframe>
           </div>
         )}
@@ -107,12 +114,12 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       {/* Contact button that appears after 10 seconds - positioned outside the video container */}
       {showContactButton && isPlaying && (
         <div className="absolute bottom-6 right-6 z-20">
-          <button
+          <Button
             onClick={handleContactRequest}
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105"
           >
             Quiero que me contacten
-          </button>
+          </Button>
         </div>
       )}
       

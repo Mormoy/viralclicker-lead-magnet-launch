@@ -1,90 +1,22 @@
 
-import { motion } from 'framer-motion';
+import React from 'react';
 
 const TrustedBrands = () => {
-  // Placeholder brand images
-  const brandImages = [
-    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+1', 
-    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+2', 
-    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+3', 
-    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+4', 
-    'https://placehold.co/200x80/333/FFF/svg?text=BRAND+5'
-  ];
-  
-  const containerVariants = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
-  
   return (
-    <section className="bg-[#222222] py-16 text-white">
+    <section className="py-12 bg-viralDark border-t border-gray-800">
       <div className="container mx-auto px-4">
-        <motion.h2 
-          className="text-3xl font-bold text-center mb-12 text-white relative" 
-          initial={{ opacity: 0, y: -20 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.7 }} 
-          viewport={{ once: true }}
-        >
-          <span className="relative inline-block">
-            Marcas que confían en nosotros
-            <motion.span 
-              className="absolute -bottom-2 left-0 w-full h-1 bg-viralOrange" 
-              initial={{ width: 0 }} 
-              whileInView={{ width: '100%' }} 
-              transition={{ duration: 1, delay: 0.5 }} 
-              viewport={{ once: true }}
-            ></motion.span>
-          </span>
-        </motion.h2>
+        <h2 className="text-2xl font-bold text-center text-white mb-8">
+          Marcas que confían en nosotros
+        </h2>
         
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-16 items-center justify-items-center" 
-          variants={containerVariants} 
-          initial="hidden" 
-          whileInView="visible" 
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          {brandImages.map((image, index) => (
-            <motion.div 
-              key={index} 
-              className="h-16 md:h-20 w-32 md:w-40 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-gray-800 hover:border-viralOrange/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
-              variants={itemVariants} 
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0px 0px 20px rgba(249, 115, 22, 0.6)"
-              }}
-            >
-              <img 
-                src={image} 
-                alt={`Brand logo ${index + 1}`} 
-                className="h-full object-contain transition-all duration-300" 
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+          {/* Replace with your actual brand images */}
+          <img src="/brand-1.svg" alt="Brand 1" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/brand-2.svg" alt="Brand 2" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/brand-3.svg" alt="Brand 3" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/brand-4.svg" alt="Brand 4" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/brand-5.svg" alt="Brand 5" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+        </div>
       </div>
     </section>
   );
