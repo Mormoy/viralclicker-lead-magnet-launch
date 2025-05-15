@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import ContactModal from "./contact-modal";
 import { toast } from "../hooks/use-toast";
 import { Button } from "./ui/button";
+import { Calendar } from "lucide-react";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -11,12 +12,14 @@ interface VideoPlayerProps {
 const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
+  const [showCalendlyButton, setShowCalendlyButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // ViralClicker video URL
-  const videoIframeUrl = "https://www.viralclicker.com/videos/VIdeo01.mp4";
+  // New Ody.sh video URL
+  const videoIframeUrl = "https://ody.sh/JKmb9txLkw";
+  const calendlyUrl = "https://calendly.com/moromoyllc";
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
@@ -26,14 +29,15 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       localStorage.setItem("viralclicker_webinar_started", "true");
     }, 10000);
     
-    // Create a timer to simulate the end of the video (after 1:20 minutes for demo)
+    // Create a timer to simulate the end of the video (after 3 minutes for demo)
     const videoEndTimer = setTimeout(() => {
       setIsPlaying(false);
+      setShowCalendlyButton(true);
       if (onVideoEnd) {
         onVideoEnd();
         console.log("Video ended");
       }
-    }, 180000); // 1:20 minutes for demo purposes
+    }, 180000); // 3 minutes for demo purposes
     
     // Start playback immediately
     setIsPlaying(true);
@@ -70,6 +74,44 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(false);
   };
   
+  // Function to open Calendly in a modal
+  const openCalendlyModal = () => {
+    // Track calendly click
+    const savedLead = localStorage.getItem("viralclicker_lead");
+    if (savedLead) {
+      const leadData = JSON.parse(savedLead);
+      const metrics = leadData.metrics || {};
+      localStorage.setItem("viralclicker_lead", JSON.stringify({
+        ...leadData,
+        metrics: {
+          ...metrics,
+          calendlyClicked: true,
+          calendlyClickTime: new Date().toISOString()
+        }
+      }));
+    }
+    
+    // Create modal for Calendly
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-50';
+    modal.innerHTML = `
+      <div class="bg-viralDark border border-viralOrange/30 rounded-lg w-full max-w-4xl h-[80vh] p-4 relative">
+        <button class="absolute top-2 right-2 text-white/60 hover:text-white text-xl">&times;</button>
+        <iframe src="${calendlyUrl}" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Add close functionality
+    const closeButton = modal.querySelector('button');
+    closeButton?.addEventListener('click', () => {
+      document.body.removeChild(modal);
+      document.body.style.overflow = '';
+    });
+  };
+  
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
     console.error("Video iframe error occurred");
@@ -97,8 +139,10 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               frameBorder="0"
               width="1920" 
               height="1080"
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
               allowFullScreen={true}
-              allow="fullscreen"
+              allow="autoplay; fullscreen"
               scrolling="no"
               style={{ border: 'none', overflow: 'hidden' }}
               onError={handleIframeError}
@@ -107,7 +151,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         )}
       </div>
       
-      {/* Contact button that appears after 10 seconds - positioned outside the video container for better visibility */}
+      {/* Contact button that appears after 10 seconds */}
       {showContactButton && isPlaying && (
         <div className="absolute bottom-6 right-6 z-20">
           <Button
@@ -115,6 +159,19 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105"
           >
             Quiero que me contacten
+          </Button>
+        </div>
+      )}
+      
+      {/* Schedule video call button that appears after video ends */}
+      {showCalendlyButton && (
+        <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center">
+          <Button
+            onClick={openCalendlyModal}
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full flex items-center gap-2 shadow-lg transition-all transform hover:scale-105"
+          >
+            <Calendar className="h-5 w-5" />
+            <span>Quiero agendar una videollamada</span>
           </Button>
         </div>
       )}
