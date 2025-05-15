@@ -15,8 +15,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // Archive.org video iframe URL
-  const archiveVideoIframe = "https://archive.org/embed/Nairok";
+  // Miami Carga video iframe URL
+  const videoIframeUrl = "https://www.miamicarga.com/video-viral-clicker";
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
@@ -91,9 +91,9 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         ) : (
           <div className="relative w-full h-full">
             <iframe
-              src={archiveVideoIframe}
+              src={videoIframeUrl}
               className="w-full h-full"
-              title="Archive.org video player"
+              title="Video player"
               frameBorder="0"
               width="1920" 
               height="1080"
