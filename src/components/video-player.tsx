@@ -13,8 +13,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   
-  // YouTube video ID para un video de 3 minutos en alta resolución
-  const youtubeVideoId = "eKHL93PYDO4"; // Reemplazado por un video de ejemplo de YouTube
+  // YouTube video ID para un video de ejemplo
+  const youtubeVideoId = "eKHL93PYDO4";
   
   useEffect(() => {
     // Crear un temporizador para mostrar el botón de contacto después de 10 segundos
@@ -27,8 +27,10 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     // Crear un temporizador para simular el fin del video (después de 3 minutos)
     const videoEndTimer = setTimeout(() => {
       setIsPlaying(false);
-      if (onVideoEnd) onVideoEnd();
-      console.log("Video ended");
+      if (onVideoEnd) {
+        onVideoEnd();
+        console.log("Video ended");
+      }
     }, 180000); // 3 minutos
     
     // Iniciar la reproducción inmediatamente
@@ -85,7 +87,10 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   // - playsinline=1: Reproduce en línea (no en pantalla completa en móviles)
   // - rel=0: No muestra videos relacionados al final
   // - modestbranding=1: Oculta el logo de YouTube
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
+  // - disablekb=1: Deshabilita los controles de teclado
+  // - mute=0: Asegura audio activo
+  // - showinfo=0: Oculta la información del video
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0&playsinline=1&mute=0&origin=${encodeURIComponent(window.location.origin)}`;
 
   return (
     <div className="relative w-full max-w-3xl mx-auto">
@@ -106,7 +111,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               onError={handleIframeError}
             ></iframe>
             {/* Overlay transparente para bloquear completamente la interacción con el iframe */}
-            <div className="absolute inset-0" style={{ pointerEvents: 'auto' }}></div>
+            <div className="absolute inset-0 z-10" style={{ pointerEvents: 'auto' }}></div>
           </div>
         )}
       </div>

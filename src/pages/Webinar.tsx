@@ -66,6 +66,7 @@ const Webinar = () => {
   }, [navigate]);
 
   const handleVideoEnd = () => {
+    console.log("Video end handler triggered");
     setVideoEnded(true);
     
     // Track webinar completion
@@ -84,7 +85,9 @@ const Webinar = () => {
     }
     
     // Auto scroll to booking section
-    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
   };
 
   // Function to open Calendly in a modal
