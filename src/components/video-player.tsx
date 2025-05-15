@@ -13,11 +13,64 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [sdkLoaded, setSdkLoaded] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // Facebook video URL
+  // Facebook video URL - using the existing one from the component
   const facebookVideoUrl = "https://www.facebook.com/share/v/161ALrK1s6/";
-  
+
   useEffect(() => {
+    // Load Facebook SDK
+    const loadFacebookSDK = () => {
+      // Check if SDK is already loaded
+      if (document.getElementById('facebook-jssdk')) {
+        setSdkLoaded(true);
+        return;
+      }
+      
+      // Create script element
+      const script = document.createElement('script');
+      script.id = 'facebook-jssdk';
+      script.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0';
+      script.async = true;
+      script.defer = true;
+      
+      // Add onload event
+      script.onload = () => {
+        console.log('Facebook SDK loaded');
+        setSdkLoaded(true);
+        
+        // Parse XFBML after SDK is loaded
+        if (window.FB) {
+          window.FB.XFBML.parse(videoContainerRef.current);
+        }
+      };
+      
+      // Add error event
+      script.onerror = () => {
+        console.error('Failed to load Facebook SDK');
+        setHasError(true);
+        toast({
+          title: "Error de video",
+          description: "No se pudo cargar el SDK de Facebook. Por favor intente de nuevo más tarde.",
+          variant: "destructive",
+        });
+      };
+      
+      // Insert script before first script tag
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode?.insertBefore(script, firstScript);
+      
+      // Add div#fb-root if it doesn't exist
+      if (!document.getElementById('fb-root')) {
+        const fbRoot = document.createElement('div');
+        fbRoot.id = 'fb-root';
+        document.body.appendChild(fbRoot);
+      }
+    };
+    
+    loadFacebookSDK();
+    
     // Create timer to show the contact button after 10 seconds
     const contactButtonTimer = setTimeout(() => {
       setShowContactButton(true);
@@ -68,45 +121,28 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  // Function to handle errors in the iframe loading
-  const handleIframeError = () => {
-    console.error("Facebook iframe error occurred");
-    setHasError(true);
-    toast({
-      title: "Error de video",
-      description: "No se pudo cargar el video. Por favor intente de nuevo más tarde.",
-      variant: "destructive",
-    });
-  };
   
-  // We're using an iframe with Facebook embedded player
-  // Facebook uses data attributes for configuration
   return (
     <div className="relative w-full max-w-3xl mx-auto">
-      <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
+      <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black" ref={videoContainerRef}>
         {hasError ? (
           <div className="w-full h-full flex items-center justify-center bg-viralDark text-white">
             <p>No se pudo cargar el video. Por favor intente de nuevo más tarde.</p>
           </div>
         ) : (
-          <div className="relative w-full h-full">
-            <iframe
-              src={facebookVideoUrl}
-              className="w-full h-full"
-              title="Facebook video player"
-              frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              allowFullScreen={true}
-              scrolling="no"
-              data-autoplay="true"
-              data-autopause="false"
-              data-muted="false"
-              data-show-captions="false"
-              data-show-text="false"
-              onError={handleIframeError}
-              style={{ border: 'none', overflow: 'hidden' }}
-            ></iframe>
+          <div className="fb-video" 
+            data-href={facebookVideoUrl}
+            data-width="100%" 
+            data-height="auto"
+            data-autoplay="true"
+            data-allowfullscreen="false"
+            data-show-text="false"
+            data-show-captions="false">
+            <div className="fb-xfbml-parse-ignore">
+              <blockquote cite={facebookVideoUrl}>
+                <a href={facebookVideoUrl}>Video de ViralClicker</a>
+              </blockquote>
+            </div>
           </div>
         )}
       </div>
@@ -127,5 +163,16 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     </div>
   );
 };
+
+// Add the FB namespace for TypeScript
+declare global {
+  interface Window {
+    FB: {
+      XFBML: {
+        parse: (element?: HTMLElement | null) => void;
+      };
+    };
+  }
+}
 
 export default VideoPlayer;
