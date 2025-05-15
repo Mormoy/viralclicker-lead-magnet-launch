@@ -39,7 +39,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       setShowContactButton(true);
       console.log("Contact button shown after timeout");
       localStorage.setItem("viralclicker_webinar_started", "true");
-    }, 10000);
+    }, 1000);
     
     // Create a timer to simulate the end of the video (after 3 minutes for demo)
     const videoEndTimer = setTimeout(() => {
@@ -49,7 +49,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         onVideoEnd();
         console.log("Video ended");
       }
-    }, 180000); // 3 minutes for demo purposes
+    }, 126000); // 3 minutes for demo purposes
     
     // Start playback immediately
     setIsPlaying(true);
@@ -165,7 +165,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       
       {/* Contact button that appears after 10 seconds */}
       {showContactButton && isPlaying && (
-        <div className="absolute bottom-6 right-6 z-20">
+        <div className="absolute bottom-4 right-4 z-20">
           <Button
             onClick={handleContactRequest}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105"
