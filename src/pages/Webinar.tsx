@@ -12,7 +12,7 @@ const Webinar = () => {
   const navigate = useNavigate();
   const [videoEnded, setVideoEnded] = useState(false);
   const [leadData, setLeadData] = useState<any>(null);
-  const calendlyUrl = "https://calendly.com/viral-clicker/llamada-estrategica";
+  const calendlyUrl = "https://calendly.com/moromoyllc";
 
   useEffect(() => {
     // Check if user came from the lead form
@@ -87,7 +87,8 @@ const Webinar = () => {
     document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const openCalendly = () => {
+  // Function to open Calendly in a modal
+  const openCalendlyModal = () => {
     // Track calendly click
     const savedLead = localStorage.getItem("viralclicker_lead");
     if (savedLead) {
@@ -103,7 +104,25 @@ const Webinar = () => {
       }));
     }
     
-    window.open(calendlyUrl, '_blank');
+    // Create modal for Calendly
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-50';
+    modal.innerHTML = `
+      <div class="bg-viralDark border border-viralOrange/30 rounded-lg w-full max-w-4xl h-[80vh] p-4 relative">
+        <button class="absolute top-2 right-2 text-white/60 hover:text-white text-xl">&times;</button>
+        <iframe src="${calendlyUrl}" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Add close functionality
+    const closeButton = modal.querySelector('button');
+    closeButton?.addEventListener('click', () => {
+      document.body.removeChild(modal);
+      document.body.style.overflow = '';
+    });
   };
 
   if (!leadData) {
@@ -147,7 +166,7 @@ const Webinar = () => {
                   </p>
                   
                   <button
-                    onClick={openCalendly}
+                    onClick={openCalendlyModal}
                     className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full flex items-center justify-center mx-auto gap-2 transition-all transform hover:scale-105"
                   >
                     <Calendar className="h-5 w-5" />

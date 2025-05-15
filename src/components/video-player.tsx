@@ -78,7 +78,14 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   };
 
   // Crear la URL del embed de YouTube con autoplay, sin controles y con volumen activado
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0`;
+  // Parámetros adicionales para bloquear completamente interacciones:
+  // - disablekb=1: Desactiva los controles del teclado
+  // - iv_load_policy=3: Oculta las anotaciones
+  // - fs=0: Desactiva el botón de pantalla completa
+  // - playsinline=1: Reproduce en línea (no en pantalla completa en móviles)
+  // - rel=0: No muestra videos relacionados al final
+  // - modestbranding=1: Oculta el logo de YouTube
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
 
   return (
     <div className="relative w-full max-w-3xl mx-auto">
@@ -98,8 +105,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               allowFullScreen
               onError={handleIframeError}
             ></iframe>
-            {/* Overlay transparente para evitar interacción con el iframe */}
-            <div className="absolute inset-0 pointer-events-none"></div>
+            {/* Overlay transparente para bloquear completamente la interacción con el iframe */}
+            <div className="absolute inset-0" style={{ pointerEvents: 'auto' }}></div>
           </div>
         )}
       </div>
