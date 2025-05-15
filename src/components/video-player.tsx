@@ -14,7 +14,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   
   // Vimeo video ID extracted from the provided link
-  const vimeoVideoId = "1084617174";
+  const vimeoVideoId = "1084617174/33fa81d0b8";
   
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
