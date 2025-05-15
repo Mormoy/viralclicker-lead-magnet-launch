@@ -31,7 +31,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         onVideoEnd();
         console.log("Video ended");
       }
-    }, 100000); // 2,10 minutos
+    }, 80000); // 2,10 minutos
     
     // Iniciar la reproducción inmediatamente
     setIsPlaying(true);
@@ -80,7 +80,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   };
   
     {showContactButton && isPlaying && (
-        <div className="absolute bottom-4 right-4">
+        <div className="absolute bottom-6 right-6">
           <button
             onClick={handleContactRequest}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"
