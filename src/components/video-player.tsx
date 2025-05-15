@@ -16,7 +16,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
   // Facebook video iframe URL from the provided source
-  const facebookVideoIframe = "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1838689550042782%26rdid%3DhtBVgSOrCIE9ficL&width=1920&show_text=false&appId=1326995771901998&height=489";
+  const facebookVideoIframe = "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1838689550042782%26rdid%3DhtBVgSOrCIE9ficL&width=1920&show_text=false&appId=1326995771901998&height=1080";
 
   useEffect(() => {
     // Create timer to show the contact button after 10 seconds
