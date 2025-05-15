@@ -95,11 +95,10 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
               className="w-full h-full"
               title="Archive.org video player"
               frameBorder="0"
-              width="1920"
+              width="1920" 
               height="1080"
               allowFullScreen={true}
-              webkitallowfullscreen="true"
-              mozallowfullscreen="true"
+              allow="fullscreen"
               scrolling="no"
               style={{ border: 'none', overflow: 'hidden' }}
               onError={handleIframeError}
