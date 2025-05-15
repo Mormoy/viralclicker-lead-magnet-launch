@@ -13,27 +13,27 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   
-  // YouTube video ID para un video de ejemplo
-  const youtubeVideoId = "eKHL93PYDO4";
+  // Vimeo video ID extracted from the provided link
+  const vimeoVideoId = "1084617174";
   
   useEffect(() => {
-    // Crear un temporizador para mostrar el botón de contacto después de 10 segundos
+    // Create timer to show the contact button after 10 seconds
     const contactButtonTimer = setTimeout(() => {
       setShowContactButton(true);
       console.log("Contact button shown after timeout");
       localStorage.setItem("viralclicker_webinar_started", "true");
     }, 10000);
     
-    // Crear un temporizador para simular el fin del video (después de 3 minutos)
+    // Create a timer to simulate the end of the video (after 3 minutes)
     const videoEndTimer = setTimeout(() => {
       setIsPlaying(false);
       if (onVideoEnd) {
         onVideoEnd();
         console.log("Video ended");
       }
-    }, 80000); // 2,10 minutos
+    }, 80000); // 1:20 minutes for demo purposes
     
-    // Iniciar la reproducción inmediatamente
+    // Start playback immediately
     setIsPlaying(true);
     
     return () => {
@@ -68,9 +68,9 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(false);
   };
 
-  // Función para manejar errores en la carga del iframe
+  // Function to handle errors in the iframe loading
   const handleIframeError = () => {
-    console.error("YouTube iframe error occurred");
+    console.error("Vimeo iframe error occurred");
     setHasError(true);
     toast({
       title: "Error de video",
@@ -79,29 +79,12 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     });
   };
   
-    {showContactButton && isPlaying && (
-        <div className="absolute bottom-6 right-6">
-          <button
-            onClick={handleContactRequest}
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"
-          >
-            Quiero que me contacten
-          </button>
-        </div>
-      )}
-      
-  // Crear la URL del embed de YouTube con autoplay, sin controles y con volumen activado
-  // Parámetros adicionales para bloquear completamente interacciones:
-  // - disablekb=1: Desactiva los controles del teclado
-  // - iv_load_policy=3: Oculta las anotaciones
-  // - fs=0: Desactiva el botón de pantalla completa
-  // - playsinline=1: Reproduce en línea (no en pantalla completa en móviles)
-  // - rel=0: No muestra videos relacionados al final
-  // - modestbranding=1: Oculta el logo de YouTube
-  // - disablekb=1: Deshabilita los controles de teclado
-  // - mute=0: Asegura audio activo
-  // - showinfo=0: Oculta la información del video
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0&playsinline=1&mute=0&origin=${encodeURIComponent(window.location.origin)}`;
+  // Create the Vimeo embed URL with parameters to:
+  // - Enable autoplay
+  // - Disable user controls
+  // - Prevent access to Vimeo page
+  // - Force audio to be enabled
+  const vimeoEmbedUrl = `https://player.vimeo.com/video/${vimeoVideoId}?autoplay=1&muted=0&controls=0&playsinline=1&background=0&loop=0&transparent=0&app_id=122963&player_id=ViralClickerPlayer&dnt=1`;
 
   return (
     <div className="relative w-full max-w-3xl mx-auto">
@@ -114,20 +97,31 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
           <div className="relative w-full h-full">
             <iframe
               className="w-full h-full"
-              src={youtubeEmbedUrl}
-              title="YouTube video player"
+              src={vimeoEmbedUrl}
+              title="Vimeo video player"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
               onError={handleIframeError}
             ></iframe>
-            {/* Overlay transparente para bloquear completamente la interacción con el iframe */}
+            {/* Transparent overlay to completely block interaction with the iframe */}
             <div className="absolute inset-0 z-10" style={{ pointerEvents: 'auto' }}></div>
           </div>
         )}
       </div>
       
-  
+      {/* Contact button that appears after 10 seconds */}
+      {showContactButton && isPlaying && (
+        <div className="absolute bottom-6 right-6">
+          <button
+            onClick={handleContactRequest}
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105"
+          >
+            Quiero que me contacten
+          </button>
+        </div>
+      )}
+      
       <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
