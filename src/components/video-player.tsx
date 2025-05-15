@@ -77,8 +77,8 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     });
   };
 
-  // Crear la URL del embed de YouTube con autoplay y sin controles
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0`;
+  // Crear la URL del embed de YouTube con autoplay, sin controles y con volumen activado
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&iv_load_policy=3&fs=0`;
 
   return (
     <div className="relative w-full max-w-3xl mx-auto">
@@ -88,15 +88,19 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
             <p>No se pudo cargar el video. Por favor intente de nuevo más tarde.</p>
           </div>
         ) : (
-          <iframe
-            className="w-full h-full"
-            src={youtubeEmbedUrl}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            onError={handleIframeError}
-          ></iframe>
+          <div className="relative w-full h-full">
+            <iframe
+              className="w-full h-full"
+              src={youtubeEmbedUrl}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              onError={handleIframeError}
+            ></iframe>
+            {/* Overlay transparente para evitar interacción con el iframe */}
+            <div className="absolute inset-0 pointer-events-none"></div>
+          </div>
         )}
       </div>
       
