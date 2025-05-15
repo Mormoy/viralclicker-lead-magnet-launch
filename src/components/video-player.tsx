@@ -165,7 +165,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       
       {/* Contact button that appears after 10 seconds */}
       {showContactButton && isPlaying && (
-        <div className="absolute bottom-4 right-4 z-20">
+        <div className="absolute bottom-3 right-3 z-20">
           <Button
             onClick={handleContactRequest}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105"
@@ -182,7 +182,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
             onClick={openCalendlyModal}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full flex items-center gap-2 shadow-lg transition-all transform hover:scale-105"
           >
-            <Calendar className="h-5 w-5" />
+            <Calendar className="h-7 w-7" />
             <span>Quiero agendar una videollamada</span>
           </Button>
         </div>
