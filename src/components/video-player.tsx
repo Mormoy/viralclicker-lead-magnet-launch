@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ContactModal from "./contact-modal";
 import { toast } from "../hooks/use-toast";
 
@@ -12,99 +12,34 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   const [showContactButton, setShowContactButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   
-  // High resolution video from a reliable source (Pexels)
-  const videoUrl = "https://player.vimeo.com/external/330420305.hd.mp4?s=9a19c4d3a70d6bbd29c361ddcd0ac52733f00b18&profile_id=174&oauth2_token_id=57447761";
+  // YouTube video ID para un video de 3 minutos en alta resolución
+  const youtubeVideoId = "ScMzIvxBSi4"; // Reemplazado por un video de ejemplo de YouTube
   
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleEnded = () => {
+    // Crear un temporizador para mostrar el botón de contacto después de 10 segundos
+    const contactButtonTimer = setTimeout(() => {
+      setShowContactButton(true);
+      console.log("Contact button shown after timeout");
+      localStorage.setItem("viralclicker_webinar_started", "true");
+    }, 10000);
+    
+    // Crear un temporizador para simular el fin del video (después de 3 minutos)
+    const videoEndTimer = setTimeout(() => {
       setIsPlaying(false);
       if (onVideoEnd) onVideoEnd();
       console.log("Video ended");
-    };
-
-    const handleTimeUpdate = () => {
-      // Show contact button after 10 seconds of video playback
-      if (video.currentTime > 10 && !showContactButton) {
-        setShowContactButton(true);
-        console.log("Contact button shown at:", video.currentTime);
-        // Track that webinar started
-        localStorage.setItem("viralclicker_webinar_started", "true");
-      }
-    };
-
-    const handleCanPlay = () => {
-      console.log("Video can play now");
-      // Try to autoplay when video can play
-      video.play()
-        .then(() => {
-          setIsPlaying(true);
-          console.log("Autoplay successful");
-        })
-        .catch(error => {
-          console.error("Autoplay prevented:", error);
-          setIsPlaying(false);
-          toast({
-            title: "Autoplay bloqueado",
-            description: "Por favor haga clic para reproducir el video",
-            variant: "destructive",
-          });
-        });
-    };
-
-    const handleError = (e: Event) => {
-      console.error("Video error:", e);
-      setHasError(true);
-      toast({
-        title: "Error de video",
-        description: "No se pudo cargar el video. Por favor intente de nuevo más tarde.",
-        variant: "destructive",
-      });
-    };
-
-    video.addEventListener('ended', handleEnded);
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('error', handleError);
+    }, 180000); // 3 minutos
+    
+    // Iniciar la reproducción inmediatamente
+    setIsPlaying(true);
     
     return () => {
-      video.removeEventListener('ended', handleEnded);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('error', handleError);
+      clearTimeout(contactButtonTimer);
+      clearTimeout(videoEndTimer);
     };
-  }, [onVideoEnd, showContactButton]);
-
-  const togglePlay = () => {
-    console.log("Toggle play clicked");
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.paused) {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            console.log("Video playing successfully");
-          })
-          .catch(error => {
-            // Auto-play was prevented
-            setIsPlaying(false);
-            console.error("Play prevented:", error);
-          });
-      }
-    } else {
-      video.pause();
-      setIsPlaying(false);
-      console.log("Video paused");
-    }
-  };
-
+  }, [onVideoEnd]);
+  
   const handleContactRequest = () => {
     setIsModalOpen(true);
     console.log("Contact request button clicked");
@@ -131,6 +66,20 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
     setIsModalOpen(false);
   };
 
+  // Función para manejar errores en la carga del iframe
+  const handleIframeError = () => {
+    console.error("YouTube iframe error occurred");
+    setHasError(true);
+    toast({
+      title: "Error de video",
+      description: "No se pudo cargar el video. Por favor intente de nuevo más tarde.",
+      variant: "destructive",
+    });
+  };
+
+  // Crear la URL del embed de YouTube con autoplay y sin controles
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0`;
+
   return (
     <div className="relative w-full max-w-3xl mx-auto">
       <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black">
@@ -139,29 +88,17 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
             <p>No se pudo cargar el video. Por favor intente de nuevo más tarde.</p>
           </div>
         ) : (
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            src={videoUrl}
-            playsInline
-            disablePictureInPicture
-            controlsList="nodownload nofullscreen noremoteplayback"
-            preload="auto"
-            muted
-          />
+          <iframe
+            className="w-full h-full"
+            src={youtubeEmbedUrl}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            onError={handleIframeError}
+          ></iframe>
         )}
       </div>
-      
-      {!isPlaying && !hasError && (
-        <div 
-          className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-lg"
-          onClick={togglePlay}
-        >
-          <div className="w-16 h-16 bg-viralOrange rounded-full flex items-center justify-center">
-            <div className="w-0 h-0 border-t-8 border-b-8 border-l-12 border-t-transparent border-b-transparent border-l-white ml-1"></div>
-          </div>
-        </div>
-      )}
       
       {showContactButton && isPlaying && (
         <div className="absolute bottom-4 right-4">
