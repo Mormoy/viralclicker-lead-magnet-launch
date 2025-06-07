@@ -34,9 +34,9 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
 
   const validate = () => {
     const newErrors = {
-      name: formData.name ? "" : "Nombre es obligatorio",
-      phone: formData.phone ? "" : "WhatsApp es obligatorio",
-      email: formData.email ? (
+      name: formData.name.trim() ? "" : "Nombre es obligatorio",
+      phone: formData.phone.trim() ? "" : "WhatsApp es obligatorio",
+      email: formData.email.trim() ? (
         /^\S+@\S+\.\S+$/.test(formData.email) ? 
           "" : "Email no válido"
       ) : "Email es obligatorio"
@@ -46,70 +46,82 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     return !Object.values(newErrors).some(error => error);
   };
 
+  const submitToFormspree = async (data: any) => {
+    const response = await fetch(formspreeEndpoint, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => 'Error desconocido');
+      console.error("Formspree error:", errorText);
+      throw new Error(`Formspree error: ${response.status}`);
+    }
+
+    return response;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (validate()) {
-      setIsSubmitting(true);
+    if (!validate()) {
+      toast.error("Por favor, completa todos los campos correctamente");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Track form submission time
+      const submissionTime = new Date().toISOString();
+      const userMetrics = {
+        landingPageVisit: true,
+        formSubmissionTime: submissionTime,
+      };
       
-      try {
-        // Track form submission time
-        const submissionTime = new Date().toISOString();
-        const userMetrics = {
-          landingPageVisit: true,
-          formSubmissionTime: submissionTime,
-        };
-        
-        // Save lead data and metrics in localStorage first
-        const leadData = {
-          ...formData,
-          metrics: userMetrics
-        };
-        localStorage.setItem("viralclicker_lead", JSON.stringify(leadData));
-        
-        // Create FormData for better compatibility
-        const formDataToSend = new FormData();
-        formDataToSend.append('name', formData.name);
-        formDataToSend.append('phone', formData.phone);
-        formDataToSend.append('email', formData.email);
-        formDataToSend.append('userMetrics', JSON.stringify(userMetrics));
-        
-        // Send data to Formspree with better error handling
-        const response = await fetch(formspreeEndpoint, {
-          method: "POST",
-          body: formDataToSend,
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (response.ok) {
-          toast.success("¡Datos registrados correctamente! Redirigiendo al webinar...");
-          // Small delay to show the success message
-          setTimeout(() => {
-            navigate("/webinar");
-          }, 1500);
-        } else {
-          const errorData = await response.json().catch(() => ({}));
-          console.error("Form submission error:", errorData);
-          
-          // Even if Formspree fails, we have the data saved locally
-          toast.success("Datos guardados localmente. Redirigiendo al webinar...");
-          setTimeout(() => {
-            navigate("/webinar");
-          }, 1500);
-        }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        
-        // Fallback: if network fails, we still have local data
-        toast.success("Datos guardados. Redirigiendo al webinar...");
-        setTimeout(() => {
-          navigate("/webinar");
-        }, 1500);
-      } finally {
-        setIsSubmitting(false);
-      }
+      // Save lead data and metrics in localStorage first
+      const leadData = {
+        ...formData,
+        metrics: userMetrics
+      };
+      localStorage.setItem("viralclicker_lead", JSON.stringify(leadData));
+      
+      // Prepare data for Formspree
+      const submissionData = {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        userMetrics: JSON.stringify(userMetrics),
+        _subject: "Nuevo lead desde ViralClicker",
+        _replyto: formData.email.trim()
+      };
+      
+      console.log("Enviando datos:", submissionData);
+      
+      // Try to send to Formspree
+      await submitToFormspree(submissionData);
+      
+      toast.success("¡Datos registrados correctamente! Redirigiendo al webinar...");
+      
+      // Small delay to show the success message
+      setTimeout(() => {
+        navigate("/webinar");
+      }, 1500);
+      
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      
+      // Fallback: Always redirect to webinar since data is saved locally
+      toast.success("Datos guardados. Redirigiendo al webinar...");
+      setTimeout(() => {
+        navigate("/webinar");
+      }, 1500);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -149,6 +161,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                 className={`w-full p-3 bg-gray-800 text-white rounded border ${
                   errors.name ? "border-red-500" : "border-gray-700"
                 } focus:border-viralOrange focus:outline-none`}
+                disabled={isSubmitting}
               />
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </div>
@@ -167,6 +180,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                 className={`w-full p-3 bg-gray-800 text-white rounded border ${
                   errors.phone ? "border-red-500" : "border-gray-700"
                 } focus:border-viralOrange focus:outline-none`}
+                disabled={isSubmitting}
               />
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
@@ -185,6 +199,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                 className={`w-full p-3 bg-gray-800 text-white rounded border ${
                   errors.email ? "border-red-500" : "border-gray-700"
                 } focus:border-viralOrange focus:outline-none`}
+                disabled={isSubmitting}
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
@@ -192,7 +207,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-70"
+              className="w-full bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Procesando..." : "Acceder ahora"}
             </button>
