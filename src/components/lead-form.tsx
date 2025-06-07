@@ -1,8 +1,9 @@
 
-import { useState } from "react";
-import Logo from "./logo";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import LeadFormHeader from "./lead-form-header";
+import LeadFormFooter from "./lead-form-footer";
+import FormField from "./form-field";
+import { useLeadForm } from "@/hooks/use-lead-form";
 
 type LeadFormProps = {
   isOpen: boolean;
@@ -10,199 +11,58 @@ type LeadFormProps = {
 };
 
 const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const formspreeEndpoint = "https://formspree.io/f/xqaqydkw";
-
-  const [errors, setErrors] = useState({
-    name: "",
-    phone: "",
-    email: ""
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user types
-    setErrors(prev => ({ ...prev, [name]: "" }));
-  };
-
-  const validate = () => {
-    const newErrors = {
-      name: formData.name.trim() ? "" : "Nombre es obligatorio",
-      phone: formData.phone.trim() ? "" : "WhatsApp es obligatorio",
-      email: formData.email.trim() ? (
-        /^\S+@\S+\.\S+$/.test(formData.email) ? 
-          "" : "Email no válido"
-      ) : "Email es obligatorio"
-    };
-    
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(error => error);
-  };
-
-  const submitToFormspree = async (data: any) => {
-    const response = await fetch(formspreeEndpoint, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => 'Error desconocido');
-      console.error("Formspree error:", errorText);
-      throw new Error(`Formspree error: ${response.status}`);
-    }
-
-    return response;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validate()) {
-      toast.error("Por favor, completa todos los campos correctamente");
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    try {
-      // Track form submission time
-      const submissionTime = new Date().toISOString();
-      const userMetrics = {
-        landingPageVisit: true,
-        formSubmissionTime: submissionTime,
-      };
-      
-      // Save lead data and metrics in localStorage first
-      const leadData = {
-        ...formData,
-        metrics: userMetrics
-      };
-      localStorage.setItem("viralclicker_lead", JSON.stringify(leadData));
-      
-      // Prepare data for Formspree
-      const submissionData = {
-        name: formData.name.trim(),
-        phone: formData.phone.trim(),
-        email: formData.email.trim(),
-        userMetrics: JSON.stringify(userMetrics),
-        _subject: "Nuevo lead desde ViralClicker",
-        _replyto: formData.email.trim()
-      };
-      
-      console.log("Enviando datos:", submissionData);
-      
-      // Try to send to Formspree
-      await submitToFormspree(submissionData);
-      
-      toast.success("¡Datos registrados correctamente! Redirigiendo al webinar...");
-      
-      // Small delay to show the success message
-      setTimeout(() => {
-        navigate("/webinar");
-      }, 1500);
-      
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      
-      // Fallback: Always redirect to webinar since data is saved locally
-      toast.success("Datos guardados. Redirigiendo al webinar...");
-      setTimeout(() => {
-        navigate("/webinar");
-      }, 1500);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit
+  } = useLeadForm();
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
       <div className="bg-viralDark border border-viralOrange/30 rounded-lg max-w-md w-full p-6 relative">
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white/60 hover:text-white"
-        >
-          ✕
-        </button>
-        
-        <div className="flex justify-center mb-6">
-          <Logo className="scale-110" />
-        </div>
-        
-        <h2 className="text-2xl font-bold text-white text-center mb-6">
-          ¡Completa tus datos para acceder al webinar!
-        </h2>
+        <LeadFormHeader onClose={onClose} />
         
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-white mb-1">
-                Nombre completo
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Tu nombre completo"
-                className={`w-full p-3 bg-gray-800 text-white rounded border ${
-                  errors.name ? "border-red-500" : "border-gray-700"
-                } focus:border-viralOrange focus:outline-none`}
-                disabled={isSubmitting}
-              />
-              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-            </div>
+            <FormField
+              id="name"
+              name="name"
+              type="text"
+              label="Nombre completo"
+              placeholder="Tu nombre completo"
+              value={formData.name}
+              error={errors.name}
+              disabled={isSubmitting}
+              onChange={handleChange}
+            />
             
-            <div>
-              <label htmlFor="phone" className="block text-white mb-1">
-                WhatsApp
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Tu número de WhatsApp"
-                className={`w-full p-3 bg-gray-800 text-white rounded border ${
-                  errors.phone ? "border-red-500" : "border-gray-700"
-                } focus:border-viralOrange focus:outline-none`}
-                disabled={isSubmitting}
-              />
-              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-            </div>
+            <FormField
+              id="phone"
+              name="phone"
+              type="tel"
+              label="WhatsApp"
+              placeholder="Tu número de WhatsApp"
+              value={formData.phone}
+              error={errors.phone}
+              disabled={isSubmitting}
+              onChange={handleChange}
+            />
             
-            <div>
-              <label htmlFor="email" className="block text-white mb-1">
-                Correo electrónico
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="tu@email.com"
-                className={`w-full p-3 bg-gray-800 text-white rounded border ${
-                  errors.email ? "border-red-500" : "border-gray-700"
-                } focus:border-viralOrange focus:outline-none`}
-                disabled={isSubmitting}
-              />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
+            <FormField
+              id="email"
+              name="email"
+              type="email"
+              label="Correo electrónico"
+              placeholder="tu@email.com"
+              value={formData.email}
+              error={errors.email}
+              disabled={isSubmitting}
+              onChange={handleChange}
+            />
             
             <button
               type="submit"
@@ -212,9 +72,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
               {isSubmitting ? "Procesando..." : "Acceder ahora"}
             </button>
             
-            <p className="text-white/60 text-xs text-center mt-4">
-              Al enviar este formulario, aceptas nuestros términos y condiciones y política de privacidad.
-            </p>
+            <LeadFormFooter />
           </div>
         </form>
       </div>
