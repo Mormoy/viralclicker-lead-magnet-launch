@@ -48,12 +48,19 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
       }
     }, 126000); // 3 minutes for demo purposes
     
+    // Create timer to show booking section after 1 minute
+    const bookingTimer = setTimeout(() => {
+      // Dispatch custom event to show booking section
+      window.dispatchEvent(new CustomEvent('showBookingSection'));
+    }, 60000); // 1 minute
+    
     // Start playback immediately
     setIsPlaying(true);
     
     return () => {
       clearTimeout(contactButtonTimer);
       clearTimeout(videoEndTimer);
+      clearTimeout(bookingTimer);
     };
   }, [onVideoEnd]);
   

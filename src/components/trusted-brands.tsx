@@ -12,11 +12,11 @@ import {
 const TrustedBrands = () => {
   // Array de marcas con sus respectivas URLs e información
   const brands = [
-    { id: 1, name: "Google", image: "/brand-1.svg" },
-    { id: 2, name: "Microsoft", image: "/brand-2.svg" },
-    { id: 3, name: "Adobe", image: "/brand-3.svg" },
-    { id: 4, name: "Amazon", image: "/brand-4.svg" },
-    { id: 5, name: "Apple", image: "/brand-5.svg" }
+    { id: 1, name: "Google", image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=200&h=100&fit=crop&auto=format" },
+    { id: 2, name: "Microsoft", image: "https://images.unsplash.com/photo-1633409361618-c73427e4e206?w=200&h=100&fit=crop&auto=format" },
+    { id: 3, name: "Apple", image: "https://images.unsplash.com/photo-1621768216002-5ac171876625?w=200&h=100&fit=crop&auto=format" },
+    { id: 4, name: "Amazon", image: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=200&h=100&fit=crop&auto=format" },
+    { id: 5, name: "Meta", image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=200&h=100&fit=crop&auto=format" }
   ];
 
   const containerVariants = {

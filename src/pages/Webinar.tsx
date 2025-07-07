@@ -6,11 +6,15 @@ import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
 import TrustedBrands from '@/components/trusted-brands';
+import WhyChooseSection from '@/components/why-choose-section';
+import TransformBusinessSection from '@/components/transform-business-section';
+import BookingSection from '@/components/booking-section';
 import { ArrowRight, Calendar } from 'lucide-react';
 
 const Webinar = () => {
   const navigate = useNavigate();
   const [videoEnded, setVideoEnded] = useState(false);
+  const [showBookingSection, setShowBookingSection] = useState(false);
   const [leadData, setLeadData] = useState<any>(null);
   const calendlyUrl = "https://calendly.com/moromoyllc";
 
@@ -60,8 +64,16 @@ const Webinar = () => {
     
     window.addEventListener('beforeunload', handleBeforeUnload);
     
+    // Listen for custom event to show booking section
+    const handleShowBooking = () => {
+      setShowBookingSection(true);
+    };
+    
+    window.addEventListener('showBookingSection', handleShowBooking);
+    
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('showBookingSection', handleShowBooking);
     };
   }, [navigate]);
 
@@ -157,7 +169,11 @@ const Webinar = () => {
               <VideoPlayer onVideoEnd={handleVideoEnd} />
             </div>
 
-            {videoEnded && (
+            {/* Booking Section - Shows after 1 minute */}
+            <BookingSection isVisible={showBookingSection} onBookingClick={openCalendlyModal} />
+
+            {/* Final booking section - Shows after video ends */}
+            {videoEnded && !showBookingSection && (
               <div id="booking" className="max-w-2xl mx-auto text-center">
                 <div className="bg-viralDark/50 border border-viralOrange/30 rounded-lg p-8 shadow-lg">
                   <h2 className="text-2xl font-bold text-white mb-4">
@@ -185,17 +201,23 @@ const Webinar = () => {
         {/* Trusted Brands Section */}
         <TrustedBrands />
 
+        {/* Why Choose Section */}
+        <WhyChooseSection />
+
         {/* Testimonials Section */}
         <TestimonialSection />
         
         {/* Metrics Section */}
         <MetricsSection />
+        
+        {/* Transform Business Section */}
+        <TransformBusinessSection />
       </main>
 
       {/* Footer */}
       <footer className="bg-viralDark border-t border-gray-800 py-4">
         <div className="container mx-auto text-white/60 text-center text-sm">
-          © 2025 ViralClicker. Todos los derechos reservados.
+          © 2025 ViralClicker. Todos los derechos reservados • Hecho con ❤️ por el equipo de MORMOY
         </div>
       </footer>
     </div>
