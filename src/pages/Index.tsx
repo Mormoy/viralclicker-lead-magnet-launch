@@ -4,10 +4,6 @@ import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
 import VideoThumbnail from '@/components/video-thumbnail';
-import TrustedBrands from '@/components/trusted-brands';
-import MetricsSection from '@/components/metrics-section';
-import WhyChooseSection from '@/components/why-choose-section';
-import TransformBusinessSection from '@/components/transform-business-section';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -63,17 +59,6 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Trust Indicators */}
-        <TrustedBrands />
-        
-        {/* Why Choose Section */}
-        <WhyChooseSection />
-        
-        {/* Metrics Section */}
-        <MetricsSection />
-        
-        {/* Transform Business Section */}
-        <TransformBusinessSection />
       </main>
 
       {/* Footer */}
