@@ -21,7 +21,7 @@ const LeadFormHeader = ({ onClose }: LeadFormHeaderProps) => {
       </div>
       
       <h2 className="text-2xl font-bold text-white text-center mb-6">
-        ¡Completa tus datos para acceder al webinar!
+        Gracias por enviar tus datos a ViralClicker
       </h2>
     </>
   );
