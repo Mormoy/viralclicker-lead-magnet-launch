@@ -19,6 +19,8 @@ const Index = () => {
   useEffect(() => {
     const handleShowBooking = () => {
       setShowFormAfterVideo(true);
+      // Auto-open the form after 1 minute
+      setIsFormOpen(true);
     };
     
     window.addEventListener('showBookingSection', handleShowBooking);
@@ -61,7 +63,7 @@ const Index = () => {
             </p>
             
             <div className="mb-16">
-              <VideoPlayer onVideoEnd={() => {}} />
+              <VideoPlayer onVideoEnd={() => {}} onContactRequest={openForm} />
             </div>
 
             {/* Form that appears after 1 minute of video */}

@@ -1,17 +1,16 @@
 
 import { useState, useEffect, useRef } from "react";
-import ContactModal from "./contact-modal";
 import { toast } from "../hooks/use-toast";
 import { Button } from "./ui/button";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
+  onContactRequest?: () => void;
 }
 
-const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
+const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showContactButton, setShowContactButton] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
@@ -65,7 +64,6 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
   }, [onVideoEnd]);
   
   const handleContactRequest = () => {
-    setIsModalOpen(true);
     console.log("Contact request button clicked");
     // Track contact request
     localStorage.setItem("viralclicker_contact_requested", "true");
@@ -84,11 +82,13 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         }
       }));
     }
+    
+    // Call the parent's onContactRequest function
+    if (onContactRequest) {
+      onContactRequest();
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
@@ -140,7 +140,7 @@ const VideoPlayer = ({ onVideoEnd }: VideoPlayerProps) => {
         </div>
       )}
       
-      <ContactModal isOpen={isModalOpen} onClose={closeModal} />
+      
     </div>
   );
 };
