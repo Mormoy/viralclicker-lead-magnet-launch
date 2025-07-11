@@ -18,7 +18,8 @@ const Index = () => {
 
   // Listen for the custom event to show form after 1 minute
   useEffect(() => {
-    const handleShowBooking = () => {
+  const handleShowBooking = () => {
+      console.log("showBookingSection event received - showing form");
       setShowFormAfterVideo(true);
       // Auto-open the form after 1 minute
       setIsFormOpen(true);

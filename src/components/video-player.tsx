@@ -51,6 +51,7 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     // Create timer to show booking section after 1 minute
     const bookingTimer = setTimeout(() => {
       // Dispatch custom event to show booking section
+      console.log("Dispatching showBookingSection event after 60 seconds");
       window.dispatchEvent(new CustomEvent('showBookingSection'));
     }, 60000); // 1 minute
     
