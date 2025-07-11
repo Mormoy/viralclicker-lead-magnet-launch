@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { toast } from "../hooks/use-toast";
 import { Button } from "./ui/button";
@@ -26,7 +25,9 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
 
     return () => {
       // Cleanup script when component unmounts
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
@@ -89,7 +90,6 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     }
   };
 
-  
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
     console.error("Video iframe error occurred");
@@ -139,8 +139,6 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
           </Button>
         </div>
       )}
-      
-      
     </div>
   );
 };
