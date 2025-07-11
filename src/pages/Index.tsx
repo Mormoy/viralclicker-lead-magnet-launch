@@ -7,6 +7,7 @@ import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
 import WhyChooseViralClicker from '@/components/why-choose-viralclicker';
+import FaqSection from '@/components/faq-section';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -100,6 +101,9 @@ const Index = () => {
         
         {/* Metrics Section */}
         <MetricsSection />
+        
+        {/* FAQ Section */}
+        <FaqSection />
         
       </main>
 
