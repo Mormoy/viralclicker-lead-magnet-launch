@@ -13,8 +13,8 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // New Wistia video URL and configuration with autoplay
-  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=true&volume=1";
+  // New Wistia video URL and configuration without autoplay
+  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=false&volume=1";
 
   // Add script to the document
   useEffect(() => {
@@ -31,16 +31,19 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     };
   }, []);
 
-  useEffect(() => {
+  // Function to start video playbook
+  const startVideo = () => {
+    setIsPlaying(true);
+    
     // Create timer to show the contact button after 10 seconds
-    const contactButtonTimer = setTimeout(() => {
+    setTimeout(() => {
       setShowContactButton(true);
       console.log("Contact button shown after timeout");
       localStorage.setItem("viralclicker_webinar_started", "true");
     }, 1000);
     
     // Create a timer to simulate the end of the video (after 3 minutes for demo)
-    const videoEndTimer = setTimeout(() => {
+    setTimeout(() => {
       setIsPlaying(false);
       if (onVideoEnd) {
         onVideoEnd();
@@ -49,21 +52,12 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     }, 126000); // 3 minutes for demo purposes
     
     // Create timer to show booking section after 1 minute
-    const bookingTimer = setTimeout(() => {
+    setTimeout(() => {
       // Dispatch custom event to show booking section
       console.log("Dispatching showBookingSection event after 60 seconds");
       window.dispatchEvent(new CustomEvent('showBookingSection'));
     }, 60000); // 1 minute
-    
-    // Start playback immediately
-    setIsPlaying(true);
-    
-    return () => {
-      clearTimeout(contactButtonTimer);
-      clearTimeout(videoEndTimer);
-      clearTimeout(bookingTimer);
-    };
-  }, [onVideoEnd]);
+  };
   
   const handleContactRequest = () => {
     console.log("Contact request button clicked");
@@ -125,6 +119,21 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
               style={{ border: 'none', overflow: 'hidden', width: '100%', height: '100%' }}
               onError={handleIframeError}
             />
+            
+            {/* Play button overlay - only shown when video is not playing */}
+            {!isPlaying && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                <Button
+                  onClick={startVideo}
+                  className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-105 flex items-center gap-3"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  Reproducir Video
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
