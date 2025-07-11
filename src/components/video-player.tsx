@@ -13,8 +13,8 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // New Wistia video URL and configuration
-  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false";
+  // New Wistia video URL and configuration with autoplay
+  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=true&volume=1";
 
   // Add script to the document
   useEffect(() => {
@@ -128,12 +128,12 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
         )}
       </div>
       
-      {/* Contact button that appears after 10 seconds */}
+      {/* Contact button that appears after 1 second */}
       {showContactButton && isPlaying && (
-        <div className="absolute bottom-4 right-4 z-15">
+        <div className="absolute bottom-2 right-2 z-20">
           <Button
             onClick={handleContactRequest}
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105"
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold text-sm px-4 py-2 rounded-full shadow-lg transition-all transform hover:scale-105"
           >
             Quiero que me contacten
           </Button>
