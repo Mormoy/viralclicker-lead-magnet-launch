@@ -1,16 +1,32 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
-import VideoThumbnail from '@/components/video-thumbnail';
+import VideoPlayer from '@/components/video-player';
+import TestimonialSection from '@/components/testimonial-section';
+import MetricsSection from '@/components/metrics-section';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [showFormAfterVideo, setShowFormAfterVideo] = useState(false);
 
   const openForm = () => {
     setIsFormOpen(true);
   };
+
+  // Listen for the custom event to show form after 1 minute
+  useEffect(() => {
+    const handleShowBooking = () => {
+      setShowFormAfterVideo(true);
+    };
+    
+    window.addEventListener('showBookingSection', handleShowBooking);
+    
+    return () => {
+      window.removeEventListener('showBookingSection', handleShowBooking);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-viralDark flex flex-col">
@@ -44,20 +60,39 @@ const Index = () => {
               convertir visitas en ventas.
             </p>
             
-            <div className="mb-10">
-              <VideoThumbnail onPlay={openForm} />
+            <div className="mb-16">
+              <VideoPlayer onVideoEnd={() => {}} />
             </div>
-            
-            <div className="flex justify-center">
-              <button 
-                onClick={openForm}
-                className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 animate-pulse"
-              >
-                ¡Quiero aumentar mis ventas!
-              </button>
-            </div>
+
+            {/* Form that appears after 1 minute of video */}
+            {showFormAfterVideo && (
+              <div className="max-w-2xl mx-auto text-center mt-8">
+                <div className="bg-viralDark/50 border border-viralOrange/30 rounded-lg p-8 shadow-lg">
+                  <h2 className="text-2xl font-bold text-white mb-4">
+                    ¡Acceso exclusivo disponible ahora!
+                  </h2>
+                  
+                  <p className="text-white/80 mb-6">
+                    Complete sus datos para recibir estrategias personalizadas y acceso a nuestro sistema de automatización.
+                  </p>
+                  
+                  <button
+                    onClick={openForm}
+                    className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105"
+                  >
+                    ¡Quiero acceso ahora!
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+        
+        {/* Testimonials Section */}
+        <TestimonialSection />
+        
+        {/* Metrics Section */}
+        <MetricsSection />
         
       </main>
 
