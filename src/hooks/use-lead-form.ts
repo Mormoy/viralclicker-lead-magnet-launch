@@ -23,10 +23,19 @@ export const useLeadForm = () => {
     email: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({
     name: "",
     phone: "",
     email: ""
+  });
+
+  // Check if user has already submitted on component mount
+  useState(() => {
+    const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
+    if (submittedEmails.length > 0) {
+      setHasAlreadySubmitted(true);
+    }
   });
 
   const formspreeEndpoint = "https://formspree.io/f/xqaqydkw";
@@ -38,6 +47,13 @@ export const useLeadForm = () => {
   };
 
   const validate = (): boolean => {
+    // Check if email was already submitted
+    const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
+    if (submittedEmails.includes(formData.email.trim().toLowerCase())) {
+      toast.error("Este email ya fue registrado anteriormente. Gracias por tu interés.");
+      return false;
+    }
+
     const newErrors: FormErrors = {
       name: formData.name.trim() ? "" : "Nombre es obligatorio",
       phone: formData.phone.trim() ? "" : "WhatsApp es obligatorio",
@@ -111,10 +127,24 @@ export const useLeadForm = () => {
       
       await submitToFormspree(formData);
       
+      // Store the email to prevent future submissions
+      const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
+      submittedEmails.push(formData.email.trim().toLowerCase());
+      localStorage.setItem("viralclicker_submitted_emails", JSON.stringify(submittedEmails));
+      
+      setHasAlreadySubmitted(true);
+      
       toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
       
     } catch (error) {
       console.error("Error submitting form:", error);
+      
+      // Even on error, mark as submitted to prevent spam
+      const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
+      submittedEmails.push(formData.email.trim().toLowerCase());
+      localStorage.setItem("viralclicker_submitted_emails", JSON.stringify(submittedEmails));
+      
+      setHasAlreadySubmitted(true);
       
       toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
     } finally {
@@ -126,6 +156,7 @@ export const useLeadForm = () => {
     formData,
     errors,
     isSubmitting,
+    hasAlreadySubmitted,
     handleChange,
     handleSubmit
   };
