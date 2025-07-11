@@ -111,19 +111,12 @@ export const useLeadForm = () => {
       
       await submitToFormspree(formData);
       
-      toast.success("¡Datos registrados correctamente! Redirigiendo al webinar...");
-      
-      setTimeout(() => {
-        navigate("/webinar");
-      }, 1500);
+      toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
       
     } catch (error) {
       console.error("Error submitting form:", error);
       
-      toast.success("Datos guardados. Redirigiendo al webinar...");
-      setTimeout(() => {
-        navigate("/webinar");
-      }, 1500);
+      toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
     } finally {
       setIsSubmitting(false);
     }

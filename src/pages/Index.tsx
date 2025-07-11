@@ -6,6 +6,7 @@ import LeadForm from '@/components/lead-form';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
+import WhyChooseViralClicker from '@/components/why-choose-viralclicker';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -89,6 +90,9 @@ const Index = () => {
             )}
           </div>
         </div>
+        
+        {/* Why Choose Viral Clicker Section */}
+        <WhyChooseViralClicker />
         
         {/* Testimonials Section */}
         <TestimonialSection />
