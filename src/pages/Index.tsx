@@ -7,6 +7,7 @@ import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
 import WhyChooseViralClicker from '@/components/why-choose-viralclicker';
+import TrustedBrands from '@/components/trusted-brands';
 import FaqSection from '@/components/faq-section';
 
 const Index = () => {
@@ -101,6 +102,9 @@ const Index = () => {
         
         {/* Metrics Section */}
         <MetricsSection />
+        
+        {/* Trusted Brands Section */}
+        <TrustedBrands />
         
         {/* FAQ Section */}
         <FaqSection />
