@@ -13,8 +13,8 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
-  // New Wistia video URL and configuration without autoplay
-  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=false&volume=1";
+  // New Wistia video URL and configuration with autoplay
+  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=true&volume=1";
 
   // Add script to the document
   useEffect(() => {
@@ -22,6 +22,9 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     script.src = 'https://fast.wistia.net/player.js';
     script.async = true;
     document.body.appendChild(script);
+
+    // Start video automatically since autoplay is enabled
+    startVideo();
 
     return () => {
       // Cleanup script when component unmounts
