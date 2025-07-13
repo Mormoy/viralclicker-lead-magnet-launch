@@ -1,4 +1,10 @@
 import { Bot, Target, TrendingUp, BarChart3 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const WhyChooseViralClicker = () => {
   const features = [
@@ -25,42 +31,73 @@ const WhyChooseViralClicker = () => {
   ];
 
   return (
-    <section className="py-20 bg-viralDark">
+    <section className="py-16 md:py-20 bg-viralDark">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             <span className="text-white">Por qué elegir </span>
             <span className="text-viralOrange">Viral Clicker</span>
           </h2>
           
-          <p className="text-white/80 text-xl md:text-2xl mb-16 max-w-4xl mx-auto">
+          <p className="text-white/80 text-lg md:text-xl mb-12 max-w-3xl mx-auto">
             Porque no se trata de perseguir clientes, sino de atraerlos con un sistema que trabaja todos los días, incluso mientras duermes.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Vista de escritorio: Grid */}
+          <div className="hidden md:grid md:grid-cols-2 gap-6">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
                 <div
                   key={index}
-                  className="bg-viralDark border border-viralOrange/20 rounded-xl p-8 text-center hover:border-viralOrange/40 transition-all duration-300 hover:transform hover:scale-105"
+                  className="bg-viralDark border border-viralOrange/20 rounded-xl p-6 text-left hover:border-viralOrange/40 transition-all duration-300"
                 >
-                  <div className="flex justify-center mb-6">
-                    <div className="w-16 h-16 bg-viralOrange/20 rounded-xl flex items-center justify-center">
-                      <IconComponent className="w-8 h-8 text-viralOrange" />
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-viralOrange/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <IconComponent className="w-6 h-6 text-viralOrange" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold text-lg mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-white/70 text-sm leading-relaxed">
+                        {feature.description}
+                      </p>
                     </div>
                   </div>
-                  
-                  <h3 className="text-white font-bold text-xl md:text-2xl mb-4">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-white/70 text-base md:text-lg leading-relaxed">
-                    {feature.description}
-                  </p>
                 </div>
               );
             })}
+          </div>
+
+          {/* Vista móvil: Accordion */}
+          <div className="md:hidden">
+            <Accordion type="single" collapsible className="w-full space-y-3">
+              {features.map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <AccordionItem 
+                    key={index} 
+                    value={`item-${index}`}
+                    className="border border-viralOrange/20 rounded-lg bg-viralDark/50 backdrop-blur-sm"
+                  >
+                    <AccordionTrigger className="text-left text-white hover:text-viralOrange px-4 py-3 text-base font-medium">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-viralOrange/20 rounded-lg flex items-center justify-center">
+                          <IconComponent className="w-4 h-4 text-viralOrange" />
+                        </div>
+                        <span>{feature.title}</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/70 px-4 pb-3 text-sm leading-relaxed">
+                      <div className="ml-11">
+                        {feature.description}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
           </div>
         </div>
       </div>
