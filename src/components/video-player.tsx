@@ -120,20 +120,6 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
               onError={handleIframeError}
             />
             
-            {/* Play button overlay - only shown when video is not playing */}
-            {!isPlaying && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                <Button
-                  onClick={startVideo}
-                  className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-105 flex items-center gap-3"
-                >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                  Reproducir Video
-                </Button>
-              </div>
-            )}
           </div>
         )}
       </div>
