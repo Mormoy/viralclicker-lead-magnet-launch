@@ -4,22 +4,22 @@ const WhyChooseViralClicker = () => {
   const features = [
     {
       icon: Bot,
-      title: "1. Automatización que funciona de verdad",
+      title: "Automatización que funciona de verdad",
       description: "Implementamos sistemas que califican, filtran y conectan con tus prospectos automáticamente, sin depender de tu tiempo ni esfuerzo diario."
     },
     {
       icon: Target,
-      title: "2. Leads calificados, no curiosos", 
+      title: "Leads calificados, no curiosos", 
       description: "Cada persona que te escribe ya vio tu video, entendió tu propuesta y se identificó con tu solución. Hablamos solo con quienes tienen intención real."
     },
     {
       icon: TrendingUp,
-      title: "3. Crecimiento sostenible y escalable",
+      title: "Crecimiento sostenible y escalable",
       description: "Escala tu negocio sin complicaciones. Nuestro sistema te permite aumentar tu alcance, mantener el control y liberar tu agenda de tareas improductivas."
     },
     {
       icon: BarChart3,
-      title: "4. Estrategia basada en datos reales",
+      title: "Estrategia basada en datos reales",
       description: "Nairok, nuestro avatar, analiza patrones, optimiza procesos y te guía con claridad. Aquí no improvisamos: tomamos decisiones con datos, no con suposiciones."
     }
   ];
