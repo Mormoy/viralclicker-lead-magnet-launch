@@ -1,26 +1,31 @@
-import { Zap, Target, TrendingUp, Users } from "lucide-react";
+import { Bot, Target, TrendingUp, Users, BarChart3 } from "lucide-react";
 
 const WhyChooseViralClicker = () => {
   const features = [
     {
-      icon: Zap,
-      title: "Automatización Total",
-      description: "Sistemas que trabajan 24/7 sin intervención manual"
+      icon: Bot,
+      title: "🤖 Automatización Inteligente",
+      description: "Sistemas que funcionan 24/7 sin que muevas un dedo. Mientras duermes, tu negocio filtra, educa y califica a los prospectos ideales."
     },
     {
       icon: Target,
-      title: "Leads Cualificados", 
-      description: "Generación de leads listos para comprar"
+      title: "🎯 Leads Listos Para Escuchar", 
+      description: "No más conversaciones con curiosos o indecisos. Cada persona que te contacta ya vio tu video, entendió tu propuesta y quiere saber más."
     },
     {
       icon: TrendingUp,
-      title: "Escalabilidad",
-      description: "Crece sin límites con sistemas que se adaptan"
+      title: "📈 Escala sin Agobio",
+      description: "Diseñamos un sistema que no solo crece contigo, sino que te libera tiempo. Ya no dependes de referidos, posteos diarios o campañas eternas."
     },
     {
       icon: Users,
-      title: "Acompañamiento",
-      description: "Soporte personalizado en cada paso del proceso"
+      title: "🤝 Acompañamiento Real",
+      description: "No estás solo. Te guiamos paso a paso para implementar un sistema probado que ha generado miles de leads y multiplicado por 10 el ROI de negocios como el tuyo."
+    },
+    {
+      icon: BarChart3,
+      title: "💡 Estrategia Basada en Datos",
+      description: "Nuestro avatar Nairok no adivina: analiza, mide y optimiza cada interacción para que tomes decisiones con claridad, no con intuición."
     }
   ];
 
@@ -34,10 +39,11 @@ const WhyChooseViralClicker = () => {
           </h2>
           
           <p className="text-white/80 text-xl md:text-2xl mb-16 max-w-4xl mx-auto">
-            Transformamos tu negocio con tecnología de vanguardia y estrategias probadas
+            Porque no necesitas perseguir clientes... necesitas un sistema que los atraiga mientras tú duermes.
+            Con tecnología de inteligencia artificial, automatización real y estrategia personalizada, convertimos tu negocio en una máquina de conversión continua.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
