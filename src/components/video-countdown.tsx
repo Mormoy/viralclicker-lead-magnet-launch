@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import Logo from './logo';
+import { Users, Zap, Target, Shield } from 'lucide-react';
 
 interface VideoCountdownProps {
   onComplete?: () => void;
@@ -80,41 +82,73 @@ const VideoCountdown = ({ onComplete, isActive }: VideoCountdownProps) => {
   if (showContactButton) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center mt-6 bg-viralDark/90 backdrop-blur-sm border border-viralOrange/30 rounded-lg p-6 max-w-md mx-auto">
+        <div className="flex flex-col items-center justify-center mt-6 bg-gradient-to-br from-viralDark via-viralDark/95 to-viralDark/90 backdrop-blur-sm border-2 border-viralOrange/40 rounded-xl p-8 max-w-md mx-auto shadow-2xl">
+          <div className="text-center mb-6">
+            <h3 className="text-white text-xl font-bold mb-2">¡Momento perfecto!</h3>
+            <p className="text-white/80 text-sm">Descubre cómo ViralClicker puede transformar tu negocio</p>
+          </div>
+          
           <Button 
             onClick={() => setShowForm(true)}
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-viralOrange to-orange-600 hover:from-viralOrange/90 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-orange-400/50"
           >
+            <Users className="w-5 h-5 mr-2" />
             Que me contacten
           </Button>
         </div>
 
         <Dialog open={showForm} onOpenChange={setShowForm}>
-          <DialogContent className="sm:max-w-[425px] bg-viralDark border-viralOrange/30">
-            <DialogHeader>
-              <DialogTitle className="text-white text-center">
-                ¿Listo para potenciar tu negocio?
+          <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-viralDark via-viralDark/95 to-viralDark/90 border-2 border-viralOrange/40 shadow-2xl">
+            <DialogHeader className="text-center space-y-4">
+              <div className="flex justify-center mb-2">
+                <Logo className="h-12" />
+              </div>
+              <DialogTitle className="text-white text-2xl font-bold">
+                ¡Transforma tu negocio con ViralClicker!
               </DialogTitle>
+              <DialogDescription className="text-white/80 text-base">
+                Únete a miles de emprendedores que ya están multiplicando sus ventas con nuestro sistema automatizado de generación de leads
+              </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleFormSubmit} className="space-y-4">
+            
+            {/* Benefits section */}
+            <div className="grid grid-cols-2 gap-4 my-6">
+              <div className="flex items-center space-x-3 bg-viralDark/30 p-3 rounded-lg border border-viralOrange/20">
+                <Shield className="w-5 h-5 text-viralOrange" />
+                <span className="text-white text-sm">Sistema probado</span>
+              </div>
+              <div className="flex items-center space-x-3 bg-viralDark/30 p-3 rounded-lg border border-viralOrange/20">
+                <Zap className="w-5 h-5 text-viralOrange" />
+                <span className="text-white text-sm">100% automatizado</span>
+              </div>
+              <div className="flex items-center space-x-3 bg-viralDark/30 p-3 rounded-lg border border-viralOrange/20">
+                <Target className="w-5 h-5 text-viralOrange" />
+                <span className="text-white text-sm">Leads de calidad</span>
+              </div>
+              <div className="flex items-center space-x-3 bg-viralDark/30 p-3 rounded-lg border border-viralOrange/20">
+                <Users className="w-5 h-5 text-viralOrange" />
+                <span className="text-white text-sm">Soporte 24/7</span>
+              </div>
+            </div>
+            <form onSubmit={handleFormSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-white">
-                  Nombre completo
+                <Label htmlFor="name" className="text-white font-medium">
+                  Nombre completo *
                 </Label>
                 <Input
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Tu nombre completo"
+                  placeholder="Ingresa tu nombre completo"
                   required
-                  className="bg-viralDark/50 border-viralOrange/30 text-white placeholder:text-white/60"
+                  className="bg-viralDark/50 border-viralOrange/40 text-white placeholder:text-white/60 focus:border-viralOrange transition-colors"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white">
-                  Correo electrónico
+                <Label htmlFor="email" className="text-white font-medium">
+                  Correo electrónico *
                 </Label>
                 <Input
                   id="email"
@@ -124,13 +158,13 @@ const VideoCountdown = ({ onComplete, isActive }: VideoCountdownProps) => {
                   onChange={handleInputChange}
                   placeholder="tu@email.com"
                   required
-                  className="bg-viralDark/50 border-viralOrange/30 text-white placeholder:text-white/60"
+                  className="bg-viralDark/50 border-viralOrange/40 text-white placeholder:text-white/60 focus:border-viralOrange transition-colors"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="whatsapp" className="text-white">
-                  WhatsApp
+                <Label htmlFor="whatsapp" className="text-white font-medium">
+                  WhatsApp *
                 </Label>
                 <Input
                   id="whatsapp"
@@ -139,17 +173,23 @@ const VideoCountdown = ({ onComplete, isActive }: VideoCountdownProps) => {
                   onChange={handleInputChange}
                   placeholder="+1 234 567 8900"
                   required
-                  className="bg-viralDark/50 border-viralOrange/30 text-white placeholder:text-white/60"
+                  className="bg-viralDark/50 border-viralOrange/40 text-white placeholder:text-white/60 focus:border-viralOrange transition-colors"
                 />
               </div>
               
-              <Button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 transition-all duration-300"
-              >
-                {isSubmitting ? 'Enviando...' : 'Enviar datos'}
-              </Button>
+              <div className="pt-2">
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-viralOrange to-orange-600 hover:from-viralOrange/90 hover:to-orange-700 text-white font-bold py-4 transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
+                >
+                  {isSubmitting ? 'Enviando...' : '🚀 Obtener acceso exclusivo'}
+                </Button>
+              </div>
+              
+              <p className="text-white/60 text-xs text-center mt-4">
+                Al enviar tus datos, aceptas ser contactado por nuestro equipo de ViralClicker para ofrecerte una demostración personalizada.
+              </p>
             </form>
           </DialogContent>
         </Dialog>

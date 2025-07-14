@@ -52,6 +52,28 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     }, 126000); // 3 minutes for demo purposes
   };
   
+  // Auto-start video and countdown when component mounts
+  useEffect(() => {
+    const autoStart = () => {
+      setIsPlaying(true);
+      setShowCountdown(true);
+      
+      localStorage.setItem("viralclicker_webinar_started", "true");
+      
+      // Create a timer to simulate the end of the video (after 3 minutes for demo)
+      setTimeout(() => {
+        setIsPlaying(false);
+        if (onVideoEnd) {
+          onVideoEnd();
+          console.log("Video ended");
+        }
+      }, 126000); // 3 minutes for demo purposes
+    };
+    
+    // Start immediately
+    autoStart();
+  }, [onVideoEnd]);
+  
   // Handle countdown completion
   const handleCountdownComplete = () => {
     console.log("Countdown completed - dispatching showBookingSection event");
@@ -94,8 +116,8 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
               onError={handleIframeError}
             />
             
-            {/* Play button overlay */}
-            {!isPlaying && (
+            {/* Play button overlay - only show if not auto-started */}
+            {!isPlaying && !showCountdown && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                 <Button
                   onClick={startVideo}
