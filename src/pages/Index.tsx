@@ -69,7 +69,7 @@ const Index = () => {
               <span className="text-white"> y aumente sus ventas</span>
             </h1>
             
-            <p className="text-white/80 text-lg md:text-xl mb-10 text-center">
+            <p className="text-white/80 text-lg md:text-xl mb-10 text-center hidden md:block">
               Optimizamos su presencia digital para conectar con clientes potenciales y 
               convertir visitas en ventas.
             </p>

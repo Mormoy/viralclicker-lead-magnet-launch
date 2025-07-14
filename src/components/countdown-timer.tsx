@@ -30,17 +30,17 @@ const CountdownTimer: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center gap-1">
-      <div className="bg-white/20 rounded p-1 px-2">
-        <span className="text-white font-bold">{formatTime(timeLeft.hours)}</span>
+    <div className="flex items-center justify-center gap-1 flex-wrap">
+      <div className="bg-white/20 rounded p-1 px-2 min-w-[40px] text-center">
+        <span className="text-white font-bold text-sm md:text-base">{formatTime(timeLeft.hours)}</span>
       </div>
-      <span className="text-white font-bold">:</span>
-      <div className="bg-white/20 rounded p-1 px-2">
-        <span className="text-white font-bold">{formatTime(timeLeft.minutes)}</span>
+      <span className="text-white font-bold text-sm md:text-base">:</span>
+      <div className="bg-white/20 rounded p-1 px-2 min-w-[40px] text-center">
+        <span className="text-white font-bold text-sm md:text-base">{formatTime(timeLeft.minutes)}</span>
       </div>
-      <span className="text-white font-bold">:</span>
-      <div className="bg-white/20 rounded p-1 px-2">
-        <span className="text-white font-bold">{formatTime(timeLeft.seconds)}</span>
+      <span className="text-white font-bold text-sm md:text-base">:</span>
+      <div className="bg-white/20 rounded p-1 px-2 min-w-[40px] text-center">
+        <span className="text-white font-bold text-sm md:text-base">{formatTime(timeLeft.seconds)}</span>
       </div>
     </div>
   );
