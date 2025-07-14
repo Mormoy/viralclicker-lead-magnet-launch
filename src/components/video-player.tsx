@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "../hooks/use-toast";
-import { Button } from "./ui/button";
+import VideoCountdown from "./video-countdown";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -9,7 +9,7 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showContactButton, setShowContactButton] = useState(false);
+  const [showCountdown, setShowCountdown] = useState(false);
   const [hasError, setHasError] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
@@ -34,16 +34,12 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
     };
   }, []);
 
-  // Function to start video playbook
+  // Function to start video playback
   const startVideo = () => {
     setIsPlaying(true);
+    setShowCountdown(true);
     
-    // Create timer to show the contact button after 10 seconds
-    setTimeout(() => {
-      setShowContactButton(true);
-      console.log("Contact button shown after timeout");
-      localStorage.setItem("viralclicker_webinar_started", "true");
-    }, 1000);
+    localStorage.setItem("viralclicker_webinar_started", "true");
     
     // Create a timer to simulate the end of the video (after 3 minutes for demo)
     setTimeout(() => {
@@ -53,40 +49,14 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
         console.log("Video ended");
       }
     }, 126000); // 3 minutes for demo purposes
-    
-    // Create timer to show booking section after 1 minute
-    setTimeout(() => {
-      // Dispatch custom event to show booking section
-      console.log("Dispatching showBookingSection event after 60 seconds");
-      window.dispatchEvent(new CustomEvent('showBookingSection'));
-    }, 60000); // 1 minute
   };
   
-  const handleContactRequest = () => {
-    console.log("Contact request button clicked");
-    // Track contact request
-    localStorage.setItem("viralclicker_contact_requested", "true");
-    
-    // Update lead data with contact request info
-    const savedLead = localStorage.getItem("viralclicker_lead");
-    if (savedLead) {
-      const leadData = JSON.parse(savedLead);
-      const metrics = leadData.metrics || {};
-      localStorage.setItem("viralclicker_lead", JSON.stringify({
-        ...leadData,
-        metrics: {
-          ...metrics,
-          contactRequested: true,
-          contactRequestTime: new Date().toISOString()
-        }
-      }));
-    }
-    
-    // Call the parent's onContactRequest function
-    if (onContactRequest) {
-      onContactRequest();
-    }
+  // Handle countdown completion
+  const handleCountdownComplete = () => {
+    console.log("Countdown completed - dispatching showBookingSection event");
+    window.dispatchEvent(new CustomEvent('showBookingSection'));
   };
+  
 
   // Function to handle errors in the iframe loading
   const handleIframeError = () => {
@@ -122,22 +92,15 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
               style={{ border: 'none', overflow: 'hidden', width: '100%', height: '100%' }}
               onError={handleIframeError}
             />
-            
           </div>
         )}
       </div>
       
-      {/* Contact button that appears after 1 second */}
-      {showContactButton && isPlaying && (
-        <div className="absolute bottom-2 right-2 z-20">
-          <Button
-            onClick={handleContactRequest}
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold text-sm px-4 py-2 rounded-full shadow-lg transition-all transform hover:scale-105"
-          >
-            Quiero que me contacten
-          </Button>
-        </div>
-      )}
+      {/* Countdown Timer */}
+      <VideoCountdown 
+        isActive={showCountdown} 
+        onComplete={handleCountdownComplete}
+      />
     </div>
   );
 };

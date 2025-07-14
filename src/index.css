@@ -3,6 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent zoom on mobile devices */
+@media (max-width: 768px) {
+  .carousel-item,
+  .carousel-content,
+  .embla__container,
+  .embla__slide {
+    touch-action: pan-x !important;
+    user-select: none !important;
+  }
+  
+  img {
+    touch-action: none !important;
+    user-select: none !important;
+    pointer-events: none !important;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

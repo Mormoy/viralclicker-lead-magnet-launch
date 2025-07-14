@@ -9,6 +9,8 @@ import MetricsSection from '@/components/metrics-section';
 import WhyChooseViralClicker from '@/components/why-choose-viralclicker';
 import TrustedBrands from '@/components/trusted-brands';
 import FaqSection from '@/components/faq-section';
+import WhatIsViralClicker from '@/components/what-is-viralclicker';
+import ExclusiveAccess from '@/components/exclusive-access';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -70,29 +72,15 @@ const Index = () => {
               <VideoPlayer onVideoEnd={() => {}} onContactRequest={openForm} />
             </div>
 
-            {/* Form that appears after 1 minute of video */}
+            {/* Exclusive Access Form that appears after 1 minute of video */}
             {showFormAfterVideo && (
-              <div className="max-w-2xl mx-auto text-center mt-8">
-                <div className="bg-viralDark/50 border border-viralOrange/30 rounded-lg p-8 shadow-lg">
-                  <h2 className="text-2xl font-bold text-white mb-4">
-                    ¡Acceso exclusivo disponible ahora!
-                  </h2>
-                  
-                  <p className="text-white/80 mb-6">
-                    Complete sus datos para recibir estrategias personalizadas y acceso a nuestro sistema de automatización.
-                  </p>
-                  
-                  <button
-                    onClick={openForm}
-                    className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105"
-                  >
-                    ¡Quiero acceso ahora!
-                  </button>
-                </div>
-              </div>
+              <ExclusiveAccess onFormSubmit={openForm} />
             )}
           </div>
         </div>
+        
+        {/* What is ViralClicker Section */}
+        <WhatIsViralClicker />
         
         {/* Why Choose Viral Clicker Section */}
         <WhyChooseViralClicker />

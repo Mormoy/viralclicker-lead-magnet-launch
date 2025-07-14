@@ -80,22 +80,31 @@ const TrustedBrands = () => {
 
         {/* Carousel para móviles */}
         <div className="md:hidden">
-          <Carousel className="w-full">
-            <CarouselContent>
+          <Carousel 
+            className="w-full"
+            opts={{
+              align: "start",
+              loop: true,
+              dragFree: true,
+              containScroll: "trimSnaps"
+            }}
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
               {brands.map((brand) => (
-                <CarouselItem key={brand.id} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="bg-viralDark/30 backdrop-blur-sm border border-white/10 rounded-lg p-4 h-32 flex items-center justify-center transition-all duration-300 hover:border-viralOrange/50 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] group">
+                <CarouselItem key={brand.id} className="pl-2 md:pl-4 basis-4/5 sm:basis-1/2">
+                  <div className="bg-viralDark/30 backdrop-blur-sm border border-white/10 rounded-lg p-4 h-32 flex items-center justify-center transition-all duration-300 hover:border-viralOrange/50 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] group touch-pan-x">
                     <img 
                       src={brand.image} 
                       alt={brand.name} 
-                      className="h-16 w-auto opacity-70 group-hover:opacity-100 transition-opacity duration-300" 
+                      className="h-16 w-auto opacity-70 group-hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none" 
+                      draggable={false}
                     />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-1 bg-viralDark border-viralOrange/50 text-white" />
-            <CarouselNext className="right-1 bg-viralDark border-viralOrange/50 text-white" />
+            <CarouselPrevious className="left-2 bg-viralDark/80 border-viralOrange/50 text-white hover:bg-viralOrange/20 h-10 w-10" />
+            <CarouselNext className="right-2 bg-viralDark/80 border-viralOrange/50 text-white hover:bg-viralOrange/20 h-10 w-10" />
           </Carousel>
         </div>
       </div>
