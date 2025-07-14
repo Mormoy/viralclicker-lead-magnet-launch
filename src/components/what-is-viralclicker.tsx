@@ -5,11 +5,6 @@ const WhatIsViralClicker = () => {
     <section className="py-16 md:py-20 bg-gradient-to-b from-viralDark to-viralDark/90">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-center">
-            <span className="text-white">¿Qué es </span>
-            <span className="text-viralOrange">ViralClicker</span>
-            <span className="text-white">?</span>
-          </h2>
           
           <div className="bg-viralDark/50 backdrop-blur-sm border border-viralOrange/20 rounded-xl p-8 mb-12">
             <p className="text-white/90 text-lg md:text-xl leading-relaxed text-justify">
