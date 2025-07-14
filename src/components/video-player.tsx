@@ -14,7 +14,7 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   const videoContainerRef = useRef<HTMLDivElement>(null);
   
   // New Wistia video URL and configuration with autoplay
-  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/oit93w5w4h?web_component=true&seo=true&videoFoam=false&autoPlay=true&volume=1";
+  const videoIframeUrl = "https://fast.wistia.net/embed/iframe/g6rbgslxog?web_component=true&seo=true&videoFoam=false&autoPlay=true&volume=1";
 
   // Add script to the document
   useEffect(() => {
