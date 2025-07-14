@@ -78,10 +78,6 @@ const Index = () => {
               <VideoPlayer onVideoEnd={() => {}} onContactRequest={openForm} />
             </div>
 
-            {/* Exclusive Access Form that appears after 1 minute of video */}
-            {showFormAfterVideo && (
-              <ExclusiveAccess onFormSubmit={() => setIsFormOpen(true)} />
-            )}
           </div>
         </div>
         
