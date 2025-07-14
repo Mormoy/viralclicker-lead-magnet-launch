@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Carousel,
@@ -8,8 +8,11 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel';
+import VideoCountdown from '@/components/video-countdown';
 
 const TrustedBrands = () => {
+  const [isCountdownActive, setIsCountdownActive] = useState(true);
+  
   // Array de marcas con sus respectivas URLs e información
   const brands = [
     { id: 1, name: "Google", image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=200&h=100&fit=crop&auto=format" },
@@ -106,6 +109,11 @@ const TrustedBrands = () => {
             <CarouselPrevious className="left-2 bg-viralDark/80 border-viralOrange/50 text-white hover:bg-viralOrange/20 h-10 w-10" />
             <CarouselNext className="right-2 bg-viralDark/80 border-viralOrange/50 text-white hover:bg-viralOrange/20 h-10 w-10" />
           </Carousel>
+        </div>
+        
+        {/* Countdown para lead generation */}
+        <div className="mt-12 max-w-4xl mx-auto">
+          <VideoCountdown isActive={isCountdownActive} />
         </div>
       </div>
     </section>

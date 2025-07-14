@@ -93,7 +93,7 @@ const VideoCountdown = ({ onComplete, isActive }: VideoCountdownProps) => {
             className="bg-gradient-to-r from-viralOrange to-orange-600 hover:from-viralOrange/90 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-orange-400/50"
           >
             <Users className="w-5 h-5 mr-2" />
-            Que me contacten
+            Quiero que me contacten
           </Button>
         </div>
 
