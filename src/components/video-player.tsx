@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "../hooks/use-toast";
 import VideoCountdown from "./video-countdown";
+import { Button } from "@/components/ui/button";
+import { Play } from "lucide-react";
 
 interface VideoPlayerProps {
   onVideoEnd?: () => void;
@@ -70,7 +72,7 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
   
   return (
     <div className="relative w-full max-w-3xl mx-auto">
-      <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black" ref={videoContainerRef}>
+      <div className="w-full aspect-video rounded-lg shadow-lg overflow-hidden bg-black relative" ref={videoContainerRef}>
         {hasError ? (
           <div className="w-full h-full flex items-center justify-center bg-viralDark text-white">
             <p>No se pudo cargar el video. Por favor intente de nuevo más tarde.</p>
@@ -91,6 +93,19 @@ const VideoPlayer = ({ onVideoEnd, onContactRequest }: VideoPlayerProps) => {
               style={{ border: 'none', overflow: 'hidden', width: '100%', height: '100%' }}
               onError={handleIframeError}
             />
+            
+            {/* Play button overlay */}
+            {!isPlaying && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                <Button
+                  onClick={startVideo}
+                  className="bg-viralOrange hover:bg-viralOrange/90 text-white p-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                  size="lg"
+                >
+                  <Play className="w-8 h-8 ml-1" />
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
