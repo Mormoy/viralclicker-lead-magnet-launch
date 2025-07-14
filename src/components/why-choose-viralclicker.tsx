@@ -31,7 +31,7 @@ const WhyChooseViralClicker = () => {
   ];
 
   return (
-    <section className="py-8 md:py-12 bg-viralDark">
+    <section className="py-4 md:py-6 bg-viralDark">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
