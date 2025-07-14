@@ -40,29 +40,7 @@ const VideoCountdown = ({ onComplete, isActive }: VideoCountdownProps) => {
   const seconds = timeLeft % 60;
 
   if (showContactButton) {
-    return (
-      <div className="flex flex-col items-center justify-center mt-6 bg-viralDark/90 backdrop-blur-sm border border-viralOrange/30 rounded-lg p-6 max-w-md mx-auto">
-        <div className="text-center mb-6">
-          <p className="text-white text-lg mb-4">
-            🔥 ¡Acceso exclusivo disponible!
-          </p>
-          <p className="text-white/80 text-sm mb-6">
-            Accede a estrategias exclusivas personalizadas
-          </p>
-        </div>
-        
-        <button
-          onClick={() => {
-            // Dispatch event to open contact form
-            const event = new CustomEvent('openContactForm');
-            window.dispatchEvent(event);
-          }}
-          className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full max-w-xs"
-        >
-          Quiero que me contacten
-        </button>
-      </div>
-    );
+    return null;
   }
 
   return (
