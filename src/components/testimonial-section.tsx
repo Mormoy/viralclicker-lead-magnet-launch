@@ -10,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel';
+import VideoCountdown from '@/components/video-countdown';
 
 type TestimonialProps = {
   name: string;
@@ -52,6 +53,7 @@ const testimonials: TestimonialProps[] = [
 
 const TestimonialSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isCountdownActive, setIsCountdownActive] = useState(true);
   const visibleTestimonials = testimonials.slice(activeIndex, activeIndex + 3);
 
   const handlePrev = () => {
@@ -218,6 +220,11 @@ const TestimonialSection = () => {
               <CarouselNext className="right-2 bg-viralDark/80 border-viralOrange/50 text-white hover:bg-viralOrange/20 h-10 w-10" />
             </Carousel>
           </div>
+        </div>
+        
+        {/* Countdown para lead generation */}
+        <div className="mt-12 max-w-4xl mx-auto">
+          <VideoCountdown isActive={isCountdownActive} />
         </div>
       </div>
     </section>

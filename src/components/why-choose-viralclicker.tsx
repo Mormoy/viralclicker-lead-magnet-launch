@@ -60,9 +60,9 @@ const WhyChooseViralClicker = () => {
                       <h3 className="text-white font-bold text-lg mb-3">
                         {feature.title}
                       </h3>
-                      <p className="text-white/70 text-sm leading-relaxed">
-                        {feature.description}
-                      </p>
+                       <p className="text-white/70 text-sm leading-relaxed text-justify">
+                         {feature.description}
+                       </p>
                     </div>
                   </div>
                 </div>
@@ -89,11 +89,11 @@ const WhyChooseViralClicker = () => {
                         <span>{feature.title}</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="text-white/70 px-4 pb-3 text-sm leading-relaxed">
-                      <div className="ml-11">
-                        {feature.description}
-                      </div>
-                    </AccordionContent>
+                     <AccordionContent className="text-white/70 px-4 pb-3 text-sm leading-relaxed">
+                       <div className="ml-11 text-justify">
+                         {feature.description}
+                       </div>
+                     </AccordionContent>
                   </AccordionItem>
                 );
               })}
