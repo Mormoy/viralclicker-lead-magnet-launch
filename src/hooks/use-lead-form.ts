@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,12 +31,12 @@ export const useLeadForm = () => {
   });
 
   // Check if user has already submitted on component mount
-  useState(() => {
+  useEffect(() => {
     const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
     if (submittedEmails.length > 0) {
       setHasAlreadySubmitted(true);
     }
-  });
+  }, []);
 
   const formspreeEndpoint = "https://formspree.io/f/xqaqydkw";
 
