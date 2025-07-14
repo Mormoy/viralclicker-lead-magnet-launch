@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 
 type FormData = {
@@ -15,7 +14,7 @@ type FormErrors = {
   email: string;
 };
 
-export const useLeadForm = () => {
+export const useLeadForm = (onSuccess?: () => void) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -50,7 +49,6 @@ export const useLeadForm = () => {
     // Check if email was already submitted
     const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");
     if (submittedEmails.includes(formData.email.trim().toLowerCase())) {
-      toast.error("Este email ya fue registrado anteriormente. Gracias por tu interés.");
       return false;
     }
 
@@ -104,7 +102,6 @@ export const useLeadForm = () => {
     e.preventDefault();
     
     if (!validate()) {
-      toast.error("Por favor, completa todos los campos correctamente");
       return;
     }
 
@@ -134,7 +131,10 @@ export const useLeadForm = () => {
       
       setHasAlreadySubmitted(true);
       
-      toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
+      // Close modal automatically after success
+      setTimeout(() => {
+        onSuccess?.();
+      }, 1000);
       
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -146,7 +146,10 @@ export const useLeadForm = () => {
       
       setHasAlreadySubmitted(true);
       
-      toast.success("¡Perfecto! Hemos recibido tus datos. Nos pondremos en contacto contigo muy pronto para brindarte las estrategias personalizadas.");
+      // Close modal automatically after success
+      setTimeout(() => {
+        onSuccess?.();
+      }, 1000);
     } finally {
       setIsSubmitting(false);
     }

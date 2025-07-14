@@ -18,7 +18,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     hasAlreadySubmitted,
     handleChange,
     handleSubmit
-  } = useLeadForm();
+  } = useLeadForm(onClose);
 
   if (!isOpen) return null;
 
@@ -34,16 +34,10 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">¡Ya estás registrado!</h3>
+            <h3 className="text-xl font-bold text-white mb-3">¡Datos enviados!</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Hemos recibido tu información anteriormente. Nos pondremos en contacto contigo muy pronto.
+              Gracias por tu interés. Te contactaremos pronto.
             </p>
-            <button
-              onClick={onClose}
-              className="mt-6 bg-viralOrange hover:bg-viralOrange/90 text-white font-bold py-2 px-6 rounded transition-colors"
-            >
-              Entendido
-            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
