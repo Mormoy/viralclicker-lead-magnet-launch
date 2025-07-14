@@ -27,11 +27,18 @@ const Index = () => {
       setShowFormAfterVideo(true);
       // Remove auto-open to make it less invasive
     };
+
+    const handleOpenContactForm = () => {
+      console.log("openContactForm event received - opening form");
+      setIsFormOpen(true);
+    };
     
     window.addEventListener('showBookingSection', handleShowBooking);
+    window.addEventListener('openContactForm', handleOpenContactForm);
     
     return () => {
       window.removeEventListener('showBookingSection', handleShowBooking);
+      window.removeEventListener('openContactForm', handleOpenContactForm);
     };
   }, []);
 
