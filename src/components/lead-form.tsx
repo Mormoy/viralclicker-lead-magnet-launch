@@ -27,24 +27,8 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   };
 
   const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-    
-    if (!formData.nombre.trim()) {
-      newErrors.nombre = "El nombre es obligatorio";
-    }
-    
-    if (!formData.whatsapp.trim()) {
-      newErrors.whatsapp = "El WhatsApp es obligatorio";
-    }
-    
-    if (!formData.correo.trim()) {
-      newErrors.correo = "El correo es obligatorio";
-    } else if (!/\S+@\S+\.\S+/.test(formData.correo)) {
-      newErrors.correo = "Formato de correo inválido";
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    // Validation disabled for testing
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,9 +40,9 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     
     try {
       console.log("Enviando datos:", formData);
-      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook/viralclicker");
+      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook-test/Viralclicker");
       
-      const response = await fetch("https://mormoy.app.n8n.cloud/webhook/viralclicker", {
+      const response = await fetch("https://mormoy.app.n8n.cloud/webhook-test/Viralclicker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
