@@ -1,18 +1,83 @@
-import React from "react";
-import FormField from "./form-field";
-import { useLeadForm } from "@/hooks/use-lead-form";
+import React, { useState } from "react";
 
 const InlineLeadForm = () => {
-  const {
-    formData,
-    errors,
-    isSubmitting,
-    hasAlreadySubmitted,
-    handleChange,
-    handleSubmit
-  } = useLeadForm();
+  const [formData, setFormData] = useState({
+    nombre: "",
+    whatsapp: "",
+    correo: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isSubmitted, setIsSubmitted] = useState(
+    localStorage.getItem('viralclicker_submitted') === 'true'
+  );
 
-  if (hasAlreadySubmitted) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+    
+    if (!formData.nombre.trim()) {
+      newErrors.nombre = "El nombre es obligatorio";
+    }
+    
+    if (!formData.whatsapp.trim()) {
+      newErrors.whatsapp = "El WhatsApp es obligatorio";
+    }
+    
+    if (!formData.correo.trim()) {
+      newErrors.correo = "El correo es obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(formData.correo)) {
+      newErrors.correo = "Formato de correo inválido";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      console.log("Enviando datos:", formData);
+      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook-test/viralcliker");
+      
+      const response = await fetch("https://mormoy.app.n8n.cloud/webhook-test/viralcliker", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      console.log("Respuesta del servidor:", response.status, response.statusText);
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+        localStorage.setItem('viralclicker_submitted', 'true');
+      } else {
+        throw new Error(`Error del servidor: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar formulario:", error);
+      setErrors({ submit: "Error al enviar el formulario. Inténtalo de nuevo." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSubmitted) {
     return (
       <section className="py-16 bg-gradient-to-br from-viralDark via-gray-900 to-viralDark">
         <div className="container mx-auto px-4">
@@ -51,42 +116,75 @@ const InlineLeadForm = () => {
           
           <div className="bg-viralDark/80 backdrop-blur-sm border border-viralOrange/20 rounded-3xl p-8 md:p-12 shadow-2xl shadow-viralOrange/10">
             <form onSubmit={handleSubmit} className="space-y-8">
+              {errors.submit && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">
+                  {errors.submit}
+                </div>
+              )}
+              
               <div className="space-y-6">
-                <FormField
-                  id="name"
-                  name="name"
-                  type="text"
-                  label="Nombre completo"
-                  placeholder="Escribe tu nombre completo"
-                  value={formData.name}
-                  error={errors.name}
-                  disabled={isSubmitting}
-                  onChange={handleChange}
-                />
+                <div>
+                  <label htmlFor="nombre" className="block text-white text-sm font-medium mb-2">
+                    Nombre completo
+                  </label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    placeholder="Escribe tu nombre completo"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-4 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 text-lg ${
+                      errors.nombre ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.nombre && (
+                    <p className="text-red-400 text-sm mt-1">{errors.nombre}</p>
+                  )}
+                </div>
                 
-                <FormField
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  label="WhatsApp"
-                  placeholder="+1234567890"
-                  value={formData.phone}
-                  error={errors.phone}
-                  disabled={isSubmitting}
-                  onChange={handleChange}
-                />
+                <div>
+                  <label htmlFor="whatsapp" className="block text-white text-sm font-medium mb-2">
+                    WhatsApp
+                  </label>
+                  <input
+                    type="tel"
+                    id="whatsapp"
+                    name="whatsapp"
+                    value={formData.whatsapp}
+                    onChange={handleChange}
+                    placeholder="+1234567890"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-4 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 text-lg ${
+                      errors.whatsapp ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.whatsapp && (
+                    <p className="text-red-400 text-sm mt-1">{errors.whatsapp}</p>
+                  )}
+                </div>
                 
-                <FormField
-                  id="email"
-                  name="email"
-                  type="email"
-                  label="Correo electrónico"
-                  placeholder="tu@correo.com"
-                  value={formData.email}
-                  error={errors.email}
-                  disabled={isSubmitting}
-                  onChange={handleChange}
-                />
+                <div>
+                  <label htmlFor="correo" className="block text-white text-sm font-medium mb-2">
+                    Correo electrónico
+                  </label>
+                  <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    value={formData.correo}
+                    onChange={handleChange}
+                    placeholder="tu@correo.com"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-4 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 text-lg ${
+                      errors.correo ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.correo && (
+                    <p className="text-red-400 text-sm mt-1">{errors.correo}</p>
+                  )}
+                </div>
               </div>
               
               <button

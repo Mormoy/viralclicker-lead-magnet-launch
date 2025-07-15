@@ -1,9 +1,6 @@
 
-import React from "react";
-import LeadFormHeader from "./lead-form-header";
-import LeadFormFooter from "./lead-form-footer";
-import FormField from "./form-field";
-import { useLeadForm } from "@/hooks/use-lead-form";
+import React, { useState } from "react";
+import { X } from "lucide-react";
 
 type LeadFormProps = {
   isOpen: boolean;
@@ -11,23 +8,98 @@ type LeadFormProps = {
 };
 
 const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
-  const {
-    formData,
-    errors,
-    isSubmitting,
-    hasAlreadySubmitted,
-    handleChange,
-    handleSubmit
-  } = useLeadForm(onClose);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    whatsapp: "",
+    correo: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+    
+    if (!formData.nombre.trim()) {
+      newErrors.nombre = "El nombre es obligatorio";
+    }
+    
+    if (!formData.whatsapp.trim()) {
+      newErrors.whatsapp = "El WhatsApp es obligatorio";
+    }
+    
+    if (!formData.correo.trim()) {
+      newErrors.correo = "El correo es obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(formData.correo)) {
+      newErrors.correo = "Formato de correo inválido";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      console.log("Enviando datos:", formData);
+      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook-test/viralcliker");
+      
+      const response = await fetch("https://mormoy.app.n8n.cloud/webhook-test/viralcliker", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      console.log("Respuesta del servidor:", response.status, response.statusText);
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+        localStorage.setItem('viralclicker_submitted', 'true');
+        setTimeout(() => {
+          onClose();
+          setIsSubmitted(false);
+          setFormData({ nombre: "", whatsapp: "", correo: "" });
+        }, 3000);
+      } else {
+        throw new Error(`Error del servidor: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar formulario:", error);
+      setErrors({ submit: "Error al enviar el formulario. Inténtalo de nuevo." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 px-4">
       <div className="bg-viralDark border border-viralOrange/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl shadow-viralOrange/10">
-        <LeadFormHeader onClose={onClose} />
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
+        >
+          <X size={24} />
+        </button>
         
-        {hasAlreadySubmitted ? (
+        {isSubmitted ? (
           <div className="text-center py-8">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500/30 to-green-600/30 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/40">
               <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,65 +112,113 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-5">
-              <FormField
-                id="name"
-                name="name"
-                type="text"
-                label="Nombre completo"
-                placeholder="Escribe tu nombre completo"
-                value={formData.name}
-                error={errors.name}
-                disabled={isSubmitting}
-                onChange={handleChange}
-              />
-              
-              <FormField
-                id="phone"
-                name="phone"
-                type="tel"
-                label="WhatsApp"
-                placeholder="+1234567890"
-                value={formData.phone}
-                error={errors.phone}
-                disabled={isSubmitting}
-                onChange={handleChange}
-              />
-              
-              <FormField
-                id="email"
-                name="email"
-                type="email"
-                label="Correo electrónico"
-                placeholder="tu@correo.com"
-                value={formData.email}
-                error={errors.email}
-                disabled={isSubmitting}
-                onChange={handleChange}
-              />
+          <>
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white mb-3">
+                ¡Automatiza tu negocio hoy!
+              </h2>
+              <p className="text-white/80 leading-relaxed">
+                Déjanos tus datos y nuestro sistema comenzará a trabajar por ti en segundos.
+              </p>
             </div>
             
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-viralOrange to-viralOrange/90 hover:from-viralOrange/90 hover:to-viralOrange text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-viralOrange/25"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                  </svg>
-                  Procesando...
-                </span>
-              ) : (
-                "Quiero automatizar mi negocio"
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {errors.submit && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">
+                  {errors.submit}
+                </div>
               )}
-            </button>
-            
-            <LeadFormFooter />
-          </form>
+              
+              <div className="space-y-5">
+                <div>
+                  <label htmlFor="nombre" className="block text-white text-sm font-medium mb-2">
+                    Nombre completo
+                  </label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    placeholder="Escribe tu nombre completo"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 ${
+                      errors.nombre ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.nombre && (
+                    <p className="text-red-400 text-sm mt-1">{errors.nombre}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label htmlFor="whatsapp" className="block text-white text-sm font-medium mb-2">
+                    WhatsApp
+                  </label>
+                  <input
+                    type="tel"
+                    id="whatsapp"
+                    name="whatsapp"
+                    value={formData.whatsapp}
+                    onChange={handleChange}
+                    placeholder="+1234567890"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 ${
+                      errors.whatsapp ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.whatsapp && (
+                    <p className="text-red-400 text-sm mt-1">{errors.whatsapp}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label htmlFor="correo" className="block text-white text-sm font-medium mb-2">
+                    Correo electrónico
+                  </label>
+                  <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    value={formData.correo}
+                    onChange={handleChange}
+                    placeholder="tu@correo.com"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 focus:border-viralOrange transition-all disabled:opacity-50 ${
+                      errors.correo ? 'border-red-500' : 'border-white/20'
+                    }`}
+                  />
+                  {errors.correo && (
+                    <p className="text-red-400 text-sm mt-1">{errors.correo}</p>
+                  )}
+                </div>
+              </div>
+              
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-viralOrange to-viralOrange/90 hover:from-viralOrange/90 hover:to-viralOrange text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-viralOrange/25"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                    Procesando...
+                  </span>
+                ) : (
+                  "Quiero automatizar mi negocio"
+                )}
+              </button>
+              
+              <div className="text-center pt-2">
+                <p className="text-white/60 text-sm">
+                  🔒 Tus datos están protegidos. No compartimos información personal.
+                </p>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </div>
