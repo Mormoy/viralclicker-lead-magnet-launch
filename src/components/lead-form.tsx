@@ -15,7 +15,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false); // Disabled for testing
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,13 +53,17 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
       
       // Con no-cors no podemos verificar el status, asumimos que fue exitoso
       console.log("Datos enviados correctamente al webhook");
-      setIsSubmitted(true);
-      localStorage.setItem('viralclicker_submitted', 'true');
-      setTimeout(() => {
-        onClose();
-        setIsSubmitted(false);
-        setFormData({ nombre: "", whatsapp: "", correo: "" });
-      }, 3000);
+      // Success handling disabled for testing
+      // setIsSubmitted(true);
+      // localStorage.setItem('viralclicker_submitted', 'true');
+      // setTimeout(() => {
+      //   onClose();
+      //   setIsSubmitted(false);
+      //   setFormData({ nombre: "", whatsapp: "", correo: "" });
+      // }, 3000);
+      
+      // For testing - just reset form
+      setFormData({ nombre: "", whatsapp: "", correo: "" });
     } catch (error) {
       console.error("Error al enviar formulario:", error);
       setErrors({ submit: "Error al enviar el formulario. Inténtalo de nuevo." });
@@ -80,7 +84,8 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
           <X size={24} />
         </button>
         
-        {isSubmitted ? (
+        {/* Success message disabled for testing */}
+        {false ? (
           <div className="text-center py-8">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500/30 to-green-600/30 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/40">
               <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

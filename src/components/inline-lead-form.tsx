@@ -8,9 +8,9 @@ const InlineLeadForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitted, setIsSubmitted] = useState(
-    localStorage.getItem('viralclicker_submitted') === 'true'
-  );
+  // const [isSubmitted, setIsSubmitted] = useState(
+  //   localStorage.getItem('viralclicker_submitted') === 'true'
+  // ); // Disabled for testing
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,8 +48,9 @@ const InlineLeadForm = () => {
       
       // Con no-cors no podemos verificar el status, asumimos que fue exitoso
       console.log("Datos enviados correctamente al webhook");
-      setIsSubmitted(true);
-      localStorage.setItem('viralclicker_submitted', 'true');
+      // Success handling disabled for testing
+      // setIsSubmitted(true);
+      // localStorage.setItem('viralclicker_submitted', 'true');
       setFormData({ nombre: "", whatsapp: "", correo: "" });
     } catch (error) {
       console.error("Error al enviar formulario:", error);
@@ -59,7 +60,8 @@ const InlineLeadForm = () => {
     }
   };
 
-  if (isSubmitted) {
+  // Success message disabled for testing
+  if (false) {
     return (
       <section className="py-16 bg-gradient-to-br from-viralDark via-gray-900 to-viralDark">
         <div className="container mx-auto px-4">
