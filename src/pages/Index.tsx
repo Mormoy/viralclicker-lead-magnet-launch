@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
+import InlineLeadForm from '@/components/inline-lead-form';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
@@ -80,6 +81,9 @@ const Index = () => {
 
           </div>
         </div>
+        
+        {/* Inline Lead Form Section */}
+        <InlineLeadForm />
         
         {/* What is ViralClicker Section */}
         <WhatIsViralClicker />
