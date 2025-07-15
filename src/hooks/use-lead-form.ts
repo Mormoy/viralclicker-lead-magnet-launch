@@ -37,7 +37,7 @@ export const useLeadForm = (onSuccess?: () => void) => {
     }
   }, []);
 
-  const formspreeEndpoint = "https://formspree.io/f/xqaqydkw";
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,34 +65,24 @@ export const useLeadForm = (onSuccess?: () => void) => {
     return !Object.values(newErrors).some(error => error);
   };
 
-  const submitToFormspree = async (data: FormData) => {
-    const formData = new FormData();
-    
-    formData.append('name', data.name.trim());
-    formData.append('phone', data.phone.trim());
-    formData.append('email', data.email.trim());
-    formData.append('_subject', 'Nuevo lead desde ViralClicker');
-    formData.append('_replyto', data.email.trim());
-
-    const submissionTime = new Date().toISOString();
-    const userMetrics = {
-      landingPageVisit: true,
-      formSubmissionTime: submissionTime,
-    };
-    formData.append('userMetrics', JSON.stringify(userMetrics));
-
-    const response = await fetch(formspreeEndpoint, {
-      method: "POST",
-      body: formData,
+  const submitToWebhook = async (data: FormData) => {
+    const response = await fetch('https://mormoy.app.n8n.cloud/webhook-test/viralcliker', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        nombre: data.name.trim(),
+        whatsapp: data.phone.trim(),
+        correo: data.email.trim()
+      }),
     });
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Error desconocido');
-      console.error("Formspree error:", errorText);
-      throw new Error(`Formspree error: ${response.status}`);
+      console.error("Webhook error:", errorText);
+      throw new Error(`Webhook error: ${response.status}`);
     }
 
     return response;
@@ -122,7 +112,7 @@ export const useLeadForm = (onSuccess?: () => void) => {
       
       console.log("Enviando datos:", formData);
       
-      await submitToFormspree(formData);
+      await submitToWebhook(formData);
       
       // Store the email to prevent future submissions
       const submittedEmails = JSON.parse(localStorage.getItem("viralclicker_submitted_emails") || "[]");

@@ -25,23 +25,41 @@ const FormField = ({
   onChange
 }: FormFieldProps) => {
   return (
-    <div>
-      <label htmlFor={id} className="block text-white mb-1">
+    <div className="space-y-2">
+      <label htmlFor={id} className="block text-white font-medium text-sm">
         {label}
       </label>
-      <input
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`w-full p-3 bg-gray-800 text-white rounded border ${
-          error ? "border-red-500" : "border-gray-700"
-        } focus:border-viralOrange focus:outline-none`}
-        disabled={disabled}
-      />
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      <div className="relative">
+        <input
+          type={type}
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={`w-full px-4 py-3 bg-gray-900/50 backdrop-blur-sm text-white rounded-xl border transition-all duration-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-viralOrange/50 ${
+            error 
+              ? "border-red-500/60 focus:border-red-500" 
+              : "border-gray-700/50 focus:border-viralOrange/60 hover:border-gray-600/50"
+          } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+          disabled={disabled}
+        />
+        {error && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            <svg className="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        )}
+      </div>
+      {error && (
+        <p className="text-red-400 text-sm flex items-center gap-1">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {error}
+        </p>
+      )}
     </div>
   );
 };

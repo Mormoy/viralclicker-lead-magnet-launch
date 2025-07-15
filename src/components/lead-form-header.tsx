@@ -20,9 +20,13 @@ const LeadFormHeader = ({ onClose }: LeadFormHeaderProps) => {
         <Logo className="scale-110" />
       </div>
       
-      <h2 className="text-2xl font-bold text-white text-center mb-6">
-        Gracias por enviar tus datos a ViralClicker
+      <h2 className="text-2xl font-bold text-white text-center mb-3">
+        ¡Automatiza tu negocio hoy!
       </h2>
+      
+      <p className="text-white/80 text-center mb-6 leading-relaxed">
+        Déjanos tus datos y nuestro sistema comenzará a trabajar por ti en segundos.
+      </p>
     </>
   );
 };
