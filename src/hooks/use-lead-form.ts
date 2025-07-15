@@ -66,26 +66,43 @@ export const useLeadForm = (onSuccess?: () => void) => {
   };
 
   const submitToWebhook = async (data: FormData) => {
-    const response = await fetch('https://mormoy.app.n8n.cloud/webhook-test/viralcliker', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        nombre: data.name.trim(),
-        whatsapp: data.phone.trim(),
-        correo: data.email.trim()
-      }),
-    });
+    const payload = {
+      nombre: data.name.trim(),
+      whatsapp: data.phone.trim(),
+      correo: data.email.trim()
+    };
+    
+    console.log("Enviando datos al webhook:", payload);
+    console.log("URL del webhook:", 'https://mormoy.app.n8n.cloud/webhook-test/viralcliker');
+    
+    try {
+      const response = await fetch('https://mormoy.app.n8n.cloud/webhook-test/viralcliker', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => 'Error desconocido');
-      console.error("Webhook error:", errorText);
-      throw new Error(`Webhook error: ${response.status}`);
+      console.log("Respuesta del webhook:", response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Error desconocido');
+        console.error("Webhook error:", errorText);
+        console.error("Status:", response.status);
+        console.error("Headers:", response.headers);
+        throw new Error(`Webhook error: ${response.status} - ${errorText}`);
+      }
+
+      const responseData = await response.text();
+      console.log("Datos recibidos del webhook:", responseData);
+      
+      return response;
+    } catch (error) {
+      console.error("Error completo al enviar webhook:", error);
+      throw error;
     }
-
-    return response;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
