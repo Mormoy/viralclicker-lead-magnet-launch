@@ -56,9 +56,9 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
     
     try {
       console.log("Enviando datos:", formData);
-      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook-test/viralcliker");
+      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook/viralclicker");
       
-      const response = await fetch("https://mormoy.app.n8n.cloud/webhook-test/viralcliker", {
+      const response = await fetch("https://mormoy.app.n8n.cloud/webhook/viralclicker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
