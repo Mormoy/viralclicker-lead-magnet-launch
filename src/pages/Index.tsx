@@ -4,6 +4,7 @@ import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
 import InlineLeadForm from '@/components/inline-lead-form';
+import AutoTimer from '@/components/auto-timer';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
 import MetricsSection from '@/components/metrics-section';
@@ -16,9 +17,21 @@ import ExclusiveAccess from '@/components/exclusive-access';
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showFormAfterVideo, setShowFormAfterVideo] = useState(false);
+  const [showAutoTimer, setShowAutoTimer] = useState(true);
+  const [showInlineForm, setShowInlineForm] = useState(false);
 
   const openForm = () => {
     setIsFormOpen(true);
+  };
+
+  const handleAutoTimerComplete = () => {
+    setShowAutoTimer(false);
+    setIsFormOpen(true);
+  };
+
+  const handleFormClose = () => {
+    setIsFormOpen(false);
+    setShowInlineForm(true); // Show inline form after closing popup
   };
 
   // Listen for the custom event to show form after 1 minute
@@ -82,8 +95,8 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Inline Lead Form Section */}
-        <InlineLeadForm />
+        {/* Inline Lead Form Section - Only show after popup is closed */}
+        {showInlineForm && <InlineLeadForm />}
         
         {/* What is ViralClicker Section */}
         <WhatIsViralClicker />
@@ -112,8 +125,11 @@ const Index = () => {
         </div>
       </footer>
 
+      {/* Auto Timer */}
+      {showAutoTimer && <AutoTimer onComplete={handleAutoTimerComplete} />}
+      
       {/* Lead Form Modal */}
-      <LeadForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      <LeadForm isOpen={isFormOpen} onClose={handleFormClose} />
     </div>
   );
 };

@@ -17,18 +17,96 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   // const [isSubmitted, setIsSubmitted] = useState(false); // Disabled for testing
 
+  const formatWhatsAppNumber = (value: string) => {
+    // Remove all non-digit characters
+    const digitsOnly = value.replace(/\D/g, '');
+    
+    // If it doesn't start with a country code, add +1 (US/Canada default)
+    if (digitsOnly.length > 0 && !value.startsWith('+')) {
+      return '+1' + digitsOnly;
+    }
+    
+    // If it starts with +, preserve it
+    if (value.startsWith('+')) {
+      return '+' + digitsOnly;
+    }
+    
+    return value;
+  };
+
+  const validateWhatsApp = (value: string) => {
+    if (!value) return "El número de WhatsApp es requerido";
+    
+    // Must start with +
+    if (!value.startsWith('+')) {
+      return "El número debe comenzar con + seguido del código de país";
+    }
+    
+    // Remove + and check if all remaining are digits
+    const digits = value.slice(1);
+    if (!/^\d+$/.test(digits)) {
+      return "Solo se permiten números después del código de país";
+    }
+    
+    // Minimum length check (country code + number)
+    if (digits.length < 8) {
+      return "El número parece estar incompleto";
+    }
+    
+    // Maximum length check
+    if (digits.length > 15) {
+      return "El número es demasiado largo";
+    }
+    
+    return null;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+    
+    if (name === 'whatsapp') {
+      const formattedValue = formatWhatsAppNumber(value);
+      setFormData(prev => ({ ...prev, [name]: formattedValue }));
+      
+      // Validate WhatsApp in real-time
+      const whatsappError = validateWhatsApp(formattedValue);
+      if (whatsappError) {
+        setErrors(prev => ({ ...prev, whatsapp: whatsappError }));
+      } else {
+        setErrors(prev => ({ ...prev, whatsapp: "" }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+      // Clear error when user starts typing
+      if (errors[name]) {
+        setErrors(prev => ({ ...prev, [name]: "" }));
+      }
     }
   };
 
   const validateForm = () => {
-    // Validation disabled for testing
-    return true;
+    const newErrors: { [key: string]: string } = {};
+    
+    // Validate name
+    if (!formData.nombre.trim()) {
+      newErrors.nombre = "El nombre es requerido";
+    }
+    
+    // Validate WhatsApp
+    const whatsappError = validateWhatsApp(formData.whatsapp);
+    if (whatsappError) {
+      newErrors.whatsapp = whatsappError;
+    }
+    
+    // Validate email
+    if (!formData.correo.trim()) {
+      newErrors.correo = "El correo electrónico es requerido";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo)) {
+      newErrors.correo = "Ingresa un correo electrónico válido";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,8 +153,8 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-      <div className="bg-viralDark border border-viralOrange/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl shadow-viralOrange/10">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 px-4 animate-fade-in">
+      <div className="bg-viralDark border border-viralOrange/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl shadow-viralOrange/10 animate-scale-in">
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
