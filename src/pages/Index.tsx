@@ -18,6 +18,7 @@ const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showFormAfterVideo, setShowFormAfterVideo] = useState(false);
   const [showAutoTimer, setShowAutoTimer] = useState(true);
+  const [showCtaButton, setShowCtaButton] = useState(false);
   
 
   const openForm = () => {
@@ -26,19 +27,18 @@ const Index = () => {
 
   const handleAutoTimerComplete = () => {
     setShowAutoTimer(false);
-    setIsFormOpen(true);
+    setShowCtaButton(true);
   };
 
   const handleFormClose = () => {
     setIsFormOpen(false);
   };
 
-  // Listen for the custom event to show form after 1 minute
+  // Listen for the custom event to show CTA button after 1 minute
   useEffect(() => {
     const handleShowBooking = () => {
-      console.log("showBookingSection event received - showing form");
-      setShowFormAfterVideo(true);
-      // Remove auto-open to make it less invasive
+      console.log("showBookingSection event received - showing CTA button");
+      setShowCtaButton(true);
     };
 
     const handleOpenContactForm = () => {
@@ -90,6 +90,18 @@ const Index = () => {
             <div className="mb-16">
               <VideoPlayer onVideoEnd={() => {}} onContactRequest={openForm} />
             </div>
+
+            {/* CTA Button after timer */}
+            {showCtaButton && (
+              <div className="text-center mb-16">
+                <button
+                  onClick={openForm}
+                  className="bg-gradient-to-r from-viralOrange to-viralOrange/90 hover:from-viralOrange/90 hover:to-viralOrange text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-viralOrange/25 text-lg"
+                >
+                  ¡Obtener mi consulta gratuita ahora!
+                </button>
+              </div>
+            )}
 
           </div>
         </div>

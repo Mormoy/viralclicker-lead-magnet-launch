@@ -15,7 +15,7 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  // const [isSubmitted, setIsSubmitted] = useState(false); // Disabled for testing
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const formatWhatsAppNumber = (value: string) => {
     // Remove all non-digit characters
@@ -131,17 +131,12 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
       
       // Con no-cors no podemos verificar el status, asumimos que fue exitoso
       console.log("Datos enviados correctamente al webhook");
-      // Success handling disabled for testing
-      // setIsSubmitted(true);
-      // localStorage.setItem('viralclicker_submitted', 'true');
-      // setTimeout(() => {
-      //   onClose();
-      //   setIsSubmitted(false);
-      //   setFormData({ nombre: "", whatsapp: "", correo: "" });
-      // }, 3000);
-      
-      // For testing - just reset form
-      setFormData({ nombre: "", whatsapp: "", correo: "" });
+      setIsSubmitted(true);
+      setTimeout(() => {
+        onClose();
+        setIsSubmitted(false);
+        setFormData({ nombre: "", whatsapp: "", correo: "" });
+      }, 4000);
     } catch (error) {
       console.error("Error al enviar formulario:", error);
       setErrors({ submit: "Error al enviar el formulario. Inténtalo de nuevo." });
@@ -162,17 +157,20 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
           <X size={24} />
         </button>
         
-        {/* Success message disabled for testing */}
-        {false ? (
+        {/* Success message */}
+        {isSubmitted ? (
           <div className="text-center py-8">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500/30 to-green-600/30 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/40">
               <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">¡Excelente decisión!</h3>
-            <p className="text-white/80 text-base leading-relaxed">
-              Nuestro equipo se pondrá en contacto contigo muy pronto para tu consulta personalizada.
+            <h3 className="text-2xl font-bold text-white mb-4">¡Información enviada exitosamente!</h3>
+            <p className="text-white/80 text-base leading-relaxed mb-4">
+              Gracias por tu interés en nuestros servicios. Nuestro equipo de expertos se comunicará contigo en las próximas horas para coordinar tu consulta personalizada.
+            </p>
+            <p className="text-white/60 text-sm">
+              Mientras tanto, te invitamos a continuar explorando nuestra propuesta de valor.
             </p>
           </div>
         ) : (
