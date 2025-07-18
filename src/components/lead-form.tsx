@@ -172,17 +172,17 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">¡Excelente decisión!</h3>
             <p className="text-white/80 text-base leading-relaxed">
-              Nuestro equipo se pondrá en contacto contigo muy pronto para comenzar a automatizar tu negocio.
+              Nuestro equipo se pondrá en contacto contigo muy pronto para tu consulta personalizada.
             </p>
           </div>
         ) : (
           <>
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-white mb-3">
-                ¡Automatiza tu negocio hoy!
+                ¡Obtén tu consulta gratuita!
               </h2>
               <p className="text-white/80 leading-relaxed">
-                Déjanos tus datos y nuestro sistema comenzará a trabajar por ti en segundos.
+                Déjanos tus datos y nuestro equipo de expertos te contactará para una evaluación personalizada.
               </p>
             </div>
             
@@ -271,9 +271,9 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
                     </svg>
                     Procesando...
                   </span>
-                ) : (
-                  "Quiero automatizar mi negocio"
-                )}
+                 ) : (
+                   "Solicitar consulta gratuita"
+                 )}
               </button>
               
               <div className="text-center pt-2">
