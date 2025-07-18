@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Logo from '@/components/logo';
 import CountdownTimer from '@/components/countdown-timer';
 import LeadForm from '@/components/lead-form';
-import InlineLeadForm from '@/components/inline-lead-form';
+
 import AutoTimer from '@/components/auto-timer';
 import VideoPlayer from '@/components/video-player';
 import TestimonialSection from '@/components/testimonial-section';
@@ -18,7 +18,7 @@ const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showFormAfterVideo, setShowFormAfterVideo] = useState(false);
   const [showAutoTimer, setShowAutoTimer] = useState(true);
-  const [showInlineForm, setShowInlineForm] = useState(false);
+  
 
   const openForm = () => {
     setIsFormOpen(true);
@@ -31,7 +31,6 @@ const Index = () => {
 
   const handleFormClose = () => {
     setIsFormOpen(false);
-    setShowInlineForm(true); // Show inline form after closing popup
   };
 
   // Listen for the custom event to show form after 1 minute
@@ -95,8 +94,6 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Inline Lead Form Section - Only show after popup is closed */}
-        {showInlineForm && <InlineLeadForm />}
         
         {/* What is ViralClicker Section */}
         <WhatIsViralClicker />
