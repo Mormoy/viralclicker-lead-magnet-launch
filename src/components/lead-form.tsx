@@ -177,11 +177,30 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
           <>
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-white mb-3">
-                ¡Obtén tu consulta gratuita!
+                ¡Transforma tu negocio con ViralClicker!
               </h2>
-              <p className="text-white/80 leading-relaxed">
-                Déjanos tus datos y nuestro equipo de expertos te contactará para una evaluación personalizada.
+              <p className="text-white/80 leading-relaxed mb-6">
+                Únete a miles de emprendedores que ya están multiplicando sus ventas con nuestro sistema automatizado de generación de leads
               </p>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="flex items-center gap-2 p-3 rounded-lg border border-viralOrange/30 bg-viralOrange/10">
+                  <div className="w-2 h-2 bg-viralOrange rounded-full"></div>
+                  <span className="text-white text-sm font-medium">Sistema probado</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 rounded-lg border border-viralOrange/30 bg-viralOrange/10">
+                  <div className="w-2 h-2 bg-viralOrange rounded-full"></div>
+                  <span className="text-white text-sm font-medium">100% automatizado</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 rounded-lg border border-viralOrange/30 bg-viralOrange/10">
+                  <div className="w-2 h-2 bg-viralOrange rounded-full"></div>
+                  <span className="text-white text-sm font-medium">Leads de calidad</span>
+                </div>
+                <div className="flex items-center gap-2 p-3 rounded-lg border border-viralOrange/30 bg-viralOrange/10">
+                  <div className="w-2 h-2 bg-viralOrange rounded-full"></div>
+                  <span className="text-white text-sm font-medium">Soporte 24/7</span>
+                </div>
+              </div>
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
