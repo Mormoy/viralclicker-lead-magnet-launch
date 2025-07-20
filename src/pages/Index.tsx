@@ -91,17 +91,6 @@ const Index = () => {
               <VideoPlayer onVideoEnd={() => {}} onContactRequest={openForm} />
             </div>
 
-            {/* CTA Button after timer */}
-            {showCtaButton && (
-              <div className="text-center mb-16">
-                <button
-                  onClick={openForm}
-                  className="bg-gradient-to-r from-viralOrange to-viralOrange/90 hover:from-viralOrange/90 hover:to-viralOrange text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-viralOrange/25 text-lg"
-                >
-                  ¡Obtener mi consulta gratuita ahora!
-                </button>
-              </div>
-            )}
 
           </div>
         </div>
