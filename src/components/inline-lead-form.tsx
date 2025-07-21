@@ -22,8 +22,22 @@ const InlineLeadForm = () => {
   };
 
   const validateForm = () => {
-    // Validation disabled for testing
-    return true;
+    const newErrors: { [key: string]: string } = {};
+    
+    if (!formData.nombre.trim()) {
+      newErrors.nombre = "El nombre es requerido";
+    }
+    if (!formData.whatsapp.trim()) {
+      newErrors.whatsapp = "El WhatsApp es requerido";
+    }
+    if (!formData.correo.trim()) {
+      newErrors.correo = "El correo es requerido";
+    } else if (!/\S+@\S+\.\S+/.test(formData.correo)) {
+      newErrors.correo = "El correo no es válido";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
