@@ -35,9 +35,9 @@ const InlineLeadForm = () => {
     
     try {
       console.log("Enviando datos:", formData);
-      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook-test/Viralclicker");
+      console.log("URL del webhook:", "https://mormoy.app.n8n.cloud/webhook/Viralclicker");
       
-      const response = await fetch("https://mormoy.app.n8n.cloud/webhook-test/Viralclicker", {
+      const response = await fetch("https://mormoy.app.n8n.cloud/webhook/Viralclicker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
