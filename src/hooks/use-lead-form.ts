@@ -73,10 +73,10 @@ export const useLeadForm = (onSuccess?: () => void) => {
     };
     
     console.log("Enviando datos al webhook:", payload);
-    console.log("URL del webhook:", 'https://mormoy.app.n8n.cloud/webhook-test/viralcliker');
+    console.log("URL del webhook:", 'https://mormoy.app.n8n.cloud/webhook/Viralclicker');
     
     try {
-      const response = await fetch('https://mormoy.app.n8n.cloud/webhook-test/viralcliker', {
+      const response = await fetch('https://mormoy.app.n8n.cloud/webhook/Viralclicker', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
