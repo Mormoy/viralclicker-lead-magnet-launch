@@ -125,13 +125,17 @@ const LeadForm = ({ isOpen, onClose }: LeadFormProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        mode: "no-cors",
         body: JSON.stringify(formData),
       });
       
-      // Con no-cors no podemos verificar el status, asumimos que fue exitoso
-      console.log("Datos enviados correctamente al webhook");
-      setIsSubmitted(true);
+      console.log("Respuesta del webhook:", response.status);
+      
+      if (response.ok) {
+        console.log("Datos enviados correctamente al webhook");
+        setIsSubmitted(true);
+      } else {
+        throw new Error(`Error del servidor: ${response.status}`);
+      }
       setTimeout(() => {
         onClose();
         setIsSubmitted(false);

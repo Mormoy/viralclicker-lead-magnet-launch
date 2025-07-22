@@ -56,16 +56,20 @@ const InlineLeadForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        mode: "no-cors",
         body: JSON.stringify(formData),
       });
       
-      // Con no-cors no podemos verificar el status, asumimos que fue exitoso
-      console.log("Datos enviados correctamente al webhook");
-      // Success handling disabled for testing
-      // setIsSubmitted(true);
-      // localStorage.setItem('viralclicker_submitted', 'true');
-      setFormData({ nombre: "", whatsapp: "", correo: "" });
+      console.log("Respuesta del webhook:", response.status);
+      
+      if (response.ok) {
+        console.log("Datos enviados correctamente al webhook");
+        // Success handling disabled for testing
+        // setIsSubmitted(true);
+        // localStorage.setItem('viralclicker_submitted', 'true');
+        setFormData({ nombre: "", whatsapp: "", correo: "" });
+      } else {
+        throw new Error(`Error del servidor: ${response.status}`);
+      }
     } catch (error) {
       console.error("Error al enviar formulario:", error);
       setErrors({ submit: "Error al enviar el formulario. Inténtalo de nuevo." });
