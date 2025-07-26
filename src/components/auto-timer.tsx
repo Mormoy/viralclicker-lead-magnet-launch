@@ -41,7 +41,7 @@ const AutoTimer: React.FC<AutoTimerProps> = ({ onComplete, duration = 60 }) => {
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 bg-viralOrange rounded-full animate-pulse"></div>
         <span className="text-white text-sm font-medium">
-          Oferta especial termina en: {formatTime(timeLeft)}
+          Oferta especial comienza en: {formatTime(timeLeft)}
         </span>
       </div>
     </div>
