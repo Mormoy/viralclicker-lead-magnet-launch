@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          session_token: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          session_token: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          session_token?: string
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           action: string
@@ -724,6 +745,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      testimonials: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          image_url: string | null
+          message: string
+          name: string
+          position: string | null
+          rating: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          image_url?: string | null
+          message: string
+          name: string
+          position?: string | null
+          rating: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          image_url?: string | null
+          message?: string
+          name?: string
+          position?: string | null
+          rating?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       units: {
         Row: {
