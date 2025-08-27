@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,42 +10,53 @@ import {
   CarouselPrevious
 } from '@/components/ui/carousel';
 import VideoCountdown from '@/components/video-countdown';
+import { supabase } from "@/integrations/supabase/client";
 
 type TestimonialProps = {
+  id: string;
   name: string;
-  position: string;
-  quote: string;
-  imageSrc: string;
+  position: string | null;
+  company: string | null;
+  message: string;
   rating: number;
+  image_url: string | null;
 };
 
-const testimonials: TestimonialProps[] = [
+const defaultTestimonials: TestimonialProps[] = [
   {
+    id: "default-1",
     name: "María González",
-    position: "CEO de MarketingPro",
-    quote: "Gracias a ViralClicker hemos aumentado nuestras conversiones en un 150% en solo 3 meses. El equipo fue excepcional desde el primer día.",
-    imageSrc: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300",
+    position: "CEO",
+    company: "MarketingPro",
+    message: "Gracias a ViralClicker hemos aumentado nuestras conversiones en un 150% en solo 3 meses. El equipo fue excepcional desde el primer día.",
+    image_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300",
     rating: 5
   },
   {
+    id: "default-2",
     name: "Carlos Mendez",
-    position: "Director de Ventas en TechSoluciones",
-    quote: "La calidad de los leads generados superó nuestras expectativas. Definitivamente volveremos a trabajar con ellos. Su enfoque estratégico marcó la diferencia.",
-    imageSrc: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300&h=300",
+    position: "Director de Ventas",
+    company: "TechSoluciones",
+    message: "La calidad de los leads generados superó nuestras expectativas. Definitivamente volveremos a trabajar con ellos. Su enfoque estratégico marcó la diferencia.",
+    image_url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300&h=300",
     rating: 5
   },
   {
+    id: "default-3",
     name: "Ana Rodríguez",
-    position: "Fundadora de eCommerce Plus",
-    quote: "El retorno de inversión fue inmediato. En menos de un mes recuperamos lo invertido y seguimos creciendo. La mejor inversión para nuestro negocio.",
-    imageSrc: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300&h=300",
+    position: "Fundadora",
+    company: "eCommerce Plus",
+    message: "El retorno de inversión fue inmediato. En menos de un mes recuperamos lo invertido y seguimos creciendo. La mejor inversión para nuestro negocio.",
+    image_url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300&h=300",
     rating: 5
   },
   {
+    id: "default-4",
     name: "Roberto Jiménez",
     position: "Director de Marketing Digital",
-    quote: "ViralClicker transformó nuestra estrategia digital por completo. Los resultados fueron inmediatos y el equipo de soporte es excepcional.",
-    imageSrc: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300",
+    company: null,
+    message: "ViralClicker transformó nuestra estrategia digital por completo. Los resultados fueron inmediatos y el equipo de soporte es excepcional.",
+    image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300",
     rating: 5
   }
 ];
@@ -54,6 +64,44 @@ const testimonials: TestimonialProps[] = [
 const TestimonialSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isCountdownActive, setIsCountdownActive] = useState(true);
+  const [testimonials, setTestimonials] = useState<TestimonialProps[]>(defaultTestimonials);
+
+  useEffect(() => {
+    fetchApprovedTestimonials();
+  }, []);
+
+  const fetchApprovedTestimonials = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .eq('status', 'approved')
+        .order('approved_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching testimonials:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const formattedTestimonials = data.map(item => ({
+          id: item.id,
+          name: item.name,
+          position: item.position,
+          company: item.company,
+          message: item.message,
+          rating: item.rating,
+          image_url: item.image_url || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300"
+        }));
+
+        // Combinar testimonios aprobados con los por defecto
+        setTestimonials([...formattedTestimonials, ...defaultTestimonials]);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const visibleTestimonials = testimonials.slice(activeIndex, activeIndex + 3);
 
   const handlePrev = () => {
@@ -75,6 +123,13 @@ const TestimonialSection = () => {
         damping: 12
       }
     }
+  };
+
+  const getDisplayName = (testimonial: TestimonialProps) => {
+    if (testimonial.position && testimonial.company) {
+      return `${testimonial.position}, ${testimonial.company}`;
+    }
+    return testimonial.position || testimonial.company || "Cliente";
   };
 
   return (
@@ -134,7 +189,7 @@ const TestimonialSection = () => {
                         <div className="flex justify-center mb-6">
                           <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-viralOrange">
                             <img 
-                              src={testimonial.imageSrc} 
+                              src={testimonial.image_url || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300"} 
                               alt={testimonial.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -153,11 +208,11 @@ const TestimonialSection = () => {
                           ))}
                         </div>
                         
-                        <p className="text-white/90 italic text-center mb-6 flex-grow">"{testimonial.quote}"</p>
+                        <p className="text-white/90 italic text-center mb-6 flex-grow">"{testimonial.message}"</p>
                         
                         <div className="text-center">
                           <h4 className="font-bold text-white text-lg">{testimonial.name}</h4>
-                          <p className="text-viralOrange text-sm">{testimonial.position}</p>
+                          <p className="text-viralOrange text-sm">{getDisplayName(testimonial)}</p>
                         </div>
                       </div>
                     </Card>
@@ -186,7 +241,7 @@ const TestimonialSection = () => {
                         <div className="flex justify-center mb-4">
                           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-viralOrange">
                             <img 
-                              src={testimonial.imageSrc} 
+                              src={testimonial.image_url || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300"} 
                               alt={testimonial.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -205,11 +260,11 @@ const TestimonialSection = () => {
                           ))}
                         </div>
                         
-                        <p className="text-white/90 italic text-center mb-4 flex-grow text-sm">"{testimonial.quote}"</p>
+                        <p className="text-white/90 italic text-center mb-4 flex-grow text-sm">"{testimonial.message}"</p>
                         
                         <div className="text-center">
                           <h4 className="font-bold text-white text-base">{testimonial.name}</h4>
-                          <p className="text-viralOrange text-xs">{testimonial.position}</p>
+                          <p className="text-viralOrange text-xs">{getDisplayName(testimonial)}</p>
                         </div>
                       </div>
                     </Card>
