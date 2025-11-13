@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import AIAgent from "./pages/AIAgent";
 import NotFound from "./pages/NotFound";
 import TestimonialSubmission from "./pages/Testimonial";
 import AdminPanel from "./pages/Admin";
@@ -19,6 +20,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/agente-ia" element={<AIAgent />} />
           <Route path="/testimonio" element={<TestimonialSubmission />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<NotFound />} />
