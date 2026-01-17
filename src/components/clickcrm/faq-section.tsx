@@ -7,32 +7,36 @@ import {
 
 const faqs = [
   {
-    question: "¿Puedo usarlo si ya atiendo por WhatsApp?",
-    answer: "¡Sí! ClickCRM se integra con tu flujo actual de WhatsApp. No reemplaza tu WhatsApp, sino que lo organiza mejor. Tendrás plantillas predefinidas, estados de cada cliente y recordatorios para hacer seguimiento."
+    question: "¿Cuánto demora la implementación?",
+    answer: "7 días hábiles desde que recibes tu onboarding. En ese tiempo configuramos tu landing, cotizador, CRM y automatizaciones básicas. Planes Elite pueden incluir funcionalidades adicionales que toman 1-2 semanas más."
   },
   {
-    question: "¿Cuánto se demora en implementar?",
-    answer: "Depende del plan y la complejidad de tu negocio. El plan Starter puede estar listo en 3-5 días. Los planes Pro y Elite incluyen un onboarding más completo que puede tomar 1-2 semanas para tener todo funcionando perfectamente."
-  },
-  {
-    question: "¿Necesito diseñador o programador?",
-    answer: "No. Nosotros nos encargamos de todo: diseño de la landing, configuración del cotizador, CRM y automatizaciones. Solo necesitamos tu logo, colores y la información de tus productos o servicios."
-  },
-  {
-    question: "¿Se puede adaptar a mi rubro?",
-    answer: "¡Absolutamente! El cotizador se personaliza según tu negocio: medidas para cortinas, fechas para eventos, tipos de instalación, etc. Trabajamos con empresas de cortinas, eventos, instalaciones, muebles y muchos más rubros."
+    question: "¿Cómo funciona el pago?",
+    answer: "Pagas tu plan mensual con tarjeta de crédito/débito a través de Stripe. Recibes factura/recibo automático en tu correo. El pago se renueva automáticamente cada mes."
   },
   {
     question: "¿Twilio/WhatsApp lo pago yo?",
-    answer: "Sí. Los costos de mensajería de Twilio/WhatsApp Business API son pagados directamente por ti. Esto te da control total sobre tus gastos y la facturación es directa con Twilio. Nosotros solo configuramos e integramos todo."
+    answer: "Sí. Los costos de mensajería de Twilio/WhatsApp Business API son pagados directamente por ti. Esto te da control total sobre tus gastos. Nosotros solo configuramos e integramos todo el sistema."
   },
   {
-    question: "¿Puedo exportar mis datos?",
-    answer: "Sí, todos los planes incluyen exportación a CSV. Tu información siempre es tuya y puedes descargarla cuando quieras: leads, cotizaciones, clientes y todas las métricas."
+    question: "¿Recibo factura/recibo?",
+    answer: "Sí. Stripe envía automáticamente un recibo a tu correo después de cada pago. Si necesitas factura formal, contáctanos por WhatsApp."
+  },
+  {
+    question: "¿Cómo se firma el contrato?",
+    answer: "Después de pagar, llegas a una página donde puedes aceptar los términos digitalmente o firmar el contrato vía link externo. Quedará registrado con timestamp."
+  },
+  {
+    question: "¿Qué pasa después de pagar?",
+    answer: "1) Recibes tu recibo por correo, 2) Aceptas el contrato de servicio, 3) Agendas tu onboarding en Calendly, 4) Preparas tu logo, colores y catálogo, 5) En 7 días tienes tu sistema funcionando."
+  },
+  {
+    question: "¿Puedo usarlo si ya atiendo por WhatsApp?",
+    answer: "¡Sí! Viral Clicker se integra con tu flujo actual de WhatsApp. No reemplaza tu WhatsApp, sino que lo organiza mejor con plantillas, estados y seguimiento."
   },
   {
     question: "¿Qué incluye 'cambios menores'?",
-    answer: "Los cambios menores son ajustes a módulos ya existentes: textos en la landing, campos del formulario, plantillas de WhatsApp, configuración de estados del CRM, etc. No incluye desarrollo de nuevas funcionalidades o integraciones que no estén en tu plan."
+    answer: "Ajustes en textos de la landing, campos del formulario, plantillas de WhatsApp, configuración de estados del CRM. No incluye desarrollo de nuevas funcionalidades."
   }
 ];
 

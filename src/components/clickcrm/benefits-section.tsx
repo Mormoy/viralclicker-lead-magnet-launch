@@ -1,35 +1,35 @@
-import { Zap, TrendingUp, Clock, BarChart3, MessageCircle, Shield } from 'lucide-react';
+import { Link, TrendingUp, Clock, Percent, MessageCircle, BarChart3 } from 'lucide-react';
 
 const benefits = [
   {
-    icon: Zap,
-    title: "Respuesta inmediata",
-    description: "Captura leads 24/7 con landing y formularios inteligentes que notifican al instante."
+    icon: Link,
+    title: "Cotización viva con link",
+    description: "Cada cotización tiene un link único que el cliente puede ver, modificar y aprobar. Sin PDF estáticos."
   },
   {
-    icon: TrendingUp,
-    title: "Más cierres",
-    description: "Seguimiento automatizado que mantiene a tus clientes calientes hasta el cierre."
-  },
-  {
-    icon: Clock,
-    title: "Ahorra tiempo",
-    description: "Cotizaciones con un clic, plantillas de WhatsApp listas y flujos automatizados."
-  },
-  {
-    icon: BarChart3,
-    title: "Control total",
-    description: "Dashboard con métricas claras: cuántos leads, cotizaciones y ventas cerradas."
+    icon: Percent,
+    title: "Cupones sobre cotizaciones",
+    description: "Crea códigos de descuento y aplícalos directamente sobre cotizaciones activas. Ideal para cerrar ventas."
   },
   {
     icon: MessageCircle,
-    title: "WhatsApp organizado",
-    description: "Cada cliente en su estado correcto: Pendiente, Seguimiento, Cerrada o Archivada."
+    title: "Campañas internas por WhatsApp",
+    description: "Envía promociones y seguimientos masivos a tu base de leads directo desde el CRM."
   },
   {
-    icon: Shield,
-    title: "Datos seguros",
-    description: "Tu información siempre respaldada y accesible desde cualquier dispositivo."
+    icon: BarChart3,
+    title: "Tracking post-venta",
+    description: "Monitorea el estado de cada cliente después de la venta: instalación, pago, satisfacción."
+  },
+  {
+    icon: TrendingUp,
+    title: "Más cierres, menos fugas",
+    description: "Seguimiento automatizado que mantiene a tus clientes calientes hasta que cierren."
+  },
+  {
+    icon: Clock,
+    title: "Implementación en 7 días",
+    description: "Tu sistema listo y funcionando en una semana. Sin esperas eternas ni proyectos interminables."
   }
 ];
 
@@ -39,10 +39,10 @@ const BenefitsSection = () => {
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Beneficios que transforman tu negocio
+            ¿Por qué Viral Clicker?
           </h2>
           <p className="text-white/70 text-lg">
-            Todo lo que necesitas para vender más y perder menos oportunidades
+            Las herramientas que necesitas para vender más por WhatsApp
           </p>
         </div>
 

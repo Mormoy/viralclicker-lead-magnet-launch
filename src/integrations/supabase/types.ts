@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      clients: {
+        Row: {
+          calendly_event_date: string | null
+          calendly_event_url: string | null
+          ciudad: string | null
+          contrato_aceptado: boolean | null
+          contrato_timestamp: string | null
+          correo: string
+          created_at: string
+          empresa: string
+          estado: string
+          id: string
+          monto: number
+          nombre: string
+          notas: string | null
+          plan: string
+          stripe_customer_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          webhook_n8n_url: string | null
+          whatsapp: string
+        }
+        Insert: {
+          calendly_event_date?: string | null
+          calendly_event_url?: string | null
+          ciudad?: string | null
+          contrato_aceptado?: boolean | null
+          contrato_timestamp?: string | null
+          correo: string
+          created_at?: string
+          empresa: string
+          estado?: string
+          id?: string
+          monto: number
+          nombre: string
+          notas?: string | null
+          plan: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          webhook_n8n_url?: string | null
+          whatsapp: string
+        }
+        Update: {
+          calendly_event_date?: string | null
+          calendly_event_url?: string | null
+          ciudad?: string | null
+          contrato_aceptado?: boolean | null
+          contrato_timestamp?: string | null
+          correo?: string
+          created_at?: string
+          empresa?: string
+          estado?: string
+          id?: string
+          monto?: number
+          nombre?: string
+          notas?: string | null
+          plan?: string
+          stripe_customer_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          webhook_n8n_url?: string | null
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      integrations_settings: {
+        Row: {
+          calendly_url: string | null
+          contract_url: string | null
+          created_at: string
+          id: string
+          updated_at: string
+          webhook_n8n_url: string | null
+        }
+        Insert: {
+          calendly_url?: string | null
+          contract_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          webhook_n8n_url?: string | null
+        }
+        Update: {
+          calendly_url?: string | null
+          contract_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          webhook_n8n_url?: string | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           ciudad: string
