@@ -10,10 +10,14 @@ import PricingSection from '@/components/clickcrm/pricing-section';
 import FaqSection from '@/components/clickcrm/faq-section';
 import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
+import UrgencyBanner from '@/components/clickcrm/urgency-banner';
 
 const ViralClicker = () => {
   return (
     <div className="min-h-screen bg-viralDark flex flex-col">
+      {/* Urgency Banner Top */}
+      <UrgencyBanner variant="full" />
+
       {/* Header */}
       <header className="p-4 bg-viralDark border-b border-gray-800 sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center">
@@ -34,6 +38,9 @@ const ViralClicker = () => {
         {/* Problem Section */}
         <ProblemSection />
         
+        {/* Urgency Banner - After Problem */}
+        <UrgencyBanner variant="compact" />
+        
         {/* Benefits Section */}
         <BenefitsSection />
         
@@ -43,6 +50,9 @@ const ViralClicker = () => {
         {/* Features Section */}
         <FeaturesSection />
         
+        {/* Urgency Banner - Before Pricing */}
+        <UrgencyBanner variant="compact" showButton={false} />
+        
         {/* Results Section */}
         <ResultsSection />
         
@@ -51,6 +61,9 @@ const ViralClicker = () => {
         
         {/* FAQ Section */}
         <FaqSection />
+        
+        {/* Urgency Banner - Before Contact */}
+        <UrgencyBanner variant="compact" />
         
         {/* Contact Form Section */}
         <ContactFormSection />
@@ -72,6 +85,9 @@ const ViralClicker = () => {
 
       {/* WhatsApp Floating Button */}
       <WhatsAppButton />
+      
+      {/* Floating Urgency Banner */}
+      <UrgencyBanner variant="floating" />
     </div>
   );
 };
