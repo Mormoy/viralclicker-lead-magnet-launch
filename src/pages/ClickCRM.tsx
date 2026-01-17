@@ -11,7 +11,7 @@ import FaqSection from '@/components/clickcrm/faq-section';
 import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 
-const ClickCRM = () => {
+const ViralClicker = () => {
   return (
     <div className="min-h-screen bg-viralDark flex flex-col">
       {/* Header */}
@@ -19,13 +19,13 @@ const ClickCRM = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Logo />
-            <span className="text-viralOrange font-bold text-xl hidden sm:block">ClickCRM</span>
+            <span className="text-viralOrange font-bold text-xl hidden sm:block">Viral Clicker</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">Cómo funciona</a>
             <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Funcionalidades</a>
             <a href="#planes" className="text-white/80 hover:text-white transition-colors">Planes</a>
-            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Agendar demo</a>
+            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Empezar ahora</a>
           </nav>
         </div>
       </header>
@@ -64,7 +64,7 @@ const ClickCRM = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-white/60 text-center md:text-left text-sm">
-              © 2025 ClickCRM by Viral Clicker. Todos los derechos reservados.
+              © 2025 Viral Clicker. Todos los derechos reservados.
             </div>
             <div className="text-white/40 text-sm">
               Hecho con ❤️ por el equipo de MORMOY
@@ -79,4 +79,4 @@ const ClickCRM = () => {
   );
 };
 
-export default ClickCRM;
+export default ViralClicker;

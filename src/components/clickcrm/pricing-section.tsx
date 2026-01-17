@@ -1,8 +1,10 @@
 import { Check, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const plans = [
   {
+    id: 'starter',
     name: "Starter",
     price: "$99",
     period: "/mes",
@@ -19,6 +21,7 @@ const plans = [
     ]
   },
   {
+    id: 'pro',
     name: "Pro",
     price: "$249",
     period: "/mes",
@@ -26,16 +29,17 @@ const plans = [
     popular: true,
     features: [
       "Todo de Starter +",
-      "Cotizador personalizado",
+      "Cotizador personalizado con link vivo",
+      "Cupones sobre cotizaciones",
       "Automatizaciones base (n8n)",
-      "Integración Google Sheets/Airtable",
+      "Campañas internas WhatsApp",
       "Reportes de conversión",
-      "Cupones y campañas",
       "30 min quincenal de soporte",
       "2 cambios menores/mes"
     ]
   },
   {
+    id: 'elite',
     name: "Elite",
     price: "$449",
     period: "/mes",
@@ -43,20 +47,22 @@ const plans = [
     popular: false,
     features: [
       "Todo de Pro +",
+      "Tracking post-venta completo",
       "Automatización avanzada",
       "Integración Calendly",
       "Multiusuario (si aplica)",
       "Soporte prioritario",
       "Onboarding: 30 min/semana x4",
-      "Luego: 30 min quincenal",
       "3 cambios menores/mes"
     ]
   }
 ];
 
 const PricingSection = () => {
-  const scrollToContact = () => {
-    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  const navigate = useNavigate();
+
+  const handleSelectPlan = (planId: string) => {
+    navigate(`/checkout?plan=${planId}`);
   };
 
   return (
@@ -108,17 +114,29 @@ const PricingSection = () => {
               </ul>
 
               <Button 
-                onClick={scrollToContact}
+                onClick={() => handleSelectPlan(plan.id)}
                 className={`w-full ${
                   plan.popular 
                     ? 'bg-viralOrange hover:bg-viralOrange/90' 
                     : 'bg-gray-700 hover:bg-gray-600'
                 }`}
               >
-                Elegir {plan.name}
+                Empezar ahora
               </Button>
             </div>
           ))}
+        </div>
+
+        {/* Setup note */}
+        <div className="max-w-3xl mx-auto mb-6">
+          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-4 text-center">
+            <p className="text-white font-medium">
+              💼 <span className="text-viralOrange">Setup inicial</span>: Pago único desde $500 según complejidad
+            </p>
+            <p className="text-white/60 text-sm mt-1">
+              Incluye diseño de landing, configuración de cotizador y CRM, onboarding personalizado
+            </p>
+          </div>
         </div>
 
         {/* Important notes */}
@@ -128,11 +146,11 @@ const PricingSection = () => {
             <ul className="space-y-2 text-white/60 text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-viralOrange">•</span>
-                <span><strong className="text-white/80">Twilio/WhatsApp:</strong> Los costos de mensajería se pagan directo por el cliente. Nosotros solo implementamos e integramos.</span>
+                <span><strong className="text-white/80">Twilio/WhatsApp:</strong> Los costos de mensajería se pagan directo por el cliente. Viral Clicker implementa e integra.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-viralOrange">•</span>
-                <span><strong className="text-white/80">Setup inicial:</strong> El costo de implementación se cotiza según la complejidad de tu negocio (desde $500).</span>
+                <span><strong className="text-white/80">Facturación:</strong> Recibes recibo/factura automático por email después de cada pago.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-viralOrange">•</span>
