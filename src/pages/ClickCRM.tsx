@@ -17,10 +17,7 @@ const ViralClicker = () => {
       {/* Header */}
       <header className="p-4 bg-viralDark border-b border-gray-800 sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Logo />
-            <span className="text-viralOrange font-bold text-xl hidden sm:block">Viral Clicker</span>
-          </div>
+          <Logo />
           <nav className="hidden md:flex items-center gap-6">
             <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">Cómo funciona</a>
             <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Funcionalidades</a>
