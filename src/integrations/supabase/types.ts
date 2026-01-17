@@ -56,6 +56,51 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          image_url: string | null
+          message: string
+          name: string
+          position: string | null
+          rating: number
+          status: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          image_url?: string | null
+          message: string
+          name: string
+          position?: string | null
+          rating?: number
+          status?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          image_url?: string | null
+          message?: string
+          name?: string
+          position?: string | null
+          rating?: number
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

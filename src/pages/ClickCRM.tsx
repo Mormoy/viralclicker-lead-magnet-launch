@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+
 import Logo from '@/components/logo';
 import HeroSection from '@/components/clickcrm/hero-section';
 import ProblemSection from '@/components/clickcrm/problem-section';
