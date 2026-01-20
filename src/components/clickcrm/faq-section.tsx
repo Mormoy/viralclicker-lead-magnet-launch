@@ -7,40 +7,52 @@ import {
 
 const faqs = [
   {
+    question: "¿Necesito WhatsApp Business API o sirve WhatsApp normal?",
+    answer: "Para las automatizaciones y campañas, usamos WhatsApp Business API a través de Twilio. Esto requiere un número verificado, pero te da mensajes masivos, plantillas aprobadas y tracking profesional. WhatsApp normal no soporta estas funcionalidades."
+  },
+  {
+    question: "¿Qué costos paga el cliente (Twilio/Meta) y cuáles están incluidos?",
+    answer: "Tu plan de Viral Clicker incluye: hosting de la landing, mantenimiento del sistema, soporte y mejoras menores. Los costos de mensajería de Twilio/WhatsApp Business API los pagas tú directamente a Twilio. Esto te da control total sobre tus gastos de mensajería."
+  },
+  {
     question: "¿Cuánto demora la implementación?",
-    answer: "7 días hábiles desde que recibes tu onboarding. En ese tiempo configuramos tu landing, cotizador, CRM y automatizaciones básicas. Planes Elite pueden incluir funcionalidades adicionales que toman 1-2 semanas más."
+    answer: "7 días hábiles desde tu onboarding. En ese tiempo configuramos tu landing, cotizador, CRM y automatizaciones. Planes Elite con funcionalidades adicionales pueden tomar 1-2 semanas más."
+  },
+  {
+    question: "¿Puedo usar mi propio dominio?",
+    answer: "Sí. Puedes conectar tu dominio existente (ej: cotizaciones.tuempresa.com) o te ayudamos a configurar uno nuevo. El costo del dominio corre por tu cuenta, pero la configuración está incluida."
+  },
+  {
+    question: "¿Puedo partir sin automatizaciones y escalar después?",
+    answer: "¡Sí! Puedes empezar con el plan Starter (sin automatizaciones) y cuando estés listo, escalar a Pro o Elite. La migración es fluida y tus datos se mantienen intactos."
+  },
+  {
+    question: "¿Qué pasa si ya tengo web o CRM?",
+    answer: "Viral Clicker funciona de forma independiente. Si tienes web, puedes agregar un botón/link a tu cotizador. Si tienes CRM, evaluamos si conviene integrar o usar Viral Clicker en paralelo para el proceso de cotización."
+  },
+  {
+    question: "¿Dónde quedan mis datos?",
+    answer: "Tus datos quedan en servidores seguros con encriptación. Tienes acceso completo a exportar tus leads, clientes y cotizaciones en cualquier momento. Si decides cancelar, te entregamos un respaldo completo."
   },
   {
     question: "¿Cómo funciona el pago?",
-    answer: "Pagas tu plan mensual con tarjeta de crédito/débito a través de Stripe. Recibes factura/recibo automático en tu correo. El pago se renueva automáticamente cada mes."
+    answer: "Pagas tu plan mensual con tarjeta (crédito/débito) a través de Stripe. Recibes recibo automático en tu correo. El pago se renueva cada mes. Puedes cancelar cuando quieras."
   },
   {
-    question: "¿Twilio/WhatsApp lo pago yo?",
-    answer: "Sí. Los costos de mensajería de Twilio/WhatsApp Business API son pagados directamente por ti. Esto te da control total sobre tus gastos. Nosotros solo configuramos e integramos todo el sistema."
+    question: "¿Qué incluye el setup inicial?",
+    answer: "El setup ($500+ según complejidad) incluye: diseño de tu landing personalizada, configuración del cotizador con tus productos/servicios, setup del CRM, integración con WhatsApp Business API, y onboarding personalizado."
   },
   {
-    question: "¿Recibo factura/recibo?",
-    answer: "Sí. Stripe envía automáticamente un recibo a tu correo después de cada pago. Si necesitas factura formal, contáctanos por WhatsApp."
-  },
-  {
-    question: "¿Cómo se firma el contrato?",
-    answer: "Después de pagar, llegas a una página donde puedes aceptar los términos digitalmente o firmar el contrato vía link externo. Quedará registrado con timestamp."
-  },
-  {
-    question: "¿Qué pasa después de pagar?",
-    answer: "1) Recibes tu recibo por correo, 2) Aceptas el contrato de servicio, 3) Agendas tu onboarding en Calendly, 4) Preparas tu logo, colores y catálogo, 5) En 7 días tienes tu sistema funcionando."
-  },
-  {
-    question: "¿Puedo usarlo si ya atiendo por WhatsApp?",
-    answer: "¡Sí! Viral Clicker se integra con tu flujo actual de WhatsApp. No reemplaza tu WhatsApp, sino que lo organiza mejor con plantillas, estados y seguimiento."
-  },
-  {
-    question: "¿Qué incluye 'cambios menores'?",
-    answer: "Ajustes en textos de la landing, campos del formulario, plantillas de WhatsApp, configuración de estados del CRM. No incluye desarrollo de nuevas funcionalidades."
+    question: "¿Qué son 'cambios menores'?",
+    answer: "Ajustes en textos de la landing, campos del formulario, plantillas de WhatsApp, configuración de estados del CRM. No incluye desarrollo de nuevas funcionalidades ni rediseños completos."
   }
 ];
 
 const FaqSection = () => {
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/56912345678?text=Hola,%20tengo%20una%20pregunta%20sobre%20Viral%20Clicker', '_blank');
+  };
+
   return (
     <section className="py-16 px-4 bg-gray-900/50">
       <div className="container mx-auto">
@@ -49,7 +61,7 @@ const FaqSection = () => {
             Preguntas frecuentes
           </h2>
           <p className="text-white/70 text-lg">
-            Resolvemos tus dudas más comunes
+            Resolvemos tus dudas antes de empezar
           </p>
         </div>
 
@@ -70,6 +82,18 @@ const FaqSection = () => {
               </AccordionItem>
             ))}
           </Accordion>
+        </div>
+
+        <div className="text-center mt-8">
+          <p className="text-white/50 text-sm mb-3">
+            ¿Tienes otra pregunta?
+          </p>
+          <button 
+            onClick={handleWhatsApp}
+            className="text-viralOrange hover:underline text-sm font-medium"
+          >
+            Escríbenos por WhatsApp →
+          </button>
         </div>
       </div>
     </section>
