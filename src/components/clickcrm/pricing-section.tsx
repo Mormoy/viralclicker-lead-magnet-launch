@@ -1,6 +1,7 @@
-import { Check, Star } from 'lucide-react';
+import { Check, Star, CreditCard, MessageSquare, Settings, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import ComparisonTable from './comparison-table';
 
 const plans = [
   {
@@ -127,36 +128,81 @@ const PricingSection = () => {
           ))}
         </div>
 
+        {/* Comparison Table */}
+        <ComparisonTable />
+
         {/* Setup note */}
-        <div className="max-w-3xl mx-auto mb-6">
-          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-4 text-center">
-            <p className="text-white font-medium">
-              💼 <span className="text-viralOrange">Setup inicial</span>: Pago único desde $500 según complejidad
-            </p>
-            <p className="text-white/60 text-sm mt-1">
-              Incluye diseño de landing, configuración de cotizador y CRM, onboarding personalizado
-            </p>
+        <div className="max-w-3xl mx-auto mt-12 mb-6">
+          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-6">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-viralOrange/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <Settings className="w-5 h-5 text-viralOrange" />
+              </div>
+              <div>
+                <h4 className="text-white font-bold mb-2">
+                  💼 Setup inicial: Pago único desde $500
+                </h4>
+                <p className="text-white/70 text-sm mb-3">
+                  El costo varía según la complejidad de tu negocio y catálogo.
+                </p>
+                <ul className="text-white/60 text-sm space-y-1">
+                  <li>• Diseño de landing personalizada con tu marca</li>
+                  <li>• Configuración del cotizador con tus productos/servicios</li>
+                  <li>• Setup del CRM con estados personalizados</li>
+                  <li>• Integración con WhatsApp Business API (Twilio)</li>
+                  <li>• Onboarding personalizado 1:1</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Important notes */}
+        {/* Important notes - Enhanced */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
-            <h4 className="text-white font-semibold mb-3 text-center">📋 Información importante</h4>
-            <ul className="space-y-2 text-white/60 text-sm">
-              <li className="flex items-start gap-2">
-                <span className="text-viralOrange">•</span>
-                <span><strong className="text-white/80">Twilio/WhatsApp:</strong> Los costos de mensajería se pagan directo por el cliente. Viral Clicker implementa e integra.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-viralOrange">•</span>
-                <span><strong className="text-white/80">Facturación:</strong> Recibes recibo/factura automático por email después de cada pago.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-viralOrange">•</span>
-                <span><strong className="text-white/80">Cambios menores:</strong> Ajustes en textos, campos de formularios o configuración de plantillas existentes.</span>
-              </li>
-            </ul>
+          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+            <h4 className="text-white font-semibold mb-4 text-center text-lg">📋 Información importante</h4>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <MessageSquare className="w-5 h-5 text-viralOrange" />
+                  <span className="text-white font-medium">Twilio / WhatsApp</span>
+                </div>
+                <p className="text-white/60 text-sm">
+                  Los costos de mensajería de Twilio/WhatsApp Business API los pagas <strong className="text-white/80">directamente a Twilio</strong>. Viral Clicker implementa, configura e integra todo el sistema.
+                </p>
+              </div>
+
+              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <CreditCard className="w-5 h-5 text-viralOrange" />
+                  <span className="text-white font-medium">Pago con Stripe</span>
+                </div>
+                <p className="text-white/60 text-sm">
+                  Pago seguro con tarjeta. Recibes <strong className="text-white/80">factura/recibo automático</strong> por email después de cada pago. Renovación mensual automática.
+                </p>
+              </div>
+
+              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <Settings className="w-5 h-5 text-viralOrange" />
+                  <span className="text-white font-medium">Setup inicial</span>
+                </div>
+                <p className="text-white/60 text-sm">
+                  Pago único desde <strong className="text-white/80">$500</strong> según complejidad. Incluye diseño, configuración completa del sistema y onboarding personalizado.
+                </p>
+              </div>
+
+              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <Wrench className="w-5 h-5 text-viralOrange" />
+                  <span className="text-white font-medium">Tu mensualidad incluye</span>
+                </div>
+                <p className="text-white/60 text-sm">
+                  <strong className="text-white/80">Hosting</strong> de la landing, <strong className="text-white/80">mantenimiento</strong> del sistema, <strong className="text-white/80">soporte</strong> y <strong className="text-white/80">mejoras menores</strong> según tu plan.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

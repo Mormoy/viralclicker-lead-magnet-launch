@@ -6,10 +6,14 @@ import BenefitsSection from '@/components/clickcrm/benefits-section';
 import HowItWorksSection from '@/components/clickcrm/how-it-works-section';
 import FeaturesSection from '@/components/clickcrm/features-section';
 import ResultsSection from '@/components/clickcrm/results-section';
+import DemoSection from '@/components/clickcrm/demo-section';
+import TargetAudienceSection from '@/components/clickcrm/target-audience-section';
 import PricingSection from '@/components/clickcrm/pricing-section';
 import FaqSection from '@/components/clickcrm/faq-section';
 import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
+import FloatingDemoButton from '@/components/clickcrm/floating-demo-button';
+import SectionCTA from '@/components/clickcrm/section-cta';
 
 const ViralClicker = () => {
   return (
@@ -33,21 +37,30 @@ const ViralClicker = () => {
         
         {/* Problem Section */}
         <ProblemSection />
+        <SectionCTA variant="subtle" />
         
         {/* Benefits Section */}
         <BenefitsSection />
         
         {/* How It Works Section */}
         <HowItWorksSection />
+        <SectionCTA variant="subtle" />
         
         {/* Features Section */}
         <FeaturesSection />
         
-        {/* Results Section */}
+        {/* Demo / Screenshots Section */}
+        <DemoSection />
+        
+        {/* Target Audience Section */}
+        <TargetAudienceSection />
+        
+        {/* Results Section - Above Pricing */}
         <ResultsSection />
         
-        {/* Pricing Section */}
+        {/* Pricing Section with Comparison Table */}
         <PricingSection />
+        <SectionCTA variant="subtle" />
         
         {/* FAQ Section */}
         <FaqSection />
@@ -70,8 +83,9 @@ const ViralClicker = () => {
         </div>
       </footer>
 
-      {/* WhatsApp Floating Button */}
+      {/* Floating Buttons */}
       <WhatsAppButton />
+      <FloatingDemoButton />
     </div>
   );
 };
