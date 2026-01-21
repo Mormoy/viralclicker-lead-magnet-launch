@@ -135,7 +135,7 @@ serve(async (req) => {
     // Calculate total amount
     const totalMonto = (plan.price / 100) + (includeSetup ? SETUP_PRICE / 100 : 0);
 
-    // Save client to database
+    // Save client to database with valid estado
     const { error: dbError } = await supabase.from("clients").insert({
       nombre,
       empresa,
@@ -144,7 +144,7 @@ serve(async (req) => {
       ciudad: ciudad || null,
       plan: planId,
       monto: totalMonto,
-      estado: "pendiente",
+      estado: "onboarding_pendiente", // Valid estado value
       stripe_customer_id: customerId,
       notas: includeSetup ? "Incluye setup inicial $499" : null,
     });
