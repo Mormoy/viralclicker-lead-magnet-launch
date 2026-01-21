@@ -60,74 +60,54 @@ const Checkout = () => {
     setIsSubmitting(true);
 
     try {
-      // Create client record
-      const { error } = await supabase
-        .from('clients')
-        .insert({
-          nombre: formData.nombre,
-          empresa: formData.empresa,
-          correo: formData.correo,
-          whatsapp: formData.whatsapp,
-          ciudad: formData.ciudad || null,
-          plan: planId,
-          monto: plan.price,
-          estado: 'pagado'
-        });
-
-      if (error) throw error;
-
-      // Send webhook to n8n if configured
-      try {
-        const { data: settings } = await supabase
-          .from('integrations_settings')
-          .select('webhook_n8n_url')
-          .limit(1)
-          .single();
-
-        if (settings?.webhook_n8n_url) {
-          await fetch(settings.webhook_n8n_url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              event: 'checkout_completed',
-              data: {
-                ...formData,
-                plan: planId,
-                monto: plan.price,
-                fecha: new Date().toISOString()
-              }
-            })
-          });
-        }
-      } catch (webhookError) {
-        console.error('Webhook error:', webhookError);
-        // Don't block the flow
-      }
-
-      toast({
-        title: "¡Registro exitoso!",
-        description: "Redirigiendo a la página de confirmación..."
-      });
-
-      // Redirect to success page
-      // TODO: When Stripe is configured, redirect to Stripe Checkout instead
-      const params = new URLSearchParams({
+      // Build success and cancel URLs
+      const baseUrl = window.location.origin;
+      const successParams = new URLSearchParams({
         plan: planId,
         email: formData.correo,
         nombre: formData.nombre,
         empresa: formData.empresa
       });
-      
-      navigate(`/success?${params.toString()}`);
+      const successUrl = `${baseUrl}/success?${successParams.toString()}`;
+      const cancelUrl = `${baseUrl}/pago-fallido?plan=${planId}`;
+
+      // Call Stripe checkout edge function
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          planId,
+          nombre: formData.nombre,
+          empresa: formData.empresa,
+          correo: formData.correo,
+          whatsapp: formData.whatsapp,
+          ciudad: formData.ciudad || '',
+          successUrl,
+          cancelUrl
+        }
+      });
+
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error('Error al conectar con el servidor de pagos');
+      }
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      if (data?.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        throw new Error('No se recibió URL de pago');
+      }
 
     } catch (error) {
       console.error('Error:', error);
       toast({
         title: "Error",
-        description: "Hubo un problema al procesar tu solicitud. Intenta de nuevo.",
+        description: error instanceof Error ? error.message : "Hubo un problema al procesar tu solicitud. Intenta de nuevo.",
         variant: "destructive"
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -248,9 +228,7 @@ const Checkout = () => {
                 </Button>
 
                 <p className="text-white/40 text-xs text-center mt-4">
-                  Al continuar, serás redirigido a la pasarela de pago seguro.
-                  <br />
-                  Cuando Stripe esté configurado, el pago se procesará automáticamente.
+                  Al continuar, serás redirigido a la pasarela de pago seguro de Stripe.
                 </p>
               </form>
             </div>
