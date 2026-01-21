@@ -14,18 +14,20 @@ interface CheckoutRequest {
   correo: string;
   whatsapp: string;
   ciudad?: string;
+  includeSetup?: boolean;
   successUrl: string;
   cancelUrl: string;
 }
 
-const plans: Record<string, { name: string; price: number; priceId?: string }> = {
-  starter: { name: "Starter", price: 9900 }, // in cents
+const plans: Record<string, { name: string; price: number }> = {
+  starter: { name: "Starter", price: 9900 },
   pro: { name: "Pro", price: 24900 },
   elite: { name: "Elite", price: 44900 },
 };
 
+const SETUP_PRICE = 49900; // $499 in cents
+
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -40,20 +42,17 @@ serve(async (req) => {
       );
     }
 
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2023-10-16",
-    });
+    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body: CheckoutRequest = await req.json();
-    console.log("Checkout request:", { ...body, correo: body.correo?.substring(0, 3) + "***" });
+    console.log("Checkout request:", { planId: body.planId, includeSetup: body.includeSetup });
 
-    const { planId, nombre, empresa, correo, whatsapp, ciudad, successUrl, cancelUrl } = body;
+    const { planId, nombre, empresa, correo, whatsapp, ciudad, includeSetup, successUrl, cancelUrl } = body;
 
-    // Validate plan
     const plan = plans[planId];
     if (!plan) {
       return new Response(
@@ -70,39 +69,52 @@ serve(async (req) => {
       customerId = existingCustomers.data[0].id;
       console.log("Found existing customer:", customerId);
     } else {
-      // Create customer
       const customer = await stripe.customers.create({
         email: correo,
         name: nombre,
-        metadata: {
-          empresa,
-          whatsapp,
-          ciudad: ciudad || "",
-        },
+        metadata: { empresa, whatsapp, ciudad: ciudad || "" },
       });
       customerId = customer.id;
       console.log("Created new customer:", customerId);
     }
 
-    // Create Stripe Checkout session for subscription
+    // Build line items
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: `ClickCRM Plan ${plan.name}`,
+            description: `Suscripción mensual al plan ${plan.name}`,
+          },
+          unit_amount: plan.price,
+          recurring: { interval: "month" },
+        },
+        quantity: 1,
+      },
+    ];
+
+    // Add setup fee if requested
+    if (includeSetup) {
+      lineItems.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Setup Inicial ClickCRM",
+            description: "Configuración e implementación personalizada (pago único)",
+          },
+          unit_amount: SETUP_PRICE,
+        },
+        quantity: 1,
+      });
+    }
+
+    // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `ClickCRM Plan ${plan.name}`,
-              description: `Suscripción mensual al plan ${plan.name}`,
-            },
-            unit_amount: plan.price,
-            recurring: { interval: "month" },
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: {
@@ -111,19 +123,19 @@ serve(async (req) => {
         empresa,
         whatsapp,
         ciudad: ciudad || "",
+        includeSetup: includeSetup ? "true" : "false",
       },
       subscription_data: {
-        metadata: {
-          planId,
-          nombre,
-          empresa,
-        },
+        metadata: { planId, nombre, empresa },
       },
     });
 
     console.log("Checkout session created:", session.id);
 
-    // Save client to database with pending status
+    // Calculate total amount
+    const totalMonto = (plan.price / 100) + (includeSetup ? SETUP_PRICE / 100 : 0);
+
+    // Save client to database
     const { error: dbError } = await supabase.from("clients").insert({
       nombre,
       empresa,
@@ -131,14 +143,14 @@ serve(async (req) => {
       whatsapp,
       ciudad: ciudad || null,
       plan: planId,
-      monto: plan.price / 100,
+      monto: totalMonto,
       estado: "pendiente",
       stripe_customer_id: customerId,
+      notas: includeSetup ? "Incluye setup inicial $499" : null,
     });
 
     if (dbError) {
       console.error("Database insert error:", dbError);
-      // Don't fail the checkout, just log the error
     }
 
     return new Response(

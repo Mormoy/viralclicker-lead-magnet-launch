@@ -3,7 +3,8 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, CreditCard, Shield, Check } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ArrowLeft, CreditCard, Shield, Check, Settings, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/logo';
@@ -22,6 +23,9 @@ const plans = {
   elite: { name: 'Elite', price: 449, priceId: 'price_elite' }
 };
 
+const SETUP_PRICE = 499;
+const SETUP_ORIGINAL_PRICE = 999;
+
 const Checkout = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -37,6 +41,7 @@ const Checkout = () => {
     whatsapp: '',
     ciudad: ''
   });
+  const [includeSetup, setIncludeSetup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +49,11 @@ const Checkout = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const totalFirstPayment = plan.price + (includeSetup ? SETUP_PRICE : 0);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate
     if (!formData.nombre || !formData.empresa || !formData.correo || !formData.whatsapp) {
       toast({
         title: "Campos requeridos",
@@ -60,18 +66,17 @@ const Checkout = () => {
     setIsSubmitting(true);
 
     try {
-      // Build success and cancel URLs
       const baseUrl = window.location.origin;
       const successParams = new URLSearchParams({
         plan: planId,
         email: formData.correo,
         nombre: formData.nombre,
-        empresa: formData.empresa
+        empresa: formData.empresa,
+        setup: includeSetup ? 'true' : 'false'
       });
       const successUrl = `${baseUrl}/success?${successParams.toString()}`;
       const cancelUrl = `${baseUrl}/pago-fallido?plan=${planId}`;
 
-      // Call Stripe checkout edge function
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
           planId,
@@ -80,6 +85,7 @@ const Checkout = () => {
           correo: formData.correo,
           whatsapp: formData.whatsapp,
           ciudad: formData.ciudad || '',
+          includeSetup,
           successUrl,
           cancelUrl
         }
@@ -95,7 +101,6 @@ const Checkout = () => {
       }
 
       if (data?.url) {
-        // Redirect to Stripe Checkout
         window.location.href = data.url;
       } else {
         throw new Error('No se recibió URL de pago');
@@ -222,7 +227,7 @@ const Checkout = () => {
                   ) : (
                     <>
                       <CreditCard className="w-5 h-5 mr-2" />
-                      Continuar al pago - ${plan.price}/mes
+                      Continuar al pago - ${totalFirstPayment}
                     </>
                   )}
                 </Button>
@@ -255,6 +260,41 @@ const Checkout = () => {
                     </p>
                   </div>
 
+                  {/* Setup Option */}
+                  <div 
+                    className={`rounded-lg p-4 border-2 transition-all cursor-pointer ${
+                      includeSetup 
+                        ? 'bg-viralOrange/10 border-viralOrange' 
+                        : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+                    }`}
+                    onClick={() => setIncludeSetup(!includeSetup)}
+                  >
+                    <div className="flex items-start gap-3">
+                      <Checkbox 
+                        checked={includeSetup}
+                        onCheckedChange={(checked) => setIncludeSetup(checked as boolean)}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Settings className="w-4 h-4 text-viralOrange" />
+                          <span className="text-white font-semibold">Setup Inicial</span>
+                          <span className="bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-xs font-bold border border-green-500/30">
+                            50% OFF
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-white/40 line-through text-sm">${SETUP_ORIGINAL_PRICE}</span>
+                          <span className="text-viralOrange font-bold text-lg">${SETUP_PRICE}</span>
+                          <span className="text-white/60 text-sm">pago único</span>
+                        </div>
+                        <p className="text-white/60 text-xs mt-2">
+                          Configuración e implementación personalizada de tu CRM
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Features */}
                   <div className="space-y-2">
                     <p className="text-white/80 text-sm font-medium mb-3">Incluye:</p>
@@ -276,6 +316,20 @@ const Checkout = () => {
                     </div>
                   </div>
 
+                  {/* Total */}
+                  <div className="border-t border-gray-700 pt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-white/80">Primer pago:</span>
+                      <span className="text-white font-bold text-xl">${totalFirstPayment}</span>
+                    </div>
+                    <p className="text-white/60 text-xs">
+                      {includeSetup 
+                        ? `Incluye Plan ${plan.name} ($${plan.price}/mes) + Setup ($${SETUP_PRICE} único)`
+                        : `Plan ${plan.name} - $${plan.price}/mes recurrente`
+                      }
+                    </p>
+                  </div>
+
                   {/* Security badge */}
                   <div className="flex items-center gap-2 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
                     <Shield className="w-5 h-5 text-green-500" />
@@ -286,7 +340,7 @@ const Checkout = () => {
 
                   {/* Note */}
                   <p className="text-white/40 text-xs">
-                    * Twilio/WhatsApp se paga directo por el cliente. Setup inicial se cotiza según complejidad.
+                    * Twilio/WhatsApp se paga directo por el cliente.
                   </p>
                 </CardContent>
               </Card>
