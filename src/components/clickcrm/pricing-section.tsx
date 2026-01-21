@@ -8,6 +8,8 @@ const plans = [
     id: 'starter',
     name: "Starter",
     price: "$99",
+    originalPrice: "$249",
+    discount: "60%",
     period: "/mes",
     description: "Ideal para empezar a organizar tu proceso comercial",
     popular: false,
@@ -98,7 +100,20 @@ const PricingSection = () => {
 
               <div className="text-center mb-6 pt-2">
                 <h3 className="text-white font-bold text-xl mb-2">{plan.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
+                
+                {/* Discount badge */}
+                {plan.discount && (
+                  <div className="mb-2">
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-bold border border-green-500/30">
+                      {plan.discount} OFF
+                    </span>
+                  </div>
+                )}
+                
+                <div className="flex items-baseline justify-center gap-2">
+                  {plan.originalPrice && (
+                    <span className="text-xl text-white/40 line-through">{plan.originalPrice}</span>
+                  )}
                   <span className="text-4xl font-bold text-viralOrange">{plan.price}</span>
                   <span className="text-white/60">{plan.period}</span>
                 </div>
