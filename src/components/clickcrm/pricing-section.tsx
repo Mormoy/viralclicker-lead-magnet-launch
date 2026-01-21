@@ -158,9 +158,14 @@ const PricingSection = () => {
                 <Settings className="w-5 h-5 text-viralOrange" />
               </div>
               <div>
-                <h4 className="text-white font-bold mb-2">
-                  💼 Setup inicial: Pago único desde $500
-                </h4>
+                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                  <h4 className="text-white font-bold">
+                    💼 Setup inicial: <span className="text-white/40 line-through">$999</span> <span className="text-viralOrange">$499</span>
+                  </h4>
+                  <span className="bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-xs font-bold border border-green-500/30">
+                    50% OFF
+                  </span>
+                </div>
                 <p className="text-white/70 text-sm mb-3">
                   El costo varía según la complejidad de tu negocio y catálogo.
                 </p>
