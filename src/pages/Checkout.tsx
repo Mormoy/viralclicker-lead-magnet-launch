@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+
 import { ArrowLeft, CreditCard, Shield, Check, Settings, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -41,7 +41,6 @@ const Checkout = () => {
     whatsapp: '',
     ciudad: ''
   });
-  const [includeSetup, setIncludeSetup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +48,8 @@ const Checkout = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const totalFirstPayment = plan.price + (includeSetup ? SETUP_PRICE : 0);
+  // Setup is ALWAYS included - mandatory
+  const totalFirstPayment = plan.price + SETUP_PRICE;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ const Checkout = () => {
         email: formData.correo,
         nombre: formData.nombre,
         empresa: formData.empresa,
-        setup: includeSetup ? 'true' : 'false'
+        setup: 'true'
       });
       const successUrl = `${baseUrl}/success?${successParams.toString()}`;
       const cancelUrl = `${baseUrl}/pago-fallido?plan=${planId}`;
@@ -85,7 +85,7 @@ const Checkout = () => {
           correo: formData.correo,
           whatsapp: formData.whatsapp,
           ciudad: formData.ciudad || '',
-          includeSetup,
+          includeSetup: true, // Always include setup
           successUrl,
           cancelUrl
         }
@@ -260,37 +260,31 @@ const Checkout = () => {
                     </p>
                   </div>
 
-                  {/* Setup Option */}
-                  <div 
-                    className={`rounded-lg p-4 border-2 transition-all cursor-pointer ${
-                      includeSetup 
-                        ? 'bg-viralOrange/10 border-viralOrange' 
-                        : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
-                    }`}
-                    onClick={() => setIncludeSetup(!includeSetup)}
-                  >
-                    <div className="flex items-start gap-3">
-                      <Checkbox 
-                        checked={includeSetup}
-                        onCheckedChange={(checked) => setIncludeSetup(checked as boolean)}
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Settings className="w-4 h-4 text-viralOrange" />
-                          <span className="text-white font-semibold">Setup Inicial</span>
-                          <span className="bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-xs font-bold border border-green-500/30">
+                  {/* Cost Breakdown - Always visible */}
+                  <div className="border-t border-gray-700 pt-4 space-y-3">
+                    <p className="text-white/80 text-sm font-medium">Desglose del primer pago:</p>
+                    
+                    {/* Plan line item */}
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-white/70">Plan {plan.name} (mensual)</span>
+                      <span className="text-white">${plan.price}</span>
+                    </div>
+                    
+                    {/* Setup line item - Always included */}
+                    <div className="flex justify-between items-start text-sm">
+                      <div className="flex items-center gap-2">
+                        <Settings className="w-4 h-4 text-viralOrange" />
+                        <div>
+                          <span className="text-white/70">Setup Inicial</span>
+                          <span className="ml-2 bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded text-xs font-bold">
                             50% OFF
                           </span>
+                          <p className="text-white/50 text-xs mt-0.5">Configuración e implementación personalizada</p>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-white/40 line-through text-sm">${SETUP_ORIGINAL_PRICE}</span>
-                          <span className="text-viralOrange font-bold text-lg">${SETUP_PRICE}</span>
-                          <span className="text-white/60 text-sm">pago único</span>
-                        </div>
-                        <p className="text-white/60 text-xs mt-2">
-                          Configuración e implementación personalizada de tu CRM
-                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-white/40 line-through text-xs block">${SETUP_ORIGINAL_PRICE}</span>
+                        <span className="text-viralOrange font-semibold">${SETUP_PRICE}</span>
                       </div>
                     </div>
                   </div>
@@ -317,16 +311,16 @@ const Checkout = () => {
                   </div>
 
                   {/* Total */}
-                  <div className="border-t border-gray-700 pt-4">
+                  <div className="border-t border-gray-700 pt-4 bg-viralOrange/10 -mx-6 px-6 py-4 rounded-b-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-white/80">Primer pago:</span>
-                      <span className="text-white font-bold text-xl">${totalFirstPayment}</span>
+                      <span className="text-white font-semibold">Total a pagar hoy:</span>
+                      <span className="text-viralOrange font-bold text-2xl">${totalFirstPayment}</span>
                     </div>
                     <p className="text-white/60 text-xs">
-                      {includeSetup 
-                        ? `Incluye Plan ${plan.name} ($${plan.price}/mes) + Setup ($${SETUP_PRICE} único)`
-                        : `Plan ${plan.name} - $${plan.price}/mes recurrente`
-                      }
+                      Plan {plan.name} (${plan.price}/mes) + Setup Inicial (${SETUP_PRICE} único)
+                    </p>
+                    <p className="text-white/50 text-xs mt-1">
+                      * Después del primer pago, se cobrará ${plan.price}/mes
                     </p>
                   </div>
 
