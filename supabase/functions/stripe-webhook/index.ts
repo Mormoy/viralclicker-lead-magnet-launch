@@ -74,7 +74,7 @@ const generateWelcomeEmail = (
     </div>
     
     <div style="text-align: center; margin-top: 24px;">
-      <a href="https://wa.me/56912345678?text=Hola,%20acabo%20de%20contratar%20${planId}" style="display: inline-block; background: #25d366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">💬 WhatsApp de soporte</a>
+      <a href="https://wa.me/13051234567?text=Hola,%20acabo%20de%20contratar%20${planId}" style="display: inline-block; background: #25d366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">💬 WhatsApp de soporte</a>
     </div>
     
     <div style="text-align: center; margin-top: 32px; color: #9ca3af; font-size: 12px;">

@@ -3,12 +3,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle, Target, Zap, TrendingUp, ArrowRight } from 'lucide-react';
 
 const casoReal = {
-  titulo: "Caso real: Atacama Cortinas",
-  subtitulo: "Cómo un negocio de cortinas en Copiapó duplicó su capacidad de atención sin contratar personal",
+  titulo: "Caso real: Miami Blinds & Shades",
+  subtitulo: "Cómo un negocio de cortinas en Miami duplicó su capacidad de atención sin contratar personal",
   
   problema: {
     titulo: "El problema inicial",
-    descripcion: "Atacama Cortinas recibía más de 40 consultas diarias por WhatsApp pidiendo cotizaciones. Carolina, la dueña, pasaba entre 3 y 4 horas al día respondiendo las mismas preguntas: tipos de tela, medidas, tiempos de instalación y precios. Cuando no alcanzaba a responder rápido, los clientes cotizaban con la competencia. Estaba perdiendo ventas por no dar abasto."
+    descripcion: "Miami Blinds & Shades recibía más de 40 consultas diarias por WhatsApp pidiendo cotizaciones. Carolina, la dueña, pasaba entre 3 y 4 horas al día respondiendo las mismas preguntas: tipos de tela, medidas, tiempos de instalación y precios. Cuando no alcanzaba a responder rápido, los clientes cotizaban con la competencia. Estaba perdiendo ventas por no dar abasto."
   },
   
   implementacion: {
@@ -48,7 +48,7 @@ const CaseStudySection = () => {
   };
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20vi%20el%20caso%20de%20Atacama%20Cortinas%20y%20quiero%20saber%20cómo%20aplicarlo%20a%20mi%20negocio', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20vi%20el%20caso%20de%20Miami%20Blinds%20y%20quiero%20saber%20cómo%20aplicarlo%20a%20mi%20negocio', '_blank');
   };
 
   return (

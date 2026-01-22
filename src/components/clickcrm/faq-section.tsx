@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "¿Qué costos paga el cliente y cuáles incluye Viral Clicker?",
-    answer: "Tu plan incluye: hosting, mantenimiento, soporte y mejoras menores. Tú pagas directo a Twilio los costos de mensajería (aprox. $0.05–0.08 USD por mensaje en Latam). Así tienes control total de tu gasto en WhatsApp."
+    answer: "Tu plan incluye: hosting, mantenimiento, soporte y mejoras menores. Tú pagas directo a Twilio los costos de mensajería (aprox. $0.03–0.05 USD por mensaje en USA). Así tienes control total de tu gasto en WhatsApp."
   },
   {
     question: "¿Cuánto demora la implementación y qué necesito entregarte?",
@@ -40,13 +40,13 @@ const faqs = [
   },
   {
     question: "¿Cómo funciona el soporte técnico?",
-    answer: "Respondemos por WhatsApp y email en horario laboral (lunes a viernes, 9:00 a 18:00 hora Chile). Tiempo de respuesta: menos de 4 horas en días hábiles. Planes Elite tienen prioridad y respuesta en menos de 2 horas."
+    answer: "Respondemos por WhatsApp y email en horario laboral (lunes a viernes, 9:00 AM a 6:00 PM EST). Tiempo de respuesta: menos de 4 horas en días hábiles. Planes Elite tienen prioridad y respuesta en menos de 2 horas."
   }
 ];
 
 const FaqSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20tengo%20una%20pregunta%20sobre%20Viral%20Clicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20tengo%20una%20pregunta%20sobre%20Viral%20Clicker', '_blank');
   };
 
   return (

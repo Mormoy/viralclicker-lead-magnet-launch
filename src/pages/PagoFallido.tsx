@@ -78,7 +78,7 @@ const PagoFallido = () => {
             </Button>
 
             <Button 
-              onClick={() => window.open('https://wa.me/56912345678?text=Hola,%20tuve%20un%20problema%20con%20el%20pago', '_blank')}
+              onClick={() => window.open('https://wa.me/13051234567?text=Hola,%20tuve%20un%20problema%20con%20el%20pago', '_blank')}
               variant="outline"
               size="lg"
               className="w-full border-green-600 text-green-400 hover:bg-green-600/20"

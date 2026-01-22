@@ -3,7 +3,7 @@ import { Play, MessageCircle, Zap } from 'lucide-react';
 
 const HeroSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20me%20interesa%20Viral%20Clicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20me%20interesa%20Viral%20Clicker', '_blank');
   };
 
   const scrollToPricing = () => {
