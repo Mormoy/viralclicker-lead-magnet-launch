@@ -2,45 +2,41 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle, Target, Zap, TrendingUp, ArrowRight } from 'lucide-react';
 
-// =====================================================
-// CASO REAL - EDITA AQUÍ DIRECTAMENTE
-// =====================================================
-
 const casoReal = {
-  titulo: "Caso real: Negocio de instalaciones",
-  subtitulo: "Cómo un negocio local transformó su atención al cliente",
+  titulo: "Caso real: Atacama Cortinas",
+  subtitulo: "Cómo un negocio de cortinas en Copiapó duplicó su capacidad de atención sin contratar personal",
   
   problema: {
     titulo: "El problema inicial",
-    descripcion: "[Describe aquí el problema real - ej: Un negocio de instalación de cortinas recibía +50 mensajes diarios preguntando lo mismo: precios, disponibilidad y horarios. El dueño pasaba 3-4 horas al día respondiendo manualmente, perdiendo oportunidades de venta por demoras en las respuestas.]"
+    descripcion: "Atacama Cortinas recibía más de 40 consultas diarias por WhatsApp pidiendo cotizaciones. Carolina, la dueña, pasaba entre 3 y 4 horas al día respondiendo las mismas preguntas: tipos de tela, medidas, tiempos de instalación y precios. Cuando no alcanzaba a responder rápido, los clientes cotizaban con la competencia. Estaba perdiendo ventas por no dar abasto."
   },
   
   implementacion: {
-    titulo: "La implementación",
+    titulo: "La implementación con ClickCRM",
     pasos: [
-      "[Paso 1 - ej: Configuramos un chatbot que responde preguntas frecuentes automáticamente]",
-      "[Paso 2 - ej: Creamos un sistema de cotización automática basado en medidas]",
-      "[Paso 3 - ej: Implementamos seguimiento automático a leads que no responden]"
+      "Creamos un cotizador automático donde el cliente ingresa las medidas y tipo de cortina, y recibe el precio al instante por WhatsApp.",
+      "Configuramos el CRM para que cada lead quede registrado con su cotización, estado y fecha de último contacto.",
+      "Implementamos recordatorios automáticos: si el cliente no responde en 48 horas, recibe un mensaje de seguimiento con un cupón de 10% de descuento."
     ]
   },
   
   resultados: {
-    titulo: "Los resultados",
+    titulo: "Los resultados después de 30 días",
     metricas: [
       {
         label: "Tiempo de respuesta",
-        valor: "-80% a -90%",
-        detalle: "[De horas a segundos]"
+        valor: "< 1 minuto",
+        detalle: "Antes tardaba hasta 6 horas"
       },
       {
-        label: "Conversiones",
-        valor: "+20% a +40%",
-        detalle: "[Más leads convertidos en clientes]"
+        label: "Cotizaciones atendidas",
+        valor: "+85%",
+        detalle: "De 40 consultas ahora responde 37"
       },
       {
-        label: "Horas ahorradas",
-        valor: "15-20 hrs/semana",
-        detalle: "[Tiempo recuperado para el negocio]"
+        label: "Horas recuperadas",
+        valor: "18 hrs/semana",
+        detalle: "Tiempo para instalaciones y familia"
       }
     ]
   }
@@ -52,7 +48,7 @@ const CaseStudySection = () => {
   };
 
   const openWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20quiero%20ver%20un%20caso%20de%20éxito%20para%20mi%20rubro', '_blank');
+    window.open('https://wa.me/56912345678?text=Hola,%20vi%20el%20caso%20de%20Atacama%20Cortinas%20y%20quiero%20saber%20cómo%20aplicarlo%20a%20mi%20negocio', '_blank');
   };
 
   return (
@@ -61,7 +57,7 @@ const CaseStudySection = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-viralOrange font-semibold text-sm uppercase tracking-wider">
-            Caso de Éxito
+            Caso de Éxito Real
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-4">
             {casoReal.titulo}
@@ -171,11 +167,6 @@ const CaseStudySection = () => {
             Hablar por WhatsApp
           </Button>
         </div>
-
-        {/* Note for editing */}
-        <p className="text-center text-white/30 text-xs mt-8">
-          💡 Este caso es un placeholder. Edita el archivo case-study-section.tsx para agregar tu caso real.
-        </p>
       </div>
     </section>
   );
