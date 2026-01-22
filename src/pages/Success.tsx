@@ -15,7 +15,7 @@ const Success = () => {
   
   const [contractAccepted, setContractAccepted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [calendlyUrl, setCalendlyUrl] = useState('https://calendly.com/tu-empresa/onboarding');
+  const [calendlyUrl, setCalendlyUrl] = useState('https://calendly.com/atacamacortinas/onbording-viralclicker');
   const [contractUrl, setContractUrl] = useState('');
   
   // Get params from URL (will be set by Stripe checkout or form)
