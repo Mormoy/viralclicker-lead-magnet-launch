@@ -1,0 +1,16 @@
+{
+  "name": "ClickCRM - Landing + Cotizador + CRM + WhatsApp",
+  "short_name": "ClickCRM",
+  "description": "Convierte cotizaciones en ventas con ClickCRM. Sistema integral para PyMEs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
