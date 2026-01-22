@@ -4,6 +4,7 @@ import ProblemSection from '@/components/clickcrm/problem-section';
 import BenefitsSection from '@/components/clickcrm/benefits-section';
 import HowItWorksSection from '@/components/clickcrm/how-it-works-section';
 import FeaturesSection from '@/components/clickcrm/features-section';
+import IntegrationsSection from '@/components/clickcrm/integrations-section';
 import ResultsSection from '@/components/clickcrm/results-section';
 import DemoSection from '@/components/clickcrm/demo-section';
 import TargetAudienceSection from '@/components/clickcrm/target-audience-section';
@@ -49,6 +50,9 @@ const ViralClicker = () => {
         
         {/* Features Section */}
         <FeaturesSection />
+        
+        {/* Integrations Section */}
+        <IntegrationsSection />
         
         {/* Demo / Screenshots Section */}
         <DemoSection />
