@@ -8,43 +8,35 @@ import {
 const faqs = [
   {
     question: "¿Necesito WhatsApp Business API o sirve WhatsApp normal?",
-    answer: "Para las automatizaciones y campañas, usamos WhatsApp Business API a través de Twilio. Esto requiere un número verificado, pero te da mensajes masivos, plantillas aprobadas y tracking profesional. WhatsApp normal no soporta estas funcionalidades."
+    answer: "Necesitas WhatsApp Business API (vía Twilio). Es la única forma de enviar mensajes masivos, usar plantillas aprobadas y tener métricas de entrega. WhatsApp normal no permite automatizaciones ni campañas."
   },
   {
-    question: "¿Qué costos paga el cliente (Twilio/Meta) y cuáles están incluidos?",
-    answer: "Tu plan de Viral Clicker incluye: hosting de la landing, mantenimiento del sistema, soporte y mejoras menores. Los costos de mensajería de Twilio/WhatsApp Business API los pagas tú directamente a Twilio. Esto te da control total sobre tus gastos de mensajería."
+    question: "¿Qué costos paga el cliente y cuáles incluye Viral Clicker?",
+    answer: "Tu plan incluye: hosting, mantenimiento, soporte y mejoras menores. Tú pagas directo a Twilio los costos de mensajería (aprox. $0.05–0.08 USD por mensaje en Latam). Así tienes control total de tu gasto en WhatsApp."
   },
   {
-    question: "¿Cuánto demora la implementación?",
-    answer: "7 días hábiles desde tu onboarding. En ese tiempo configuramos tu landing, cotizador, CRM y automatizaciones. Planes Elite con funcionalidades adicionales pueden tomar 1-2 semanas más."
+    question: "¿Cuánto demora la implementación y qué necesito entregarte?",
+    answer: "Entre 5 y 10 días hábiles. Solo necesitamos: tu logo, colores de marca, listado de productos/servicios con precios, y acceso a tu número de WhatsApp. Nosotros hacemos todo lo demás."
+  },
+  {
+    question: "¿Puedo cancelar cuando quiera?",
+    answer: "Sí, sin penalidad. Tu plan se renueva cada mes y puedes cancelar en cualquier momento. Te entregamos un respaldo completo de tus datos (leads, clientes, cotizaciones)."
+  },
+  {
+    question: "¿Qué es un 'cambio menor' en los planes?",
+    answer: "Ajustes pequeños: editar textos de la landing, modificar campos del formulario, actualizar plantillas de WhatsApp o cambiar estados del CRM. No incluye funcionalidades nuevas ni rediseños completos."
+  },
+  {
+    question: "¿Qué incluye el setup inicial?",
+    answer: "Diseño de tu landing, configuración del cotizador con tus productos, setup del CRM, integración con WhatsApp API y onboarding 1:1. El precio varía: $500 (simple), $750 (estándar) o $1,000+ (complejo)."
+  },
+  {
+    question: "¿Puedo empezar básico y escalar después?",
+    answer: "Sí. Puedes arrancar con Starter y subir a Pro o Elite cuando quieras. Tus datos se mantienen intactos y la migración es inmediata."
   },
   {
     question: "¿Puedo usar mi propio dominio?",
-    answer: "Sí. Puedes conectar tu dominio existente (ej: cotizaciones.tuempresa.com) o te ayudamos a configurar uno nuevo. El costo del dominio corre por tu cuenta, pero la configuración está incluida."
-  },
-  {
-    question: "¿Puedo partir sin automatizaciones y escalar después?",
-    answer: "¡Sí! Puedes empezar con el plan Starter (sin automatizaciones) y cuando estés listo, escalar a Pro o Elite. La migración es fluida y tus datos se mantienen intactos."
-  },
-  {
-    question: "¿Qué pasa si ya tengo web o CRM?",
-    answer: "Viral Clicker funciona de forma independiente. Si tienes web, puedes agregar un botón/link a tu cotizador. Si tienes CRM, evaluamos si conviene integrar o usar Viral Clicker en paralelo para el proceso de cotización."
-  },
-  {
-    question: "¿Dónde quedan mis datos?",
-    answer: "Tus datos quedan en servidores seguros con encriptación. Tienes acceso completo a exportar tus leads, clientes y cotizaciones en cualquier momento. Si decides cancelar, te entregamos un respaldo completo."
-  },
-  {
-    question: "¿Cómo funciona el pago?",
-    answer: "Pagas tu plan mensual con tarjeta (crédito/débito) a través de Stripe. Recibes recibo automático en tu correo. El pago se renueva cada mes. Puedes cancelar cuando quieras."
-  },
-  {
-    question: "¿Qué incluye el setup inicial y cuánto cuesta?",
-    answer: "El setup es un pago único que varía según la complejidad de tu negocio: Simple ($500) para catálogos pequeños con precios fijos; Estándar ($750) para catálogos medianos con variables como medidas o materiales; Complejo ($1,000+) para catálogos extensos con lógica de precios sofisticada. Todos incluyen: diseño de landing, configuración del cotizador y CRM, integración con WhatsApp Business API, y onboarding personalizado 1:1."
-  },
-  {
-    question: "¿Qué son 'cambios menores'?",
-    answer: "Ajustes en textos de la landing, campos del formulario, plantillas de WhatsApp, configuración de estados del CRM. No incluye desarrollo de nuevas funcionalidades ni rediseños completos."
+    answer: "Sí. Conectamos tu dominio existente (ej: cotiza.tuempresa.com) sin costo adicional de configuración. Solo pagas el dominio si no lo tienes."
   }
 ];
 
