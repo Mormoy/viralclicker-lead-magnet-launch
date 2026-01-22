@@ -3,50 +3,50 @@ import { Link, TrendingUp, Clock, Percent, MessageCircle, BarChart3 } from 'luci
 const benefits = [
   {
     icon: Link,
-    title: "Cotización viva con link",
-    description: "Cada cotización tiene un link único que el cliente puede ver, modificar y aprobar. Sin PDF estáticos."
+    title: "Live quote link",
+    description: "Each quote has a unique link that the client can view, modify, and approve. No static PDFs."
   },
   {
     icon: Percent,
-    title: "Cupones sobre cotizaciones",
-    description: "Crea códigos de descuento y aplícalos directamente sobre cotizaciones activas. Ideal para cerrar ventas."
+    title: "Coupons on quotes",
+    description: "Create discount codes and apply them directly to active quotes. Perfect for closing deals."
   },
   {
     icon: MessageCircle,
-    title: "Campañas internas por WhatsApp",
-    description: "Envía promociones y seguimientos masivos a tu base de leads directo desde el CRM."
+    title: "Internal WhatsApp campaigns",
+    description: "Send promotions and follow-ups to your lead base directly from the CRM."
   },
   {
     icon: BarChart3,
-    title: "Tracking post-venta",
-    description: "Monitorea el estado de cada cliente después de la venta: instalación, pago, satisfacción."
+    title: "Post-sale tracking",
+    description: "Monitor each client's status after the sale: installation, payment, satisfaction."
   },
   {
     icon: TrendingUp,
-    title: "Más cierres, menos fugas",
-    description: "Seguimiento automatizado que mantiene a tus clientes calientes hasta que cierren."
+    title: "More closes, fewer leaks",
+    description: "Automated follow-up that keeps your clients warm until they close."
   },
   {
     icon: Clock,
-    title: "Implementación en 7 días",
-    description: "Tu sistema listo y funcionando en una semana. Sin esperas eternas ni proyectos interminables."
+    title: "Setup in 7 days",
+    description: "Your system ready and running in one week. No endless waits or never-ending projects."
   }
 ];
 
 const BenefitsSection = () => {
   return (
-    <section className="py-16 px-4">
+    <section className="py-16 px-4 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            ¿Por qué Viral Clicker?
+            Why ClickCRM?
           </h2>
           <p className="text-white/70 text-lg">
-            Las herramientas que necesitas para vender más por WhatsApp
+            The tools you need to sell more via WhatsApp
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto landscape-grid">
           {benefits.map((benefit, index) => (
             <div 
               key={index}

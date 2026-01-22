@@ -7,7 +7,7 @@ interface SectionCTAProps {
 
 const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hola,%20me%20interesa%20Viral%20Clicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ClickCRM', '_blank');
   };
 
   const scrollToContact = () => {
@@ -22,7 +22,7 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
           className="text-viralOrange hover:underline text-sm font-medium flex items-center justify-center gap-1"
         >
           <Calendar className="w-4 h-4" />
-          Agendar onboarding
+          Book a demo
         </button>
         <span className="hidden sm:block text-white/30">|</span>
         <button 
@@ -30,7 +30,7 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
           className="text-green-500 hover:underline text-sm font-medium flex items-center justify-center gap-1"
         >
           <MessageCircle className="w-4 h-4" />
-          Hablar por WhatsApp
+          Chat on WhatsApp
         </button>
       </div>
     );
@@ -44,7 +44,7 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
         className="bg-viralOrange hover:bg-viralOrange/90 text-white font-semibold"
       >
         <Calendar className="w-5 h-5 mr-2" />
-        Agendar onboarding
+        Book a demo
       </Button>
       <Button 
         onClick={handleWhatsApp}
@@ -53,7 +53,7 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
         className="border-green-600 text-green-500 hover:bg-green-600/10"
       >
         <MessageCircle className="w-5 h-5 mr-2" />
-        Hablar por WhatsApp
+        Chat on WhatsApp
       </Button>
     </div>
   );

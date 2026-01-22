@@ -4,60 +4,66 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const faqs = [
   {
-    question: "¿Necesito WhatsApp Business API o sirve WhatsApp normal?",
-    answer: "Necesitas WhatsApp Business API (vía Twilio). Es la única forma de enviar mensajes masivos, usar plantillas aprobadas y tener métricas de entrega. WhatsApp normal no permite automatizaciones ni campañas."
+    question: "Do I need WhatsApp Business API or can I use regular WhatsApp?",
+    answer: "You need WhatsApp Business API (via Twilio). It's the only way to send automated messages, use approved templates, and track delivery metrics. Regular WhatsApp doesn't support automation or campaigns."
   },
   {
-    question: "¿Qué costos paga el cliente y cuáles incluye Viral Clicker?",
-    answer: "Tu plan incluye: hosting, mantenimiento, soporte y mejoras menores. Tú pagas directo a Twilio los costos de mensajería (aprox. $0.03–0.05 USD por mensaje en USA). Así tienes control total de tu gasto en WhatsApp."
+    question: "What costs do I pay vs. what's included in my plan?",
+    answer: "Your plan includes: hosting, maintenance, support, and minor updates. You pay Twilio directly for messaging costs (approx. $0.03–0.05 USD per message in the USA). This gives you full control over your WhatsApp spend."
   },
   {
-    question: "¿Cuánto demora la implementación y qué necesito entregarte?",
-    answer: "Entre 5 y 10 días hábiles. Solo necesitamos: tu logo, colores de marca, listado de productos/servicios con precios, y acceso a tu número de WhatsApp. Nosotros hacemos todo lo demás."
+    question: "How fast is setup? What do I need to provide?",
+    answer: "Setup takes 7 business days. We just need: your logo, brand colors, product/service list with prices, and access to your WhatsApp number. We handle everything else."
   },
   {
-    question: "¿Puedo cancelar cuando quiera?",
-    answer: "Sí, sin penalidad. Tu plan se renueva cada mes y puedes cancelar en cualquier momento. Te entregamos un respaldo completo de tus datos (leads, clientes, cotizaciones)."
+    question: "Can I use my own domain?",
+    answer: "Yes. We connect your existing domain (e.g., quotes.yourbusiness.com) at no extra configuration cost. You only pay for the domain if you don't already have one."
   },
   {
-    question: "¿Qué es un 'cambio menor' en los planes?",
-    answer: "Ajustes pequeños: editar textos de la landing, modificar campos del formulario, actualizar plantillas de WhatsApp o cambiar estados del CRM. No incluye funcionalidades nuevas ni rediseños completos."
+    question: "Can I start simple and add automation later?",
+    answer: "Absolutely. Start with Starter and upgrade to Pro or Elite anytime. Your data stays intact and the migration is instant."
   },
   {
-    question: "¿Qué incluye el setup inicial?",
-    answer: "Diseño de tu landing, configuración del cotizador con tus productos, setup del CRM, integración con WhatsApp API y onboarding 1:1. El precio varía: $500 (simple), $750 (estándar) o $1,000+ (complejo)."
+    question: "What if I already have a website or CRM?",
+    answer: "ClickCRM works alongside your existing tools. We can embed the quote form on your current site, or you can use our landing page as a standalone quote funnel."
   },
   {
-    question: "¿Puedo empezar básico y escalar después?",
-    answer: "Sí. Puedes arrancar con Starter y subir a Pro o Elite cuando quieras. Tus datos se mantienen intactos y la migración es inmediata."
+    question: "Where is my data stored? Can I export it?",
+    answer: "Your data is stored securely in the cloud with enterprise-grade encryption. You can export all your leads, clients, and quotes as CSV anytime—your data is always yours."
   },
   {
-    question: "¿Puedo usar mi propio dominio?",
-    answer: "Sí. Conectamos tu dominio existente (ej: cotiza.tuempresa.com) sin costo adicional de configuración. Solo pagas el dominio si no lo tienes."
+    question: "What's included in setup vs. what counts as 'minor changes'?",
+    answer: "Setup includes: landing page design, quote builder configuration, CRM setup, WhatsApp API integration, and 1-on-1 onboarding. Minor changes are small tweaks like editing text, updating form fields, or modifying WhatsApp templates—not new features or redesigns."
   },
   {
-    question: "¿Cómo funciona el soporte técnico?",
-    answer: "Respondemos por WhatsApp y email en horario laboral (lunes a viernes, 9:00 AM a 6:00 PM EST). Tiempo de respuesta: menos de 4 horas en días hábiles. Planes Elite tienen prioridad y respuesta en menos de 2 horas."
+    question: "Can I cancel anytime?",
+    answer: "Yes, no penalty. Your plan renews monthly and you can cancel anytime. We provide a full backup of your data (leads, clients, quotes)."
+  },
+  {
+    question: "How does support work?",
+    answer: "We respond via WhatsApp and email during business hours (Monday–Friday, 9 AM–6 PM EST). Response time: under 4 hours on business days. Elite plans get priority support with under 2-hour response."
   }
 ];
 
 const FaqSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hola,%20tengo%20una%20pregunta%20sobre%20Viral%20Clicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%20have%20a%20question%20about%20ClickCRM', '_blank');
   };
 
   return (
-    <section className="py-16 px-4 bg-gray-900/50">
+    <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Preguntas frecuentes
+            Frequently Asked Questions
           </h2>
           <p className="text-white/70 text-lg">
-            Resolvemos tus dudas antes de empezar
+            Get answers before you get started
           </p>
         </div>
 
@@ -80,16 +86,17 @@ const FaqSection = () => {
           </Accordion>
         </div>
 
-        <div className="text-center mt-8">
-          <p className="text-white/50 text-sm mb-3">
-            ¿Tienes otra pregunta?
+        <div className="text-center mt-10">
+          <p className="text-white/50 text-sm mb-4">
+            Still have questions?
           </p>
-          <button 
+          <Button 
             onClick={handleWhatsApp}
-            className="text-viralOrange hover:underline text-sm font-medium"
+            className="bg-green-600 hover:bg-green-700 text-white"
           >
-            Escríbenos por WhatsApp →
-          </button>
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Chat with us on WhatsApp
+          </Button>
         </div>
       </div>
     </section>

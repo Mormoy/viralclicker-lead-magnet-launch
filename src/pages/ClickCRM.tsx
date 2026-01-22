@@ -25,10 +25,10 @@ const ViralClicker = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Logo />
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">Cómo funciona</a>
-            <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Funcionalidades</a>
-            <a href="#planes" className="text-white/80 hover:text-white transition-colors">Planes</a>
-            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Empezar ahora</a>
+            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">How it works</a>
+            <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Features</a>
+            <a href="#planes" className="text-white/80 hover:text-white transition-colors">Pricing</a>
+            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Get started</a>
           </nav>
         </div>
       </header>
@@ -85,18 +85,18 @@ const ViralClicker = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-white/60 text-center md:text-left text-sm">
-              © 2025 Viral Clicker. Todos los derechos reservados.
+              © 2025 Viral Clicker. All rights reserved.
             </div>
             <div className="flex items-center gap-4">
               <a 
                 href="/terminos" 
                 className="text-white/40 hover:text-white/60 text-sm transition-colors"
               >
-                Términos del servicio
+                Terms of Service
               </a>
               <span className="text-white/20">|</span>
               <span className="text-white/40 text-sm">
-                Hecho con ❤️ por MORMOY
+                Made with ❤️ by MORMOY
               </span>
             </div>
           </div>

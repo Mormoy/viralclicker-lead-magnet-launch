@@ -3,58 +3,58 @@ import { CheckCircle, XCircle, Building2, ShoppingCart, MessageSquare, FileText,
 const idealFor = [
   {
     icon: FileText,
-    text: "Empresas que emiten cotizaciones o presupuestos"
+    text: "Businesses that send quotes or estimates"
   },
   {
     icon: MessageSquare,
-    text: "Negocios que cierran ventas por WhatsApp"
+    text: "Companies that close sales via WhatsApp"
   },
   {
     icon: Building2,
-    text: "PyMEs de servicios: instalaciones, reparaciones, construcción"
+    text: "Service-based small businesses: installations, repairs, construction"
   },
   {
     icon: Users,
-    text: "Equipos comerciales que necesitan seguimiento ordenado"
+    text: "Sales teams that need organized follow-up"
   },
   {
     icon: Clock,
-    text: "Empresas que pierden ventas por falta de seguimiento"
+    text: "Businesses losing sales due to lack of follow-up"
   }
 ];
 
 const notFor = [
   {
     icon: ShoppingCart,
-    text: "Tiendas e-commerce con carrito de compras"
+    text: "E-commerce stores with shopping carts"
   },
   {
     icon: XCircle,
-    text: "Negocios sin proceso de cotización"
+    text: "Businesses without a quoting process"
   },
   {
     icon: XCircle,
-    text: "Empresas que no usan WhatsApp para ventas"
+    text: "Companies that don't use WhatsApp for sales"
   },
   {
     icon: XCircle,
-    text: "Negocios que ya tienen CRM y ERP integrados"
+    text: "Businesses with fully integrated CRM and ERP"
   }
 ];
 
 const TargetAudienceSection = () => {
   return (
-    <section className="py-16 px-4 bg-gray-900/30">
+    <section className="py-16 px-4 bg-gray-900/30 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="inline-block bg-viralOrange/20 text-viralOrange px-4 py-1 rounded-full text-sm font-medium mb-4">
-            ¿Es para ti?
+            Is it for you?
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Para quién es Viral Clicker
+            Who is ClickCRM for?
           </h2>
           <p className="text-white/70 text-lg">
-            Somos honestos: no es para todos. Revisa si calzas con nuestro perfil ideal.
+            We're honest: it's not for everyone. Check if you fit our ideal profile.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-green-600/20 rounded-full flex items-center justify-center">
                 <CheckCircle className="w-6 h-6 text-green-500" />
               </div>
-              <h3 className="text-xl font-bold text-white">Ideal para ti si...</h3>
+              <h3 className="text-xl font-bold text-white">Perfect for you if...</h3>
             </div>
             <ul className="space-y-4">
               {idealFor.map((item, index) => (
@@ -83,7 +83,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-red-600/20 rounded-full flex items-center justify-center">
                 <XCircle className="w-6 h-6 text-red-400" />
               </div>
-              <h3 className="text-xl font-bold text-white">No es para ti si...</h3>
+              <h3 className="text-xl font-bold text-white">Not for you if...</h3>
             </div>
             <ul className="space-y-4">
               {notFor.map((item, index) => (
@@ -98,7 +98,7 @@ const TargetAudienceSection = () => {
 
         <div className="text-center mt-8">
           <p className="text-white/50 text-sm">
-            ¿No estás seguro? <a href="#contacto" className="text-viralOrange hover:underline">Escríbenos</a> y te ayudamos a evaluar si es tu solución.
+            Not sure? <a href="#contacto" className="text-viralOrange hover:underline">Contact us</a> and we'll help you evaluate if it's the right solution.
           </p>
         </div>
       </div>
