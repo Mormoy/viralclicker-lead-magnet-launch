@@ -1,31 +1,34 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Play, LayoutDashboard, FileText, BarChart3, ExternalLink, Kanban, TrendingUp } from 'lucide-react';
-
-const screenshots = [
-  {
-    icon: FileText,
-    badge: "Live Quote",
-    title: "Live quote link",
-    description: "Your client gets a unique link with real-time pricing. They can accept, comment, or request changes—all tracked.",
-    features: ["PDF export", "Live tracking", "Client comments"]
-  },
-  {
-    icon: Kanban,
-    badge: "CRM Pipeline",
-    title: "CRM pipeline view",
-    description: "See every opportunity by stage: New, Quoted, Negotiating, Closed. Never lose track of follow-ups.",
-    features: ["Drag & drop", "Stage filters", "Due dates"]
-  },
-  {
-    icon: TrendingUp,
-    badge: "Dashboard",
-    title: "Conversion dashboard",
-    description: "Clear reports: quotes sent, close rate, avg. response time, average ticket value.",
-    features: ["Key metrics", "Weekly trends", "Export data"]
-  }
-];
+import { MessageCircle, Play, LayoutDashboard, FileText, BarChart3, Kanban, TrendingUp } from 'lucide-react';
 
 const DemoSection = () => {
+  const { t } = useTranslation();
+
+  const screenshots = [
+    {
+      icon: FileText,
+      badge: t('demo.card1Badge'),
+      title: t('demo.card1Title'),
+      description: t('demo.card1Desc'),
+      features: [t('demo.card1Feature1'), t('demo.card1Feature2'), t('demo.card1Feature3')]
+    },
+    {
+      icon: Kanban,
+      badge: t('demo.card2Badge'),
+      title: t('demo.card2Title'),
+      description: t('demo.card2Desc'),
+      features: [t('demo.card2Feature1'), t('demo.card2Feature2'), t('demo.card2Feature3')]
+    },
+    {
+      icon: TrendingUp,
+      badge: t('demo.card3Badge'),
+      title: t('demo.card3Title'),
+      description: t('demo.card3Desc'),
+      features: [t('demo.card3Feature1'), t('demo.card3Feature2'), t('demo.card3Feature3')]
+    }
+  ];
+
   const handleWhatsApp = () => {
     window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20to%20see%20a%20demo%20of%20ClickCRM', '_blank');
   };
@@ -39,13 +42,13 @@ const DemoSection = () => {
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="inline-block bg-viralOrange/20 text-viralOrange px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Product Preview
+            {t('demo.badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            See what's inside ClickCRM
+            {t('demo.title')}
           </h2>
           <p className="text-white/70 text-lg">
-            A system designed so you sell and the system handles follow-up
+            {t('demo.subtitle')}
           </p>
         </div>
 
@@ -55,7 +58,6 @@ const DemoSection = () => {
               key={index}
               className="group bg-gray-800/50 rounded-2xl border border-gray-700 overflow-hidden hover:border-viralOrange/50 transition-all duration-300"
             >
-              {/* Screenshot mockup area */}
               <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
                 <item.icon className="w-16 h-16 text-viralOrange/30 group-hover:text-viralOrange/50 transition-colors" />
@@ -90,7 +92,7 @@ const DemoSection = () => {
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-semibold"
           >
             <Play className="w-5 h-5 mr-2" />
-            Book a personalized demo
+            {t('demo.ctaPrimary')}
           </Button>
           <Button 
             onClick={handleWhatsApp}
@@ -99,7 +101,7 @@ const DemoSection = () => {
             className="border-green-600 text-green-500 hover:bg-green-600/10"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
-            Chat on WhatsApp
+            {t('demo.ctaSecondary')}
           </Button>
         </div>
       </div>

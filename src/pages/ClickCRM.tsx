@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import Logo from '@/components/logo';
+import LanguageSwitcher from '@/components/language-switcher';
 import HeroSection from '@/components/clickcrm/hero-section';
 import ProblemSection from '@/components/clickcrm/problem-section';
 import BenefitsSection from '@/components/clickcrm/benefits-section';
@@ -18,6 +20,8 @@ import TestimonialsSection from '@/components/clickcrm/testimonials-section';
 import CaseStudySection from '@/components/clickcrm/case-study-section';
 
 const ViralClicker = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-viralDark flex flex-col">
       {/* Header */}
@@ -25,58 +29,34 @@ const ViralClicker = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Logo />
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">How it works</a>
-            <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Features</a>
-            <a href="#planes" className="text-white/80 hover:text-white transition-colors">Pricing</a>
-            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Get started</a>
+            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">{t('nav.howItWorks')}</a>
+            <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">{t('nav.features')}</a>
+            <a href="#planes" className="text-white/80 hover:text-white transition-colors">{t('nav.pricing')}</a>
+            <a href="#contacto" className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors">{t('nav.getStarted')}</a>
           </nav>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+          </div>
         </div>
       </header>
 
       <main className="flex-grow">
-        {/* Hero Section with Video */}
         <HeroSection />
-        
-        {/* Problem Section */}
         <ProblemSection />
         <SectionCTA variant="subtle" />
-        
-        {/* Benefits Section */}
         <BenefitsSection />
-        
-        {/* How It Works Section */}
         <HowItWorksSection />
         <SectionCTA variant="subtle" />
-        
-        {/* Features Section */}
         <FeaturesSection />
-        
-        {/* Integrations Section */}
         <IntegrationsSection />
-        
-        {/* Demo / Screenshots Section */}
         <DemoSection />
-        
-        {/* Target Audience Section */}
         <TargetAudienceSection />
-        
-        {/* Testimonials Section */}
         <TestimonialsSection />
-        
-        {/* Case Study Section */}
         <CaseStudySection />
-        
-        {/* Results Section - Above Pricing */}
         <ResultsSection />
-        
-        {/* Pricing Section with Comparison Table */}
         <PricingSection />
         <SectionCTA variant="subtle" />
-        
-        {/* FAQ Section */}
         <FaqSection />
-        
-        {/* Contact Form Section */}
         <ContactFormSection />
       </main>
 
@@ -85,25 +65,24 @@ const ViralClicker = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-white/60 text-center md:text-left text-sm">
-              © 2025 Viral Clicker. All rights reserved.
+              {t('footer.rights')}
             </div>
             <div className="flex items-center gap-4">
               <a 
                 href="/terminos" 
                 className="text-white/40 hover:text-white/60 text-sm transition-colors"
               >
-                Terms of Service
+                {t('footer.terms')}
               </a>
               <span className="text-white/20">|</span>
               <span className="text-white/40 text-sm">
-                Made with ❤️ by MORMOY
+                {t('footer.madeBy')}
               </span>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating Buttons */}
       <WhatsAppButton />
       <FloatingDemoButton />
     </div>

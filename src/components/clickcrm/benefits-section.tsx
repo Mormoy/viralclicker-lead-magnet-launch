@@ -1,48 +1,51 @@
+import { useTranslation } from 'react-i18next';
 import { Link, TrendingUp, Clock, Percent, MessageCircle, BarChart3 } from 'lucide-react';
 
-const benefits = [
-  {
-    icon: Link,
-    title: "Live quote link",
-    description: "Each quote has a unique link that the client can view, modify, and approve. No static PDFs."
-  },
-  {
-    icon: Percent,
-    title: "Coupons on quotes",
-    description: "Create discount codes and apply them directly to active quotes. Perfect for closing deals."
-  },
-  {
-    icon: MessageCircle,
-    title: "Internal WhatsApp campaigns",
-    description: "Send promotions and follow-ups to your lead base directly from the CRM."
-  },
-  {
-    icon: BarChart3,
-    title: "Post-sale tracking",
-    description: "Monitor each client's status after the sale: installation, payment, satisfaction."
-  },
-  {
-    icon: TrendingUp,
-    title: "More closes, fewer leaks",
-    description: "Automated follow-up that keeps your clients warm until they close."
-  },
-  {
-    icon: Clock,
-    title: "Setup in 7 days",
-    description: "Your system ready and running in one week. No endless waits or never-ending projects."
-  }
-];
-
 const BenefitsSection = () => {
+  const { t } = useTranslation();
+
+  const benefits = [
+    {
+      icon: Link,
+      title: t('benefits.benefit1Title'),
+      description: t('benefits.benefit1Desc')
+    },
+    {
+      icon: Percent,
+      title: t('benefits.benefit2Title'),
+      description: t('benefits.benefit2Desc')
+    },
+    {
+      icon: MessageCircle,
+      title: t('benefits.benefit3Title'),
+      description: t('benefits.benefit3Desc')
+    },
+    {
+      icon: BarChart3,
+      title: t('benefits.benefit4Title'),
+      description: t('benefits.benefit4Desc')
+    },
+    {
+      icon: TrendingUp,
+      title: t('benefits.benefit5Title'),
+      description: t('benefits.benefit5Desc')
+    },
+    {
+      icon: Clock,
+      title: t('benefits.benefit6Title'),
+      description: t('benefits.benefit6Desc')
+    }
+  ];
+
   return (
     <section className="py-16 px-4 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Why ClickCRM?
+            {t('benefits.title')}
           </h2>
           <p className="text-white/70 text-lg">
-            The tools you need to sell more via WhatsApp
+            {t('benefits.subtitle')}
           </p>
         </div>
 
