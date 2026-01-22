@@ -1,38 +1,41 @@
+import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Clock, MessageSquareX, FileX } from 'lucide-react';
 
-const problems = [
-  {
-    icon: Clock,
-    title: "Leads going cold",
-    description: "Customers ask for quotes, but if you don't respond fast, they go to your competitor."
-  },
-  {
-    icon: FileX,
-    title: "Lost quotes",
-    description: "You send quotes via WhatsApp and don't know which ones are pending or closed."
-  },
-  {
-    icon: MessageSquareX,
-    title: "Messy WhatsApp",
-    description: "Thousands of chats with no organization. You don't know who needs follow-up or when."
-  },
-  {
-    icon: AlertTriangle,
-    title: "No control or metrics",
-    description: "No visibility on how many leads come in, how many quote, and how many close."
-  }
-];
-
 const ProblemSection = () => {
+  const { t } = useTranslation();
+
+  const problems = [
+    {
+      icon: Clock,
+      title: t('problems.problem1Title'),
+      description: t('problems.problem1Desc')
+    },
+    {
+      icon: FileX,
+      title: t('problems.problem2Title'),
+      description: t('problems.problem2Desc')
+    },
+    {
+      icon: MessageSquareX,
+      title: t('problems.problem3Title'),
+      description: t('problems.problem3Desc')
+    },
+    {
+      icon: AlertTriangle,
+      title: t('problems.problem4Title'),
+      description: t('problems.problem4Desc')
+    }
+  ];
+
   return (
     <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Sound familiar?
+            {t('problems.title')}
           </h2>
           <p className="text-white/70 text-lg">
-            These are the most common problems for small businesses that sell via quotes
+            {t('problems.subtitle')}
           </p>
         </div>
 
@@ -57,7 +60,7 @@ const ProblemSection = () => {
 
         <div className="text-center mt-12">
           <p className="text-viralOrange font-semibold text-xl">
-            ClickCRM solves all of this in one place 👇
+            {t('problems.solution')}
           </p>
         </div>
       </div>

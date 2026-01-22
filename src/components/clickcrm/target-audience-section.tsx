@@ -1,60 +1,36 @@
+import { useTranslation } from 'react-i18next';
 import { CheckCircle, XCircle, Building2, ShoppingCart, MessageSquare, FileText, Users, Clock } from 'lucide-react';
 
-const idealFor = [
-  {
-    icon: FileText,
-    text: "Businesses that send quotes or estimates"
-  },
-  {
-    icon: MessageSquare,
-    text: "Companies that close sales via WhatsApp"
-  },
-  {
-    icon: Building2,
-    text: "Service-based small businesses: installations, repairs, construction"
-  },
-  {
-    icon: Users,
-    text: "Sales teams that need organized follow-up"
-  },
-  {
-    icon: Clock,
-    text: "Businesses losing sales due to lack of follow-up"
-  }
-];
-
-const notFor = [
-  {
-    icon: ShoppingCart,
-    text: "E-commerce stores with shopping carts"
-  },
-  {
-    icon: XCircle,
-    text: "Businesses without a quoting process"
-  },
-  {
-    icon: XCircle,
-    text: "Companies that don't use WhatsApp for sales"
-  },
-  {
-    icon: XCircle,
-    text: "Businesses with fully integrated CRM and ERP"
-  }
-];
-
 const TargetAudienceSection = () => {
+  const { t } = useTranslation();
+
+  const idealFor = [
+    { icon: FileText, text: t('audience.ideal1') },
+    { icon: MessageSquare, text: t('audience.ideal2') },
+    { icon: Building2, text: t('audience.ideal3') },
+    { icon: Users, text: t('audience.ideal4') },
+    { icon: Clock, text: t('audience.ideal5') }
+  ];
+
+  const notFor = [
+    { icon: ShoppingCart, text: t('audience.not1') },
+    { icon: XCircle, text: t('audience.not2') },
+    { icon: XCircle, text: t('audience.not3') },
+    { icon: XCircle, text: t('audience.not4') }
+  ];
+
   return (
     <section className="py-16 px-4 bg-gray-900/30 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="inline-block bg-viralOrange/20 text-viralOrange px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Is it for you?
+            {t('audience.badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Who is ClickCRM for?
+            {t('audience.title')}
           </h2>
           <p className="text-white/70 text-lg">
-            We're honest: it's not for everyone. Check if you fit our ideal profile.
+            {t('audience.subtitle')}
           </p>
         </div>
 
@@ -65,7 +41,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-green-600/20 rounded-full flex items-center justify-center">
                 <CheckCircle className="w-6 h-6 text-green-500" />
               </div>
-              <h3 className="text-xl font-bold text-white">Perfect for you if...</h3>
+              <h3 className="text-xl font-bold text-white">{t('audience.idealTitle')}</h3>
             </div>
             <ul className="space-y-4">
               {idealFor.map((item, index) => (
@@ -83,7 +59,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-red-600/20 rounded-full flex items-center justify-center">
                 <XCircle className="w-6 h-6 text-red-400" />
               </div>
-              <h3 className="text-xl font-bold text-white">Not for you if...</h3>
+              <h3 className="text-xl font-bold text-white">{t('audience.notTitle')}</h3>
             </div>
             <ul className="space-y-4">
               {notFor.map((item, index) => (
@@ -98,7 +74,7 @@ const TargetAudienceSection = () => {
 
         <div className="text-center mt-8">
           <p className="text-white/50 text-sm">
-            Not sure? <a href="#contacto" className="text-viralOrange hover:underline">Contact us</a> and we'll help you evaluate if it's the right solution.
+            {t('audience.notSure')} <a href="#contacto" className="text-viralOrange hover:underline">{t('audience.contactUs')}</a> {t('audience.notSureHelp')}
           </p>
         </div>
       </div>
