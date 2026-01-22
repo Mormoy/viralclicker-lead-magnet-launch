@@ -1,4 +1,3 @@
-
 import Logo from '@/components/logo';
 import HeroSection from '@/components/clickcrm/hero-section';
 import ProblemSection from '@/components/clickcrm/problem-section';
@@ -14,6 +13,8 @@ import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import FloatingDemoButton from '@/components/clickcrm/floating-demo-button';
 import SectionCTA from '@/components/clickcrm/section-cta';
+import TestimonialsSection from '@/components/clickcrm/testimonials-section';
+import CaseStudySection from '@/components/clickcrm/case-study-section';
 
 const ViralClicker = () => {
   return (
@@ -54,6 +55,12 @@ const ViralClicker = () => {
         
         {/* Target Audience Section */}
         <TargetAudienceSection />
+        
+        {/* Testimonials Section */}
+        <TestimonialsSection />
+        
+        {/* Case Study Section */}
+        <CaseStudySection />
         
         {/* Results Section - Above Pricing */}
         <ResultsSection />
