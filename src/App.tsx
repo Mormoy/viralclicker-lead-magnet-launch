@@ -10,6 +10,7 @@ import PlaybookClickCRM from "./pages/Playbook";
 import Success from "./pages/Success";
 import PagoFallido from "./pages/PagoFallido";
 import Checkout from "./pages/Checkout";
+import Terminos from "./pages/Terminos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/success" element={<Success />} />
           <Route path="/pago-fallido" element={<PagoFallido />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/terminos" element={<Terminos />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

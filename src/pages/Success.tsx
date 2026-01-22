@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { CheckCircle, Calendar, FileText, Mail, Home, ExternalLink } from 'lucide-react';
+import { CheckCircle, Calendar, FileText, Mail, Home, ExternalLink, MessageCircle, Package, CreditCard } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/logo';
@@ -83,14 +83,46 @@ const Success = () => {
     }
   };
 
-  const getPlanName = (planId: string) => {
-    const plans: Record<string, string> = {
-      starter: 'Starter - $99/mes',
-      pro: 'Pro - $249/mes',
-      elite: 'Elite - $449/mes'
+  const getPlanDetails = (planId: string) => {
+    const plans: Record<string, { name: string; price: string; features: string[] }> = {
+      starter: {
+        name: 'Starter',
+        price: '$99/mes',
+        features: [
+          'Landing + formulario de contacto',
+          'CRM básico con estados',
+          '3 plantillas WhatsApp',
+          'Export CSV',
+          '1 sesión de soporte 30 min/mes'
+        ]
+      },
+      pro: {
+        name: 'Pro',
+        price: '$249/mes',
+        features: [
+          'Todo de Starter +',
+          'Cotizador personalizado',
+          'Automatizaciones n8n',
+          'Campañas internas WhatsApp',
+          'Soporte quincenal 30 min'
+        ]
+      },
+      elite: {
+        name: 'Elite',
+        price: '$449/mes',
+        features: [
+          'Todo de Pro +',
+          'Tracking post-venta',
+          'Automatización avanzada',
+          'Soporte prioritario',
+          'Onboarding: 30 min/semana x4'
+        ]
+      }
     };
-    return plans[planId] || planId;
+    return plans[planId] || plans.starter;
   };
+
+  const planDetails = getPlanDetails(plan);
 
   return (
     <div className="min-h-screen bg-viralDark">
@@ -123,9 +155,39 @@ const Success = () => {
               ¡Pago exitoso! 🎉
             </h1>
             <p className="text-white/70 text-lg">
-              Bienvenido al plan <span className="text-viralOrange font-semibold">{getPlanName(plan)}</span>
+              Bienvenido/a al equipo, <span className="text-viralOrange font-semibold">{nombre || 'cliente'}</span>
             </p>
           </div>
+
+          {/* Plan Summary */}
+          <Card className="bg-gradient-to-br from-viralOrange/20 to-gray-900 border-viralOrange/50 mb-6">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-viralOrange/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Package className="w-6 h-6 text-viralOrange" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                      <h3 className="text-white font-bold text-lg">Plan {planDetails.name}</h3>
+                      <p className="text-viralOrange font-semibold">{planDetails.price}</p>
+                    </div>
+                    {empresa && (
+                      <span className="text-white/60 text-sm">Empresa: {empresa}</span>
+                    )}
+                  </div>
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {planDetails.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-white/70 text-sm">
+                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Receipt Notice */}
           <Card className="bg-gray-800/50 border-gray-700 mb-6">
@@ -135,11 +197,15 @@ const Success = () => {
                   <Mail className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">Recibo/Factura enviado</h3>
+                  <h3 className="text-white font-semibold mb-1">📧 Revisa tu correo</h3>
                   <p className="text-white/60 text-sm">
-                    Tu recibo/factura fue enviado a <span className="text-viralOrange">{email || 'tu correo'}</span>. 
-                    Revisa tu bandeja de entrada (y spam por si acaso).
+                    Te enviamos un email a <span className="text-viralOrange">{email || 'tu correo'}</span> con:
                   </p>
+                  <ul className="text-white/60 text-sm mt-2 space-y-1">
+                    <li>• Recibo/factura de Stripe</li>
+                    <li>• Email de bienvenida con instrucciones</li>
+                    <li>• Link para agendar onboarding</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
@@ -155,25 +221,20 @@ const Success = () => {
                     1
                   </div>
                   <FileText className="w-5 h-5 text-viralOrange" />
-                  Acepta el contrato de servicio
+                  Acepta los términos del servicio
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {contractUrl && (
-                  <Button
-                    variant="outline"
-                    className="w-full border-viralOrange text-viralOrange hover:bg-viralOrange/10"
-                    onClick={() => window.open(contractUrl, '_blank')}
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Ver y firmar contrato (Externo)
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  className="w-full border-viralOrange text-viralOrange hover:bg-viralOrange/10"
+                  onClick={() => navigate('/terminos')}
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Leer términos del servicio
+                </Button>
                 
                 <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-                  <p className="text-white/60 text-sm mb-4">
-                    O acepta aquí directamente:
-                  </p>
                   <div className="flex items-start gap-3">
                     <Checkbox 
                       id="contract"
@@ -182,8 +243,8 @@ const Success = () => {
                       className="mt-1"
                     />
                     <label htmlFor="contract" className="text-white/80 text-sm cursor-pointer">
-                      Acepto los términos y condiciones del contrato de servicio de Viral Clicker. 
-                      Entiendo que el servicio se factura mensualmente y que Twilio/WhatsApp se paga por separado.
+                      He leído y acepto los <a href="/terminos" target="_blank" className="text-viralOrange hover:underline">términos del servicio</a> de Viral Clicker. 
+                      Entiendo que el servicio se factura mensualmente y que Twilio/WhatsApp se paga por separado directamente a Twilio.
                     </label>
                   </div>
                 </div>
@@ -211,7 +272,7 @@ const Success = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-white/60 text-sm mb-4">
-                  Selecciona un horario para tu sesión de onboarding. Si no agendas ahora, recibirás recordatorios.
+                  Selecciona un horario para tu sesión de onboarding 1:1. Aquí configuraremos todo tu sistema.
                 </p>
                 
                 {/* Calendly Embed */}
@@ -239,8 +300,32 @@ const Success = () => {
               </CardContent>
             </Card>
 
+            {/* WhatsApp Alternative */}
+            <Card className="bg-green-900/20 border-green-700/30">
+              <CardContent className="pt-6">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="w-6 h-6 text-green-400" />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h3 className="text-white font-semibold mb-1">¿No puedes agendar ahora?</h3>
+                    <p className="text-white/60 text-sm">
+                      Escríbenos por WhatsApp y coordinamos un horario que te sirva.
+                    </p>
+                  </div>
+                  <Button
+                    className="bg-green-600 hover:bg-green-700 w-full sm:w-auto"
+                    onClick={() => window.open(`https://wa.me/56912345678?text=Hola,%20acabo%20de%20contratar%20el%20plan%20${plan}%20y%20quiero%20agendar%20mi%20onboarding`, '_blank')}
+                  >
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    WhatsApp
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Next Steps */}
-            <Card className="bg-gradient-to-br from-viralOrange/10 to-gray-900 border-viralOrange/30">
+            <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-white">📋 Próximos pasos</CardTitle>
               </CardHeader>
@@ -252,15 +337,15 @@ const Success = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span>Acepta el contrato de servicio</span>
+                    <span>Acepta los términos del servicio</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span>Agenda tu onboarding (recibirás confirmación)</span>
+                    <span>Agenda tu onboarding</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-5 h-5 border-2 border-white/40 rounded flex-shrink-0 mt-0.5" />
-                    <span>Prepara tu logo, colores y catálogo de productos</span>
+                    <span>Prepara: logo, colores de marca, catálogo de productos/servicios</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-5 h-5 border-2 border-white/40 rounded flex-shrink-0 mt-0.5" />
@@ -269,18 +354,6 @@ const Success = () => {
                 </ul>
               </CardContent>
             </Card>
-          </div>
-
-          {/* WhatsApp Support */}
-          <div className="text-center mt-8">
-            <p className="text-white/60 mb-4">¿Tienes dudas?</p>
-            <Button
-              variant="outline"
-              className="border-green-600 text-green-400 hover:bg-green-600/20"
-              onClick={() => window.open('https://wa.me/56912345678?text=Hola,%20acabo%20de%20contratar%20y%20tengo%20una%20duda', '_blank')}
-            >
-              Escríbenos por WhatsApp
-            </Button>
           </div>
         </div>
       </main>
