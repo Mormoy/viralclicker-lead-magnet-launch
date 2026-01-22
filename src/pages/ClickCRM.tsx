@@ -83,8 +83,17 @@ const ViralClicker = () => {
             <div className="text-white/60 text-center md:text-left text-sm">
               © 2025 Viral Clicker. Todos los derechos reservados.
             </div>
-            <div className="text-white/40 text-sm">
-              Hecho con ❤️ por el equipo de MORMOY
+            <div className="flex items-center gap-4">
+              <a 
+                href="/terminos" 
+                className="text-white/40 hover:text-white/60 text-sm transition-colors"
+              >
+                Términos del servicio
+              </a>
+              <span className="text-white/20">|</span>
+              <span className="text-white/40 text-sm">
+                Hecho con ❤️ por MORMOY
+              </span>
             </div>
           </div>
         </div>
