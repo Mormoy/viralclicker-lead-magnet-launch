@@ -39,8 +39,8 @@ const faqs = [
     answer: "Pagas tu plan mensual con tarjeta (crédito/débito) a través de Stripe. Recibes recibo automático en tu correo. El pago se renueva cada mes. Puedes cancelar cuando quieras."
   },
   {
-    question: "¿Qué incluye el setup inicial?",
-    answer: "El setup ($500+ según complejidad) incluye: diseño de tu landing personalizada, configuración del cotizador con tus productos/servicios, setup del CRM, integración con WhatsApp Business API, y onboarding personalizado."
+    question: "¿Qué incluye el setup inicial y cuánto cuesta?",
+    answer: "El setup es un pago único que varía según la complejidad de tu negocio: Simple ($500) para catálogos pequeños con precios fijos; Estándar ($750) para catálogos medianos con variables como medidas o materiales; Complejo ($1,000+) para catálogos extensos con lógica de precios sofisticada. Todos incluyen: diseño de landing, configuración del cotizador y CRM, integración con WhatsApp Business API, y onboarding personalizado 1:1."
   },
   {
     question: "¿Qué son 'cambios menores'?",

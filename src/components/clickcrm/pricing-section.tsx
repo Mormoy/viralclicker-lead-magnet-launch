@@ -150,34 +150,95 @@ const PricingSection = () => {
         {/* Comparison Table */}
         <ComparisonTable />
 
-        {/* Setup note */}
-        <div className="max-w-3xl mx-auto mt-12 mb-6">
+        {/* Setup Inicial - 3 Rangos */}
+        <div className="max-w-4xl mx-auto mt-12 mb-6">
           <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-viralOrange/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <Settings className="w-5 h-5 text-viralOrange" />
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Settings className="w-6 h-6 text-viralOrange" />
+                <h4 className="text-white font-bold text-xl">Setup Inicial</h4>
               </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2 flex-wrap">
-                  <h4 className="text-white font-bold">
-                    💼 Setup inicial: <span className="text-white/40 line-through">$999</span> <span className="text-viralOrange">$499</span>
-                  </h4>
-                  <span className="bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-xs font-bold border border-green-500/30">
-                    50% OFF
+              <p className="text-white/60 text-sm">
+                Pago único según la complejidad de tu negocio y catálogo
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              {/* Simple */}
+              <div className="bg-gray-900/60 rounded-xl p-5 border border-gray-700">
+                <div className="text-center mb-4">
+                  <span className="text-viralOrange font-bold text-2xl">$500</span>
+                  <h5 className="text-white font-semibold mt-1">Simple</h5>
+                </div>
+                <ul className="text-white/60 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Catálogo pequeño (hasta 10 productos/servicios)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Cotizador con precios fijos</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Ideal para servicios simples o productos estándar</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Estándar */}
+              <div className="bg-gray-900/60 rounded-xl p-5 border border-viralOrange/50 relative">
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-viralOrange text-white px-3 py-0.5 rounded-full text-xs font-semibold">
+                    Más común
                   </span>
                 </div>
-                <p className="text-white/70 text-sm mb-3">
-                  El costo varía según la complejidad de tu negocio y catálogo.
-                </p>
-                <ul className="text-white/60 text-sm space-y-1">
-                  <li>• Diseño de landing personalizada con tu marca</li>
-                  <li>• Configuración del cotizador con tus productos/servicios</li>
-                  <li>• Setup del CRM con estados personalizados</li>
-                  <li>• Integración con WhatsApp Business API (Twilio)</li>
-                  <li>• Onboarding personalizado 1:1</li>
+                <div className="text-center mb-4 pt-2">
+                  <span className="text-viralOrange font-bold text-2xl">$750</span>
+                  <h5 className="text-white font-semibold mt-1">Estándar</h5>
+                </div>
+                <ul className="text-white/60 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Catálogo mediano (11-30 productos/servicios)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Cotizador con variables (medidas, materiales, etc.)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Para negocios con opciones personalizables</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Complejo */}
+              <div className="bg-gray-900/60 rounded-xl p-5 border border-gray-700">
+                <div className="text-center mb-4">
+                  <span className="text-viralOrange font-bold text-2xl">$1,000+</span>
+                  <h5 className="text-white font-semibold mt-1">Complejo</h5>
+                </div>
+                <ul className="text-white/60 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Catálogo extenso (+30 productos/servicios)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Lógica de precios con múltiples variables</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>Empresas con procesos de cotización sofisticados</span>
+                  </li>
                 </ul>
               </div>
             </div>
+
+            <p className="text-white/50 text-xs text-center mt-4">
+              Todos los setups incluyen: diseño de landing, configuración del CRM, integración WhatsApp API y onboarding 1:1
+            </p>
           </div>
         </div>
 
@@ -213,7 +274,7 @@ const PricingSection = () => {
                   <span className="text-white font-medium">Setup inicial</span>
                 </div>
                 <p className="text-white/60 text-sm">
-                  Pago único desde <strong className="text-white/80">$500</strong> según complejidad. Incluye diseño, configuración completa del sistema y onboarding personalizado.
+                  Pago único desde <strong className="text-white/80">$500 a $1,000+</strong> según complejidad (tamaño de catálogo y variables de cotización).
                 </p>
               </div>
 
