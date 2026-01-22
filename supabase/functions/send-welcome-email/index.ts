@@ -178,7 +178,7 @@ const handler = async (req: Request): Promise<Response> => {
     <!-- WhatsApp Support -->
     <div style="text-align: center; margin-top: 24px;">
       <p style="color: #6b7280; margin: 0 0 12px 0;">¿Tienes dudas? Escríbenos:</p>
-      <a href="https://wa.me/56912345678?text=Hola,%20acabo%20de%20contratar%20el%20plan%20${plan}" style="display: inline-block; background: #25d366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+      <a href="https://wa.me/13051234567?text=Hola,%20acabo%20de%20contratar%20el%20plan%20${plan}" style="display: inline-block; background: #25d366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
         💬 WhatsApp de soporte
       </a>
     </div>

@@ -4,9 +4,9 @@ import { Quote } from 'lucide-react';
 const testimonials = [
   {
     nombre: "Carolina Méndez",
-    cargo: "Dueña",
-    rubro: "Cortinas y decoración",
-    ciudad: "Copiapó, Atacama",
+    cargo: "Owner",
+    rubro: "Blinds & Window Treatments",
+    ciudad: "Miami, FL",
     iniciales: "CM",
     antes: "Perdía cotizaciones porque no alcanzaba a responder. Los clientes preguntaban por WhatsApp y cuando les contestaba ya habían comprado en otro lado.",
     despues: "Ahora respondo en menos de 1 minuto con el cotizador automático. El cliente recibe su presupuesto al instante y yo solo cierro la venta.",
@@ -14,9 +14,9 @@ const testimonials = [
   },
   {
     nombre: "Rodrigo Fuentes",
-    cargo: "Gerente Comercial",
-    rubro: "Eventos y banquetería",
-    ciudad: "Santiago, RM",
+    cargo: "Sales Manager",
+    rubro: "Events & Catering",
+    ciudad: "Orlando, FL",
     iniciales: "RF",
     antes: "Tenía leads en Excel, WhatsApp, correo... un desorden total. Se me olvidaba hacer seguimiento y perdía ventas por no insistir a tiempo.",
     despues: "Con el CRM tengo todo centralizado. Veo quién cotizó, quién no ha respondido y les mando recordatorio automático. Cierro más sin trabajar más.",
@@ -24,9 +24,9 @@ const testimonials = [
   },
   {
     nombre: "Marcelo Aravena",
-    cargo: "Jefe de Ventas",
-    rubro: "Materiales de construcción",
-    ciudad: "Antofagasta",
+    cargo: "Sales Director",
+    rubro: "Construction Materials",
+    ciudad: "Fort Lauderdale, FL",
     iniciales: "MA",
     antes: "Los vendedores respondían cuando querían. No había control de tiempos ni de qué se le decía a cada cliente. Perdíamos oportunidades todos los días.",
     despues: "Ahora cada lead entra al sistema, se asigna automáticamente y tengo métricas de respuesta. El equipo responde en minutos, no en horas.",

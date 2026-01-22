@@ -7,7 +7,7 @@ const Gracias = () => {
   const navigate = useNavigate();
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20acabo%20de%20completar%20el%20formulario%20de%20ClickCRM', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20acabo%20de%20completar%20el%20formulario%20de%20ClickCRM', '_blank');
   };
 
   return (

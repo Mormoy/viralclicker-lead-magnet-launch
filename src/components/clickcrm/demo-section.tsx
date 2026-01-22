@@ -21,7 +21,7 @@ const screenshots = [
 
 const DemoSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20quiero%20ver%20una%20demo%20de%20Viral%20Clicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20quiero%20ver%20una%20demo%20de%20Viral%20Clicker', '_blank');
   };
 
   const scrollToContact = () => {

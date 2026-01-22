@@ -315,7 +315,7 @@ const Success = () => {
                   </div>
                   <Button
                     className="bg-green-600 hover:bg-green-700 w-full sm:w-auto"
-                    onClick={() => window.open(`https://wa.me/56912345678?text=Hola,%20acabo%20de%20contratar%20el%20plan%20${plan}%20y%20quiero%20agendar%20mi%20onboarding`, '_blank')}
+                    onClick={() => window.open(`https://wa.me/13051234567?text=Hola,%20acabo%20de%20contratar%20el%20plan%20${plan}%20y%20quiero%20agendar%20mi%20onboarding`, '_blank')}
                   >
                     <MessageCircle className="w-4 h-4 mr-2" />
                     WhatsApp

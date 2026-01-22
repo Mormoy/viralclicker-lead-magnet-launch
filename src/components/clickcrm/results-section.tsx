@@ -24,7 +24,7 @@ const metrics = [
 
 const ResultsSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/56912345678?text=Hola,%20quiero%20ver%20un%20ejemplo%20de%20Viral%20Clicker%20para%20mi%20rubro', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20quiero%20ver%20un%20ejemplo%20de%20Viral%20Clicker%20para%20mi%20rubro', '_blank');
   };
 
   return (

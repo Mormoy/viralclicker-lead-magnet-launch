@@ -11,7 +11,7 @@ const terms = {
   lastUpdated: "22 de enero de 2025",
   companyName: "Viral Clicker by MORMOY",
   supportEmail: "soporte@viralclicker.com",
-  supportWhatsApp: "+56912345678"
+  supportWhatsApp: "+1 (305) 123-4567"
 };
 
 const Terminos = () => {
@@ -127,7 +127,7 @@ const Terminos = () => {
                 </p>
                 <p>
                   El soporte se brinda en horario laboral: <strong className="text-white">Lunes a Viernes, 
-                  9:00 a 18:00 hrs (hora Chile)</strong>.
+                  9:00 AM a 6:00 PM (EST - Eastern Time)</strong>.
                 </p>
               </div>
             </section>
