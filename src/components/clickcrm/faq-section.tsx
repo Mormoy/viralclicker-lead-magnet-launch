@@ -37,6 +37,10 @@ const faqs = [
   {
     question: "¿Puedo usar mi propio dominio?",
     answer: "Sí. Conectamos tu dominio existente (ej: cotiza.tuempresa.com) sin costo adicional de configuración. Solo pagas el dominio si no lo tienes."
+  },
+  {
+    question: "¿Cómo funciona el soporte técnico?",
+    answer: "Respondemos por WhatsApp y email en horario laboral (lunes a viernes, 9:00 a 18:00 hora Chile). Tiempo de respuesta: menos de 4 horas en días hábiles. Planes Elite tienen prioridad y respuesta en menos de 2 horas."
   }
 ];
 
