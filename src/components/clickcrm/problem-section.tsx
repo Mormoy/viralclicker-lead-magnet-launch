@@ -3,40 +3,40 @@ import { AlertTriangle, Clock, MessageSquareX, FileX } from 'lucide-react';
 const problems = [
   {
     icon: Clock,
-    title: "Leads que se enfrían",
-    description: "Los clientes preguntan, pero si no respondes rápido, se van con la competencia."
+    title: "Leads going cold",
+    description: "Customers ask for quotes, but if you don't respond fast, they go to your competitor."
   },
   {
     icon: FileX,
-    title: "Cotizaciones perdidas",
-    description: "Envías cotizaciones por WhatsApp y no sabes cuáles están pendientes o cerradas."
+    title: "Lost quotes",
+    description: "You send quotes via WhatsApp and don't know which ones are pending or closed."
   },
   {
     icon: MessageSquareX,
-    title: "WhatsApp desordenado",
-    description: "Miles de chats sin organizar, no sabes quién necesita seguimiento ni cuándo."
+    title: "Messy WhatsApp",
+    description: "Thousands of chats with no organization. You don't know who needs follow-up or when."
   },
   {
     icon: AlertTriangle,
-    title: "Sin control ni métricas",
-    description: "No tienes visibilidad de cuántos leads llegan, cuántos cotizan y cuántos cierran."
+    title: "No control or metrics",
+    description: "No visibility on how many leads come in, how many quote, and how many close."
   }
 ];
 
 const ProblemSection = () => {
   return (
-    <section className="py-16 px-4 bg-gray-900/50">
+    <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            ¿Te suena familiar?
+            Sound familiar?
           </h2>
           <p className="text-white/70 text-lg">
-            Estos son los problemas más comunes de las PyMEs que venden por cotización
+            These are the most common problems for small businesses that sell via quotes
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto landscape-grid">
           {problems.map((problem, index) => (
             <div 
               key={index}
@@ -57,7 +57,7 @@ const ProblemSection = () => {
 
         <div className="text-center mt-12">
           <p className="text-viralOrange font-semibold text-xl">
-            ClickCRM resuelve todo esto en un solo lugar 👇
+            ClickCRM solves all of this in one place 👇
           </p>
         </div>
       </div>
