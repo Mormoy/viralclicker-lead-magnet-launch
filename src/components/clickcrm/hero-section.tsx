@@ -6,11 +6,15 @@ const HeroSection = () => {
   const { t } = useTranslation();
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ClickCRM', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
   };
 
   const scrollToPricing = () => {
     document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToContact = () => {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -61,7 +65,10 @@ const HeroSection = () => {
             </div>
             <div className="aspect-video bg-gray-900 flex items-center justify-center relative">
               <div className="text-center p-8">
-                <div className="w-20 h-20 mx-auto mb-4 bg-viralOrange/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-viralOrange/30 transition-colors">
+                <div 
+                  onClick={scrollToContact}
+                  className="w-20 h-20 mx-auto mb-4 bg-viralOrange/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-viralOrange/30 transition-colors"
+                >
                   <Play className="w-10 h-10 text-viralOrange" />
                 </div>
                 <p className="text-white/60 text-sm mb-4">{t('hero.videoComingSoon')}</p>
@@ -75,6 +82,12 @@ const HeroSection = () => {
                     <li>{t('hero.videoStep5')}</li>
                   </ul>
                 </div>
+                <Button 
+                  onClick={scrollToContact}
+                  className="mt-4 bg-viralOrange hover:bg-viralOrange/90 text-white"
+                >
+                  {t('hero.requestDemo')}
+                </Button>
               </div>
             </div>
           </div>

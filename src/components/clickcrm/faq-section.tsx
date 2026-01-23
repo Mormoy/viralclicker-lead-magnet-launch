@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { MessageCircle } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/accordion';
+import { useTranslation } from 'react-i18next';
 
 const FaqSection = () => {
   const { t } = useTranslation();
@@ -25,51 +25,51 @@ const FaqSection = () => {
   ];
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%20have%20a%20question%20about%20ClickCRM', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%20have%20a%20question%20about%20ViralClicker', '_blank');
   };
 
   return (
     <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('faq.title')}
-          </h2>
-          <p className="text-white/70 text-lg">
-            {t('faq.subtitle')}
-          </p>
-        </div>
-
         <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t('faq.title')}
+            </h2>
+            <p className="text-white/60">
+              {t('faq.subtitle')}
+            </p>
+          </div>
+
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-gray-800/50 rounded-xl border border-gray-700 px-6"
+                className="bg-gray-800/50 border border-gray-700 rounded-lg px-4"
               >
-                <AccordionTrigger className="text-white hover:text-viralOrange text-left py-5">
+                <AccordionTrigger className="text-white hover:text-viralOrange text-left py-4">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-white/70 pb-5">
+                <AccordionContent className="text-white/70 pb-4">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
 
-        <div className="text-center mt-10">
-          <p className="text-white/50 text-sm mb-4">
-            {t('faq.stillQuestions')}
-          </p>
-          <Button 
-            onClick={handleWhatsApp}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <MessageCircle className="w-5 h-5 mr-2" />
-            {t('faq.chatWithUs')}
-          </Button>
+          {/* CTA at the end */}
+          <div className="mt-10 text-center">
+            <p className="text-white/60 mb-4">{t('faq.stillQuestions')}</p>
+            <Button 
+              onClick={handleWhatsApp}
+              variant="outline"
+              className="border-green-600 text-green-400 hover:bg-green-600/20 px-6 py-5"
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              {t('faq.chatWithUs')}
+            </Button>
+          </div>
         </div>
       </div>
     </section>

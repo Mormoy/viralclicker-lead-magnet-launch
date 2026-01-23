@@ -84,8 +84,8 @@ serve(async (req) => {
         price_data: {
           currency: "usd",
           product_data: {
-            name: `ClickCRM Plan ${plan.name}`,
-            description: `Suscripción mensual al plan ${plan.name}`,
+            name: `ViralClicker Plan ${plan.name}`,
+            description: `Monthly subscription to ${plan.name} plan`,
           },
           unit_amount: plan.price,
           recurring: { interval: "month" },
@@ -100,8 +100,8 @@ serve(async (req) => {
         price_data: {
           currency: "usd",
           product_data: {
-            name: "Setup Inicial ClickCRM",
-            description: "Configuración e implementación personalizada (pago único)",
+            name: "ViralClicker Initial Setup",
+            description: "Custom configuration and implementation (one-time payment)",
           },
           unit_amount: SETUP_PRICE,
         },

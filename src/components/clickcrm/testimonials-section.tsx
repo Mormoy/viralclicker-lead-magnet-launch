@@ -3,34 +3,34 @@ import { Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    nombre: "Carolina Méndez",
+    nombre: "Carolina M.",
     cargo: "Owner",
     rubro: "Blinds & Window Treatments",
     ciudad: "Miami, FL",
     iniciales: "CM",
-    antes: "Perdía cotizaciones porque no alcanzaba a responder. Los clientes preguntaban por WhatsApp y cuando les contestaba ya habían comprado en otro lado.",
-    despues: "Ahora respondo en menos de 1 minuto con el cotizador automático. El cliente recibe su presupuesto al instante y yo solo cierro la venta.",
-    metrica: "-80% tiempo de respuesta"
+    antes: "Respondíamos tarde y se perdían cotizaciones. Los clientes preguntaban por WhatsApp y cuando contestábamos ya habían comprado en otro lado.",
+    despues: "Con ViralClicker el cliente cotiza, recibe PDF y link vivo, y cerramos por WhatsApp. Menos seguimiento manual, más cierres.",
+    metrica: "Menos tiempo respondiendo, más cierres"
   },
   {
-    nombre: "Rodrigo Fuentes",
+    nombre: "Roberto F.",
     cargo: "Sales Manager",
-    rubro: "Events & Catering",
+    rubro: "Events & Party Rentals",
     ciudad: "Orlando, FL",
     iniciales: "RF",
-    antes: "Tenía leads en Excel, WhatsApp, correo... un desorden total. Se me olvidaba hacer seguimiento y perdía ventas por no insistir a tiempo.",
-    despues: "Con el CRM tengo todo centralizado. Veo quién cotizó, quién no ha respondido y les mando recordatorio automático. Cierro más sin trabajar más.",
-    metrica: "+35% tasa de cierre"
+    antes: "Muchos mensajes, pocas reservas. Teníamos leads en Excel, WhatsApp, correo... un desorden total. Se olvidaban seguimientos.",
+    despues: "Cotización instantánea + seguimiento automático + ofertas por WhatsApp. Todo centralizado en un solo lugar.",
+    metrica: "Seguimiento ordenado, más reservas"
   },
   {
-    nombre: "Marcelo Aravena",
-    cargo: "Sales Director",
-    rubro: "Construction Materials",
+    nombre: "Miguel A.",
+    cargo: "Service Manager",
+    rubro: "HVAC & Repairs",
     ciudad: "Fort Lauderdale, FL",
     iniciales: "MA",
-    antes: "Los vendedores respondían cuando querían. No había control de tiempos ni de qué se le decía a cada cliente. Perdíamos oportunidades todos los días.",
-    despues: "Ahora cada lead entra al sistema, se asigna automáticamente y tengo métricas de respuesta. El equipo responde en minutos, no en horas.",
-    metrica: "+50% leads atendidos"
+    antes: "Leads sin orden. Los técnicos respondían cuando podían. No había control de tiempos ni métricas.",
+    despues: "CRM simple + pipeline + recordatorios automáticos. Cada lead entra al sistema y se asigna al instante.",
+    metrica: "Mejor control, respuestas más rápidas"
   }
 ];
 
@@ -44,10 +44,10 @@ const TestimonialsSection = () => {
             Testimonios
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-4">
-            Resultados reales de PyMEs como la tuya
+            Resultados reales de Small Businesses como el tuyo
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto">
-            Negocios que ya automatizaron su proceso de ventas con ClickCRM
+            Negocios que ya automatizaron su proceso de ventas con ViralClicker
           </p>
         </div>
 
@@ -76,7 +76,7 @@ const TestimonialsSection = () => {
 
                 {/* Metric badge */}
                 <div className="flex justify-center mb-4">
-                  <span className="bg-viralOrange/20 text-viralOrange text-sm font-bold px-4 py-2 rounded-full">
+                  <span className="bg-viralOrange/20 text-viralOrange text-sm font-bold px-4 py-2 rounded-full text-center">
                     {testimonial.metrica}
                   </span>
                 </div>
@@ -96,6 +96,11 @@ const TestimonialsSection = () => {
             </Card>
           ))}
         </div>
+
+        {/* Disclaimer */}
+        <p className="text-white/40 text-xs text-center mt-8 max-w-2xl mx-auto">
+          Los resultados varían según rubro, ticket promedio y velocidad de atención. Los testimonios reflejan experiencias individuales.
+        </p>
       </div>
     </section>
   );
