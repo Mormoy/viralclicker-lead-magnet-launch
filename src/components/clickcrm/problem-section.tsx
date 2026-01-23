@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Clock, MessageSquareX, FileX } from 'lucide-react';
+import { MobileCarousel } from '@/components/ui/mobile-carousel';
 
 const ProblemSection = () => {
   const { t } = useTranslation();
@@ -27,6 +28,22 @@ const ProblemSection = () => {
     }
   ];
 
+  const ProblemCard = ({ problem, index }: { problem: typeof problems[0]; index: number }) => (
+    <div 
+      className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 hover:border-red-500/50 transition-colors h-full"
+    >
+      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
+        <problem.icon className="w-6 h-6 text-red-400" />
+      </div>
+      <h3 className="text-white font-semibold text-lg mb-2">
+        {problem.title}
+      </h3>
+      <p className="text-white/60 text-sm">
+        {problem.description}
+      </p>
+    </div>
+  );
+
   return (
     <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
       <div className="container mx-auto">
@@ -39,22 +56,17 @@ const ProblemSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto landscape-grid">
+        {/* Mobile Carousel */}
+        <MobileCarousel className="max-w-6xl mx-auto">
           {problems.map((problem, index) => (
-            <div 
-              key={index}
-              className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 hover:border-red-500/50 transition-colors"
-            >
-              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                <problem.icon className="w-6 h-6 text-red-400" />
-              </div>
-              <h3 className="text-white font-semibold text-lg mb-2">
-                {problem.title}
-              </h3>
-              <p className="text-white/60 text-sm">
-                {problem.description}
-              </p>
-            </div>
+            <ProblemCard key={index} problem={problem} index={index} />
+          ))}
+        </MobileCarousel>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto landscape-grid">
+          {problems.map((problem, index) => (
+            <ProblemCard key={index} problem={problem} index={index} />
           ))}
         </div>
 

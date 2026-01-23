@@ -1,5 +1,6 @@
 import { TrendingUp, Clock, CheckCircle, MessageCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MobileCarousel } from '@/components/ui/mobile-carousel';
 
 const metrics = [
   {
@@ -22,9 +23,26 @@ const metrics = [
   }
 ];
 
+const MetricCard = ({ metric }: { metric: typeof metrics[0] }) => (
+  <div 
+    className="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-700/50 h-full"
+  >
+    <metric.icon className="w-10 h-10 text-viralOrange mx-auto mb-4" />
+    <div className="text-xl font-bold text-viralOrange mb-1">
+      {metric.value}
+    </div>
+    <div className="text-white font-semibold mb-2 text-sm">
+      {metric.label}
+    </div>
+    <p className="text-white/50 text-sm">
+      {metric.description}
+    </p>
+  </div>
+);
+
 const ResultsSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hola,%20quiero%20ver%20un%20ejemplo%20de%20Viral%20Clicker%20para%20mi%20rubro', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20quiero%20ver%20un%20ejemplo%20de%20ViralClicker%20para%20mi%20rubro', '_blank');
   };
 
   return (
@@ -44,23 +62,17 @@ const ResultsSection = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            {/* Mobile Carousel */}
+            <MobileCarousel>
               {metrics.map((metric, index) => (
-                <div 
-                  key={index}
-                  className="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-700/50"
-                >
-                  <metric.icon className="w-10 h-10 text-viralOrange mx-auto mb-4" />
-                  <div className="text-xl font-bold text-viralOrange mb-1">
-                    {metric.value}
-                  </div>
-                  <div className="text-white font-semibold mb-2 text-sm">
-                    {metric.label}
-                  </div>
-                  <p className="text-white/50 text-sm">
-                    {metric.description}
-                  </p>
-                </div>
+                <MetricCard key={index} metric={metric} />
+              ))}
+            </MobileCarousel>
+
+            {/* Desktop Grid */}
+            <div className="hidden md:grid md:grid-cols-3 gap-6">
+              {metrics.map((metric, index) => (
+                <MetricCard key={index} metric={metric} />
               ))}
             </div>
 

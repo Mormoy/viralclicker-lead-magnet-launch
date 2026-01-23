@@ -8,6 +8,7 @@ import {
   BarChart3, 
   Download 
 } from 'lucide-react';
+import { MobileCarousel } from '@/components/ui/mobile-carousel';
 
 const features = [
   {
@@ -52,6 +53,22 @@ const features = [
   }
 ];
 
+const FeatureCard = ({ feature }: { feature: typeof features[0] }) => (
+  <div 
+    className="bg-gray-800/30 rounded-xl p-5 border border-gray-700/50 hover:border-viralOrange/30 transition-all group h-full"
+  >
+    <div className="w-10 h-10 bg-viralOrange/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-viralOrange/20 transition-colors">
+      <feature.icon className="w-5 h-5 text-viralOrange" />
+    </div>
+    <h3 className="text-white font-semibold mb-2">
+      {feature.title}
+    </h3>
+    <p className="text-white/50 text-sm">
+      {feature.description}
+    </p>
+  </div>
+);
+
 const FeaturesSection = () => {
   return (
     <section id="funcionalidades" className="py-16 px-4">
@@ -65,22 +82,17 @@ const FeaturesSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+        {/* Mobile Carousel */}
+        <MobileCarousel className="max-w-6xl mx-auto">
           {features.map((feature, index) => (
-            <div 
-              key={index}
-              className="bg-gray-800/30 rounded-xl p-5 border border-gray-700/50 hover:border-viralOrange/30 transition-all group"
-            >
-              <div className="w-10 h-10 bg-viralOrange/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-viralOrange/20 transition-colors">
-                <feature.icon className="w-5 h-5 text-viralOrange" />
-              </div>
-              <h3 className="text-white font-semibold mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-white/50 text-sm">
-                {feature.description}
-              </p>
-            </div>
+            <FeatureCard key={index} feature={feature} />
+          ))}
+        </MobileCarousel>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          {features.map((feature, index) => (
+            <FeatureCard key={index} feature={feature} />
           ))}
         </div>
       </div>
