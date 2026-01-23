@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageSquare, CreditCard, Workflow, Calendar } from 'lucide-react';
+import { MobileCarousel } from '@/components/ui/mobile-carousel';
 
 const integrations = [
   {
@@ -36,6 +37,23 @@ const integrations = [
   }
 ];
 
+const IntegrationCard = ({ integration }: { integration: typeof integrations[0] }) => (
+  <Card 
+    className="bg-gray-800/50 border-gray-700 hover:border-gray-600 transition-all duration-300 h-full"
+  >
+    <CardContent className="p-5">
+      <div className={`w-12 h-12 ${integration.bgColor} rounded-xl flex items-center justify-center mb-4`}>
+        <integration.icon className={`w-6 h-6 ${integration.color}`} />
+      </div>
+      <h3 className="text-white font-semibold mb-1">{integration.name}</h3>
+      <span className="text-white/40 text-xs uppercase tracking-wide">{integration.provider}</span>
+      <p className="text-white/60 text-sm mt-2 leading-relaxed">
+        {integration.description}
+      </p>
+    </CardContent>
+  </Card>
+);
+
 const IntegrationsSection = () => {
   return (
     <section className="py-16 md:py-20 bg-gray-900/30">
@@ -53,24 +71,17 @@ const IntegrationsSection = () => {
           </p>
         </div>
 
-        {/* Integration Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+        {/* Mobile Carousel */}
+        <MobileCarousel className="max-w-5xl mx-auto">
           {integrations.map((integration, index) => (
-            <Card 
-              key={index} 
-              className="bg-gray-800/50 border-gray-700 hover:border-gray-600 transition-all duration-300"
-            >
-              <CardContent className="p-5">
-                <div className={`w-12 h-12 ${integration.bgColor} rounded-xl flex items-center justify-center mb-4`}>
-                  <integration.icon className={`w-6 h-6 ${integration.color}`} />
-                </div>
-                <h3 className="text-white font-semibold mb-1">{integration.name}</h3>
-                <span className="text-white/40 text-xs uppercase tracking-wide">{integration.provider}</span>
-                <p className="text-white/60 text-sm mt-2 leading-relaxed">
-                  {integration.description}
-                </p>
-              </CardContent>
-            </Card>
+            <IntegrationCard key={index} integration={integration} />
+          ))}
+        </MobileCarousel>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+          {integrations.map((integration, index) => (
+            <IntegrationCard key={index} integration={integration} />
           ))}
         </div>
 
@@ -78,7 +89,7 @@ const IntegrationsSection = () => {
         <div className="max-w-2xl mx-auto mt-8">
           <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg px-4 py-3 text-center">
             <p className="text-white/50 text-sm">
-              <span className="text-white/70">💡 Nota:</span> Los costos de mensajería de WhatsApp/Twilio los paga el cliente directamente a Twilio. Viral Clicker implementa, configura e integra todo el sistema.
+              <span className="text-white/70">💡 Nota:</span> Los costos de mensajería de WhatsApp/Twilio los paga el cliente directamente a Twilio. ViralClicker implementa, configura e integra todo el sistema.
             </p>
           </div>
         </div>
