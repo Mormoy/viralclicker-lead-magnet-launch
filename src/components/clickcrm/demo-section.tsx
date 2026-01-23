@@ -30,7 +30,7 @@ const DemoSection = () => {
   ];
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20to%20see%20a%20demo%20of%20ClickCRM', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20to%20see%20a%20demo%20of%20ViralClicker', '_blank');
   };
 
   const scrollToContact = () => {

@@ -39,7 +39,7 @@ const HowItWorksSection = () => {
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            ¿Cómo funciona ClickCRM?
+            ¿Cómo funciona ViralClicker?
           </h2>
           <p className="text-white/70 text-lg">
             5 pasos simples para transformar tu proceso de ventas

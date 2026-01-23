@@ -19,7 +19,8 @@
     "videoStep2": "2. Coupons on active quotes",
     "videoStep3": "3. Internal WhatsApp campaigns",
     "videoStep4": "4. Automated post-sale tracking",
-    "videoStep5": "5. CTA: Start today from $99/mo"
+    "videoStep5": "5. CTA: Start today from $99/mo",
+    "requestDemo": "Request a live demo"
   },
   "problems": {
     "title": "Sound familiar?",
@@ -32,10 +33,10 @@
     "problem3Desc": "Thousands of chats with no organization. You don't know who needs follow-up or when.",
     "problem4Title": "No control or metrics",
     "problem4Desc": "No visibility on how many leads come in, how many quote, and how many close.",
-    "solution": "ClickCRM solves all of this in one place 👇"
+    "solution": "ViralClicker solves all of this in one place 👇"
   },
   "benefits": {
-    "title": "Why ClickCRM?",
+    "title": "Why ViralClicker?",
     "subtitle": "The tools you need to sell more via WhatsApp",
     "benefit1Title": "Live quote link",
     "benefit1Desc": "Each quote has a unique link that the client can view, modify, and approve. No static PDFs.",
@@ -56,7 +57,7 @@
   },
   "demo": {
     "badge": "Product Preview",
-    "title": "See what's inside ClickCRM",
+    "title": "See what's inside ViralClicker",
     "subtitle": "A system designed so you sell and the system handles follow-up",
     "card1Badge": "Live Quote",
     "card1Title": "Live quote link",
@@ -76,12 +77,12 @@
     "card3Feature1": "Key metrics",
     "card3Feature2": "Weekly trends",
     "card3Feature3": "Export data",
-    "ctaPrimary": "Book a personalized demo",
+    "ctaPrimary": "Book a demo",
     "ctaSecondary": "Chat on WhatsApp"
   },
   "audience": {
     "badge": "Is it for you?",
-    "title": "Who is ClickCRM for?",
+    "title": "Who is ViralClicker for?",
     "subtitle": "We're honest: it's not for everyone. Check if you fit our ideal profile.",
     "idealTitle": "Perfect for you if...",
     "ideal1": "Businesses that send quotes or estimates",
@@ -102,7 +103,7 @@
     "title": "Plans & Pricing",
     "subtitle": "Choose the plan that fits your business",
     "popular": "Most Popular",
-    "launchOffer": "OFF – Launch offer",
+    "launchOffer": "Launch Offer – Until Feb 28",
     "perMonth": "/month",
     "starterName": "Starter",
     "starterDesc": "Perfect for getting your sales process organized",
@@ -152,9 +153,9 @@
     "setupNote": "Confirmed after the demo based on complexity. All setups include: landing design, CRM config, WhatsApp API integration, and 1-on-1 onboarding.",
     "infoTitle": "📋 Important Information",
     "twilioTitle": "Twilio / WhatsApp",
-    "twilioDesc": "Twilio/WhatsApp Business API messaging costs are paid directly to Twilio. ClickCRM implements, configures, and integrates the entire system.",
+    "twilioDesc": "Twilio/WhatsApp Business API messaging costs are paid directly to Twilio. ViralClicker implements, configures, and integrates the entire system.",
     "stripeTitle": "Stripe Payments",
-    "stripeDesc": "Secure card payment. You receive an automatic invoice/receipt via email after each payment. Monthly auto-renewal.",
+    "stripeDesc": "Secure card payment (Mormoy LLC). You receive an automatic invoice/receipt via email after each payment. Monthly auto-renewal.",
     "setupInfoTitle": "One-time setup",
     "setupInfoDesc": "One-time payment from $500 to $1,000+ depending on complexity (catalog size and quote variables).",
     "monthlyTitle": "Your monthly includes",
@@ -174,7 +175,7 @@
     "q5": "Can I start simple and add automation later?",
     "a5": "Absolutely. Start with Starter and upgrade to Pro or Elite anytime. Your data stays intact and the migration is instant.",
     "q6": "What if I already have a website or CRM?",
-    "a6": "ClickCRM works alongside your existing tools. We can embed the quote form on your current site, or you can use our landing page as a standalone quote funnel.",
+    "a6": "ViralClicker works alongside your existing tools. We can embed the quote form on your current site, or you can use our landing page as a standalone quote funnel.",
     "q7": "Where is my data stored? Can I export it?",
     "a7": "Your data is stored securely in the cloud with enterprise-grade encryption. You can export all your leads, clients, and quotes as CSV anytime—your data is always yours.",
     "q8": "What's included in setup vs. what counts as 'minor changes'?",
@@ -184,12 +185,12 @@
     "q10": "How does support work?",
     "a10": "We respond via WhatsApp and email during business hours (Monday–Friday, 9 AM–6 PM EST). Response time: under 4 hours on business days. Elite plans get priority support with under 2-hour response.",
     "stillQuestions": "Still have questions?",
-    "chatWithUs": "Chat with us on WhatsApp"
+    "chatWithUs": "Chat on WhatsApp"
   },
   "footer": {
-    "rights": "© 2025 Viral Clicker. All rights reserved.",
+    "rights": "© 2025 ViralClicker. All rights reserved.",
     "terms": "Terms of Service",
-    "madeBy": "Made with ❤️ by MORMOY"
+    "madeBy": "Powered by Mormoy LLC"
   },
   "language": {
     "es": "Español",

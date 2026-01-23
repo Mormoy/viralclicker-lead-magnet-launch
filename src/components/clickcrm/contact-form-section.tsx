@@ -126,7 +126,7 @@ const ContactFormSection = () => {
                 Agenda tu demo gratis
               </h2>
               <p className="text-white/70">
-                Cuéntanos sobre tu negocio y te mostramos cómo ClickCRM puede ayudarte
+                Cuéntanos sobre tu negocio y te mostramos cómo ViralClicker puede ayudarte
               </p>
             </div>
 
@@ -179,7 +179,7 @@ const ContactFormSection = () => {
                     name="whatsapp"
                     value={formData.whatsapp}
                     onChange={handleChange}
-                    placeholder="+56 9 1234 5678"
+                    placeholder="+1 (305) 123-4567"
                     className="bg-gray-800 border-gray-700 text-white"
                     required
                   />

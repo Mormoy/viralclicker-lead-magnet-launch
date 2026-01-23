@@ -1,7 +1,7 @@
 {
-  "name": "ClickCRM Admin - Panel de Administración",
-  "short_name": "ClickCRM Admin",
-  "description": "Panel administrativo de ClickCRM para gestión de clientes y ventas",
+  "name": "ViralClicker Admin - Panel de Administración",
+  "short_name": "ViralClicker Admin",
+  "description": "Panel administrativo de ViralClicker para gestión de clientes y ventas",
   "start_url": "/admin",
   "scope": "/admin",
   "display": "standalone",

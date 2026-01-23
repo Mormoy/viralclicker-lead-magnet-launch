@@ -40,7 +40,7 @@ export function useAdminPWA() {
     addMetaTag('mobile-web-app-capable', 'yes');
     addMetaTag('apple-mobile-web-app-capable', 'yes');
     addMetaTag('apple-mobile-web-app-status-bar-style', 'black-translucent');
-    addMetaTag('apple-mobile-web-app-title', 'ClickCRM Admin');
+    addMetaTag('apple-mobile-web-app-title', 'ViralClicker Admin');
 
     // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {

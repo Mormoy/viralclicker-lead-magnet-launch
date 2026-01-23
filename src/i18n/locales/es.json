@@ -9,21 +9,22 @@
     "badge": "🚀 Implementación en 7 días",
     "title1": "Cotiza → Sigue → Cierra",
     "title2": "por WhatsApp",
-    "subtitle": "Sistema completo para pequeños negocios: links de cotización en vivo, cupones, campañas internas y seguimiento post-venta. Todo integrado con WhatsApp Business.",
+    "subtitle": "Sistema completo para Small Businesses: links de cotización en vivo, cupones, campañas internas y seguimiento post-venta. Todo integrado con WhatsApp Business.",
     "ctaPrimary": "Ver planes y empezar",
-    "ctaSecondary": "Chatear por WhatsApp",
+    "ctaSecondary": "Chat on WhatsApp",
     "videoTitle": "Conoce el sistema en 90 segundos",
-    "videoComingSoon": "Video demo próximamente",
+    "videoComingSoon": "Demo video coming soon",
     "videoScript": "Lo que verás:",
     "videoStep1": "1. Link de cotización en vivo con URL único",
     "videoStep2": "2. Cupones sobre cotizaciones activas",
     "videoStep3": "3. Campañas internas de WhatsApp",
     "videoStep4": "4. Seguimiento post-venta automatizado",
-    "videoStep5": "5. CTA: Empieza hoy desde $99/mes"
+    "videoStep5": "5. CTA: Empieza hoy desde $99/mes",
+    "requestDemo": "Request a live demo"
   },
   "problems": {
     "title": "¿Te suena familiar?",
-    "subtitle": "Estos son los problemas más comunes de los pequeños negocios que venden por cotización",
+    "subtitle": "Estos son los problemas más comunes de los Small Businesses que venden por cotización",
     "problem1Title": "Leads que se enfrían",
     "problem1Desc": "Los clientes preguntan, pero si no respondes rápido, se van con la competencia.",
     "problem2Title": "Cotizaciones perdidas",
@@ -32,10 +33,10 @@
     "problem3Desc": "Miles de chats sin organizar. No sabes quién necesita seguimiento ni cuándo.",
     "problem4Title": "Sin control ni métricas",
     "problem4Desc": "No tienes visibilidad de cuántos leads llegan, cuántos cotizan y cuántos cierran.",
-    "solution": "ClickCRM resuelve todo esto en un solo lugar 👇"
+    "solution": "ViralClicker resuelve todo esto en un solo lugar 👇"
   },
   "benefits": {
-    "title": "¿Por qué ClickCRM?",
+    "title": "¿Por qué ViralClicker?",
     "subtitle": "Las herramientas que necesitas para vender más por WhatsApp",
     "benefit1Title": "Cotización viva con link",
     "benefit1Desc": "Cada cotización tiene un link único que el cliente puede ver, modificar y aprobar. Sin PDFs estáticos.",
@@ -51,12 +52,12 @@
     "benefit6Desc": "Tu sistema listo y funcionando en una semana. Sin esperas eternas ni proyectos interminables."
   },
   "cta": {
-    "bookDemo": "Reservar demo",
-    "chatWhatsApp": "Chatear por WhatsApp"
+    "bookDemo": "Book a demo",
+    "chatWhatsApp": "Chat on WhatsApp"
   },
   "demo": {
     "badge": "Vista previa del producto",
-    "title": "Conoce el interior de ClickCRM",
+    "title": "Conoce el interior de ViralClicker",
     "subtitle": "Un sistema pensado para que tú vendas y el sistema haga el seguimiento",
     "card1Badge": "Cotización Viva",
     "card1Title": "Link de cotización en vivo",
@@ -76,17 +77,17 @@
     "card3Feature1": "Métricas clave",
     "card3Feature2": "Tendencias semanales",
     "card3Feature3": "Exportar datos",
-    "ctaPrimary": "Reservar demo personalizada",
-    "ctaSecondary": "Chatear por WhatsApp"
+    "ctaPrimary": "Book a demo",
+    "ctaSecondary": "Chat on WhatsApp"
   },
   "audience": {
     "badge": "¿Es para ti?",
-    "title": "¿Para quién es ClickCRM?",
+    "title": "¿Para quién es ViralClicker?",
     "subtitle": "Somos honestos: no es para todos. Revisa si calzas con nuestro perfil ideal.",
     "idealTitle": "Ideal para ti si...",
     "ideal1": "Negocios que envían cotizaciones o presupuestos",
     "ideal2": "Empresas que cierran ventas por WhatsApp",
-    "ideal3": "Pequeños negocios de servicios: instalaciones, reparaciones, construcción",
+    "ideal3": "Small Businesses de servicios: instalaciones, reparaciones, construcción",
     "ideal4": "Equipos de ventas que necesitan seguimiento ordenado",
     "ideal5": "Negocios que pierden ventas por falta de seguimiento",
     "notTitle": "No es para ti si...",
@@ -102,7 +103,7 @@
     "title": "Planes y Precios",
     "subtitle": "Elige el plan que mejor se adapte a tu negocio",
     "popular": "Más Popular",
-    "launchOffer": "OFF – Oferta de lanzamiento",
+    "launchOffer": "Launch Offer – Until Feb 28",
     "perMonth": "/mes",
     "starterName": "Starter",
     "starterDesc": "Perfecto para organizar tu proceso de ventas",
@@ -110,7 +111,7 @@
     "proDesc": "Para negocios listos para automatizar y escalar",
     "eliteName": "Elite",
     "eliteDesc": "Solución completa con soporte prioritario",
-    "getStarted": "Empezar ahora",
+    "getStarted": "Get started",
     "starterFeature1": "Landing page + formulario de contacto",
     "starterFeature2": "CRM básico con etapas",
     "starterFeature3": "3 plantillas de WhatsApp",
@@ -149,12 +150,12 @@
     "setupComplex1": "Catálogo grande (30+ productos/servicios)",
     "setupComplex2": "Lógica de precios con múltiples variables",
     "setupComplex3": "Negocios con procesos de cotización sofisticados",
-    "setupNote": "Confirmado después de la demo según complejidad. Todos los setups incluyen: diseño de landing, config CRM, integración WhatsApp API y onboarding 1:1.",
+    "setupNote": "Se confirma después de la demo según complejidad. Todos los setups incluyen: diseño de landing, config CRM, integración WhatsApp API y onboarding 1:1.",
     "infoTitle": "📋 Información Importante",
     "twilioTitle": "Twilio / WhatsApp",
-    "twilioDesc": "Los costos de mensajería de Twilio/WhatsApp Business API se pagan directamente a Twilio. ClickCRM implementa, configura e integra todo el sistema.",
+    "twilioDesc": "Los costos de mensajería de Twilio/WhatsApp Business API se pagan directamente a Twilio. ViralClicker implementa, configura e integra todo el sistema.",
     "stripeTitle": "Pagos con Stripe",
-    "stripeDesc": "Pago seguro con tarjeta. Recibes factura/recibo automático por email después de cada pago. Renovación mensual automática.",
+    "stripeDesc": "Pago seguro con tarjeta (Mormoy LLC). Recibes factura/recibo automático por email después de cada pago. Renovación mensual automática.",
     "setupInfoTitle": "Setup único",
     "setupInfoDesc": "Pago único desde $500 a $1,000+ según complejidad (tamaño de catálogo y variables de cotización).",
     "monthlyTitle": "Tu mensualidad incluye",
@@ -174,7 +175,7 @@
     "q5": "¿Puedo empezar simple y agregar automatización después?",
     "a5": "Absolutamente. Empieza con Starter y sube a Pro o Elite cuando quieras. Tus datos se mantienen intactos y la migración es instantánea.",
     "q6": "¿Qué pasa si ya tengo un sitio web o CRM?",
-    "a6": "ClickCRM funciona junto a tus herramientas existentes. Podemos embeber el formulario de cotización en tu sitio actual, o puedes usar nuestra landing page como un funnel de cotización independiente.",
+    "a6": "ViralClicker funciona junto a tus herramientas existentes. Podemos embeber el formulario de cotización en tu sitio actual, o puedes usar nuestra landing page como un funnel de cotización independiente.",
     "q7": "¿Dónde se almacenan mis datos? ¿Puedo exportarlos?",
     "a7": "Tus datos se almacenan de forma segura en la nube con encriptación de nivel empresarial. Puedes exportar todos tus leads, clientes y cotizaciones como CSV en cualquier momento—tus datos siempre son tuyos.",
     "q8": "¿Qué incluye el setup vs. qué cuenta como 'cambios menores'?",
@@ -183,13 +184,13 @@
     "a9": "Sí, sin penalidad. Tu plan se renueva mensualmente y puedes cancelar cuando quieras. Te entregamos un respaldo completo de tus datos (leads, clientes, cotizaciones).",
     "q10": "¿Cómo funciona el soporte?",
     "a10": "Respondemos por WhatsApp y email en horario laboral (Lunes–Viernes, 9 AM–6 PM EST). Tiempo de respuesta: menos de 4 horas en días hábiles. Los planes Elite tienen soporte prioritario con respuesta en menos de 2 horas.",
-    "stillQuestions": "¿Todavía tienes preguntas?",
-    "chatWithUs": "Chatea con nosotros por WhatsApp"
+    "stillQuestions": "Still have questions?",
+    "chatWithUs": "Chat on WhatsApp"
   },
   "footer": {
-    "rights": "© 2025 Viral Clicker. Todos los derechos reservados.",
+    "rights": "© 2025 ViralClicker. All rights reserved.",
     "terms": "Términos del Servicio",
-    "madeBy": "Hecho con ❤️ por MORMOY"
+    "madeBy": "Powered by Mormoy LLC"
   },
   "language": {
     "es": "Español",

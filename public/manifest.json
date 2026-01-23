@@ -1,7 +1,7 @@
 {
-  "name": "ClickCRM - Quotes + CRM + WhatsApp for Small Businesses",
-  "short_name": "ClickCRM",
-  "description": "Turn quotes into sales with ClickCRM. Complete system for small businesses.",
+  "name": "ViralClicker - Quotes + CRM + WhatsApp for Small Businesses",
+  "short_name": "ViralClicker",
+  "description": "Turn quotes into sales with ViralClicker. Complete system for small businesses.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
