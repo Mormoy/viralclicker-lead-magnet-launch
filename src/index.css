@@ -179,6 +179,36 @@
   }
 }
 
+/* ===== ADMIN PANEL LANDSCAPE SUPPORT ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Admin header more compact */
+  .admin-header {
+    padding: 0.5rem 1rem !important;
+  }
+  
+  /* Admin cards in landscape */
+  .admin-stats {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  
+  .admin-stats .text-2xl {
+    font-size: 1.25rem !important;
+  }
+  
+  /* Admin table more compact */
+  .admin-table td,
+  .admin-table th {
+    padding: 0.5rem !important;
+  }
+  
+  /* Tabs compact */
+  .admin-tabs button {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
 /* Ensure no fixed heights that break in landscape */
 @media (orientation: landscape) {
   section {

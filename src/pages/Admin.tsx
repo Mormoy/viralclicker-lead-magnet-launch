@@ -23,6 +23,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/logo';
+import { InstallPWAButton } from '@/components/admin/install-pwa-button';
 import {
   Select,
   SelectContent,
@@ -346,7 +347,8 @@ const Admin = () => {
             <Logo />
             <span className="text-viralOrange font-bold text-xl hidden sm:block">Viral Clicker Admin</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <InstallPWAButton />
             <Button
               onClick={() => setIsAuthenticated(false)}
               variant="outline"
