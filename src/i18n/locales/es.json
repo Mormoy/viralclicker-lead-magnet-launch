@@ -162,6 +162,8 @@
   "faq": {
     "title": "Preguntas Frecuentes",
     "subtitle": "Resuelve tus dudas antes de empezar",
+    "instructionDesktop": "Haz clic para desplegar cada respuesta",
+    "instructionMobile": "Toca una pregunta para ver la respuesta",
     "q1": "¿Necesito WhatsApp Business API o puedo usar WhatsApp normal?",
     "a1": "Necesitas WhatsApp Business API (vía Twilio). Es la única forma de enviar mensajes automatizados, usar plantillas aprobadas y rastrear métricas de entrega. WhatsApp normal no soporta automatización ni campañas.",
     "q2": "¿Qué costos pago yo vs. qué incluye mi plan?",
@@ -182,6 +184,8 @@
     "a9": "Sí, sin penalidad. Tu plan se renueva mensualmente y puedes cancelar cuando quieras. Te entregamos un respaldo completo de tus datos (leads, clientes, cotizaciones).",
     "q10": "¿Cómo funciona el soporte?",
     "a10": "Respondemos por WhatsApp y email en horario laboral (Lunes–Viernes, 9 AM–6 PM EST). Tiempo de respuesta: menos de 4 horas en días hábiles. Los planes Elite tienen soporte prioritario con respuesta en menos de 2 horas.",
+    "ctaTitle": "¿Te quedó alguna duda?",
+    "ctaSubtitle": "Escríbenos o agenda una demo para resolver cualquier pregunta",
     "stillQuestions": "Still have questions?",
     "chatWithUs": "Chat on WhatsApp"
   },
