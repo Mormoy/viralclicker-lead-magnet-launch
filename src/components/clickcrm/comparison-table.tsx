@@ -16,6 +16,7 @@ interface Feature {
 }
 
 const features: Feature[] = [
+  { name: "Landings incluidas en setup", starter: "1", pro: "Hasta 3", elite: "Hasta 5" },
   { name: "Landing personalizada", starter: true, pro: true, elite: true },
   { name: "Formulario de captación", starter: true, pro: true, elite: true },
   { name: "CRM con estados y pipeline", starter: true, pro: true, elite: true },

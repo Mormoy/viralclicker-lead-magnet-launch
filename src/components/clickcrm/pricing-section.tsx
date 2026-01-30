@@ -208,7 +208,16 @@ const PricingSection = () => {
                     <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
                     <span>{t('pricing.setupStandard3')}</span>
                   </li>
+                  {/* Landing Pack Pro - highlighted */}
+                  <li className="flex items-start gap-2 bg-viralOrange/10 -mx-2 px-2 py-1.5 rounded-lg border border-viralOrange/30">
+                    <Star className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span className="text-viralOrange font-medium">{t('pricing.landingPackPro')}</span>
+                  </li>
                 </ul>
+                {/* Landing Pack explanation */}
+                <p className="text-white/50 text-xs mt-3 leading-relaxed">
+                  {t('pricing.landingPackDesc')}
+                </p>
               </div>
 
               <div className="bg-gray-900/60 rounded-xl p-5 border border-gray-700">
@@ -236,6 +245,11 @@ const PricingSection = () => {
             <p className="text-white/50 text-xs text-center mt-4 flex items-center justify-center gap-1">
               <Info className="w-3 h-3" />
               {t('pricing.setupNote')}
+            </p>
+            
+            {/* Landing Pack disclaimer */}
+            <p className="text-white/40 text-[10px] text-center mt-3 max-w-2xl mx-auto leading-relaxed">
+              {t('pricing.landingPackDisclaimer')}
             </p>
           </div>
         </div>
