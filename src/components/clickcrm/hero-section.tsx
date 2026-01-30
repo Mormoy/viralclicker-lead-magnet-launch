@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Zap } from 'lucide-react';
+import PricingSelector from './pricing-selector';
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ const HeroSection = () => {
         </div>
 
         {/* Video Demo */}
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto mb-12">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
             <video
               autoPlay
@@ -69,6 +70,9 @@ const HeroSection = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
           </div>
         </div>
+
+        {/* Pricing Selector */}
+        <PricingSelector />
       </div>
     </section>
   );
