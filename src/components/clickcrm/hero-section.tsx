@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Zap } from 'lucide-react';
-import PricingSelector from './pricing-selector';
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -31,7 +30,7 @@ const HeroSection = () => {
             {t('hero.subtitle')}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button 
               onClick={scrollToPricing}
               size="lg"
@@ -51,8 +50,25 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Pricing Selector - replacing video */}
-        <PricingSelector />
+        {/* Video Demo */}
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full aspect-video object-cover"
+            >
+              <source 
+                src="https://www.w3schools.com/html/mov_bbb.mp4" 
+                type="video/mp4" 
+              />
+              Tu navegador no soporta videos HTML5.
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+          </div>
+        </div>
       </div>
     </section>
   );
