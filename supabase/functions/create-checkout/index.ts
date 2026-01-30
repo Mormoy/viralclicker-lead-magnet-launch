@@ -9,23 +9,27 @@ const corsHeaders = {
 
 interface CheckoutRequest {
   planId: string;
+  setupType: string;
   nombre: string;
   empresa: string;
   correo: string;
   whatsapp: string;
   ciudad?: string;
-  includeSetup?: boolean;
   successUrl: string;
   cancelUrl: string;
 }
 
 const plans: Record<string, { name: string; price: number }> = {
-  starter: { name: "Starter", price: 9900 },
-  pro: { name: "Pro", price: 24900 },
-  elite: { name: "Elite", price: 44900 },
+  starter: { name: "Starter", price: 9900 }, // $99 in cents
+  pro: { name: "Pro", price: 24900 }, // $249 in cents
+  elite: { name: "Elite", price: 44900 }, // $449 in cents
 };
 
-const SETUP_PRICE = 49900; // $499 in cents
+const setupPrices: Record<string, { name: string; price: number; landings: number }> = {
+  simple: { name: "Simple", price: 50000, landings: 1 }, // $500 in cents
+  standard: { name: "Estándar", price: 100000, landings: 3 }, // $1,000 in cents
+  complex: { name: "Complejo", price: 160000, landings: 5 }, // $1,600 in cents
+};
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -49,17 +53,23 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body: CheckoutRequest = await req.json();
-    console.log("Checkout request:", { planId: body.planId, includeSetup: body.includeSetup });
+    console.log("Checkout request:", { planId: body.planId, setupType: body.setupType });
 
-    const { planId, nombre, empresa, correo, whatsapp, ciudad, includeSetup, successUrl, cancelUrl } = body;
+    const { planId, setupType, nombre, empresa, correo, whatsapp, ciudad, successUrl, cancelUrl } = body;
 
+    // Validate plan
     const plan = plans[planId];
     if (!plan) {
+      console.error("Invalid plan:", planId);
       return new Response(
         JSON.stringify({ error: "Invalid plan" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Validate setup type (default to simple if not provided)
+    const setup = setupPrices[setupType] || setupPrices.simple;
+    console.log("Selected setup:", setup.name, "Price:", setup.price / 100);
 
     // Check if customer exists
     let customerId: string | undefined;
@@ -85,29 +95,25 @@ serve(async (req) => {
           currency: "usd",
           product_data: {
             name: `ViralClicker Plan ${plan.name}`,
-            description: `Monthly subscription to ${plan.name} plan`,
+            description: `Suscripción mensual al plan ${plan.name}`,
           },
           unit_amount: plan.price,
           recurring: { interval: "month" },
         },
         quantity: 1,
       },
-    ];
-
-    // Add setup fee if requested
-    if (includeSetup) {
-      lineItems.push({
+      {
         price_data: {
           currency: "usd",
           product_data: {
-            name: "ViralClicker Initial Setup",
-            description: "Custom configuration and implementation (one-time payment)",
+            name: `ViralClicker Setup ${setup.name}`,
+            description: `Configuración inicial ${setup.name} - ${setup.landings} landing${setup.landings > 1 ? 's' : ''} incluida${setup.landings > 1 ? 's' : ''} (pago único)`,
           },
-          unit_amount: SETUP_PRICE,
+          unit_amount: setup.price,
         },
         quantity: 1,
-      });
-    }
+      },
+    ];
 
     // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
@@ -119,21 +125,23 @@ serve(async (req) => {
       cancel_url: cancelUrl,
       metadata: {
         planId,
+        setupType,
+        setupName: setup.name,
+        setupPrice: (setup.price / 100).toString(),
         nombre,
         empresa,
         whatsapp,
         ciudad: ciudad || "",
-        includeSetup: includeSetup ? "true" : "false",
       },
       subscription_data: {
-        metadata: { planId, nombre, empresa },
+        metadata: { planId, nombre, empresa, setupType },
       },
     });
 
     console.log("Checkout session created:", session.id);
 
     // Calculate total amount
-    const totalMonto = (plan.price / 100) + (includeSetup ? SETUP_PRICE / 100 : 0);
+    const totalMonto = (plan.price / 100) + (setup.price / 100);
 
     // Save client to database with valid estado
     const { error: dbError } = await supabase.from("clients").insert({
@@ -144,13 +152,15 @@ serve(async (req) => {
       ciudad: ciudad || null,
       plan: planId,
       monto: totalMonto,
-      estado: "onboarding_pendiente", // Valid estado value
+      estado: "onboarding_pendiente",
       stripe_customer_id: customerId,
-      notas: includeSetup ? "Incluye setup inicial $499" : null,
+      notas: `Setup ${setup.name} ($${setup.price / 100}) - ${setup.landings} landing${setup.landings > 1 ? 's' : ''}`,
     });
 
     if (dbError) {
       console.error("Database insert error:", dbError);
+    } else {
+      console.log("Client saved to database with total:", totalMonto);
     }
 
     return new Response(
