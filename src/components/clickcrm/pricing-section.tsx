@@ -45,7 +45,8 @@ const PricingSection = () => {
         t('pricing.proFeature5'),
         t('pricing.proFeature6'),
         t('pricing.proFeature7'),
-        t('pricing.proFeature8')
+        t('pricing.proFeature8'),
+        t('pricing.proFeature9')
       ]
     },
     {
@@ -65,7 +66,8 @@ const PricingSection = () => {
         t('pricing.eliteFeature5'),
         t('pricing.eliteFeature6'),
         t('pricing.eliteFeature7'),
-        t('pricing.eliteFeature8')
+        t('pricing.eliteFeature8'),
+        t('pricing.eliteFeature9')
       ]
     }
   ];
@@ -272,6 +274,11 @@ const PricingSection = () => {
             {/* Landing Pack disclaimer */}
             <p className="text-white/40 text-[10px] text-center mt-3 max-w-2xl mx-auto leading-relaxed">
               {t('pricing.landingPackDisclaimer')}
+            </p>
+            
+            {/* Logo disclaimer */}
+            <p className="text-yellow-400/80 text-[11px] text-center mt-2 max-w-2xl mx-auto leading-relaxed font-medium">
+              {t('pricing.landingLogoDisclaimer')}
             </p>
           </div>
         </div>
