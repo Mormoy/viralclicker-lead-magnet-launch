@@ -5,9 +5,6 @@ import HeroSection from '@/components/clickcrm/hero-section';
 import ProblemSection from '@/components/clickcrm/problem-section';
 import BenefitsSection from '@/components/clickcrm/benefits-section';
 import HowItWorksSection from '@/components/clickcrm/how-it-works-section';
-import FeaturesSection from '@/components/clickcrm/features-section';
-import IntegrationsSection from '@/components/clickcrm/integrations-section';
-import ResultsSection from '@/components/clickcrm/results-section';
 import DemoSection from '@/components/clickcrm/demo-section';
 import TargetAudienceSection from '@/components/clickcrm/target-audience-section';
 import PricingSection from '@/components/clickcrm/pricing-section';
@@ -40,23 +37,30 @@ const ViralClicker = () => {
         </div>
       </header>
 
-      <main className="flex-grow">
+      <main className="flex-grow space-y-0">
         <HeroSection />
+        
+        <div className="py-4" /> {/* Spacer */}
         <ProblemSection />
-        <SectionCTA variant="subtle" />
+        
+        <div className="py-2" /> {/* Spacer */}
         <BenefitsSection />
-        <HowItWorksSection />
+        
         <SectionCTA variant="subtle" />
-        <FeaturesSection />
-        <IntegrationsSection />
+        
+        <HowItWorksSection />
         <DemoSection />
+        
+        <div className="py-4" /> {/* Spacer */}
         <TargetAudienceSection />
         <TestimonialsSection />
         <CaseStudySection />
-        <ResultsSection />
+        
+        <div className="py-4" /> {/* Spacer */}
         <PricingSection />
-        <SectionCTA variant="subtle" />
         <FaqSection />
+        
+        <SectionCTA variant="subtle" />
         <ContactFormSection />
       </main>
 
