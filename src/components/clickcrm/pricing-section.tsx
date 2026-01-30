@@ -220,8 +220,13 @@ const PricingSection = () => {
                 </p>
               </div>
 
-              <div className="bg-gray-900/60 rounded-xl p-5 border border-gray-700">
-                <div className="text-center mb-4">
+              <div className="bg-gray-900/60 rounded-xl p-5 border border-gray-700 relative">
+                <div className="absolute -top-2 right-3">
+                  <span className="bg-purple-600 text-white px-2 py-0.5 rounded-full text-[10px] font-semibold">
+                    {t('pricing.setupEnterprise')}
+                  </span>
+                </div>
+                <div className="text-center mb-4 pt-1">
                   <span className="text-viralOrange font-bold text-2xl">$1,000+</span>
                   <h5 className="text-white font-semibold mt-1">{t('pricing.setupComplex')}</h5>
                 </div>
@@ -238,7 +243,24 @@ const PricingSection = () => {
                     <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
                     <span>{t('pricing.setupComplex3')}</span>
                   </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>{t('pricing.setupComplex4')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                    <span>{t('pricing.setupComplex5')}</span>
+                  </li>
+                  {/* Landing Pack Elite - highlighted */}
+                  <li className="flex items-start gap-2 bg-purple-600/10 -mx-2 px-2 py-1.5 rounded-lg border border-purple-500/30">
+                    <Star className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-purple-300 font-medium">{t('pricing.landingPackElite')}</span>
+                  </li>
                 </ul>
+                {/* Why complex is worth it */}
+                <p className="text-white/50 text-xs mt-3 leading-relaxed">
+                  {t('pricing.setupComplexDesc')}
+                </p>
               </div>
             </div>
 
