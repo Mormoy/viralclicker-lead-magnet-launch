@@ -30,9 +30,11 @@ export type Database = {
           nombre: string
           notas: string | null
           plan: string
+          setup_type: string | null
           stripe_customer_id: string | null
           stripe_payment_intent_id: string | null
           stripe_subscription_id: string | null
+          tenant_id: string | null
           updated_at: string
           webhook_n8n_url: string | null
           whatsapp: string
@@ -52,9 +54,11 @@ export type Database = {
           nombre: string
           notas?: string | null
           plan: string
+          setup_type?: string | null
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
           stripe_subscription_id?: string | null
+          tenant_id?: string | null
           updated_at?: string
           webhook_n8n_url?: string | null
           whatsapp: string
@@ -74,14 +78,24 @@ export type Database = {
           nombre?: string
           notas?: string | null
           plan?: string
+          setup_type?: string | null
           stripe_customer_id?: string | null
           stripe_payment_intent_id?: string | null
           stripe_subscription_id?: string | null
+          tenant_id?: string | null
           updated_at?: string
           webhook_n8n_url?: string | null
           whatsapp?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "clients_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       integrations_settings: {
         Row: {
@@ -121,6 +135,7 @@ export type Database = {
           mensaje: string | null
           nombre: string
           rubro: string
+          tenant_id: string | null
           updated_at: string
           whatsapp: string
         }
@@ -134,6 +149,7 @@ export type Database = {
           mensaje?: string | null
           nombre: string
           rubro: string
+          tenant_id?: string | null
           updated_at?: string
           whatsapp: string
         }
@@ -147,8 +163,62 @@ export type Database = {
           mensaje?: string | null
           nombre?: string
           rubro?: string
+          tenant_id?: string | null
           updated_at?: string
           whatsapp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenants: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json | null
+          name: string
+          owner_email: string
+          plan: string
+          setup_type: string
+          slug: string | null
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          name: string
+          owner_email: string
+          plan?: string
+          setup_type?: string
+          slug?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          name?: string
+          owner_email?: string
+          plan?: string
+          setup_type?: string
+          slug?: string | null
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
