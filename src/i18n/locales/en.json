@@ -24,16 +24,14 @@
   },
   "problems": {
     "title": "Sound familiar?",
-    "subtitle": "These are the most common problems for small businesses that sell via quotes",
+    "subtitle": "The 3 most common problems when selling via quotes",
     "problem1Title": "Leads going cold",
-    "problem1Desc": "Customers ask for quotes, but if you don't respond fast, they go to your competitor.",
-    "problem2Title": "Lost quotes",
-    "problem2Desc": "You send quotes via WhatsApp and don't know which ones are pending or closed.",
-    "problem3Title": "Messy WhatsApp",
-    "problem3Desc": "Thousands of chats with no organization. You don't know who needs follow-up or when.",
-    "problem4Title": "No control or metrics",
-    "problem4Desc": "No visibility on how many leads come in, how many quote, and how many close.",
-    "solution": "ViralClicker solves all of this in one place 👇"
+    "problem1Desc": "Slow responses mean customers go to competitors.",
+    "problem2Title": "Quotes out of control",
+    "problem2Desc": "No idea which are pending, which closed.",
+    "problem3Title": "Chaotic WhatsApp",
+    "problem3Desc": "Hundreds of chats with no order or follow-up.",
+    "solution": "ViralClicker solves this in one place 👇"
   },
   "benefits": {
     "title": "Why ViralClicker?",

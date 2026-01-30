@@ -24,16 +24,14 @@
   },
   "problems": {
     "title": "¿Te suena familiar?",
-    "subtitle": "Estos son los problemas más comunes de los Small Businesses que venden por cotización",
+    "subtitle": "Los 3 problemas más comunes al vender por cotización",
     "problem1Title": "Leads que se enfrían",
-    "problem1Desc": "Los clientes preguntan, pero si no respondes rápido, se van con la competencia.",
-    "problem2Title": "Cotizaciones perdidas",
-    "problem2Desc": "Envías cotizaciones por WhatsApp y no sabes cuáles están pendientes o cerradas.",
-    "problem3Title": "WhatsApp desordenado",
-    "problem3Desc": "Miles de chats sin organizar. No sabes quién necesita seguimiento ni cuándo.",
-    "problem4Title": "Sin control ni métricas",
-    "problem4Desc": "No tienes visibilidad de cuántos leads llegan, cuántos cotizan y cuántos cierran.",
-    "solution": "ViralClicker resuelve todo esto en un solo lugar 👇"
+    "problem1Desc": "Tardan en responder y el cliente se va con la competencia.",
+    "problem2Title": "Cotizaciones sin control",
+    "problem2Desc": "No sabes cuáles están pendientes, cuáles cerraron.",
+    "problem3Title": "WhatsApp caótico",
+    "problem3Desc": "Cientos de chats sin orden ni seguimiento.",
+    "solution": "ViralClicker resuelve esto en un solo lugar 👇"
   },
   "benefits": {
     "title": "¿Por qué ViralClicker?",

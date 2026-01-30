@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { AlertTriangle, Clock, MessageSquareX, FileX } from 'lucide-react';
-import { MobileCarousel } from '@/components/ui/mobile-carousel';
+import { Clock, FileX, MessageSquareX } from 'lucide-react';
 
 const ProblemSection = () => {
   const { t } = useTranslation();
@@ -20,58 +19,47 @@ const ProblemSection = () => {
       icon: MessageSquareX,
       title: t('problems.problem3Title'),
       description: t('problems.problem3Desc')
-    },
-    {
-      icon: AlertTriangle,
-      title: t('problems.problem4Title'),
-      description: t('problems.problem4Desc')
     }
   ];
 
-  const ProblemCard = ({ problem, index }: { problem: typeof problems[0]; index: number }) => (
-    <div 
-      className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 hover:border-red-500/50 transition-colors h-full"
-    >
-      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-        <problem.icon className="w-6 h-6 text-red-400" />
-      </div>
-      <h3 className="text-white font-semibold text-lg mb-2">
-        {problem.title}
-      </h3>
-      <p className="text-white/60 text-sm">
-        {problem.description}
-      </p>
-    </div>
-  );
-
   return (
-    <section className="py-16 px-4 bg-gray-900/50 landscape-padding">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+    <section className="py-12 md:py-16 px-4 landscape-padding">
+      <div className="container mx-auto max-w-4xl">
+        {/* Header */}
+        <div className="text-center mb-8 md:mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
             {t('problems.title')}
           </h2>
-          <p className="text-white/70 text-lg">
+          <p className="text-white/60 text-sm md:text-base">
             {t('problems.subtitle')}
           </p>
         </div>
 
-        {/* Mobile Carousel */}
-        <MobileCarousel className="max-w-6xl mx-auto">
+        {/* Simple 3-column grid - always visible */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {problems.map((problem, index) => (
-            <ProblemCard key={index} problem={problem} index={index} />
-          ))}
-        </MobileCarousel>
-
-        {/* Desktop Grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto landscape-grid">
-          {problems.map((problem, index) => (
-            <ProblemCard key={index} problem={problem} index={index} />
+            <div 
+              key={index}
+              className="flex items-start gap-4 p-4 md:p-5 rounded-xl bg-gray-800/30 border border-gray-700/50"
+            >
+              <div className="flex-shrink-0 w-10 h-10 bg-red-500/15 rounded-lg flex items-center justify-center">
+                <problem.icon className="w-5 h-5 text-red-400" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-white font-medium text-sm md:text-base mb-1">
+                  {problem.title}
+                </h3>
+                <p className="text-white/50 text-xs md:text-sm leading-relaxed">
+                  {problem.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-viralOrange font-semibold text-xl">
+        {/* Solution CTA */}
+        <div className="text-center mt-8">
+          <p className="text-viralOrange font-medium text-base md:text-lg">
             {t('problems.solution')}
           </p>
         </div>
