@@ -51,9 +51,9 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const planId = (searchParams.get('plan') || 'starter') as keyof typeof plans;
-  const plan = plans[planId] || plans.starter;
-
+  const initialPlanId = (searchParams.get('plan') || 'starter') as keyof typeof plans;
+  
+  const [selectedPlan, setSelectedPlan] = useState<keyof typeof plans>(initialPlanId);
   const [selectedSetup, setSelectedSetup] = useState<keyof typeof setupOptions>('simple');
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
@@ -69,6 +69,7 @@ const Checkout = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const plan = plans[selectedPlan];
   const setup = setupOptions[selectedSetup];
   const totalFirstPayment = plan.price + setup.price;
 
@@ -89,18 +90,18 @@ const Checkout = () => {
     try {
       const baseUrl = window.location.origin;
       const successParams = new URLSearchParams({
-        plan: planId,
+        plan: selectedPlan,
         email: formData.correo,
         nombre: formData.nombre,
         empresa: formData.empresa,
         setup: selectedSetup
       });
       const successUrl = `${baseUrl}/success?${successParams.toString()}`;
-      const cancelUrl = `${baseUrl}/pago-fallido?plan=${planId}`;
+      const cancelUrl = `${baseUrl}/pago-fallido?plan=${selectedPlan}`;
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
-          planId,
+          planId: selectedPlan,
           setupType: selectedSetup,
           nombre: formData.nombre,
           empresa: formData.empresa,
@@ -160,10 +161,47 @@ const Checkout = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-5xl mx-auto">
-          {/* Plan Selected Banner */}
-          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-lg p-4 mb-8 text-center">
-            <p className="text-white/70 text-sm">Plan seleccionado</p>
-            <p className="text-viralOrange font-bold text-2xl">Plan {plan.name} - ${plan.price}/mes</p>
+          {/* Plan Selection */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-viralOrange" />
+              Elige tu Plan Mensual
+            </h2>
+            <p className="text-white/60 text-sm mb-4">
+              Selecciona el plan que mejor se adapte a tus necesidades (suscripción mensual)
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-4">
+              {Object.entries(plans).map(([key, planOption]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setSelectedPlan(key as keyof typeof plans)}
+                  className={`relative text-left p-5 rounded-xl border-2 transition-all ${
+                    selectedPlan === key
+                      ? 'border-viralOrange bg-viralOrange/10'
+                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  }`}
+                >
+                  {key === 'pro' && (
+                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-viralOrange text-white text-xs px-2 py-0.5 rounded-full font-semibold">
+                      Más popular
+                    </span>
+                  )}
+                  
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-white font-semibold">{planOption.name}</h3>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      selectedPlan === key ? 'border-viralOrange bg-viralOrange' : 'border-gray-500'
+                    }`}>
+                      {selectedPlan === key && <Check className="w-3 h-3 text-white" />}
+                    </div>
+                  </div>
+                  
+                  <p className="text-viralOrange font-bold text-2xl">${planOption.price}<span className="text-sm font-normal text-white/50">/mes</span></p>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Setup Selection */}
