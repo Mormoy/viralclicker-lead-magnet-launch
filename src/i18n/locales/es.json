@@ -208,5 +208,25 @@
   "language": {
     "es": "Español",
     "en": "English"
+  },
+  "selector": {
+    "title": "🎯 Selector Rápido",
+    "subtitle": "Responde 2 preguntas y te recomendamos el Setup + Plan ideal para tu negocio",
+    "q1": "¿Cuántos productos/servicios cotizas?",
+    "q2": "¿Qué necesitas mes a mes?",
+    "catalog1": "1–10",
+    "catalog2": "11–30",
+    "catalog3": "30+",
+    "need1": "Organizar leads",
+    "need1Desc": "(CRM básico, landing)",
+    "need2": "Cotizar con link + cupones",
+    "need2Desc": "(automatización base)",
+    "need3": "Automatización avanzada",
+    "need3Desc": "(multi-usuario, post-venta)",
+    "showRecommendation": "Ver mi recomendación",
+    "recommendationTitle": "Tu combinación ideal:",
+    "setupLabel": "Setup Único",
+    "planLabel": "Plan Mensual",
+    "scrollHint": "👇 Desplázate para ver los detalles destacados abajo"
   }
 }

@@ -208,5 +208,25 @@
   "language": {
     "es": "Español",
     "en": "English"
+  },
+  "selector": {
+    "title": "🎯 Quick Selector",
+    "subtitle": "Answer 2 questions and we'll recommend the ideal Setup + Plan for your business",
+    "q1": "How many products/services do you quote?",
+    "q2": "What do you need month to month?",
+    "catalog1": "1–10",
+    "catalog2": "11–30",
+    "catalog3": "30+",
+    "need1": "Organize leads",
+    "need1Desc": "(basic CRM, landing)",
+    "need2": "Quote with link + coupons",
+    "need2Desc": "(base automation)",
+    "need3": "Advanced automation",
+    "need3Desc": "(multi-user, post-sale)",
+    "showRecommendation": "See my recommendation",
+    "recommendationTitle": "Your ideal combination:",
+    "setupLabel": "One-Time Setup",
+    "planLabel": "Monthly Plan",
+    "scrollHint": "👇 Scroll down to see the highlighted details below"
   }
 }
