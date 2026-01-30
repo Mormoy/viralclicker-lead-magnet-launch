@@ -143,7 +143,23 @@ serve(async (req) => {
     // Calculate total amount
     const totalMonto = (plan.price / 100) + (setup.price / 100);
 
-    // Save client to database with valid estado
+    // Create tenant for multi-tenant support
+    const { data: tenantData, error: tenantError } = await supabase.from("tenants").insert({
+      name: empresa,
+      owner_email: correo,
+      plan: planId,
+      setup_type: setupType,
+      stripe_customer_id: customerId,
+      status: "pending",
+    }).select("id").single();
+
+    if (tenantError) {
+      console.error("Tenant creation error:", tenantError);
+    } else {
+      console.log("Tenant created:", tenantData?.id);
+    }
+
+    // Save client to database with valid estado and setup_type
     const { error: dbError } = await supabase.from("clients").insert({
       nombre,
       empresa,
@@ -151,16 +167,18 @@ serve(async (req) => {
       whatsapp,
       ciudad: ciudad || null,
       plan: planId,
+      setup_type: setupType,
       monto: totalMonto,
       estado: "onboarding_pendiente",
       stripe_customer_id: customerId,
+      tenant_id: tenantData?.id || null,
       notas: `Setup ${setup.name} ($${setup.price / 100}) - ${setup.landings} landing${setup.landings > 1 ? 's' : ''}`,
     });
 
     if (dbError) {
       console.error("Database insert error:", dbError);
     } else {
-      console.log("Client saved to database with total:", totalMonto);
+      console.log("Client saved to database with total:", totalMonto, "setup:", setupType);
     }
 
     return new Response(

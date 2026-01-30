@@ -23,6 +23,18 @@ const Success = () => {
   const email = searchParams.get('email') || '';
   const nombre = searchParams.get('nombre') || '';
   const empresa = searchParams.get('empresa') || '';
+  const setup = searchParams.get('setup') || 'simple';
+
+  const getSetupDetails = (setupId: string) => {
+    const setups: Record<string, { name: string; price: string; landings: number }> = {
+      simple: { name: 'Simple', price: '$500', landings: 1 },
+      standard: { name: 'Estándar', price: '$1,000', landings: 3 },
+      complex: { name: 'Complejo', price: '$1,600', landings: 5 },
+    };
+    return setups[setupId] || setups.simple;
+  };
+
+  const setupDetails = getSetupDetails(setup);
 
   useEffect(() => {
     // Fetch integration settings
@@ -159,9 +171,10 @@ const Success = () => {
             </p>
           </div>
 
-          {/* Plan Summary */}
+          {/* Purchase Summary */}
           <Card className="bg-gradient-to-br from-viralOrange/20 to-gray-900 border-viralOrange/50 mb-6">
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 space-y-4">
+              {/* Plan */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-viralOrange/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Package className="w-6 h-6 text-viralOrange" />
@@ -176,15 +189,30 @@ const Success = () => {
                       <span className="text-white/60 text-sm">Empresa: {empresa}</span>
                     )}
                   </div>
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {planDetails.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-white/70 text-sm">
-                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
+              </div>
+
+              {/* Setup */}
+              <div className="flex items-start gap-4 pt-3 border-t border-white/10">
+                <div className="w-12 h-12 bg-viralOrange/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-6 h-6 text-viralOrange" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-white font-semibold">Setup {setupDetails.name}</h4>
+                  <p className="text-white/60 text-sm">
+                    {setupDetails.price} (pago único) • {setupDetails.landings} landing{setupDetails.landings > 1 ? 's' : ''} incluida{setupDetails.landings > 1 ? 's' : ''}
+                  </p>
+                </div>
+              </div>
+
+              {/* Features */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 pt-3 border-t border-white/10">
+                {planDetails.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-white/70 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
