@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Play, MessageCircle, Zap } from 'lucide-react';
+import { MessageCircle, Zap } from 'lucide-react';
+import PricingSelector from './pricing-selector';
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -11,10 +12,6 @@ const HeroSection = () => {
 
   const scrollToPricing = () => {
     document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToContact = () => {
-    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -54,44 +51,8 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Video Section */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-800">
-            <div className="p-4 bg-gray-800/50 border-b border-gray-700">
-              <h3 className="text-white font-semibold text-center">
-                <Play className="w-5 h-5 inline-block mr-2 text-viralOrange" />
-                {t('hero.videoTitle')}
-              </h3>
-            </div>
-            <div className="aspect-video bg-gray-900 flex items-center justify-center relative">
-              <div className="text-center p-8">
-                <div 
-                  onClick={scrollToContact}
-                  className="w-20 h-20 mx-auto mb-4 bg-viralOrange/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-viralOrange/30 transition-colors"
-                >
-                  <Play className="w-10 h-10 text-viralOrange" />
-                </div>
-                <p className="text-white/60 text-sm mb-4">{t('hero.videoComingSoon')}</p>
-                <div className="bg-gray-800 rounded-lg p-4 text-left max-w-md mx-auto">
-                  <p className="text-viralOrange font-semibold mb-2">📝 {t('hero.videoScript')}</p>
-                  <ul className="text-white/70 text-sm space-y-1">
-                    <li>{t('hero.videoStep1')}</li>
-                    <li>{t('hero.videoStep2')}</li>
-                    <li>{t('hero.videoStep3')}</li>
-                    <li>{t('hero.videoStep4')}</li>
-                    <li>{t('hero.videoStep5')}</li>
-                  </ul>
-                </div>
-                <Button 
-                  onClick={scrollToContact}
-                  className="mt-4 bg-viralOrange hover:bg-viralOrange/90 text-white"
-                >
-                  {t('hero.requestDemo')}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Pricing Selector - replacing video */}
+        <PricingSelector />
       </div>
     </section>
   );

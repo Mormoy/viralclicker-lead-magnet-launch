@@ -3,14 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Sparkles, ChevronRight, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface PricingSelectorProps {
-  onRecommendation: (setup: 'simple' | 'standard' | 'complex', plan: 'starter' | 'pro' | 'elite') => void;
-}
-
 type CatalogSize = '1-10' | '11-30' | '30+' | null;
 type MonthlyNeed = 'organize' | 'quote' | 'advanced' | null;
 
-const PricingSelector = ({ onRecommendation }: PricingSelectorProps) => {
+const PricingSelector = () => {
   const { t } = useTranslation();
   const [catalogSize, setCatalogSize] = useState<CatalogSize>(null);
   const [monthlyNeed, setMonthlyNeed] = useState<MonthlyNeed>(null);
@@ -42,8 +38,21 @@ const PricingSelector = ({ onRecommendation }: PricingSelectorProps) => {
 
   const handleShowRecommendation = () => {
     if (catalogSize && monthlyNeed) {
+      const setup = getSetupRecommendation();
+      const plan = getPlanRecommendation();
+      
+      // Update URL with recommendation
+      const url = new URL(window.location.href);
+      url.searchParams.set('setup', setup);
+      url.searchParams.set('plan', plan);
+      window.history.replaceState({}, '', url.toString());
+      
       setShowRecommendation(true);
-      onRecommendation(getSetupRecommendation(), getPlanRecommendation());
+      
+      // Scroll to pricing section
+      setTimeout(() => {
+        document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
     }
   };
 

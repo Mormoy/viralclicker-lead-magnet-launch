@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check, Star, CreditCard, MessageSquare, Settings, Wrench, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ComparisonTable from './comparison-table';
-import PricingSelector from './pricing-selector';
 import { cn } from '@/lib/utils';
 
 type SetupType = 'simple' | 'standard' | 'complex' | null;
@@ -13,13 +11,11 @@ type PlanType = 'starter' | 'pro' | 'elite' | null;
 const PricingSection = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [recommendedSetup, setRecommendedSetup] = useState<SetupType>(null);
-  const [recommendedPlan, setRecommendedPlan] = useState<PlanType>(null);
-
-  const handleRecommendation = (setup: SetupType, plan: PlanType) => {
-    setRecommendedSetup(setup);
-    setRecommendedPlan(plan);
-  };
+  const [searchParams] = useSearchParams();
+  
+  // Read recommendation from URL params (set by hero selector)
+  const recommendedSetup = searchParams.get('setup') as SetupType;
+  const recommendedPlan = searchParams.get('plan') as PlanType;
 
   const plans = [
     {
@@ -100,9 +96,6 @@ const PricingSection = () => {
             {t('pricing.subtitle')}
           </p>
         </div>
-
-        {/* Selector Guiado */}
-        <PricingSelector onRecommendation={handleRecommendation} />
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8 landscape-grid">
           {plans.map((plan, index) => {
