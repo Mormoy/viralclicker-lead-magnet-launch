@@ -192,7 +192,7 @@ const PricingSection = () => {
                   </span>
                 </div>
                 <div className="text-center mb-4 pt-2">
-                  <span className="text-viralOrange font-bold text-2xl">$750</span>
+                  <span className="text-viralOrange font-bold text-2xl">$1,000</span>
                   <h5 className="text-white font-semibold mt-1">{t('pricing.setupStandard')}</h5>
                 </div>
                 <ul className="text-white/60 text-sm space-y-2">
@@ -227,7 +227,7 @@ const PricingSection = () => {
                   </span>
                 </div>
                 <div className="text-center mb-4 pt-1">
-                  <span className="text-viralOrange font-bold text-2xl">$1,000+</span>
+                  <span className="text-viralOrange font-bold text-2xl">$1,600</span>
                   <h5 className="text-white font-semibold mt-1">{t('pricing.setupComplex')}</h5>
                 </div>
                 <ul className="text-white/60 text-sm space-y-2">
