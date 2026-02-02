@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ViralClicker from "./pages/ClickCRM";
 import Gracias from "./pages/Gracias";
 import Admin from "./pages/Admin";
+import AdminCotizaciones from "./pages/AdminCotizaciones";
 import PlaybookClickCRM from "./pages/Playbook";
 import Success from "./pages/Success";
 import PagoFallido from "./pages/PagoFallido";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/" element={<ViralClicker />} />
           <Route path="/gracias" element={<Gracias />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/cotizaciones" element={<AdminCotizaciones />} />
           <Route path="/playbook" element={<PlaybookClickCRM />} />
           <Route path="/success" element={<Success />} />
           <Route path="/pago-fallido" element={<PagoFallido />} />
