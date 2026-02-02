@@ -97,6 +97,206 @@ export type Database = {
           },
         ]
       }
+      cotizaciones: {
+        Row: {
+          accion_recomendada: string | null
+          adset: string | null
+          ajuste_necesario: boolean | null
+          campana: string | null
+          ciudad: string | null
+          comprobante_pago: string | null
+          correo: string | null
+          created_at: string
+          direccion: string | null
+          direccion_visita: string | null
+          empresa: string | null
+          estado: Database["public"]["Enums"]["cotizacion_estado"]
+          estado_anterior:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          fecha_cambio_estado: string | null
+          fecha_envio_cotizacion: string | null
+          fecha_estimada_entrega: string | null
+          fecha_inicio_fabricacion: string | null
+          fecha_instalacion: string | null
+          fecha_primer_contacto: string | null
+          fecha_visita: string | null
+          fotos_entrega: string[] | null
+          fuente: Database["public"]["Enums"]["cotizacion_fuente"]
+          id: string
+          lead_id: string | null
+          metodo_pago: string | null
+          monto_anticipo: number | null
+          motivo_perdida: Database["public"]["Enums"]["motivo_perdida"] | null
+          motivo_perdida_texto: string | null
+          nombre: string
+          notas_internas: string | null
+          prioridad: Database["public"]["Enums"]["cotizacion_prioridad"]
+          proximo_seguimiento: string | null
+          resultado_visita: string | null
+          satisfaccion: number | null
+          tags: string[] | null
+          tenant_id: string | null
+          ultima_interaccion: string | null
+          updated_at: string
+          valor_estimado: number | null
+          valor_final: number | null
+          whatsapp: string
+        }
+        Insert: {
+          accion_recomendada?: string | null
+          adset?: string | null
+          ajuste_necesario?: boolean | null
+          campana?: string | null
+          ciudad?: string | null
+          comprobante_pago?: string | null
+          correo?: string | null
+          created_at?: string
+          direccion?: string | null
+          direccion_visita?: string | null
+          empresa?: string | null
+          estado?: Database["public"]["Enums"]["cotizacion_estado"]
+          estado_anterior?:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          fecha_cambio_estado?: string | null
+          fecha_envio_cotizacion?: string | null
+          fecha_estimada_entrega?: string | null
+          fecha_inicio_fabricacion?: string | null
+          fecha_instalacion?: string | null
+          fecha_primer_contacto?: string | null
+          fecha_visita?: string | null
+          fotos_entrega?: string[] | null
+          fuente?: Database["public"]["Enums"]["cotizacion_fuente"]
+          id?: string
+          lead_id?: string | null
+          metodo_pago?: string | null
+          monto_anticipo?: number | null
+          motivo_perdida?: Database["public"]["Enums"]["motivo_perdida"] | null
+          motivo_perdida_texto?: string | null
+          nombre: string
+          notas_internas?: string | null
+          prioridad?: Database["public"]["Enums"]["cotizacion_prioridad"]
+          proximo_seguimiento?: string | null
+          resultado_visita?: string | null
+          satisfaccion?: number | null
+          tags?: string[] | null
+          tenant_id?: string | null
+          ultima_interaccion?: string | null
+          updated_at?: string
+          valor_estimado?: number | null
+          valor_final?: number | null
+          whatsapp: string
+        }
+        Update: {
+          accion_recomendada?: string | null
+          adset?: string | null
+          ajuste_necesario?: boolean | null
+          campana?: string | null
+          ciudad?: string | null
+          comprobante_pago?: string | null
+          correo?: string | null
+          created_at?: string
+          direccion?: string | null
+          direccion_visita?: string | null
+          empresa?: string | null
+          estado?: Database["public"]["Enums"]["cotizacion_estado"]
+          estado_anterior?:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          fecha_cambio_estado?: string | null
+          fecha_envio_cotizacion?: string | null
+          fecha_estimada_entrega?: string | null
+          fecha_inicio_fabricacion?: string | null
+          fecha_instalacion?: string | null
+          fecha_primer_contacto?: string | null
+          fecha_visita?: string | null
+          fotos_entrega?: string[] | null
+          fuente?: Database["public"]["Enums"]["cotizacion_fuente"]
+          id?: string
+          lead_id?: string | null
+          metodo_pago?: string | null
+          monto_anticipo?: number | null
+          motivo_perdida?: Database["public"]["Enums"]["motivo_perdida"] | null
+          motivo_perdida_texto?: string | null
+          nombre?: string
+          notas_internas?: string | null
+          prioridad?: Database["public"]["Enums"]["cotizacion_prioridad"]
+          proximo_seguimiento?: string | null
+          resultado_visita?: string | null
+          satisfaccion?: number | null
+          tags?: string[] | null
+          tenant_id?: string | null
+          ultima_interaccion?: string | null
+          updated_at?: string
+          valor_estimado?: number | null
+          valor_final?: number | null
+          whatsapp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cotizaciones_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cotizaciones_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cotizaciones_actividad: {
+        Row: {
+          cotizacion_id: string
+          created_at: string
+          descripcion: string
+          estado_anterior:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          estado_nuevo: Database["public"]["Enums"]["cotizacion_estado"] | null
+          id: string
+          tipo: string
+          usuario: string | null
+        }
+        Insert: {
+          cotizacion_id: string
+          created_at?: string
+          descripcion: string
+          estado_anterior?:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          estado_nuevo?: Database["public"]["Enums"]["cotizacion_estado"] | null
+          id?: string
+          tipo: string
+          usuario?: string | null
+        }
+        Update: {
+          cotizacion_id?: string
+          created_at?: string
+          descripcion?: string
+          estado_anterior?:
+            | Database["public"]["Enums"]["cotizacion_estado"]
+            | null
+          estado_nuevo?: Database["public"]["Enums"]["cotizacion_estado"] | null
+          id?: string
+          tipo?: string
+          usuario?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cotizaciones_actividad_cotizacion_id_fkey"
+            columns: ["cotizacion_id"]
+            isOneToOne: false
+            referencedRelation: "cotizaciones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       integrations_settings: {
         Row: {
           calendly_url: string | null
@@ -170,6 +370,50 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "leads_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plantillas_whatsapp: {
+        Row: {
+          activa: boolean | null
+          contenido: string
+          created_at: string
+          estado_aplicable: Database["public"]["Enums"]["cotizacion_estado"]
+          id: string
+          nombre: string
+          tenant_id: string | null
+          updated_at: string
+          variables: string[] | null
+        }
+        Insert: {
+          activa?: boolean | null
+          contenido: string
+          created_at?: string
+          estado_aplicable: Database["public"]["Enums"]["cotizacion_estado"]
+          id?: string
+          nombre: string
+          tenant_id?: string | null
+          updated_at?: string
+          variables?: string[] | null
+        }
+        Update: {
+          activa?: boolean | null
+          contenido?: string
+          created_at?: string
+          estado_aplicable?: Database["public"]["Enums"]["cotizacion_estado"]
+          id?: string
+          nombre?: string
+          tenant_id?: string | null
+          updated_at?: string
+          variables?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plantillas_whatsapp_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -275,7 +519,30 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      cotizacion_estado:
+        | "nuevo"
+        | "contactado"
+        | "cotizacion_enviada"
+        | "en_decision"
+        | "visita_agendada"
+        | "visita_realizada"
+        | "propuesta_final_enviada"
+        | "anticipo_pagado"
+        | "en_fabricacion"
+        | "listo_instalar"
+        | "instalado_entregado"
+        | "cerrado_ganado"
+        | "perdido"
+      cotizacion_fuente: "ads" | "web" | "organico" | "referido" | "manual"
+      cotizacion_prioridad: "alta" | "media" | "baja"
+      motivo_perdida:
+        | "precio"
+        | "sin_medidas"
+        | "comparando"
+        | "no_respondio"
+        | "fuera_zona"
+        | "plazo_disponibilidad"
+        | "otro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -402,6 +669,33 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      cotizacion_estado: [
+        "nuevo",
+        "contactado",
+        "cotizacion_enviada",
+        "en_decision",
+        "visita_agendada",
+        "visita_realizada",
+        "propuesta_final_enviada",
+        "anticipo_pagado",
+        "en_fabricacion",
+        "listo_instalar",
+        "instalado_entregado",
+        "cerrado_ganado",
+        "perdido",
+      ],
+      cotizacion_fuente: ["ads", "web", "organico", "referido", "manual"],
+      cotizacion_prioridad: ["alta", "media", "baja"],
+      motivo_perdida: [
+        "precio",
+        "sin_medidas",
+        "comparando",
+        "no_respondio",
+        "fuera_zona",
+        "plazo_disponibilidad",
+        "otro",
+      ],
+    },
   },
 } as const
