@@ -18,12 +18,16 @@ import {
   CalendarCheck,
   FileText,
   CreditCard,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Kanban,
+  ShoppingCart
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/logo';
 import { InstallPWAButton } from '@/components/admin/install-pwa-button';
+import { ClientKanbanBoard } from '@/components/admin/client-kanban-board';
+import { AbandonedCartsPanel } from '@/components/admin/abandoned-carts-panel';
 import {
   Select,
   SelectContent,
@@ -83,7 +87,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(false);
   const [filterEstado, setFilterEstado] = useState<string>('all');
   const [filterPlan, setFilterPlan] = useState<string>('all');
-  const [activeTab, setActiveTab] = useState('clients');
+  const [activeTab, setActiveTab] = useState('pipeline');
   const { toast } = useToast();
 
   const ADMIN_PASSWORD = 'viralclicker102030+*+';
@@ -364,10 +368,18 @@ const Admin = () => {
 
       <main className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-gray-800 border-gray-700 mb-6">
+          <TabsList className="bg-gray-800 border-gray-700 mb-6 flex-wrap h-auto gap-1 p-1">
+            <TabsTrigger value="pipeline" className="data-[state=active]:bg-viralOrange">
+              <Kanban className="w-4 h-4 mr-2" />
+              Pipeline
+            </TabsTrigger>
             <TabsTrigger value="clients" className="data-[state=active]:bg-viralOrange">
               <Users className="w-4 h-4 mr-2" />
               Clientes
+            </TabsTrigger>
+            <TabsTrigger value="abandoned" className="data-[state=active]:bg-viralOrange">
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              Leads
             </TabsTrigger>
             <TabsTrigger value="onboardings" className="data-[state=active]:bg-viralOrange">
               <CalendarCheck className="w-4 h-4 mr-2" />
@@ -379,9 +391,43 @@ const Admin = () => {
             </TabsTrigger>
           </TabsList>
 
+          {/* Pipeline Tab - Kanban View */}
+          <TabsContent value="pipeline">
+            <Card className="bg-gray-900 border-gray-800 mb-4">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Kanban className="w-5 h-5 text-viralOrange" />
+                  Pipeline de Clientes
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Arrastra las tarjetas para cambiar el estado de cada cliente
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <ClientKanbanBoard 
+              clients={clients} 
+              onUpdateStatus={updateClientStatus} 
+            />
+          </TabsContent>
+
+          {/* Abandoned Carts / Leads Tab */}
+          <TabsContent value="abandoned">
+            <Card className="bg-gray-900 border-gray-800 mb-4">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <ShoppingCart className="w-5 h-5 text-viralOrange" />
+                  Leads / Carritos Abandonados
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Seguimiento de leads que aún no han comprado
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <AbandonedCartsPanel />
+          </TabsContent>
+
           {/* Clients Tab */}
           <TabsContent value="clients">
-            {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <Card className="bg-gray-800/50 border-gray-700">
                 <CardContent className="pt-4">
