@@ -2,9 +2,19 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Zap } from 'lucide-react';
 import PricingSelector from './pricing-selector';
-
+import { useEffect } from 'react';
 const HeroSection = () => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://fast.wistia.net/player.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleWhatsApp = () => {
     window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
@@ -51,23 +61,22 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Video Demo */}
+        {/* Video Demo - Wistia */}
         <div className="max-w-4xl mx-auto mb-12">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full aspect-video object-cover"
-            >
-              <source 
-                src="https://www.w3schools.com/html/mov_bbb.mp4" 
-                type="video/mp4" 
-              />
-              Tu navegador no soporta videos HTML5.
-            </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+            <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+              <div style={{ height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' }}>
+                <iframe
+                  src="https://fast.wistia.net/embed/iframe/sb3tom78nu?web_component=true&seo=true"
+                  title="ViralClicker Demo Video"
+                  allow="autoplay; fullscreen"
+                  frameBorder="0"
+                  scrolling="no"
+                  className="wistia_embed w-full h-full"
+                  name="wistia_embed"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
