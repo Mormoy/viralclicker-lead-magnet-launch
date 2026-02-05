@@ -1,17 +1,64 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check, Star, CreditCard, MessageSquare, Settings, Wrench, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ComparisonTable from './comparison-table';
 import { cn } from '@/lib/utils';
+import PricingToggle, { BillingPeriod, AnnualDiscount } from './pricing-toggle';
 
 type SetupType = 'simple' | 'standard' | 'complex' | null;
 type PlanType = 'starter' | 'pro' | 'elite' | null;
+
+// Configuration: Set to true to enable the 40% Launch promo
+const PROMO_LAUNCH = true;
+
+// Base monthly prices
+const BASE_PRICES = {
+  starter: 99,
+  pro: 249,
+  elite: 449,
+};
+
+// Helper functions for price calculations
+const calculatePricing = (monthlyPrice: number, billingPeriod: BillingPeriod, annualDiscount: AnnualDiscount) => {
+  const anualFull = monthlyPrice * 12;
+  
+  if (billingPeriod === 'monthly') {
+    return {
+      displayPrice: monthlyPrice,
+      period: '/mes',
+      originalMonthly: null,
+      effectiveMonthly: null,
+      annualTotal: null,
+      savings: null,
+    };
+  }
+  
+  // Annual pricing
+  const discountMultiplier = annualDiscount === '40' ? 0.60 : 0.70;
+  const annualPrice = Math.round(anualFull * discountMultiplier);
+  const effectiveMonthly = Math.round(annualPrice / 12);
+  const savings = anualFull - annualPrice;
+  
+  return {
+    displayPrice: annualPrice,
+    period: '/año',
+    originalMonthly: monthlyPrice,
+    effectiveMonthly,
+    annualTotal: annualPrice,
+    savings,
+  };
+};
 
 const PricingSection = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  
+  // Billing state
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
+  const [annualDiscount, setAnnualDiscount] = useState<AnnualDiscount>('30');
   
   // Read recommendation from URL params (set by hero selector)
   const recommendedSetup = searchParams.get('setup') as SetupType;
@@ -19,12 +66,9 @@ const PricingSection = () => {
 
   const plans = [
     {
-      id: 'starter',
+      id: 'starter' as const,
       name: t('pricing.starterName'),
-      price: "$99",
-      originalPrice: "$200",
-      discount: "50%",
-      period: t('pricing.perMonth'),
+      basePrice: BASE_PRICES.starter,
       description: t('pricing.starterDesc'),
       popular: false,
       features: [
@@ -38,12 +82,9 @@ const PricingSection = () => {
       ]
     },
     {
-      id: 'pro',
+      id: 'pro' as const,
       name: t('pricing.proName'),
-      price: "$249",
-      originalPrice: "$499",
-      discount: "50%",
-      period: t('pricing.perMonth'),
+      basePrice: BASE_PRICES.pro,
       description: t('pricing.proDesc'),
       popular: true,
       features: [
@@ -59,12 +100,9 @@ const PricingSection = () => {
       ]
     },
     {
-      id: 'elite',
+      id: 'elite' as const,
       name: t('pricing.eliteName'),
-      price: "$449",
-      originalPrice: "$1099",
-      discount: "59%",
-      period: t('pricing.perMonth'),
+      basePrice: BASE_PRICES.elite,
       description: t('pricing.eliteDesc'),
       popular: false,
       features: [
@@ -82,24 +120,37 @@ const PricingSection = () => {
   ];
 
   const handleSelectPlan = (planId: string) => {
-    navigate(`/checkout?plan=${planId}`);
+    const billingParam = billingPeriod === 'annual' ? `&billing=annual&discount=${annualDiscount}` : '';
+    navigate(`/checkout?plan=${planId}${billingParam}`);
   };
 
   return (
     <section id="planes" className="py-16 px-4 landscape-padding">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-12">
+        <div className="max-w-4xl mx-auto text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('pricing.title')}
           </h2>
-          <p className="text-white/70 text-lg">
+          <p className="text-white/70 text-lg mb-6">
             {t('pricing.subtitle')}
           </p>
+          
+          {/* Pricing Toggle */}
+          <PricingToggle
+            billingPeriod={billingPeriod}
+            onBillingChange={setBillingPeriod}
+            annualDiscount={annualDiscount}
+            onAnnualDiscountChange={setAnnualDiscount}
+            promoLaunch={PROMO_LAUNCH}
+          />
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8 landscape-grid">
           {plans.map((plan, index) => {
             const isRecommended = recommendedPlan === plan.id;
+            const pricing = calculatePricing(plan.basePrice, billingPeriod, annualDiscount);
+            const isAnnual = billingPeriod === 'annual';
+            
             return (
               <div 
                 key={index}
@@ -130,20 +181,38 @@ const PricingSection = () => {
                 <div className="text-center mb-6 pt-2">
                   <h3 className="text-white font-bold text-xl mb-2">{plan.name}</h3>
                   
-                  {plan.discount && (
-                    <div className="mb-2">
-                      <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-bold border border-green-500/30">
-                        {plan.discount} {t('pricing.launchOffer')}
+                  {/* Savings badge for annual plans */}
+                  {isAnnual && pricing.savings && (
+                    <div className="mb-3">
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-sm font-bold border",
+                        annualDiscount === '40' 
+                          ? "bg-gradient-to-r from-viralOrange/20 to-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                          : "bg-green-500/20 text-green-400 border-green-500/30"
+                      )}>
+                        🎉 Ahorra ${pricing.savings}
                       </span>
                     </div>
                   )}
                   
-                  <div className="flex items-baseline justify-center gap-2">
-                    {plan.originalPrice && (
-                      <span className="text-xl text-white/40 line-through">{plan.originalPrice}</span>
+                  {/* Price display */}
+                  <div className="flex flex-col items-center gap-1">
+                    {isAnnual && pricing.originalMonthly && (
+                      <span className="text-lg text-white/40 line-through">
+                        ${pricing.originalMonthly}/mes
+                      </span>
                     )}
-                    <span className="text-4xl font-bold text-viralOrange">{plan.price}</span>
-                    <span className="text-white/60">{plan.period}</span>
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="text-4xl font-bold text-viralOrange">
+                        ${pricing.displayPrice}
+                      </span>
+                      <span className="text-white/60">{pricing.period}</span>
+                    </div>
+                    {isAnnual && pricing.effectiveMonthly && (
+                      <span className="text-sm text-white/50">
+                        Equiv. ${pricing.effectiveMonthly}/mes
+                      </span>
+                    )}
                   </div>
                   <p className="text-white/50 text-sm mt-2">{plan.description}</p>
                 </div>
@@ -168,7 +237,7 @@ const PricingSection = () => {
                         : 'bg-gray-700 hover:bg-gray-600'
                   )}
                 >
-                  {t('pricing.getStarted')}
+                  {isAnnual ? 'Pagar anual y ahorrar' : t('pricing.getStarted')}
                 </Button>
               </div>
             );
