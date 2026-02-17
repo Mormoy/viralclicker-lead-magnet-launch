@@ -1,16 +1,13 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, MessageCircle } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { ArrowRight, MessageCircle, Calendar } from 'lucide-react';
 
 interface SectionCTAProps {
   variant?: 'default' | 'subtle';
 }
 
 const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
-  const { t } = useTranslation();
-
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20me%20interesa%20ViralClicker', '_blank');
   };
 
   const scrollToContact = () => {
@@ -24,17 +21,19 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
           <Button 
             onClick={scrollToContact}
             className="bg-viralOrange hover:bg-viralOrange/90 text-white px-6 py-5"
+            data-cta="book-demo"
           >
-            {t('cta.bookDemo')}
-            <ArrowRight className="w-4 h-4 ml-2" />
+            <Calendar className="w-4 h-4 mr-2" />
+            Agendar demo (15 min)
           </Button>
           <Button 
             onClick={handleWhatsApp}
             variant="outline"
             className="border-green-600 text-green-400 hover:bg-green-600/20 px-6 py-5"
+            data-cta="whatsapp"
           >
             <MessageCircle className="w-4 h-4 mr-2" />
-            {t('cta.chatWhatsApp')}
+            Hablar por WhatsApp
           </Button>
         </div>
       </div>
@@ -55,18 +54,20 @@ const SectionCTA = ({ variant = 'default' }: SectionCTAProps) => {
             onClick={scrollToContact}
             size="lg"
             className="bg-viralOrange hover:bg-viralOrange/90 text-white px-8 py-6 text-lg"
+            data-cta="book-demo"
           >
-            {t('cta.bookDemo')}
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <Calendar className="w-5 h-5 mr-2" />
+            Agendar demo (15 min)
           </Button>
           <Button 
             onClick={handleWhatsApp}
             size="lg"
             variant="outline"
             className="border-green-600 text-green-400 hover:bg-green-600/20 px-8 py-6 text-lg"
+            data-cta="whatsapp"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
-            {t('cta.chatWhatsApp')}
+            Hablar por WhatsApp
           </Button>
         </div>
       </div>

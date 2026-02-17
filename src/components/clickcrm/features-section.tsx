@@ -1,12 +1,6 @@
 import { 
-  Globe, 
-  Calculator, 
-  FileText, 
-  Kanban, 
-  Tag, 
-  Workflow, 
-  BarChart3, 
-  Download 
+  Globe, Calculator, FileText, Kanban, Tag, Workflow, BarChart3, Download,
+  Link, Ticket, Megaphone, GitBranch
 } from 'lucide-react';
 import { MobileCarousel } from '@/components/ui/mobile-carousel';
 
@@ -53,6 +47,13 @@ const features = [
   }
 ];
 
+const essentials = [
+  { icon: Link, text: "Link de cotización en tiempo real" },
+  { icon: Ticket, text: "Cupones inteligentes" },
+  { icon: Megaphone, text: "Campañas internas" },
+  { icon: GitBranch, text: "Pipeline + seguimiento automatizado" },
+];
+
 const FeatureCard = ({ feature }: { feature: typeof features[0] }) => (
   <div 
     className="bg-gray-800/30 rounded-xl p-5 border border-gray-700/50 hover:border-viralOrange/30 transition-all group h-full"
@@ -80,6 +81,19 @@ const FeaturesSection = () => {
           <p className="text-white/70 text-lg">
             Todo lo que necesitas para gestionar tu proceso comercial
           </p>
+        </div>
+
+        {/* Lo esencial en 1 minuto */}
+        <div className="max-w-3xl mx-auto mb-10">
+          <h3 className="text-white font-semibold text-center mb-4 text-lg">Lo esencial en 1 minuto</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {essentials.map((item, i) => (
+              <div key={i} className="flex items-center gap-2 bg-viralOrange/10 border border-viralOrange/20 rounded-lg px-3 py-2.5">
+                <item.icon className="w-4 h-4 text-viralOrange flex-shrink-0" />
+                <span className="text-white/80 text-xs font-medium">{item.text}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Mobile Carousel */}

@@ -1,36 +1,33 @@
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Play, LayoutDashboard, FileText, BarChart3, Kanban, TrendingUp } from 'lucide-react';
+import { MessageCircle, Play, Calendar, FileText, Kanban, TrendingUp } from 'lucide-react';
+
+const screenshots = [
+  {
+    icon: FileText,
+    badge: "Cotización Viva",
+    title: "Link de cotización en vivo",
+    description: "Tu cliente recibe un link único con precios actualizados en tiempo real. Puede aceptar, comentar o pedir cambios—todo registrado.",
+    features: ["Exportar PDF", "Seguimiento en vivo", "Comentarios"]
+  },
+  {
+    icon: Kanban,
+    badge: "Pipeline CRM",
+    title: "Vista de pipeline CRM",
+    description: "Visualiza cada oportunidad por etapa: Nuevo, Cotizado, Negociando, Cerrado. Nunca pierdas el seguimiento.",
+    features: ["Drag & drop", "Filtros por etapa", "Fechas límite"]
+  },
+  {
+    icon: TrendingUp,
+    badge: "Dashboard",
+    title: "Dashboard de conversión",
+    description: "Reportes claros: cotizaciones enviadas, tasa de cierre, tiempo promedio de respuesta, ticket promedio.",
+    features: ["Métricas clave", "Tendencias", "Exportar datos"]
+  }
+];
 
 const DemoSection = () => {
-  const { t } = useTranslation();
-
-  const screenshots = [
-    {
-      icon: FileText,
-      badge: t('demo.card1Badge'),
-      title: t('demo.card1Title'),
-      description: t('demo.card1Desc'),
-      features: [t('demo.card1Feature1'), t('demo.card1Feature2'), t('demo.card1Feature3')]
-    },
-    {
-      icon: Kanban,
-      badge: t('demo.card2Badge'),
-      title: t('demo.card2Title'),
-      description: t('demo.card2Desc'),
-      features: [t('demo.card2Feature1'), t('demo.card2Feature2'), t('demo.card2Feature3')]
-    },
-    {
-      icon: TrendingUp,
-      badge: t('demo.card3Badge'),
-      title: t('demo.card3Title'),
-      description: t('demo.card3Desc'),
-      features: [t('demo.card3Feature1'), t('demo.card3Feature2'), t('demo.card3Feature3')]
-    }
-  ];
-
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20to%20see%20a%20demo%20of%20ViralClicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hola,%20me%20gustaría%20ver%20una%20demo%20de%20ViralClicker', '_blank');
   };
 
   const scrollToContact = () => {
@@ -42,13 +39,13 @@ const DemoSection = () => {
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="inline-block bg-viralOrange/20 text-viralOrange px-4 py-1 rounded-full text-sm font-medium mb-4">
-            {t('demo.badge')}
+            Vista previa del producto
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('demo.title')}
+            Conoce el interior de ViralClicker
           </h2>
           <p className="text-white/70 text-lg">
-            {t('demo.subtitle')}
+            Un sistema pensado para que tú vendas y el sistema haga el seguimiento
           </p>
         </div>
 
@@ -90,18 +87,20 @@ const DemoSection = () => {
             onClick={scrollToContact}
             size="lg"
             className="bg-viralOrange hover:bg-viralOrange/90 text-white font-semibold"
+            data-cta="book-demo"
           >
-            <Play className="w-5 h-5 mr-2" />
-            {t('demo.ctaPrimary')}
+            <Calendar className="w-5 h-5 mr-2" />
+            Agendar demo (15 min)
           </Button>
           <Button 
             onClick={handleWhatsApp}
             size="lg"
             variant="outline"
-            className="border-green-600 text-green-500 hover:bg-green-600/10"
+            className="border-green-600 text-green-400 hover:bg-green-600/10"
+            data-cta="whatsapp"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
-            {t('demo.ctaSecondary')}
+            Hablar por WhatsApp
           </Button>
         </div>
       </div>

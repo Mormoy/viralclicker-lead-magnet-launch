@@ -1,41 +1,36 @@
-import { useTranslation } from 'react-i18next';
-import { Clock, FileX, MessageSquareX } from 'lucide-react';
+import { Clock, FileX, MessageSquareX, AlertTriangle } from 'lucide-react';
+
+const problems = [
+  {
+    icon: Clock,
+    title: "Leads que se enfrían",
+    description: "Tardan en responder y el cliente se va con la competencia."
+  },
+  {
+    icon: FileX,
+    title: "Cotizaciones sin control",
+    description: "No sabes cuáles están pendientes, cuáles cerraron."
+  },
+  {
+    icon: MessageSquareX,
+    title: "WhatsApp caótico",
+    description: "Cientos de chats sin orden ni seguimiento."
+  }
+];
 
 const ProblemSection = () => {
-  const { t } = useTranslation();
-
-  const problems = [
-    {
-      icon: Clock,
-      title: t('problems.problem1Title'),
-      description: t('problems.problem1Desc')
-    },
-    {
-      icon: FileX,
-      title: t('problems.problem2Title'),
-      description: t('problems.problem2Desc')
-    },
-    {
-      icon: MessageSquareX,
-      title: t('problems.problem3Title'),
-      description: t('problems.problem3Desc')
-    }
-  ];
-
   return (
     <section className="py-12 md:py-16 px-4 landscape-padding">
       <div className="container mx-auto max-w-4xl">
-        {/* Header */}
         <div className="text-center mb-8 md:mb-10">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            {t('problems.title')}
+            ¿Te suena familiar?
           </h2>
           <p className="text-white/60 text-sm md:text-base">
-            {t('problems.subtitle')}
+            Los 3 problemas más comunes al vender por cotización
           </p>
         </div>
 
-        {/* Simple 3-column grid - always visible */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {problems.map((problem, index) => (
             <div 
@@ -57,10 +52,17 @@ const ProblemSection = () => {
           ))}
         </div>
 
-        {/* Solution CTA */}
+        {/* Cost of inaction */}
+        <div className="mt-6 bg-red-500/5 border border-red-500/20 rounded-xl p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <p className="text-white/70 text-sm">
+            Si respondes tarde o no haces seguimiento, ese lead se enfría y la venta se pierde.
+          </p>
+        </div>
+
         <div className="text-center mt-8">
           <p className="text-viralOrange font-medium text-base md:text-lg">
-            {t('problems.solution')}
+            ViralClicker resuelve esto en un solo lugar 👇
           </p>
         </div>
       </div>
