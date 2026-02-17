@@ -23,7 +23,7 @@ const steps = [
     number: 4,
     icon: MessageCircle,
     title: "WhatsApp gestiona seguimiento",
-    description: "Plantillas predefinidas, recordatorios y automatizaciones según tu plan para no perder ningún lead."
+    description: "Plantillas predefinidas, recordatorios y mensajes automáticos si no responden en X horas. La automatización es configurable según tu plan y reglas de negocio."
   },
   {
     number: 5,
@@ -48,7 +48,6 @@ const HowItWorksSection = () => {
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Vertical line */}
             <div className="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-viralOrange/30" />
             
             {steps.map((step, index) => (
@@ -58,14 +57,12 @@ const HowItWorksSection = () => {
                   index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
-                {/* Number circle */}
                 <div className="relative z-10 flex-shrink-0">
                   <div className="w-12 h-12 bg-viralOrange rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-viralOrange/30">
                     {step.number}
                   </div>
                 </div>
 
-                {/* Content card */}
                 <div className={`flex-1 bg-gray-800/50 rounded-xl p-6 border border-gray-700 ${
                   index % 2 === 0 ? 'md:mr-auto md:max-w-md' : 'md:ml-auto md:max-w-md'
                 }`}>

@@ -1,36 +1,38 @@
-import { useTranslation } from 'react-i18next';
-import { CheckCircle, XCircle, Building2, ShoppingCart, MessageSquare, FileText, Users, Clock } from 'lucide-react';
+import { CheckCircle, XCircle, Building2, ShoppingCart, MessageSquare, FileText, Users, Clock, Calendar } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const idealFor = [
+  { icon: FileText, text: "Negocios que envían cotizaciones o presupuestos" },
+  { icon: MessageSquare, text: "Empresas que cierran ventas por WhatsApp" },
+  { icon: Building2, text: "Small Businesses de servicios: instalaciones, reparaciones, construcción" },
+  { icon: Users, text: "Equipos de ventas que necesitan seguimiento ordenado" },
+  { icon: Clock, text: "Negocios que pierden ventas por falta de seguimiento" }
+];
+
+const notFor = [
+  { icon: ShoppingCart, text: "Tiendas e-commerce con carrito de compras" },
+  { icon: XCircle, text: "Negocios sin proceso de cotización" },
+  { icon: XCircle, text: "Empresas que no usan WhatsApp para ventas" },
+  { icon: XCircle, text: "Negocios con CRM y ERP completamente integrados" }
+];
 
 const TargetAudienceSection = () => {
-  const { t } = useTranslation();
-
-  const idealFor = [
-    { icon: FileText, text: t('audience.ideal1') },
-    { icon: MessageSquare, text: t('audience.ideal2') },
-    { icon: Building2, text: t('audience.ideal3') },
-    { icon: Users, text: t('audience.ideal4') },
-    { icon: Clock, text: t('audience.ideal5') }
-  ];
-
-  const notFor = [
-    { icon: ShoppingCart, text: t('audience.not1') },
-    { icon: XCircle, text: t('audience.not2') },
-    { icon: XCircle, text: t('audience.not3') },
-    { icon: XCircle, text: t('audience.not4') }
-  ];
+  const scrollToDemo = () => {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section className="py-16 px-4 bg-gray-900/30 landscape-padding">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="inline-block bg-viralOrange/20 text-viralOrange px-4 py-1 rounded-full text-sm font-medium mb-4">
-            {t('audience.badge')}
+            ¿Es para ti?
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('audience.title')}
+            ¿Para quién es ViralClicker?
           </h2>
           <p className="text-white/70 text-lg">
-            {t('audience.subtitle')}
+            Somos honestos: no es para todos. Revisa si calzas con nuestro perfil ideal.
           </p>
         </div>
 
@@ -41,7 +43,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-green-600/20 rounded-full flex items-center justify-center">
                 <CheckCircle className="w-6 h-6 text-green-500" />
               </div>
-              <h3 className="text-xl font-bold text-white">{t('audience.idealTitle')}</h3>
+              <h3 className="text-xl font-bold text-white">Ideal para ti si...</h3>
             </div>
             <ul className="space-y-4">
               {idealFor.map((item, index) => (
@@ -59,7 +61,7 @@ const TargetAudienceSection = () => {
               <div className="w-10 h-10 bg-red-600/20 rounded-full flex items-center justify-center">
                 <XCircle className="w-6 h-6 text-red-400" />
               </div>
-              <h3 className="text-xl font-bold text-white">{t('audience.notTitle')}</h3>
+              <h3 className="text-xl font-bold text-white">No es para ti si...</h3>
             </div>
             <ul className="space-y-4">
               {notFor.map((item, index) => (
@@ -72,10 +74,19 @@ const TargetAudienceSection = () => {
           </div>
         </div>
 
-        <div className="text-center mt-8">
-          <p className="text-white/50 text-sm">
-            {t('audience.notSure')} <a href="#contacto" className="text-viralOrange hover:underline">{t('audience.contactUs')}</a> {t('audience.notSureHelp')}
+        {/* Micro CTA */}
+        <div className="text-center mt-10 bg-viralOrange/5 border border-viralOrange/20 rounded-xl p-6 max-w-lg mx-auto">
+          <p className="text-white/80 text-sm mb-4">
+            ¿Calzas con el perfil ideal? Agendemos una demo de 15 min.
           </p>
+          <Button
+            onClick={scrollToDemo}
+            className="bg-viralOrange hover:bg-viralOrange/90 text-white"
+            data-cta="book-demo"
+          >
+            <Calendar className="w-4 h-4 mr-2" />
+            Agendar demo (15 min)
+          </Button>
         </div>
       </div>
     </section>

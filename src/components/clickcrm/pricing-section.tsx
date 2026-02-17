@@ -70,6 +70,7 @@ const PricingSection = () => {
       name: t('pricing.starterName'),
       basePrice: BASE_PRICES.starter,
       description: t('pricing.starterDesc'),
+      idealPara: 'Ideal para ordenar leads y pipeline',
       popular: false,
       features: [
         t('pricing.starterFeature1'),
@@ -86,6 +87,7 @@ const PricingSection = () => {
       name: t('pricing.proName'),
       basePrice: BASE_PRICES.pro,
       description: t('pricing.proDesc'),
+      idealPara: 'Ideal para cotizar + cupones + campañas',
       popular: true,
       features: [
         t('pricing.proFeature1'),
@@ -104,6 +106,7 @@ const PricingSection = () => {
       name: t('pricing.eliteName'),
       basePrice: BASE_PRICES.elite,
       description: t('pricing.eliteDesc'),
+      idealPara: 'Ideal para post-venta + multiusuario + soporte prioritario',
       popular: false,
       features: [
         t('pricing.eliteFeature1'),
@@ -215,6 +218,7 @@ const PricingSection = () => {
                     )}
                   </div>
                   <p className="text-white/50 text-sm mt-2">{plan.description}</p>
+                  <p className="text-viralOrange/80 text-xs font-medium mt-1">{plan.idealPara}</p>
                 </div>
 
                 <ul className="space-y-3 mb-6">
@@ -236,6 +240,8 @@ const PricingSection = () => {
                         ? 'bg-viralOrange hover:bg-viralOrange/90' 
                         : 'bg-gray-700 hover:bg-gray-600'
                   )}
+                  data-cta="pricing-plan"
+                  data-plan={plan.id}
                 >
                   {isAnnual ? 'Pagar anual y ahorrar' : t('pricing.getStarted')}
                 </Button>
@@ -252,11 +258,23 @@ const PricingSection = () => {
             <div className="text-center mb-6">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Settings className="w-6 h-6 text-viralOrange" />
-                <h4 className="text-white font-bold text-xl">{t('pricing.setupTitle')}</h4>
+                <h4 className="text-white font-bold text-xl">Setup desde $500</h4>
               </div>
+              <p className="text-white/70 text-sm font-medium mb-1">
+                Incluye landing + CRM + WhatsApp API + onboarding 1:1
+              </p>
               <p className="text-white/60 text-sm">
                 {t('pricing.setupSubtitle')}
               </p>
+              <a 
+                href="https://wa.me/13051234567?text=Hola,%20necesito%20una%20estimación%20exacta%20de%20setup" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-viralOrange hover:underline text-xs mt-2 inline-block"
+                data-cta="whatsapp"
+              >
+                ¿Necesitas una estimación exacta? Habla por WhatsApp →
+              </a>
             </div>
             
             <div className="grid md:grid-cols-3 gap-4">

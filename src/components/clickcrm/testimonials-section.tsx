@@ -10,7 +10,7 @@ const testimonials = [
     iniciales: "CM",
     antes: "Respondíamos tarde y se perdían cotizaciones. Los clientes preguntaban por WhatsApp y cuando contestábamos ya habían comprado en otro lado.",
     despues: "Con ViralClicker el cliente cotiza, recibe PDF y link vivo, y cerramos por WhatsApp. Menos seguimiento manual, más cierres.",
-    metrica: "Menos tiempo respondiendo, más cierres"
+    metrica: "Menos tiempo respondiendo: de ~3–4 h/día a ~1–2 h/día (estimado)"
   },
   {
     nombre: "Roberto F.",
@@ -20,7 +20,7 @@ const testimonials = [
     iniciales: "RF",
     antes: "Muchos mensajes, pocas reservas. Teníamos leads en Excel, WhatsApp, correo... un desorden total. Se olvidaban seguimientos.",
     despues: "Cotización instantánea + seguimiento automático + ofertas por WhatsApp. Todo centralizado en un solo lugar.",
-    metrica: "Seguimiento ordenado, más reservas"
+    metrica: "Más cotizaciones atendidas a tiempo"
   },
   {
     nombre: "Miguel A.",
@@ -38,7 +38,6 @@ const TestimonialsSection = () => {
   return (
     <section className="py-16 md:py-24 bg-viralDark">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-12">
           <span className="text-viralOrange font-semibold text-sm uppercase tracking-wider">
             Testimonios
@@ -51,7 +50,6 @@ const TestimonialsSection = () => {
           </p>
         </div>
 
-        {/* Testimonial Cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <Card 
@@ -59,10 +57,8 @@ const TestimonialsSection = () => {
               className="bg-gray-900/50 border-gray-800 hover:border-viralOrange/50 transition-all duration-300"
             >
               <CardContent className="p-6">
-                {/* Quote icon */}
                 <Quote className="w-8 h-8 text-viralOrange/30 mb-4" />
                 
-                {/* Before / After */}
                 <div className="space-y-4 mb-4">
                   <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
                     <span className="text-red-400 text-xs font-semibold uppercase">Antes</span>
@@ -74,14 +70,16 @@ const TestimonialsSection = () => {
                   </div>
                 </div>
 
-                {/* Metric badge */}
+                {/* Metric badge with estimado label */}
                 <div className="flex justify-center mb-4">
-                  <span className="bg-viralOrange/20 text-viralOrange text-sm font-bold px-4 py-2 rounded-full text-center">
+                  <span className="bg-viralOrange/20 text-viralOrange text-xs font-bold px-3 py-2 rounded-full text-center leading-tight">
                     {testimonial.metrica}
+                    {index === 0 && (
+                      <span className="block text-[10px] text-viralOrange/60 font-normal mt-0.5">Ejemplo / estimado</span>
+                    )}
                   </span>
                 </div>
 
-                {/* Author */}
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
                   <div className="w-12 h-12 rounded-full bg-viralOrange/20 border-2 border-viralOrange/30 flex items-center justify-center">
                     <span className="text-viralOrange font-bold text-sm">{testimonial.iniciales}</span>
@@ -97,7 +95,6 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        {/* Disclaimer */}
         <p className="text-white/40 text-xs text-center mt-8 max-w-2xl mx-auto">
           Los resultados varían según rubro, ticket promedio y velocidad de atención. Los testimonios reflejan experiencias individuales.
         </p>
