@@ -1,17 +1,17 @@
-import { HelpCircle, MessageSquareX, FileX, Clock } from 'lucide-react';
+import { HelpCircle, FileX, Clock } from 'lucide-react';
 
 const problems = [
   {
     icon: HelpCircle,
-    text: "Los clientes preguntan pero no cotizan",
+    text: "Customers ask for quotes but never follow up",
   },
   {
     icon: FileX,
-    text: "Las cotizaciones se pierden en WhatsApp",
+    text: "Quotes get lost in WhatsApp conversations",
   },
   {
     icon: Clock,
-    text: "Nadie hace seguimiento",
+    text: "No system to track leads and opportunities",
   },
 ];
 
@@ -20,7 +20,7 @@ const ProblemSection = () => {
     <section className="py-12 md:py-16 px-4 bg-gray-900/30">
       <div className="container mx-auto max-w-3xl text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-          ¿Te suena familiar?
+          Does this sound familiar?
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -34,10 +34,6 @@ const ProblemSection = () => {
             </div>
           ))}
         </div>
-
-        <p className="text-viralOrange font-medium text-base">
-          ViralClicker resuelve esto en un solo lugar 👇
-        </p>
       </div>
     </section>
   );

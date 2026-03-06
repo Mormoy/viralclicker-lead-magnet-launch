@@ -1,65 +1,60 @@
 import { Button } from '@/components/ui/button';
-import { Calendar, MessageCircle, CheckCircle } from 'lucide-react';
+import { MessageCircle, CheckCircle, ArrowDown } from 'lucide-react';
 
 const HeroSection = () => {
   const handleWhatsApp = () => {
-    window.open('https://wa.me/13051234567?text=Hola,%20me%20interesa%20ViralClicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
   };
 
-  const scrollToDemo = () => {
-    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToPlans = () => {
+    document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section className="py-16 md:py-24 px-4">
       <div className="container mx-auto max-w-3xl text-center">
-        {/* Headline */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          <span className="text-white">Cotiza, organiza y cierra ventas </span>
-          <span className="text-viralOrange">por WhatsApp</span>
+          <span className="text-white">Quote, organize and close deals </span>
+          <span className="text-viralOrange">through WhatsApp</span>
         </h1>
 
-        {/* Subtitle */}
         <p className="text-white/70 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-          Sistema con Cotizador Inteligente + CRM simple diseñado para pequeñas empresas que venden por cotización.
+          ViralClicker combines a Smart Quote Builder with a simple CRM to help small businesses capture leads, send quotes and close deals faster.
         </p>
 
-        {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-          <Button
-            onClick={scrollToDemo}
-            size="lg"
-            className="bg-viralOrange hover:bg-viralOrange/90 text-white font-bold text-lg px-8 py-6 shadow-glow"
-            data-cta="book-demo"
-          >
-            <Calendar className="w-5 h-5 mr-2" />
-            Agendar demo (15 min)
-          </Button>
           <Button
             onClick={handleWhatsApp}
             size="lg"
-            variant="outline"
-            className="border-green-600 text-green-400 hover:bg-green-600/10 font-medium text-base px-6 py-5"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg px-8 py-6 shadow-glow"
             data-cta="whatsapp"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
-            Hablar por WhatsApp
+            Talk on WhatsApp
+          </Button>
+          <Button
+            onClick={scrollToPlans}
+            size="lg"
+            variant="outline"
+            className="border-viralOrange/60 text-viralOrange hover:bg-viralOrange/10 font-medium text-base px-6 py-5"
+          >
+            <ArrowDown className="w-5 h-5 mr-2" />
+            View Plans
           </Button>
         </div>
 
-        {/* Bullets */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center text-white/60 text-sm">
           <span className="flex items-center gap-2 justify-center">
             <CheckCircle className="w-4 h-4 text-viralOrange" />
-            Implementación en 7 días
+            Setup in 7 days
           </span>
           <span className="flex items-center gap-2 justify-center">
             <CheckCircle className="w-4 h-4 text-viralOrange" />
-            Sin CRM complicado
+            No complicated CRM
           </span>
           <span className="flex items-center gap-2 justify-center">
             <CheckCircle className="w-4 h-4 text-viralOrange" />
-            Diseñado para pequeñas empresas
+            Built for small service businesses
           </span>
         </div>
       </div>

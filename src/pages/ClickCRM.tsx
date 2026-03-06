@@ -9,11 +9,15 @@ import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import FinalCTA from '@/components/clickcrm/final-cta';
 import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 const ViralClicker = () => {
-  const scrollToContact = () => {
-    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
+  };
+
+  const scrollToPlans = () => {
+    document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -23,49 +27,36 @@ const ViralClicker = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Logo />
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors text-sm">Cómo funciona</a>
-            <a href="#planes" className="text-white/80 hover:text-white transition-colors text-sm">Planes</a>
+            <a href="#how-it-works" className="text-white/80 hover:text-white transition-colors text-sm">How It Works</a>
+            <a href="#planes" className="text-white/80 hover:text-white transition-colors text-sm">Pricing</a>
             <Button
-              onClick={scrollToContact}
-              className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 font-semibold"
-              data-cta="book-demo"
+              onClick={handleWhatsApp}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 font-semibold"
+              data-cta="whatsapp"
             >
-              <Calendar className="w-4 h-4 mr-2" />
-              Agendar demo
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Talk on WhatsApp
             </Button>
           </nav>
           <Button
-            onClick={scrollToContact}
+            onClick={handleWhatsApp}
             size="sm"
-            className="md:hidden bg-viralOrange hover:bg-viralOrange/90 text-white text-xs px-3 py-1"
-            data-cta="book-demo"
+            className="md:hidden bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1"
+            data-cta="whatsapp"
           >
-            <Calendar className="w-3 h-3 mr-1" />
-            Demo
+            <MessageCircle className="w-3 h-3 mr-1" />
+            WhatsApp
           </Button>
         </div>
       </header>
 
       <main className="flex-grow space-y-0">
-        {/* 1. Hero */}
         <HeroSection />
-
-        {/* 2. Problema */}
         <ProblemSection />
-
-        {/* 3. Solución */}
         <SolutionSection />
-
-        {/* 4. Cómo funciona */}
         <HowItWorksSection />
-
-        {/* 5. Para quién es */}
         <ForWhoSection />
-
-        {/* 6. Planes */}
         <PricingSection />
-
-        {/* 7. CTA Final + Formulario */}
         <FinalCTA />
         <ContactFormSection />
       </main>
@@ -79,7 +70,7 @@ const ViralClicker = () => {
             </div>
             <div className="flex items-center gap-4">
               <a href="/terminos" className="text-white/40 hover:text-white/60 text-sm transition-colors">
-                Términos del Servicio
+                Terms of Service
               </a>
               <span className="text-white/20">|</span>
               <span className="text-white/40 text-sm">Powered by Mormoy LLC</span>
