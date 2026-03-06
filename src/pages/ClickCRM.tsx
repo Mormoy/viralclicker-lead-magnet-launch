@@ -8,16 +8,16 @@ import PricingSection from '@/components/clickcrm/pricing-section';
 import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import FinalCTA from '@/components/clickcrm/final-cta';
+import LanguageSwitcher from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ViralClicker = () => {
+  const { t } = useTranslation();
+
   const handleWhatsApp = () => {
     window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
-  };
-
-  const scrollToPlans = () => {
-    document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -26,27 +26,31 @@ const ViralClicker = () => {
       <header className="p-4 bg-viralDark/95 backdrop-blur-sm border-b border-gray-800 sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center">
           <Logo />
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#how-it-works" className="text-white/80 hover:text-white transition-colors text-sm">How It Works</a>
-            <a href="#planes" className="text-white/80 hover:text-white transition-colors text-sm">Pricing</a>
+          <nav className="hidden md:flex items-center gap-4">
+            <a href="#how-it-works" className="text-white/80 hover:text-white transition-colors text-sm">{t('nav.howItWorks')}</a>
+            <a href="#planes" className="text-white/80 hover:text-white transition-colors text-sm">{t('nav.pricing')}</a>
+            <LanguageSwitcher />
             <Button
               onClick={handleWhatsApp}
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 font-semibold"
               data-cta="whatsapp"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
-              Talk on WhatsApp
+              {t('cta.chatWhatsApp')}
             </Button>
           </nav>
-          <Button
-            onClick={handleWhatsApp}
-            size="sm"
-            className="md:hidden bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1"
-            data-cta="whatsapp"
-          >
-            <MessageCircle className="w-3 h-3 mr-1" />
-            WhatsApp
-          </Button>
+          <div className="md:hidden flex items-center gap-2">
+            <LanguageSwitcher />
+            <Button
+              onClick={handleWhatsApp}
+              size="sm"
+              className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1"
+              data-cta="whatsapp"
+            >
+              <MessageCircle className="w-3 h-3 mr-1" />
+              WhatsApp
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -61,19 +65,14 @@ const ViralClicker = () => {
         <ContactFormSection />
       </main>
 
-      {/* Footer */}
       <footer className="bg-viralDark border-t border-gray-800 py-6">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-white/60 text-center md:text-left text-sm">
-              © 2025 ViralClicker. All rights reserved.
-            </div>
+            <div className="text-white/60 text-center md:text-left text-sm">{t('footer.rights')}</div>
             <div className="flex items-center gap-4">
-              <a href="/terminos" className="text-white/40 hover:text-white/60 text-sm transition-colors">
-                Terms of Service
-              </a>
+              <a href="/terminos" className="text-white/40 hover:text-white/60 text-sm transition-colors">{t('footer.terms')}</a>
               <span className="text-white/20">|</span>
-              <span className="text-white/40 text-sm">Powered by Mormoy LLC</span>
+              <span className="text-white/40 text-sm">{t('footer.madeBy')}</span>
             </div>
           </div>
         </div>
