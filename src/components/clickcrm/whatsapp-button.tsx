@@ -2,14 +2,14 @@ import { MessageCircle } from 'lucide-react';
 
 const WhatsAppButton = () => {
   const handleClick = () => {
-    window.open('https://wa.me/13051234567?text=Hola,%20me%20interesa%20ViralClicker', '_blank');
+    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
   };
 
   return (
     <button
       onClick={handleClick}
       className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50 transition-transform hover:scale-110"
-      aria-label="Hablar por WhatsApp"
+      aria-label="Talk on WhatsApp"
       data-cta="whatsapp"
     >
       <MessageCircle className="w-6 h-6" />

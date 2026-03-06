@@ -1,32 +1,32 @@
 const steps = [
   {
     number: 1,
-    title: "Cliente entra al Cotizador Inteligente",
-    description: "Tu cliente accede a una página donde selecciona lo que necesita.",
+    title: "Customer uses the Smart Quote Builder",
+    description: "Your customer visits a page and selects exactly what they need.",
   },
   {
     number: 2,
-    title: "Genera una cotización",
-    description: "Recibe un presupuesto personalizado en segundos.",
+    title: "A quote is generated instantly",
+    description: "They receive a personalized quote in seconds.",
   },
   {
     number: 3,
-    title: "El lead entra automáticamente al CRM",
-    description: "Cada cotización se registra en tu pipeline con todos los datos.",
+    title: "The lead enters your CRM pipeline",
+    description: "Every quote is automatically tracked with all the details.",
   },
   {
     number: 4,
-    title: "Cierras la venta por WhatsApp",
-    description: "Envía seguimiento, recordatorios y cierra desde el CRM.",
+    title: "You close the deal through WhatsApp",
+    description: "Send follow-ups, reminders and close directly from the CRM.",
   },
 ];
 
 const HowItWorksSection = () => {
   return (
-    <section id="como-funciona" className="py-12 md:py-16 px-4 bg-gray-900/30">
+    <section id="how-it-works" className="py-12 md:py-16 px-4 bg-gray-900/30">
       <div className="container mx-auto max-w-3xl">
         <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
-          ¿Cómo funciona?
+          How it works
         </h2>
 
         <div className="space-y-4">

@@ -3,18 +3,18 @@ import { FileText, Kanban, MessageCircle } from 'lucide-react';
 const solutions = [
   {
     icon: FileText,
-    title: "Cotizador Inteligente",
-    description: "Permite que tus clientes coticen servicios en segundos.",
+    title: "Smart Quote Builder",
+    description: "Allow customers to generate quotes in seconds.",
   },
   {
     icon: Kanban,
-    title: "CRM de Cotizaciones",
-    description: "Organiza todos tus leads en un pipeline simple.",
+    title: "CRM for Quotes",
+    description: "Organize all leads and quotes in a clear pipeline.",
   },
   {
     icon: MessageCircle,
-    title: "Seguimiento por WhatsApp",
-    description: "Envía cotizaciones y recordatorios directamente a tus clientes.",
+    title: "WhatsApp Follow-Ups",
+    description: "Send quotes and reminders directly through WhatsApp.",
   },
 ];
 
@@ -23,7 +23,7 @@ const SolutionSection = () => {
     <section className="py-12 md:py-16 px-4">
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
-          Un sistema simple para vender más
+          A simple system to sell more
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

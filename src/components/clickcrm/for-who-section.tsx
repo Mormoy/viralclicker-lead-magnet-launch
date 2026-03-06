@@ -1,11 +1,11 @@
 import { CheckCircle } from 'lucide-react';
 
 const industries = [
-  "Cortinas y persianas",
-  "Eventos y banquetería",
-  "HVAC y climatización",
-  "Reparaciones y mantenimiento",
-  "Instalaciones a medida",
+  "Window Treatments & Blinds",
+  "Events & Catering",
+  "HVAC & Air Conditioning",
+  "Repairs & Maintenance",
+  "Custom Installations",
 ];
 
 const ForWhoSection = () => {
@@ -13,7 +13,7 @@ const ForWhoSection = () => {
     <section className="py-12 md:py-16 px-4">
       <div className="container mx-auto max-w-2xl text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-          ¿Para quién es?
+          Who is it for?
         </h2>
 
         <div className="flex flex-wrap justify-center gap-3">
