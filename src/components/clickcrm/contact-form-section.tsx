@@ -117,6 +117,11 @@ const ContactFormSection = () => {
                 </div>
               </div>
 
+              <div>
+                <label className="text-white/80 text-sm mb-1 block">Company Name (optional)</label>
+                <Input name="empresa" value={formData.empresa} onChange={handleChange} placeholder="Your company name" className="bg-gray-800 border-gray-700 text-white" />
+              </div>
+
               {formVariant === 'short' && (
                 <>
                   <div>

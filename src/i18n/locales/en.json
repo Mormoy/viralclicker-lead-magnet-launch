@@ -7,10 +7,10 @@
   },
   "hero": {
     "badge": "🚀 Setup in 7 days",
-    "title1": "Quote → Follow Up → Close",
+    "title1": "Send Quotes, Follow Up and Close More Deals",
     "title2": "via WhatsApp",
-    "subtitle": "Complete system for small businesses: live quote links, coupons, internal campaigns, and post-sale tracking. All integrated with WhatsApp Business.",
-    "ctaPrimary": "View plans & get started",
+    "subtitle": "A simple quote automation system for service businesses. Generate quotes, track leads and close deals through WhatsApp.",
+    "ctaPrimary": "View Plans",
     "ctaSecondary": "Chat on WhatsApp",
     "videoTitle": "See the system in 90 seconds",
     "videoComingSoon": "Demo video coming soon",
@@ -30,7 +30,7 @@
     "problem2Title": "Quotes out of control",
     "problem2Desc": "No idea which are pending, which closed.",
     "problem3Title": "Chaotic WhatsApp",
-    "problem3Desc": "Hundreds of chats with no order or follow-up.",
+    "problem3Desc": "Hundreds of WhatsApp chats with no tracking or follow-up.",
     "solution": "ViralClicker solves this in one place 👇"
   },
   "benefits": {
@@ -44,8 +44,8 @@
     "benefit3Desc": "Send promotions and follow-ups to your lead base directly from the CRM.",
     "benefit4Title": "Post-sale tracking",
     "benefit4Desc": "Monitor each client's status after the sale: installation, payment, satisfaction.",
-    "benefit5Title": "More closes, fewer leaks",
-    "benefit5Desc": "Automated follow-up that keeps your clients warm until they close.",
+    "benefit5Title": "Close More Deals",
+    "benefit5Desc": "Automated follow-ups keep your leads warm until they convert.",
     "benefit6Title": "Setup in 7 days",
     "benefit6Desc": "Your system ready and running in one week. No endless waits or never-ending projects."
   },
@@ -120,7 +120,7 @@
     "proFeature1": "Everything in Starter +",
     "proFeature2": "Custom quote builder with live link",
     "proFeature3": "Coupons on quotes",
-    "proFeature4": "Base automations (n8n)",
+    "proFeature4": "Automated follow-ups",
     "proFeature5": "Internal WhatsApp campaigns",
     "proFeature6": "Conversion reports",
     "proFeature7": "30 min support bi-weekly",
@@ -143,7 +143,7 @@
     "setupMostCommon": "Most Common",
     "setupEnterprise": "Enterprise",
     "setupSimple1": "Small catalog (up to 10 products/services)",
-    "setupSimple2": "Quote builder with fixed prices",
+    "setupSimple2": "Smart quote builder with fixed pricing",
     "setupSimple3": "Ideal for simple services or standard products",
     "setupStandard1": "Medium catalog (11-30 products/services)",
     "setupStandard2": "Quote builder with variables (sizes, materials, etc.)",
@@ -164,7 +164,7 @@
     "twilioTitle": "Twilio / WhatsApp",
     "twilioDesc": "Twilio/WhatsApp Business API messaging costs are paid directly to Twilio. ViralClicker implements, configures, and integrates the entire system.",
     "stripeTitle": "Stripe Payments",
-    "stripeDesc": "Secure card payment (Mormoy LLC). You receive an automatic invoice/receipt via email after each payment. Monthly auto-renewal.",
+    "stripeDesc": "Secure payments processed via Stripe with automatic monthly billing.",
     "setupInfoTitle": "One-time setup",
     "setupInfoDesc": "One-time payment from $500 to $1,000+ depending on complexity (catalog size and quote variables).",
     "monthlyTitle": "Your monthly includes",
@@ -236,8 +236,8 @@
     "step2Desc": "They receive a personalized quote in seconds.",
     "step3Title": "The lead enters your CRM pipeline",
     "step3Desc": "Every quote is automatically tracked with all the details.",
-    "step4Title": "You close the deal through WhatsApp",
-    "step4Desc": "Send follow-ups, reminders and close directly from the CRM."
+    "step4Title": "Close the deal directly through WhatsApp",
+    "step4Desc": "Send follow-ups, reminders and close deals from the CRM."
   },
   "pricingToggle": {
     "monthly": "Monthly",
