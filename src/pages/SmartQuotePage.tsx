@@ -57,11 +57,23 @@ export default function SmartQuotePage() {
   const [tenantPhone, setTenantPhone] = useState("");
 
   useEffect(() => {
-    if (slug) loadPage();
-  }, [slug]);
+    if (slug || (tenantSlug && pageSlug)) loadPage();
+  }, [slug, tenantSlug, pageSlug]);
 
   const loadPage = async () => {
-    const { data: pageData } = await supabase.from("quote_pages").select("*").eq("slug", slug!).eq("is_active", true).maybeSingle();
+    let pageData: any = null;
+
+    if (tenantSlug && pageSlug) {
+      // Lookup by tenant slug + page slug
+      const { data: tenantData } = await supabase.from("tenants").select("id").eq("slug", tenantSlug).maybeSingle();
+      if (!tenantData) { setNotFound(true); setLoading(false); return; }
+      const { data } = await supabase.from("quote_pages").select("*").eq("tenant_id", tenantData.id).eq("slug", pageSlug).eq("is_active", true).maybeSingle();
+      pageData = data;
+    } else if (slug) {
+      const { data } = await supabase.from("quote_pages").select("*").eq("slug", slug).eq("is_active", true).maybeSingle();
+      pageData = data;
+    }
+
     if (!pageData) { setNotFound(true); setLoading(false); return; }
     setPage(pageData as any);
 
