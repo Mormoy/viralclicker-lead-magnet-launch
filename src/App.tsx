@@ -22,6 +22,10 @@ import PipelinePage from "./pages/dashboard/PipelinePage";
 import LeadsPage from "./pages/dashboard/LeadsPage";
 import CustomersPage from "./pages/dashboard/CustomersPage";
 import IntegrationsPage from "./pages/dashboard/IntegrationsPage";
+import QuoteBuilderPage from "./pages/dashboard/QuoteBuilderPage";
+import QuotesListPage from "./pages/dashboard/QuotesListPage";
+import SmartQuotePage from "./pages/SmartQuotePage";
+import QuoteViewPage from "./pages/QuoteViewPage";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +46,10 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/terminos" element={<Terminos />} />
 
+            {/* Smart Quote Pages (public) */}
+            <Route path="/q/:slug" element={<SmartQuotePage />} />
+            <Route path="/q/view/:shortCode" element={<QuoteViewPage />} />
+
             {/* Auth */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/register-company" element={<RegisterCompany />} />
@@ -56,6 +64,8 @@ const App = () => (
               <Route path="pipeline" element={<PipelinePage />} />
               <Route path="leads" element={<LeadsPage />} />
               <Route path="customers" element={<CustomersPage />} />
+              <Route path="quote-builder" element={<QuoteBuilderPage />} />
+              <Route path="quotes" element={<QuotesListPage />} />
               <Route path="integrations" element={<IntegrationsPage />} />
             </Route>
 
