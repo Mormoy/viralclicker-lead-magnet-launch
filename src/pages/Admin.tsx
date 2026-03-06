@@ -28,6 +28,7 @@ import Logo from '@/components/logo';
 import { InstallPWAButton } from '@/components/admin/install-pwa-button';
 import { ClientKanbanBoard } from '@/components/admin/client-kanban-board';
 import { AbandonedCartsPanel } from '@/components/admin/abandoned-carts-panel';
+import { SuperAdminPanel } from '@/components/admin/super-admin-panel';
 import {
   Select,
   SelectContent,
@@ -388,6 +389,10 @@ const Admin = () => {
             <TabsTrigger value="integrations" className="data-[state=active]:bg-viralOrange">
               <Settings className="w-4 h-4 mr-2" />
               Integraciones
+            </TabsTrigger>
+            <TabsTrigger value="superadmin" className="data-[state=active]:bg-viralOrange">
+              <Building2 className="w-4 h-4 mr-2" />
+              Super Admin
             </TabsTrigger>
           </TabsList>
 
@@ -836,6 +841,11 @@ const Admin = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Super Admin Tab */}
+          <TabsContent value="superadmin">
+            <SuperAdminPanel />
           </TabsContent>
         </Tabs>
       </main>
