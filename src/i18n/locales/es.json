@@ -7,10 +7,10 @@
   },
   "hero": {
     "badge": "🚀 Implementación en 7 días",
-    "title1": "Cotiza → Sigue → Cierra",
+    "title1": "Envía cotizaciones, da seguimiento y cierra más ventas",
     "title2": "por WhatsApp",
-    "subtitle": "Sistema completo para Small Businesses: links de cotización en vivo, cupones, campañas internas y seguimiento post-venta. Todo integrado con WhatsApp Business.",
-    "ctaPrimary": "Ver planes y empezar",
+    "subtitle": "Un sistema simple de automatización de cotizaciones para negocios de servicios. Genera cotizaciones, rastrea leads y cierra ventas por WhatsApp.",
+    "ctaPrimary": "Ver Planes",
     "ctaSecondary": "Chat on WhatsApp",
     "videoTitle": "Conoce el sistema en 90 segundos",
     "videoComingSoon": "Demo video coming soon",
@@ -30,7 +30,7 @@
     "problem2Title": "Cotizaciones sin control",
     "problem2Desc": "No sabes cuáles están pendientes, cuáles cerraron.",
     "problem3Title": "WhatsApp caótico",
-    "problem3Desc": "Cientos de chats sin orden ni seguimiento.",
+    "problem3Desc": "Cientos de chats de WhatsApp sin rastreo ni seguimiento.",
     "solution": "ViralClicker resuelve esto en un solo lugar 👇"
   },
   "benefits": {
@@ -44,8 +44,8 @@
     "benefit3Desc": "Envía promociones y seguimientos masivos a tu base de leads directo desde el CRM.",
     "benefit4Title": "Seguimiento post-venta",
     "benefit4Desc": "Monitorea el estado de cada cliente después de la venta: instalación, pago, satisfacción.",
-    "benefit5Title": "Más cierres, menos fugas",
-    "benefit5Desc": "Seguimiento automatizado que mantiene a tus clientes calientes hasta que cierren.",
+    "benefit5Title": "Cierra más ventas",
+    "benefit5Desc": "Seguimiento automatizado que mantiene a tus leads activos hasta que conviertan.",
     "benefit6Title": "Implementación en 7 días",
     "benefit6Desc": "Tu sistema listo y funcionando en una semana. Sin esperas eternas ni proyectos interminables."
   },
@@ -120,7 +120,7 @@
     "proFeature1": "Todo de Starter +",
     "proFeature2": "Cotizador personalizado con link vivo",
     "proFeature3": "Cupones sobre cotizaciones",
-    "proFeature4": "Automatizaciones base (n8n)",
+    "proFeature4": "Seguimientos automatizados",
     "proFeature5": "Campañas internas WhatsApp",
     "proFeature6": "Reportes de conversión",
     "proFeature7": "30 min soporte quincenal",
@@ -143,7 +143,7 @@
     "setupMostCommon": "Más Común",
     "setupEnterprise": "Enterprise",
     "setupSimple1": "Catálogo pequeño (hasta 10 productos/servicios)",
-    "setupSimple2": "Cotizador con precios fijos",
+    "setupSimple2": "Cotizador inteligente con precios fijos",
     "setupSimple3": "Ideal para servicios simples o productos estándar",
     "setupStandard1": "Catálogo mediano (11-30 productos/servicios)",
     "setupStandard2": "Cotizador con variables (tamaños, materiales, etc.)",
@@ -164,7 +164,7 @@
     "twilioTitle": "Twilio / WhatsApp",
     "twilioDesc": "Los costos de mensajería de Twilio/WhatsApp Business API se pagan directamente a Twilio. ViralClicker implementa, configura e integra todo el sistema.",
     "stripeTitle": "Pagos con Stripe",
-    "stripeDesc": "Pago seguro con tarjeta (Mormoy LLC). Recibes factura/recibo automático por email después de cada pago. Renovación mensual automática.",
+    "stripeDesc": "Pagos seguros procesados vía Stripe con facturación mensual automática.",
     "setupInfoTitle": "Setup único",
     "setupInfoDesc": "Pago único desde $500 a $1,000+ según complejidad (tamaño de catálogo y variables de cotización).",
     "monthlyTitle": "Tu mensualidad incluye",
@@ -236,8 +236,8 @@
     "step2Desc": "Recibe un presupuesto personalizado en segundos.",
     "step3Title": "El lead entra automáticamente al CRM",
     "step3Desc": "Cada cotización se registra en tu pipeline con todos los datos.",
-    "step4Title": "Cierras la venta por WhatsApp",
-    "step4Desc": "Envía seguimiento, recordatorios y cierra desde el CRM."
+    "step4Title": "Cierra la venta directamente por WhatsApp",
+    "step4Desc": "Envía seguimiento, recordatorios y cierra ventas desde el CRM."
   },
   "pricingToggle": {
     "monthly": "Mensual",
