@@ -48,18 +48,18 @@ const HeroSection = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center text-white/60 text-sm mb-10">
-          <span className="flex items-center gap-2 justify-center">
-            <CheckCircle className="w-4 h-4 text-viralOrange" />
+        <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center text-white/60 text-sm mb-10">
+          <span className="flex items-center gap-2 whitespace-nowrap">
+            <CheckCircle className="w-4 h-4 text-viralOrange flex-shrink-0" />
             {t('hero.badge')}
           </span>
-          <span className="flex items-center gap-2 justify-center">
-            <CheckCircle className="w-4 h-4 text-viralOrange" />
-            {t('problems.problem1Title', { defaultValue: 'No complicated CRM' })}
+          <span className="flex items-center gap-2 whitespace-nowrap">
+            <CheckCircle className="w-4 h-4 text-viralOrange flex-shrink-0" />
+            {t('hero.badgeNoCRM', { defaultValue: 'No complicated CRM' })}
           </span>
-          <span className="flex items-center gap-2 justify-center">
-            <CheckCircle className="w-4 h-4 text-viralOrange" />
-            {t('audience.ideal3', { defaultValue: 'Built for small service businesses' })}
+          <span className="flex items-center gap-2 whitespace-nowrap">
+            <CheckCircle className="w-4 h-4 text-viralOrange flex-shrink-0" />
+            {t('hero.badgeBuiltFor', { defaultValue: 'Built for small service businesses' })}
           </span>
         </div>
 
