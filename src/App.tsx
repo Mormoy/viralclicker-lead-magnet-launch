@@ -49,6 +49,7 @@ const App = () => (
             {/* Smart Quote Pages (public) */}
             <Route path="/q/:slug" element={<SmartQuotePage />} />
             <Route path="/q/view/:shortCode" element={<QuoteViewPage />} />
+            <Route path="/quote/:tenantSlug/:pageSlug" element={<SmartQuotePage />} />
 
             {/* Auth */}
             <Route path="/auth" element={<Auth />} />

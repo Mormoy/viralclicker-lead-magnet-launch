@@ -29,7 +29,7 @@ interface CartItem {
 }
 
 export default function SmartQuotePage() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, tenantSlug, pageSlug } = useParams<{ slug?: string; tenantSlug?: string; pageSlug?: string }>();
   const [page, setPage] = useState<QuotePage | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [services, setServices] = useState<Service[]>([]);
