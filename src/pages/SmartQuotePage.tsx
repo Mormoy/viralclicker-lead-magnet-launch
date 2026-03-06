@@ -232,6 +232,39 @@ export default function SmartQuotePage() {
       new_status: "sent" as any,
     });
 
+    // Auto-create lead
+    const serviceNames = cart.map((item) => item.service.name).join(", ");
+    const { data: leadData } = await supabase.from("leads").insert({
+      tenant_id: page.tenant_id,
+      nombre: contact.name,
+      empresa: contact.company || "Sin empresa",
+      correo: contact.email || "sin@email.com",
+      whatsapp: contact.phone,
+      ciudad: contact.city || "Sin ciudad",
+      rubro: serviceNames,
+      mensaje: `Cotización #${(quoteData as any).short_code} por $${cartTotal.toLocaleString()}. Servicios: ${serviceNames}`,
+      estado: "nuevo",
+    }).select("id").single();
+
+    // Auto-create pipeline deal
+    await supabase.from("pipeline_deals").insert({
+      tenant_id: page.tenant_id,
+      name: contact.name,
+      company: contact.company || null,
+      email: contact.email || null,
+      phone: contact.phone,
+      city: contact.city || null,
+      source: "quote_page",
+      stage: "lead" as any,
+      value: cartTotal,
+      notes: `Auto-generado desde cotización #${(quoteData as any).short_code}`,
+    });
+
+    // Link quote to lead if created
+    if (leadData) {
+      await supabase.from("quotes").update({ lead_id: leadData.id }).eq("id", (quoteData as any).id);
+    }
+
     setQuoteResult({ short_code: (quoteData as any).short_code, total: cartTotal });
     setStep("result");
     setSubmitting(false);
