@@ -1,20 +1,13 @@
 import Logo from '@/components/logo';
-import LanguageSwitcher from '@/components/language-switcher';
 import HeroSection from '@/components/clickcrm/hero-section';
-import EarlyProofSection from '@/components/clickcrm/early-proof-section';
 import ProblemSection from '@/components/clickcrm/problem-section';
-import BenefitsSection from '@/components/clickcrm/benefits-section';
+import SolutionSection from '@/components/clickcrm/solution-section';
 import HowItWorksSection from '@/components/clickcrm/how-it-works-section';
-import DemoSection from '@/components/clickcrm/demo-section';
-import TargetAudienceSection from '@/components/clickcrm/target-audience-section';
+import ForWhoSection from '@/components/clickcrm/for-who-section';
 import PricingSection from '@/components/clickcrm/pricing-section';
-import FaqSection from '@/components/clickcrm/faq-section';
 import ContactFormSection from '@/components/clickcrm/contact-form-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
-import FloatingDemoButton from '@/components/clickcrm/floating-demo-button';
-import SectionCTA from '@/components/clickcrm/section-cta';
-import TestimonialsSection from '@/components/clickcrm/testimonials-section';
-import CaseStudySection from '@/components/clickcrm/case-study-section';
+import FinalCTA from '@/components/clickcrm/final-cta';
 import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
 
@@ -30,10 +23,8 @@ const ViralClicker = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Logo />
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">Cómo funciona</a>
-            <a href="#funcionalidades" className="text-white/80 hover:text-white transition-colors">Funcionalidades</a>
-            <a href="#planes" className="text-white/80 hover:text-white transition-colors">Planes</a>
-            <a href="#faq" className="text-white/80 hover:text-white transition-colors">FAQ</a>
+            <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors text-sm">Cómo funciona</a>
+            <a href="#planes" className="text-white/80 hover:text-white transition-colors text-sm">Planes</a>
             <Button
               onClick={scrollToContact}
               className="bg-viralOrange hover:bg-viralOrange/90 text-white px-4 py-2 font-semibold"
@@ -43,49 +34,39 @@ const ViralClicker = () => {
               Agendar demo
             </Button>
           </nav>
-          <div className="flex items-center gap-2">
-            {/* Mobile CTA */}
-            <Button
-              onClick={scrollToContact}
-              size="sm"
-              className="md:hidden bg-viralOrange hover:bg-viralOrange/90 text-white text-xs px-3 py-1"
-              data-cta="book-demo"
-            >
-              <Calendar className="w-3 h-3 mr-1" />
-              Demo
-            </Button>
-            <LanguageSwitcher />
-          </div>
+          <Button
+            onClick={scrollToContact}
+            size="sm"
+            className="md:hidden bg-viralOrange hover:bg-viralOrange/90 text-white text-xs px-3 py-1"
+            data-cta="book-demo"
+          >
+            <Calendar className="w-3 h-3 mr-1" />
+            Demo
+          </Button>
         </div>
       </header>
 
       <main className="flex-grow space-y-0">
+        {/* 1. Hero */}
         <HeroSection />
-        
-        {/* Early Proof - right after hero */}
-        <EarlyProofSection />
-        
-        <div className="py-4" />
+
+        {/* 2. Problema */}
         <ProblemSection />
-        
-        <div className="py-2" />
-        <BenefitsSection />
-        
-        <SectionCTA variant="subtle" />
-        
+
+        {/* 3. Solución */}
+        <SolutionSection />
+
+        {/* 4. Cómo funciona */}
         <HowItWorksSection />
-        <DemoSection />
-        
-        <div className="py-4" />
-        <TargetAudienceSection />
-        <TestimonialsSection />
-        <CaseStudySection />
-        
-        <div className="py-4" />
+
+        {/* 5. Para quién es */}
+        <ForWhoSection />
+
+        {/* 6. Planes */}
         <PricingSection />
-        <FaqSection />
-        
-        <SectionCTA variant="subtle" />
+
+        {/* 7. CTA Final + Formulario */}
+        <FinalCTA />
         <ContactFormSection />
       </main>
 
@@ -108,7 +89,6 @@ const ViralClicker = () => {
       </footer>
 
       <WhatsAppButton />
-      <FloatingDemoButton />
     </div>
   );
 };
