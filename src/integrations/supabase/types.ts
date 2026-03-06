@@ -377,6 +377,68 @@ export type Database = {
           },
         ]
       }
+      pipeline_deals: {
+        Row: {
+          city: string | null
+          company: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          next_followup: string | null
+          notes: string | null
+          phone: string | null
+          priority: string | null
+          source: string | null
+          stage: Database["public"]["Enums"]["pipeline_stage"]
+          tenant_id: string
+          updated_at: string
+          value: number | null
+        }
+        Insert: {
+          city?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          next_followup?: string | null
+          notes?: string | null
+          phone?: string | null
+          priority?: string | null
+          source?: string | null
+          stage?: Database["public"]["Enums"]["pipeline_stage"]
+          tenant_id: string
+          updated_at?: string
+          value?: number | null
+        }
+        Update: {
+          city?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          next_followup?: string | null
+          notes?: string | null
+          phone?: string | null
+          priority?: string | null
+          source?: string | null
+          stage?: Database["public"]["Enums"]["pipeline_stage"]
+          tenant_id?: string
+          updated_at?: string
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_deals_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plantillas_whatsapp: {
         Row: {
           activa: boolean | null
@@ -617,6 +679,15 @@ export type Database = {
         | "fuera_zona"
         | "plazo_disponibilidad"
         | "otro"
+      pipeline_stage:
+        | "lead"
+        | "demo_scheduled"
+        | "proposal_sent"
+        | "contract_sent"
+        | "contract_signed"
+        | "payment_received"
+        | "onboarding"
+        | "active_customer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -770,6 +841,16 @@ export const Constants = {
         "fuera_zona",
         "plazo_disponibilidad",
         "otro",
+      ],
+      pipeline_stage: [
+        "lead",
+        "demo_scheduled",
+        "proposal_sent",
+        "contract_sent",
+        "contract_signed",
+        "payment_received",
+        "onboarding",
+        "active_customer",
       ],
     },
   },
