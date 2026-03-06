@@ -1,84 +1,49 @@
-import { Globe, FileText, Kanban, MessageCircle, BarChart } from 'lucide-react';
-
 const steps = [
   {
     number: 1,
-    icon: Globe,
-    title: "Landing captura el lead",
-    description: "Tu landing profesional recibe consultas 24/7 y captura los datos del cliente automáticamente."
+    title: "Cliente entra al Cotizador Inteligente",
+    description: "Tu cliente accede a una página donde selecciona lo que necesita.",
   },
   {
     number: 2,
-    icon: FileText,
-    title: "Cotizador genera cotización",
-    description: "Crea cotizaciones personalizadas con código correlativo, listas para enviar por WhatsApp o PDF."
+    title: "Genera una cotización",
+    description: "Recibe un presupuesto personalizado en segundos.",
   },
   {
     number: 3,
-    icon: Kanban,
-    title: "CRM organiza el pipeline",
-    description: "Visualiza todos tus leads en estados claros: Pendiente, Seguimiento, Cerrada o Archivada."
+    title: "El lead entra automáticamente al CRM",
+    description: "Cada cotización se registra en tu pipeline con todos los datos.",
   },
   {
     number: 4,
-    icon: MessageCircle,
-    title: "WhatsApp gestiona seguimiento",
-    description: "Plantillas predefinidas, recordatorios y mensajes automáticos si no responden en X horas. La automatización es configurable según tu plan y reglas de negocio."
+    title: "Cierras la venta por WhatsApp",
+    description: "Envía seguimiento, recordatorios y cierra desde el CRM.",
   },
-  {
-    number: 5,
-    icon: BarChart,
-    title: "Reportes muestran resultados",
-    description: "Métricas de conversión, ventas cerradas y rendimiento para tomar mejores decisiones."
-  }
 ];
 
 const HowItWorksSection = () => {
   return (
-    <section id="como-funciona" className="py-16 px-4 bg-gray-900/50">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            ¿Cómo funciona ViralClicker?
-          </h2>
-          <p className="text-white/70 text-lg">
-            5 pasos simples para transformar tu proceso de ventas
-          </p>
-        </div>
+    <section id="como-funciona" className="py-12 md:py-16 px-4 bg-gray-900/30">
+      <div className="container mx-auto max-w-3xl">
+        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
+          ¿Cómo funciona?
+        </h2>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            <div className="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-viralOrange/30" />
-            
-            {steps.map((step, index) => (
-              <div 
-                key={index}
-                className={`relative flex items-start gap-6 mb-8 last:mb-0 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                <div className="relative z-10 flex-shrink-0">
-                  <div className="w-12 h-12 bg-viralOrange rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-viralOrange/30">
-                    {step.number}
-                  </div>
-                </div>
-
-                <div className={`flex-1 bg-gray-800/50 rounded-xl p-6 border border-gray-700 ${
-                  index % 2 === 0 ? 'md:mr-auto md:max-w-md' : 'md:ml-auto md:max-w-md'
-                }`}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <step.icon className="w-5 h-5 text-viralOrange" />
-                    <h3 className="text-white font-semibold text-lg">
-                      {step.title}
-                    </h3>
-                  </div>
-                  <p className="text-white/60 text-sm">
-                    {step.description}
-                  </p>
-                </div>
+        <div className="space-y-4">
+          {steps.map((step) => (
+            <div
+              key={step.number}
+              className="flex items-start gap-4 p-4 rounded-xl bg-gray-800/40 border border-gray-700/50"
+            >
+              <div className="w-10 h-10 bg-viralOrange rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                {step.number}
               </div>
-            ))}
-          </div>
+              <div>
+                <h3 className="text-white font-semibold mb-1">{step.title}</h3>
+                <p className="text-white/60 text-sm">{step.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
