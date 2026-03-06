@@ -842,6 +842,11 @@ const Admin = () => {
               </Card>
             </div>
           </TabsContent>
+
+          {/* Super Admin Tab */}
+          <TabsContent value="superadmin">
+            <SuperAdminPanel />
+          </TabsContent>
         </Tabs>
       </main>
     </div>
