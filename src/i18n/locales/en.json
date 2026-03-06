@@ -228,5 +228,24 @@
     "setupLabel": "One-Time Setup",
     "planLabel": "Monthly Plan",
     "scrollHint": "👇 Scroll down to see the highlighted details below"
+  },
+  "howItWorks": {
+    "step1Title": "Customer uses the Smart Quote Builder",
+    "step1Desc": "Your customer visits a page and selects exactly what they need.",
+    "step2Title": "A quote is generated instantly",
+    "step2Desc": "They receive a personalized quote in seconds.",
+    "step3Title": "The lead enters your CRM pipeline",
+    "step3Desc": "Every quote is automatically tracked with all the details.",
+    "step4Title": "You close the deal through WhatsApp",
+    "step4Desc": "Send follow-ups, reminders and close directly from the CRM."
+  },
+  "pricingToggle": {
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "save30": "(Save 30%)",
+    "launchPromo": "Launch Annual (Save 40%) – Until Feb 28",
+    "annual30": "Annual -30%",
+    "launch40": "Launch -40%",
+    "payAnnual": "Pay annually & save"
   }
 }

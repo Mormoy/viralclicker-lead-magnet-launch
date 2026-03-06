@@ -228,5 +228,24 @@
     "setupLabel": "Setup Único",
     "planLabel": "Plan Mensual",
     "scrollHint": "👇 Desplázate para ver los detalles destacados abajo"
+  },
+  "howItWorks": {
+    "step1Title": "Cliente usa el Cotizador Inteligente",
+    "step1Desc": "Tu cliente accede a una página donde selecciona lo que necesita.",
+    "step2Title": "Se genera una cotización al instante",
+    "step2Desc": "Recibe un presupuesto personalizado en segundos.",
+    "step3Title": "El lead entra automáticamente al CRM",
+    "step3Desc": "Cada cotización se registra en tu pipeline con todos los datos.",
+    "step4Title": "Cierras la venta por WhatsApp",
+    "step4Desc": "Envía seguimiento, recordatorios y cierra desde el CRM."
+  },
+  "pricingToggle": {
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "save30": "(Ahorra 30%)",
+    "launchPromo": "Launch Anual (Ahorra 40%) – Hasta Feb 28",
+    "annual30": "Anual -30%",
+    "launch40": "Launch -40%",
+    "payAnnual": "Pagar anual y ahorrar"
   }
 }
