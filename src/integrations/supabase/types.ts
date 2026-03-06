@@ -527,6 +527,502 @@ export type Database = {
           },
         ]
       }
+      quote_activity: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          new_status: Database["public"]["Enums"]["quote_status"] | null
+          old_status: Database["public"]["Enums"]["quote_status"] | null
+          quote_id: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          new_status?: Database["public"]["Enums"]["quote_status"] | null
+          old_status?: Database["public"]["Enums"]["quote_status"] | null
+          quote_id: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          new_status?: Database["public"]["Enums"]["quote_status"] | null
+          old_status?: Database["public"]["Enums"]["quote_status"] | null
+          quote_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_activity_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_discount_rules: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          min_items: number | null
+          min_total: number | null
+          name: string
+          tenant_id: string
+          type: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_items?: number | null
+          min_total?: number | null
+          name: string
+          tenant_id: string
+          type?: string
+          value?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_items?: number | null
+          min_total?: number | null
+          name?: string
+          tenant_id?: string
+          type?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_discount_rules_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_line_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          extras: Json | null
+          extras_total: number
+          id: string
+          line_total: number
+          quantity: number
+          quote_id: string
+          service_id: string | null
+          service_name: string
+          sort_order: number
+          unit_price: number
+          variables: Json | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          extras?: Json | null
+          extras_total?: number
+          id?: string
+          line_total?: number
+          quantity?: number
+          quote_id: string
+          service_id?: string | null
+          service_name: string
+          sort_order?: number
+          unit_price?: number
+          variables?: Json | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          extras?: Json | null
+          extras_total?: number
+          id?: string
+          line_total?: number
+          quantity?: number
+          quote_id?: string
+          service_id?: string | null
+          service_name?: string
+          sort_order?: number
+          unit_price?: number
+          variables?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_line_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_line_items_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "quote_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_pages: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          slug: string
+          tenant_id: string
+          thank_you_message: string | null
+          title: string
+          updated_at: string
+          whatsapp_cta_text: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          slug: string
+          tenant_id: string
+          thank_you_message?: string | null
+          title: string
+          updated_at?: string
+          whatsapp_cta_text?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          slug?: string
+          tenant_id?: string
+          thank_you_message?: string | null
+          title?: string
+          updated_at?: string
+          whatsapp_cta_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_pages_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_service_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          quote_page_id: string | null
+          sort_order: number
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          quote_page_id?: string | null
+          sort_order?: number
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          quote_page_id?: string | null
+          sort_order?: number
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_service_categories_quote_page_id_fkey"
+            columns: ["quote_page_id"]
+            isOneToOne: false
+            referencedRelation: "quote_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_service_categories_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_service_extras: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          is_percentage: boolean
+          name: string
+          price: number
+          service_id: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_percentage?: boolean
+          name: string
+          price?: number
+          service_id: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_percentage?: boolean
+          name?: string
+          price?: number
+          service_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_service_extras_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "quote_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_service_variables: {
+        Row: {
+          affects_price: boolean
+          created_at: string
+          id: string
+          is_required: boolean
+          label: string
+          name: string
+          options: Json | null
+          service_id: string
+          sort_order: number
+          type: string
+        }
+        Insert: {
+          affects_price?: boolean
+          created_at?: string
+          id?: string
+          is_required?: boolean
+          label: string
+          name: string
+          options?: Json | null
+          service_id: string
+          sort_order?: number
+          type?: string
+        }
+        Update: {
+          affects_price?: boolean
+          created_at?: string
+          id?: string
+          is_required?: boolean
+          label?: string
+          name?: string
+          options?: Json | null
+          service_id?: string
+          sort_order?: number
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_service_variables_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "quote_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_services: {
+        Row: {
+          base_price: number
+          category_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          max_price: number | null
+          min_price: number | null
+          name: string
+          price_formula: string | null
+          pricing_model: Database["public"]["Enums"]["pricing_model"]
+          sort_order: number
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          base_price?: number
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_price?: number | null
+          min_price?: number | null
+          name: string
+          price_formula?: string | null
+          pricing_model?: Database["public"]["Enums"]["pricing_model"]
+          sort_order?: number
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          base_price?: number
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_price?: number | null
+          min_price?: number | null
+          name?: string
+          price_formula?: string | null
+          pricing_model?: Database["public"]["Enums"]["pricing_model"]
+          sort_order?: number
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_services_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "quote_service_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_services_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          customer_city: string | null
+          customer_company: string | null
+          customer_email: string | null
+          customer_name: string
+          customer_notes: string | null
+          customer_phone: string
+          delivery_fee: number
+          discount_amount: number
+          discount_label: string | null
+          expired_at: string | null
+          extras_total: number
+          id: string
+          lead_id: string | null
+          pipeline_deal_id: string | null
+          quote_page_id: string | null
+          short_code: string
+          status: Database["public"]["Enums"]["quote_status"]
+          subtotal: number
+          tenant_id: string
+          total: number
+          updated_at: string
+          viewed_at: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          customer_city?: string | null
+          customer_company?: string | null
+          customer_email?: string | null
+          customer_name: string
+          customer_notes?: string | null
+          customer_phone: string
+          delivery_fee?: number
+          discount_amount?: number
+          discount_label?: string | null
+          expired_at?: string | null
+          extras_total?: number
+          id?: string
+          lead_id?: string | null
+          pipeline_deal_id?: string | null
+          quote_page_id?: string | null
+          short_code: string
+          status?: Database["public"]["Enums"]["quote_status"]
+          subtotal?: number
+          tenant_id: string
+          total?: number
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          customer_city?: string | null
+          customer_company?: string | null
+          customer_email?: string | null
+          customer_name?: string
+          customer_notes?: string | null
+          customer_phone?: string
+          delivery_fee?: number
+          discount_amount?: number
+          discount_label?: string | null
+          expired_at?: string | null
+          extras_total?: number
+          id?: string
+          lead_id?: string | null
+          pipeline_deal_id?: string | null
+          quote_page_id?: string | null
+          short_code?: string
+          status?: Database["public"]["Enums"]["quote_status"]
+          subtotal?: number
+          tenant_id?: string
+          total?: number
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_quote_page_id_fkey"
+            columns: ["quote_page_id"]
+            isOneToOne: false
+            referencedRelation: "quote_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           created_at: string
@@ -640,6 +1136,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_quote_short_code: { Args: never; Returns: string }
       get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
@@ -688,6 +1185,15 @@ export type Database = {
         | "payment_received"
         | "onboarding"
         | "active_customer"
+      pricing_model: "fixed" | "variable" | "per_quantity" | "formula"
+      quote_status:
+        | "draft"
+        | "sent"
+        | "viewed"
+        | "accepted"
+        | "expired"
+        | "converted"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -851,6 +1357,16 @@ export const Constants = {
         "payment_received",
         "onboarding",
         "active_customer",
+      ],
+      pricing_model: ["fixed", "variable", "per_quantity", "formula"],
+      quote_status: [
+        "draft",
+        "sent",
+        "viewed",
+        "accepted",
+        "expired",
+        "converted",
+        "rejected",
       ],
     },
   },
