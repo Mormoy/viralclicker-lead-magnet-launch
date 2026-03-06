@@ -7,6 +7,8 @@
   },
   "hero": {
     "badge": "🚀 Implementación en 7 días",
+    "badgeNoCRM": "Sin CRM complicado",
+    "badgeBuiltFor": "Para negocios de servicios",
     "title1": "Envía cotizaciones, da seguimiento y cierra más ventas",
     "title2": "por WhatsApp",
     "subtitle": "Un sistema simple de automatización de cotizaciones para negocios de servicios. Genera cotizaciones, rastrea leads y cierra ventas por WhatsApp.",
