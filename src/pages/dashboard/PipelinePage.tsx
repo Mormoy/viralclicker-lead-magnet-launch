@@ -228,10 +228,13 @@ export default function PipelinePage() {
                 >
                   <CardHeader className="pb-2 pt-3 px-3">
                     <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
                       <CardTitle className="text-sm font-medium" style={{ color: stage.color }}>
                         {stage.name}
                       </CardTitle>
-                      <Badge variant="outline" className="text-muted-foreground">{items.length}</Badge>
+                      {stage.stage_type === "won" && <span className="text-[10px]">🏆</span>}
+                      {stage.stage_type === "lost" && <span className="text-[10px]">✗</span>}
+                    </div>
                     </div>
                     {total > 0 && <p className="text-xs text-muted-foreground">${total.toLocaleString()}</p>}
                   </CardHeader>
