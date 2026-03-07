@@ -1078,6 +1078,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          logo_url: string | null
           metadata: Json | null
           name: string
           owner_email: string
@@ -1092,6 +1093,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          logo_url?: string | null
           metadata?: Json | null
           name: string
           owner_email: string
@@ -1106,6 +1108,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          logo_url?: string | null
           metadata?: Json | null
           name?: string
           owner_email?: string
