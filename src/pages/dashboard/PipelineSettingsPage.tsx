@@ -10,6 +10,8 @@ import { Plus, GripVertical, Pencil, Trash2, Loader2, ArrowLeft } from "lucide-r
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
+type StageType = "normal" | "won" | "lost";
+
 interface PipelineStage {
   id: string;
   tenant_id: string;
@@ -18,6 +20,7 @@ interface PipelineStage {
   color: string;
   sort_order: number;
   is_default: boolean;
+  stage_type: StageType;
 }
 
 const PRESET_COLORS = [
@@ -149,6 +152,12 @@ export default function PipelineSettingsPage() {
               {stage.is_default && (
                 <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">Inicial</span>
               )}
+              {stage.stage_type === "won" && (
+                <span className="text-[10px] bg-green-500/10 text-green-500 px-2 py-0.5 rounded-full">🏆 Ganado</span>
+              )}
+              {stage.stage_type === "lost" && (
+                <span className="text-[10px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded-full">✗ Perdido</span>
+              )}
               <Button
                 variant="ghost" size="icon" className="h-7 w-7"
                 onClick={() => setEditStage(stage)}
@@ -198,6 +207,7 @@ function StageForm({
   const [name, setName] = useState(stage?.name || "");
   const [color, setColor] = useState(stage?.color || PRESET_COLORS[0]);
   const [isDefault, setIsDefault] = useState(stage?.is_default || false);
+  const [stageType, setStageType] = useState<StageType>(stage?.stage_type || "normal");
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -214,7 +224,7 @@ function StageForm({
       }
       const { error } = await supabase
         .from("pipeline_stages")
-        .update({ name, slug, color, is_default: isDefault })
+        .update({ name, slug, color, is_default: isDefault, stage_type: stageType } as any)
         .eq("id", stage.id);
       if (error) toast.error("Error al actualizar");
       else { toast.success("Etapa actualizada"); onSaved(); }
@@ -229,7 +239,8 @@ function StageForm({
         color,
         sort_order: nextOrder ?? 0,
         is_default: isDefault,
-      });
+        stage_type: stageType,
+      } as any);
       if (error) toast.error("Error al crear");
       else { toast.success("Etapa creada"); onSaved(); }
     }
@@ -273,6 +284,33 @@ function StageForm({
           className="rounded"
         />
         <Label htmlFor="is_default" className="text-sm">Etapa inicial (para nuevos leads)</Label>
+      </div>
+      <div>
+        <Label>Tipo de etapa</Label>
+        <div className="flex gap-2 mt-2">
+          {([
+            { value: "normal" as StageType, label: "Normal", emoji: "📋" },
+            { value: "won" as StageType, label: "Ganado", emoji: "🏆" },
+            { value: "lost" as StageType, label: "Perdido", emoji: "✗" },
+          ]).map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setStageType(opt.value)}
+              className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
+                stageType === opt.value
+                  ? opt.value === "won"
+                    ? "border-green-500 bg-green-500/10 text-green-500"
+                    : opt.value === "lost"
+                    ? "border-red-500 bg-red-500/10 text-red-500"
+                    : "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:border-foreground/30"
+              }`}
+            >
+              {opt.emoji} {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={saving}>
         {saving && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
