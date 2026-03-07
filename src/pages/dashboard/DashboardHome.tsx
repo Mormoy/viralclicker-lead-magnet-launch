@@ -40,7 +40,7 @@ export default function DashboardHome() {
         supabase.from("clients").select("id", { count: "exact", head: true }).eq("tenant_id", tenantId),
         supabase.from("quotes").select("id, total", { count: "exact" }).eq("tenant_id", tenantId),
         supabase.from("pipeline_deals").select("value, stage, stage_id, source, created_at").eq("tenant_id", tenantId),
-        supabase.from("pipeline_stages").select("id, name, stage_type").eq("tenant_id", tenantId),
+        supabase.from("pipeline_stages").select("id, name, stage_type, sort_order, color").eq("tenant_id", tenantId),
       ]);
 
       const leadsCount = leadsRes.count || 0;
