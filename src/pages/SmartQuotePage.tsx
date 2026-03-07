@@ -308,8 +308,12 @@ export default function SmartQuotePage() {
       <div className="bg-primary text-primary-foreground py-6 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-2 mb-1">
-            <Zap className="h-5 w-5" />
-            <span className="text-sm font-medium opacity-80">ViralClicker</span>
+            {tenantLogo ? (
+              <img src={tenantLogo} alt="Logo" className="h-8 w-8 rounded-lg object-cover" />
+            ) : (
+              <Zap className="h-5 w-5" />
+            )}
+            <span className="text-sm font-medium opacity-80">{tenantName || "ViralClicker"}</span>
           </div>
           <h1 className="text-2xl font-bold">{page?.title}</h1>
           {page?.description && <p className="text-sm opacity-80 mt-1">{page.description}</p>}
