@@ -280,7 +280,7 @@ export default function SmartQuotePage() {
       await supabase.from("quotes").update({ lead_id: leadData.id }).eq("id", (quoteData as any).id);
     }
 
-    setQuoteResult({ short_code: (quoteData as any).short_code, total: cartTotal });
+    setQuoteResult({ short_code: (quoteData as any).short_code, total: cartTotal, quoteId: (quoteData as any).id });
     setStep("result");
     setSubmitting(false);
   };
