@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { MessageCircle, Plus, Minus, Trash2, ShoppingCart, ArrowRight, Check, Zap } from "lucide-react";
+import { MessageCircle, Plus, Minus, Trash2, ShoppingCart, ArrowRight, Check, Zap, CreditCard } from "lucide-react";
 
 interface QuotePage { id: string; tenant_id: string; title: string; slug: string; description: string | null; thank_you_message: string | null; whatsapp_cta_text: string | null; }
 interface Category { id: string; name: string; }
@@ -50,8 +50,10 @@ export default function SmartQuotePage() {
   const [contact, setContact] = useState({ name: "", company: "", phone: "", email: "", city: "", notes: "" });
 
   // Result
-  const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number } | null>(null);
+  const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number; quoteId: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [payingFull, setPayingFull] = useState(false);
+  const [payingDeposit, setPayingDeposit] = useState(false);
 
   // Tenant info
   const [tenantPhone, setTenantPhone] = useState("");
@@ -278,7 +280,7 @@ export default function SmartQuotePage() {
       await supabase.from("quotes").update({ lead_id: leadData.id }).eq("id", (quoteData as any).id);
     }
 
-    setQuoteResult({ short_code: (quoteData as any).short_code, total: cartTotal });
+    setQuoteResult({ short_code: (quoteData as any).short_code, total: cartTotal, quoteId: (quoteData as any).id });
     setStep("result");
     setSubmitting(false);
   };
@@ -546,36 +548,146 @@ export default function SmartQuotePage() {
         {step === "result" && quoteResult && (
           <div className="space-y-5">
             <div className="text-center py-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 mb-4">
-                <Check className="h-8 w-8 text-green-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+                <Check className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-foreground">¡Cotización lista!</h2>
               <p className="text-muted-foreground mt-2">{page?.thank_you_message}</p>
             </div>
 
-            <Card>
-              <CardContent className="p-6 space-y-4">
-                <div className="text-center">
-                  <p className="text-sm text-muted-foreground">Código de cotización</p>
-                  <p className="text-2xl font-mono font-bold text-primary">#{quoteResult.short_code}</p>
+            {/* Total highlight */}
+            <Card className="border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center mb-4">
+                  <p className="text-sm text-muted-foreground mb-1">Total estimado</p>
+                  <p className="text-4xl font-bold text-primary">${quoteResult.total.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Cotización #{quoteResult.short_code}</p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 mb-6">
                   {cart.map((item, i) => (
                     <div key={i} className="flex justify-between text-sm">
-                      <span>{item.service.name} x{item.quantity}</span>
-                      <span className="font-medium">${item.lineTotal.toLocaleString()}</span>
+                      <span className="text-muted-foreground">{item.service.name} x{item.quantity}</span>
+                      <span className="font-medium text-foreground">${item.lineTotal.toLocaleString()}</span>
                     </div>
                   ))}
-                  <div className="flex justify-between font-bold text-xl border-t border-border pt-3 mt-3">
-                    <span>Total</span>
-                    <span className="text-primary">${quoteResult.total.toLocaleString()}</span>
-                  </div>
                 </div>
 
-                <div className="space-y-2 pt-2">
+                {/* Primary CTAs */}
+                <div className="space-y-3">
+                  {/* Accept & Pay Full */}
                   <Button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-full"
+                    size="lg"
+                    disabled={payingFull || payingDeposit}
+                    onClick={async () => {
+                      setPayingFull(true);
+                      try {
+                        // Accept quote
+                        if (quoteResult.quoteId) {
+                          await supabase.from("quotes").update({ status: "accepted" as any, accepted_at: new Date().toISOString() }).eq("id", quoteResult.quoteId);
+                          await supabase.from("quote_activity").insert({ quote_id: quoteResult.quoteId, type: "accepted", description: "Cliente aceptó la cotización", new_status: "accepted" as any });
+                        }
+                        // Create Stripe checkout
+                        const { data, error } = await supabase.functions.invoke("quote-checkout", {
+                          body: {
+                            quote_id: quoteResult.quoteId,
+                            short_code: quoteResult.short_code,
+                            customer_name: contact.name,
+                            customer_email: contact.email,
+                            customer_phone: contact.phone,
+                            total: quoteResult.total,
+                            tenant_id: page?.tenant_id,
+                            line_items: cart.map(item => ({ name: item.service.name, qty: item.quantity })),
+                            payment_type: "full",
+                            success_url: `${window.location.origin}/q/view/${quoteResult.short_code}?paid=true`,
+                            cancel_url: `${window.location.origin}/q/view/${quoteResult.short_code}?paid=false`,
+                          },
+                        });
+                        if (error) throw error;
+                        if (data?.url) window.location.href = data.url;
+                        else toast.error("No se pudo crear la sesión de pago");
+                      } catch (err: any) {
+                        toast.error(err.message || "Error al procesar pago");
+                      } finally {
+                        setPayingFull(false);
+                      }
+                    }}
+                  >
+                    {payingFull ? (
+                      <><span className="animate-spin mr-2">⏳</span> Procesando...</>
+                    ) : (
+                      <><CreditCard className="h-5 w-5 mr-2" /> Pagar ${quoteResult.total.toLocaleString()}</>
+                    )}
+                  </Button>
+
+                  {/* Pay Deposit (50%) */}
+                  <Button
+                    variant="outline"
+                    className="w-full border-primary/30 text-primary hover:bg-primary/5"
+                    size="lg"
+                    disabled={payingFull || payingDeposit}
+                    onClick={async () => {
+                      setPayingDeposit(true);
+                      try {
+                        if (quoteResult.quoteId) {
+                          await supabase.from("quotes").update({ status: "accepted" as any, accepted_at: new Date().toISOString() }).eq("id", quoteResult.quoteId);
+                        }
+                        const deposit = Math.round(quoteResult.total * 0.5);
+                        const { data, error } = await supabase.functions.invoke("quote-checkout", {
+                          body: {
+                            quote_id: quoteResult.quoteId,
+                            short_code: quoteResult.short_code,
+                            customer_name: contact.name,
+                            customer_email: contact.email,
+                            customer_phone: contact.phone,
+                            total: quoteResult.total,
+                            tenant_id: page?.tenant_id,
+                            line_items: cart.map(item => ({ name: item.service.name, qty: item.quantity })),
+                            payment_type: "deposit",
+                            success_url: `${window.location.origin}/q/view/${quoteResult.short_code}?paid=deposit`,
+                            cancel_url: `${window.location.origin}/q/view/${quoteResult.short_code}?paid=false`,
+                          },
+                        });
+                        if (error) throw error;
+                        if (data?.url) window.location.href = data.url;
+                        else toast.error("No se pudo crear la sesión de pago");
+                      } catch (err: any) {
+                        toast.error(err.message || "Error al procesar anticipo");
+                      } finally {
+                        setPayingDeposit(false);
+                      }
+                    }}
+                  >
+                    {payingDeposit ? (
+                      <><span className="animate-spin mr-2">⏳</span> Procesando...</>
+                    ) : (
+                      <><CreditCard className="h-5 w-5 mr-2" /> Pagar anticipo 50% (${Math.round(quoteResult.total * 0.5).toLocaleString()})</>
+                    )}
+                  </Button>
+
+                  {/* Accept without paying */}
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    size="lg"
+                    onClick={async () => {
+                      if (quoteResult.quoteId) {
+                        await supabase.from("quotes").update({ status: "accepted" as any, accepted_at: new Date().toISOString() }).eq("id", quoteResult.quoteId);
+                        await supabase.from("quote_activity").insert({ quote_id: quoteResult.quoteId, type: "accepted", description: "Cliente aceptó la cotización (sin pago inmediato)", new_status: "accepted" as any });
+                      }
+                      toast.success("¡Cotización aceptada! Te contactaremos pronto.");
+                    }}
+                  >
+                    <Check className="h-5 w-5 mr-2" /> Aceptar cotización
+                  </Button>
+                </div>
+
+                {/* Secondary CTAs */}
+                <div className="space-y-2 pt-4 border-t border-border mt-4">
+                  <Button
+                    variant="ghost"
+                    className="w-full text-green-500 hover:text-green-400 hover:bg-green-500/5"
                     size="lg"
                     onClick={() => {
                       const msg = encodeURIComponent(`Hola, acabo de completar una cotización (#${quoteResult.short_code}) por $${quoteResult.total.toLocaleString()} y quiero confirmar los detalles.`);
@@ -585,23 +697,25 @@ export default function SmartQuotePage() {
                     <MessageCircle className="h-5 w-5 mr-2" />
                     {page?.whatsapp_cta_text || "Continuar por WhatsApp"}
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => {
-                      navigator.clipboard.writeText(`${window.location.origin}/q/view/${quoteResult.short_code}`);
-                      toast.success("Link copiado");
-                    }}
-                  >
-                    Copiar link de cotización
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full"
-                    onClick={() => window.open(`/q/view/${quoteResult.short_code}`, "_blank")}
-                  >
-                    Ver cotización completa
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="ghost"
+                      className="flex-1 text-xs"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/q/view/${quoteResult.short_code}`);
+                        toast.success("Link copiado");
+                      }}
+                    >
+                      Copiar link
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="flex-1 text-xs"
+                      onClick={() => window.open(`/q/view/${quoteResult.short_code}`, "_blank")}
+                    >
+                      Ver cotización
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
