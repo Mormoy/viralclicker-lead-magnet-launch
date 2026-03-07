@@ -64,6 +64,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<DashboardHome />} />
               <Route path="pipeline" element={<PipelinePage />} />
+              <Route path="pipeline/settings" element={<PipelineSettingsPage />} />
               <Route path="leads" element={<LeadsPage />} />
               <Route path="customers" element={<CustomersPage />} />
               <Route path="quote-builder" element={<QuoteBuilderPage />} />
