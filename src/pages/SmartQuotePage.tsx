@@ -53,8 +53,10 @@ export default function SmartQuotePage() {
   const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number } | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Tenant phone for WhatsApp
+  // Tenant info
   const [tenantPhone, setTenantPhone] = useState("");
+  const [tenantLogo, setTenantLogo] = useState<string | null>(null);
+  const [tenantName, setTenantName] = useState<string | null>(null);
 
   useEffect(() => {
     if (slug || (tenantSlug && pageSlug)) loadPage();
@@ -65,8 +67,10 @@ export default function SmartQuotePage() {
 
     if (tenantSlug && pageSlug) {
       // Lookup by tenant slug + page slug
-      const { data: tenantData } = await supabase.from("tenants").select("id").eq("slug", tenantSlug).maybeSingle();
+      const { data: tenantData } = await supabase.from("tenants").select("id, logo_url, name").eq("slug", tenantSlug).maybeSingle();
       if (!tenantData) { setNotFound(true); setLoading(false); return; }
+      setTenantLogo((tenantData as any).logo_url);
+      setTenantName((tenantData as any).name);
       const { data } = await supabase.from("quote_pages").select("*").eq("tenant_id", tenantData.id).eq("slug", pageSlug).eq("is_active", true).maybeSingle();
       pageData = data;
     } else if (slug) {
@@ -77,11 +81,20 @@ export default function SmartQuotePage() {
     if (!pageData) { setNotFound(true); setLoading(false); return; }
     setPage(pageData as any);
 
+    // Fetch tenant logo if not already loaded
+    const pageTenantId = (pageData as any).tenant_id;
+    if (!tenantLogo) {
+      const { data: tData } = await supabase.from("tenants").select("logo_url, name").eq("id", pageTenantId).maybeSingle();
+      if (tData) {
+        setTenantLogo((tData as any).logo_url);
+        setTenantName((tData as any).name);
+      }
+    }
+
     // Load related data
-    const tenantId = (pageData as any).tenant_id;
     const [catsRes, svcsRes] = await Promise.all([
-      supabase.from("quote_service_categories").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
-      supabase.from("quote_services").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
+      supabase.from("quote_service_categories").select("*").eq("tenant_id", pageTenantId).eq("is_active", true).order("sort_order"),
+      supabase.from("quote_services").select("*").eq("tenant_id", pageTenantId).eq("is_active", true).order("sort_order"),
     ]);
     setCategories((catsRes.data as any[]) || []);
     setServices((svcsRes.data as any[]) || []);
@@ -295,8 +308,12 @@ export default function SmartQuotePage() {
       <div className="bg-primary text-primary-foreground py-6 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-2 mb-1">
-            <Zap className="h-5 w-5" />
-            <span className="text-sm font-medium opacity-80">ViralClicker</span>
+            {tenantLogo ? (
+              <img src={tenantLogo} alt="Logo" className="h-8 w-8 rounded-lg object-cover" />
+            ) : (
+              <Zap className="h-5 w-5" />
+            )}
+            <span className="text-sm font-medium opacity-80">{tenantName || "ViralClicker"}</span>
           </div>
           <h1 className="text-2xl font-bold">{page?.title}</h1>
           {page?.description && <p className="text-sm opacity-80 mt-1">{page.description}</p>}
