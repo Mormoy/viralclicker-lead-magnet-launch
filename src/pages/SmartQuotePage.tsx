@@ -81,6 +81,16 @@ export default function SmartQuotePage() {
     if (!pageData) { setNotFound(true); setLoading(false); return; }
     setPage(pageData as any);
 
+    // Fetch tenant logo if not already loaded
+    const tenantId = (pageData as any).tenant_id;
+    if (!tenantLogo) {
+      const { data: tData } = await supabase.from("tenants").select("logo_url, name").eq("id", tenantId).maybeSingle();
+      if (tData) {
+        setTenantLogo((tData as any).logo_url);
+        setTenantName((tData as any).name);
+      }
+    }
+
     // Load related data
     const tenantId = (pageData as any).tenant_id;
     const [catsRes, svcsRes] = await Promise.all([
