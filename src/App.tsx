@@ -19,6 +19,7 @@ import RegisterCompany from "./pages/RegisterCompany";
 import Dashboard from "./pages/Dashboard";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import PipelinePage from "./pages/dashboard/PipelinePage";
+import PipelineSettingsPage from "./pages/dashboard/PipelineSettingsPage";
 import LeadsPage from "./pages/dashboard/LeadsPage";
 import CustomersPage from "./pages/dashboard/CustomersPage";
 import IntegrationsPage from "./pages/dashboard/IntegrationsPage";
