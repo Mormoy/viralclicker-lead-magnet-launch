@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
 
 interface DealRow {
   value: number | null;
@@ -27,6 +27,7 @@ export default function DashboardHome() {
     wonDeals: 0, lostDeals: 0, winRate: 0,
   });
   const [sourceData, setSourceData] = useState<{ name: string; value: number }[]>([]);
+  const [funnelData, setFunnelData] = useState<{ name: string; value: number; fill: string }[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string; leads: number; value: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -101,6 +102,22 @@ export default function DashboardHome() {
         if (months[key]) months[key].value += (d.value || 0);
       });
       setMonthlyData(Object.entries(months).map(([month, data]) => ({ month, ...data })));
+
+      // Funnel data: count deals per stage, ordered by sort_order
+      const allStages = (stagesRes.data || []) as (StageRow & { sort_order: number; color: string })[];
+      const stageCountMap: Record<string, number> = {};
+      deals.forEach(d => {
+        if (d.stage_id) stageCountMap[d.stage_id] = (stageCountMap[d.stage_id] || 0) + 1;
+      });
+      const FUNNEL_COLORS = ["hsl(25,100%,50%)", "hsl(30,90%,55%)", "hsl(35,85%,50%)", "hsl(200,80%,50%)", "hsl(150,70%,45%)", "hsl(280,60%,55%)", "hsl(45,90%,50%)", "hsl(0,70%,55%)"];
+      const sortedStages = [...allStages].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+      setFunnelData(
+        sortedStages.map((s, i) => ({
+          name: s.name,
+          value: stageCountMap[s.id] || 0,
+          fill: s.color || FUNNEL_COLORS[i % FUNNEL_COLORS.length],
+        }))
+      );
 
       setLoading(false);
     };
