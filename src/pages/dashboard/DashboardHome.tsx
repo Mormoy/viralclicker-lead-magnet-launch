@@ -300,6 +300,78 @@ export default function DashboardHome() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Stale Deals Alerts */}
+      <Card className="bg-card border-border">
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+              Alertas de Inactividad
+              {staleDeals.length > 0 && (
+                <Badge variant="destructive" className="text-xs">{staleDeals.length}</Badge>
+              )}
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">Sin actividad por más de</span>
+              <Select value={String(staleDays)} onValueChange={(v) => setStaleDays(Number(v))}>
+                <SelectTrigger className="w-20 h-7 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 día</SelectItem>
+                  <SelectItem value="2">2 días</SelectItem>
+                  <SelectItem value="3">3 días</SelectItem>
+                  <SelectItem value="5">5 días</SelectItem>
+                  <SelectItem value="7">7 días</SelectItem>
+                  <SelectItem value="14">14 días</SelectItem>
+                  <SelectItem value="30">30 días</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {staleDeals.length === 0 ? (
+            <div className="text-center py-6">
+              <p className="text-muted-foreground text-sm">🎉 No hay deals inactivos. ¡Todo al día!</p>
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {staleDeals.map((deal) => {
+                const daysAgo = Math.floor((Date.now() - new Date(deal.updated_at).getTime()) / (1000 * 60 * 60 * 24));
+                const stageName = deal.stage_id ? stageNameMap[deal.stage_id] : deal.stage;
+                const severity = daysAgo >= 7 ? "destructive" : daysAgo >= 3 ? "secondary" : "outline";
+                return (
+                  <Link
+                    key={deal.id}
+                    to="/dashboard/pipeline"
+                    className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Clock className={`h-4 w-4 flex-shrink-0 ${daysAgo >= 7 ? "text-destructive" : daysAgo >= 3 ? "text-orange-400" : "text-yellow-400"}`} />
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{deal.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {deal.company ? `${deal.company} · ` : ""}{stageName}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {deal.value ? (
+                        <span className="text-xs text-muted-foreground">${Number(deal.value).toLocaleString()}</span>
+                      ) : null}
+                      <Badge variant={severity} className="text-xs whitespace-nowrap">
+                        {daysAgo}d sin actividad
+                      </Badge>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
