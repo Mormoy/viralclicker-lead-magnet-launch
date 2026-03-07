@@ -93,8 +93,8 @@ export default function SmartQuotePage() {
 
     // Load related data
     const [catsRes, svcsRes] = await Promise.all([
-      supabase.from("quote_service_categories").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
-      supabase.from("quote_services").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
+      supabase.from("quote_service_categories").select("*").eq("tenant_id", pageTenantId).eq("is_active", true).order("sort_order"),
+      supabase.from("quote_services").select("*").eq("tenant_id", pageTenantId).eq("is_active", true).order("sort_order"),
     ]);
     setCategories((catsRes.data as any[]) || []);
     setServices((svcsRes.data as any[]) || []);
