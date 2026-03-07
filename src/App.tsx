@@ -19,6 +19,7 @@ import RegisterCompany from "./pages/RegisterCompany";
 import Dashboard from "./pages/Dashboard";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import PipelinePage from "./pages/dashboard/PipelinePage";
+import PipelineSettingsPage from "./pages/dashboard/PipelineSettingsPage";
 import LeadsPage from "./pages/dashboard/LeadsPage";
 import CustomersPage from "./pages/dashboard/CustomersPage";
 import IntegrationsPage from "./pages/dashboard/IntegrationsPage";
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<DashboardHome />} />
               <Route path="pipeline" element={<PipelinePage />} />
+              <Route path="pipeline/settings" element={<PipelineSettingsPage />} />
               <Route path="leads" element={<LeadsPage />} />
               <Route path="customers" element={<CustomersPage />} />
               <Route path="quote-builder" element={<QuoteBuilderPage />} />

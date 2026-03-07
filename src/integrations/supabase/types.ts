@@ -391,6 +391,7 @@ export type Database = {
           priority: string | null
           source: string | null
           stage: Database["public"]["Enums"]["pipeline_stage"]
+          stage_id: string | null
           tenant_id: string
           updated_at: string
           value: number | null
@@ -408,6 +409,7 @@ export type Database = {
           priority?: string | null
           source?: string | null
           stage?: Database["public"]["Enums"]["pipeline_stage"]
+          stage_id?: string | null
           tenant_id: string
           updated_at?: string
           value?: number | null
@@ -425,13 +427,62 @@ export type Database = {
           priority?: string | null
           source?: string | null
           stage?: Database["public"]["Enums"]["pipeline_stage"]
+          stage_id?: string | null
           tenant_id?: string
           updated_at?: string
           value?: number | null
         }
         Relationships: [
           {
+            foreignKeyName: "pipeline_deals_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "pipeline_deals_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pipeline_stages: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          is_default: boolean
+          name: string
+          slug: string
+          sort_order: number
+          tenant_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name: string
+          slug: string
+          sort_order?: number
+          tenant_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          slug?: string
+          sort_order?: number
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pipeline_stages_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -1148,6 +1199,10 @@ export type Database = {
       register_company: {
         Args: { _company_name: string; _plan?: string; _setup_type?: string }
         Returns: string
+      }
+      seed_default_pipeline_stages: {
+        Args: { _tenant_id: string }
+        Returns: undefined
       }
     }
     Enums: {

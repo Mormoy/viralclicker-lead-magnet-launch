@@ -11,23 +11,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Plus, MoreVertical, Phone, Mail, DollarSign, Clock, GripVertical, Loader2, Trash2 } from "lucide-react";
+import { Plus, MoreVertical, Phone, Mail, DollarSign, Clock, GripVertical, Loader2, Trash2, Settings } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
-type PipelineStage =
-  | "lead"
-  | "demo_scheduled"
-  | "proposal_sent"
-  | "contract_sent"
-  | "contract_signed"
-  | "payment_received"
-  | "onboarding"
-  | "active_customer";
+interface StageConfig {
+  id: string;
+  tenant_id: string;
+  name: string;
+  slug: string;
+  color: string;
+  sort_order: number;
+  is_default: boolean;
+}
 
 interface Deal {
   id: string;
   tenant_id: string;
-  stage: PipelineStage;
+  stage: string;
+  stage_id: string | null;
   name: string;
   company: string | null;
   email: string | null;
@@ -42,24 +44,35 @@ interface Deal {
   updated_at: string;
 }
 
-const STAGES: { value: PipelineStage; label: string; color: string; bg: string }[] = [
-  { value: "lead", label: "Lead", color: "text-blue-400", bg: "border-t-blue-500" },
-  { value: "demo_scheduled", label: "Demo Agendada", color: "text-cyan-400", bg: "border-t-cyan-500" },
-  { value: "proposal_sent", label: "Propuesta Enviada", color: "text-yellow-400", bg: "border-t-yellow-500" },
-  { value: "contract_sent", label: "Contrato Enviado", color: "text-orange-400", bg: "border-t-orange-500" },
-  { value: "contract_signed", label: "Contrato Firmado", color: "text-purple-400", bg: "border-t-purple-500" },
-  { value: "payment_received", label: "Pago Recibido", color: "text-emerald-400", bg: "border-t-emerald-500" },
-  { value: "onboarding", label: "Onboarding", color: "text-indigo-400", bg: "border-t-indigo-500" },
-  { value: "active_customer", label: "Cliente Activo", color: "text-green-400", bg: "border-t-green-500" },
-];
-
 export default function PipelinePage() {
   const { tenantId } = useAuth();
   const [deals, setDeals] = useState<Deal[]>([]);
+  const [stages, setStages] = useState<StageConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [draggedId, setDraggedId] = useState<string | null>(null);
-  const [dragOverStage, setDragOverStage] = useState<PipelineStage | null>(null);
+  const [dragOverStageId, setDragOverStageId] = useState<string | null>(null);
+
+  const fetchStages = useCallback(async () => {
+    if (!tenantId) return;
+    const { data } = await supabase
+      .from("pipeline_stages")
+      .select("*")
+      .eq("tenant_id", tenantId)
+      .order("sort_order");
+    if (data && data.length > 0) {
+      setStages(data as StageConfig[]);
+    } else if (tenantId) {
+      // Seed defaults
+      await supabase.rpc("seed_default_pipeline_stages", { _tenant_id: tenantId });
+      const { data: seeded } = await supabase
+        .from("pipeline_stages")
+        .select("*")
+        .eq("tenant_id", tenantId)
+        .order("sort_order");
+      if (seeded) setStages(seeded as StageConfig[]);
+    }
+  }, [tenantId]);
 
   const fetchDeals = useCallback(async () => {
     if (!tenantId) return;
@@ -72,48 +85,66 @@ export default function PipelinePage() {
     setLoading(false);
   }, [tenantId]);
 
-  useEffect(() => { fetchDeals(); }, [fetchDeals]);
+  useEffect(() => {
+    Promise.all([fetchStages(), fetchDeals()]).then(() => setLoading(false));
+  }, [fetchStages, fetchDeals]);
 
+  // Map deals to stages: use stage_id if set, otherwise match by slug to old enum stage
   const dealsByStage = useMemo(() => {
-    const grouped: Record<PipelineStage, Deal[]> = {} as any;
-    STAGES.forEach(s => { grouped[s.value] = []; });
-    deals.forEach(d => { if (grouped[d.stage]) grouped[d.stage].push(d); });
+    const grouped: Record<string, Deal[]> = {};
+    stages.forEach(s => { grouped[s.id] = []; });
+    deals.forEach(d => {
+      if (d.stage_id && grouped[d.stage_id]) {
+        grouped[d.stage_id].push(d);
+      } else {
+        // Fallback: match old enum stage to slug
+        const matched = stages.find(s => s.slug === d.stage);
+        if (matched) grouped[matched.id]?.push(d);
+        else if (stages[0]) grouped[stages[0].id]?.push(d);
+      }
+    });
     return grouped;
-  }, [deals]);
+  }, [deals, stages]);
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
     e.dataTransfer.setData("dealId", id);
     setDraggedId(id);
   };
 
-  const handleDragOver = (e: React.DragEvent, stage: PipelineStage) => {
+  const handleDragOver = (e: React.DragEvent, stageId: string) => {
     e.preventDefault();
-    setDragOverStage(stage);
+    setDragOverStageId(stageId);
   };
 
-  const handleDragLeave = () => setDragOverStage(null);
+  const handleDragLeave = () => setDragOverStageId(null);
 
-  const handleDrop = async (e: React.DragEvent, targetStage: PipelineStage) => {
+  const handleDrop = async (e: React.DragEvent, targetStageId: string) => {
     e.preventDefault();
-    setDragOverStage(null);
+    setDragOverStageId(null);
     setDraggedId(null);
     const dealId = e.dataTransfer.getData("dealId");
     const deal = deals.find(d => d.id === dealId);
-    if (!deal || deal.stage === targetStage) return;
+    if (!deal) return;
+
+    const currentStageId = deal.stage_id || stages.find(s => s.slug === deal.stage)?.id;
+    if (currentStageId === targetStageId) return;
+
+    const targetStage = stages.find(s => s.id === targetStageId);
+    if (!targetStage) return;
 
     // Optimistic update
-    setDeals(prev => prev.map(d => d.id === dealId ? { ...d, stage: targetStage } : d));
+    setDeals(prev => prev.map(d => d.id === dealId ? { ...d, stage_id: targetStageId, stage: targetStage.slug as any } : d));
 
     const { error } = await supabase
       .from("pipeline_deals")
-      .update({ stage: targetStage, updated_at: new Date().toISOString() })
+      .update({ stage_id: targetStageId, stage: targetStage.slug as any, updated_at: new Date().toISOString() })
       .eq("id", dealId);
 
     if (error) {
       toast.error("Error al mover deal");
       fetchDeals();
     } else {
-      toast.success(`Movido a ${STAGES.find(s => s.value === targetStage)?.label}`);
+      toast.success(`Movido a ${targetStage.name}`);
     }
   };
 
@@ -135,6 +166,8 @@ export default function PipelinePage() {
     return `${Math.floor(diff / 60000)}m`;
   };
 
+  const defaultStage = stages.find(s => s.is_default) || stages[0];
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -152,35 +185,51 @@ export default function PipelinePage() {
             {deals.length} deals · ${stageTotal(deals).toLocaleString()} valor total
           </p>
         </div>
-        <Dialog open={showAdd} onOpenChange={setShowAdd}>
-          <DialogTrigger asChild>
-            <Button><Plus className="w-4 h-4 mr-2" />Nuevo Deal</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader><DialogTitle>Nuevo Deal</DialogTitle></DialogHeader>
-            <AddDealForm tenantId={tenantId!} onCreated={() => { setShowAdd(false); fetchDeals(); }} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex items-center gap-2">
+          <Link to="/dashboard/pipeline/settings">
+            <Button variant="outline" size="sm">
+              <Settings className="w-4 h-4 mr-1" />Configurar
+            </Button>
+          </Link>
+          <Dialog open={showAdd} onOpenChange={setShowAdd}>
+            <DialogTrigger asChild>
+              <Button><Plus className="w-4 h-4 mr-2" />Nuevo Deal</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader><DialogTitle>Nuevo Deal</DialogTitle></DialogHeader>
+              <AddDealForm
+                tenantId={tenantId!}
+                defaultStageId={defaultStage?.id}
+                defaultStageSlug={defaultStage?.slug || "lead"}
+                onCreated={() => { setShowAdd(false); fetchDeals(); }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       <ScrollArea className="w-full">
         <div className="flex gap-3 pb-4 min-w-max">
-          {STAGES.map(stage => {
-            const items = dealsByStage[stage.value];
+          {stages.map(stage => {
+            const items = dealsByStage[stage.id] || [];
             const total = stageTotal(items);
-            const isOver = dragOverStage === stage.value;
+            const isOver = dragOverStageId === stage.id;
             return (
               <div
-                key={stage.value}
+                key={stage.id}
                 className="w-72 flex-shrink-0"
-                onDragOver={(e) => handleDragOver(e, stage.value)}
+                onDragOver={(e) => handleDragOver(e, stage.id)}
                 onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, stage.value)}
+                onDrop={(e) => handleDrop(e, stage.id)}
               >
-                <Card className={`border-t-2 ${stage.bg} transition-all ${isOver ? "ring-2 ring-primary/50 bg-accent/30" : "bg-card"}`}>
+                <Card className={`border-t-2 transition-all ${isOver ? "ring-2 ring-primary/50 bg-accent/30" : "bg-card"}`}
+                  style={{ borderTopColor: stage.color }}
+                >
                   <CardHeader className="pb-2 pt-3 px-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className={`text-sm font-medium ${stage.color}`}>{stage.label}</CardTitle>
+                      <CardTitle className="text-sm font-medium" style={{ color: stage.color }}>
+                        {stage.name}
+                      </CardTitle>
                       <Badge variant="outline" className="text-muted-foreground">{items.length}</Badge>
                     </div>
                     {total > 0 && <p className="text-xs text-muted-foreground">${total.toLocaleString()}</p>}
@@ -217,7 +266,7 @@ export default function PipelinePage() {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
                                       {deal.phone && (
-                                        <DropdownMenuItem onClick={() => window.open(`https://wa.me/${deal.phone.replace(/\D/g, "")}`, "_blank")}>
+                                        <DropdownMenuItem onClick={() => window.open(`https://wa.me/${deal.phone!.replace(/\D/g, "")}`, "_blank")}>
                                           <Phone className="w-4 h-4 mr-2 text-green-500" /> WhatsApp
                                         </DropdownMenuItem>
                                       )}
@@ -267,7 +316,12 @@ export default function PipelinePage() {
   );
 }
 
-function AddDealForm({ tenantId, onCreated }: { tenantId: string; onCreated: () => void }) {
+function AddDealForm({ tenantId, defaultStageId, defaultStageSlug, onCreated }: {
+  tenantId: string;
+  defaultStageId?: string;
+  defaultStageSlug: string;
+  onCreated: () => void;
+}) {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     name: "", company: "", email: "", phone: "", city: "", source: "manual", value: "", notes: "",
@@ -287,7 +341,8 @@ function AddDealForm({ tenantId, onCreated }: { tenantId: string; onCreated: () 
       source: form.source,
       value: parseFloat(form.value) || 0,
       notes: form.notes || null,
-      stage: "lead" as PipelineStage,
+      stage: defaultStageSlug as any,
+      stage_id: defaultStageId || null,
     });
     setSaving(false);
     if (error) toast.error("Error al crear deal");
