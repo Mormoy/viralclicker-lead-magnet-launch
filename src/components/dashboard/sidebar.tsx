@@ -1,5 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard,
   Users,
@@ -28,15 +30,40 @@ const navItems = [
 ];
 
 export function DashboardSidebar() {
-  const { profile, signOut } = useAuth();
+  const { profile, tenantId, signOut } = useAuth();
   const location = useLocation();
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [tenantName, setTenantName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!tenantId) return;
+    supabase
+      .from("tenants")
+      .select("logo_url, name")
+      .eq("id", tenantId)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          setLogoUrl((data as any).logo_url);
+          setTenantName((data as any).name);
+        }
+      });
+  }, [tenantId]);
 
   return (
     <aside className="w-64 bg-card border-r border-border flex flex-col h-screen sticky top-0">
       <div className="p-4 border-b border-border">
-        <div className="flex items-center gap-2">
-          <Zap className="h-6 w-6 text-primary" />
-          <span className="font-bold text-foreground">ViralClicker</span>
+        <div className="flex items-center gap-3">
+          {logoUrl ? (
+            <img src={logoUrl} alt="Logo" className="h-8 w-8 rounded-lg object-cover" />
+          ) : (
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Zap className="h-4 w-4 text-primary" />
+            </div>
+          )}
+          <span className="font-bold text-foreground truncate">
+            {tenantName || "ViralClicker"}
+          </span>
         </div>
         {profile && (
           <p className="text-xs text-muted-foreground mt-2 truncate">

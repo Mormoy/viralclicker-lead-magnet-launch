@@ -53,8 +53,10 @@ export default function SmartQuotePage() {
   const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number } | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Tenant phone for WhatsApp
+  // Tenant info
   const [tenantPhone, setTenantPhone] = useState("");
+  const [tenantLogo, setTenantLogo] = useState<string | null>(null);
+  const [tenantName, setTenantName] = useState<string | null>(null);
 
   useEffect(() => {
     if (slug || (tenantSlug && pageSlug)) loadPage();
