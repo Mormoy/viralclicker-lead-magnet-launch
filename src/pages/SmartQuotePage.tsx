@@ -67,8 +67,10 @@ export default function SmartQuotePage() {
 
     if (tenantSlug && pageSlug) {
       // Lookup by tenant slug + page slug
-      const { data: tenantData } = await supabase.from("tenants").select("id").eq("slug", tenantSlug).maybeSingle();
+      const { data: tenantData } = await supabase.from("tenants").select("id, logo_url, name").eq("slug", tenantSlug).maybeSingle();
       if (!tenantData) { setNotFound(true); setLoading(false); return; }
+      setTenantLogo((tenantData as any).logo_url);
+      setTenantName((tenantData as any).name);
       const { data } = await supabase.from("quote_pages").select("*").eq("tenant_id", tenantData.id).eq("slug", pageSlug).eq("is_active", true).maybeSingle();
       pageData = data;
     } else if (slug) {
