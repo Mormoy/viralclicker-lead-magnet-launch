@@ -235,6 +235,7 @@ export default function PipelinePage() {
                       {stage.stage_type === "won" && <span className="text-[10px]">🏆</span>}
                       {stage.stage_type === "lost" && <span className="text-[10px]">✗</span>}
                     </div>
+                      <Badge variant="outline" className="text-muted-foreground">{items.length}</Badge>
                     </div>
                     {total > 0 && <p className="text-xs text-muted-foreground">${total.toLocaleString()}</p>}
                   </CardHeader>
