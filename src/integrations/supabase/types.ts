@@ -458,6 +458,7 @@ export type Database = {
           name: string
           slug: string
           sort_order: number
+          stage_type: string
           tenant_id: string
         }
         Insert: {
@@ -468,6 +469,7 @@ export type Database = {
           name: string
           slug: string
           sort_order?: number
+          stage_type?: string
           tenant_id: string
         }
         Update: {
@@ -478,6 +480,7 @@ export type Database = {
           name?: string
           slug?: string
           sort_order?: number
+          stage_type?: string
           tenant_id?: string
         }
         Relationships: [
