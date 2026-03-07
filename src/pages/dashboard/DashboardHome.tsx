@@ -116,7 +116,10 @@ export default function DashboardHome() {
       setMonthlyData(Object.entries(months).map(([month, data]) => ({ month, ...data })));
 
       // Funnel data: count deals per stage, ordered by sort_order
-      const allStages = (stagesRes.data || []) as (StageRow & { sort_order: number; color: string })[];
+      const stagesData = (stagesRes.data || []) as StageRow[];
+      setAllDeals(deals);
+      setAllStages(stagesData);
+      const allStages = stagesData;
       const stageCountMap: Record<string, number> = {};
       deals.forEach(d => {
         if (d.stage_id) stageCountMap[d.stage_id] = (stageCountMap[d.stage_id] || 0) + 1;
@@ -136,6 +139,27 @@ export default function DashboardHome() {
 
     fetchAll();
   }, [tenantId]);
+
+  // Stale deals computation
+  const stageNameMap = useMemo(() => {
+    const m: Record<string, string> = {};
+    allStages.forEach(s => { m[s.id] = s.name; });
+    return m;
+  }, [allStages]);
+
+  const staleDeals = useMemo(() => {
+    const now = new Date();
+    const threshold = staleDays * 24 * 60 * 60 * 1000;
+    // Exclude won/lost stages
+    const terminalIds = new Set(allStages.filter(s => s.stage_type === "won" || s.stage_type === "lost").map(s => s.id));
+    return allDeals
+      .filter(d => {
+        if (d.stage_id && terminalIds.has(d.stage_id)) return false;
+        const elapsed = now.getTime() - new Date(d.updated_at).getTime();
+        return elapsed > threshold;
+      })
+      .sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime());
+  }, [allDeals, allStages, staleDays]);
 
   const PIE_COLORS = ["hsl(25, 100%, 50%)", "hsl(200, 80%, 50%)", "hsl(150, 70%, 45%)", "hsl(280, 60%, 55%)", "hsl(45, 90%, 50%)"];
 
