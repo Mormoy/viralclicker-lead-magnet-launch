@@ -1,22 +1,31 @@
 import { useAuth } from "@/hooks/use-auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle } from "lucide-react";
+import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle, AlertTriangle, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
 
 interface DealRow {
+  id: string;
+  name: string;
+  company: string | null;
   value: number | null;
   stage: string;
   stage_id: string | null;
   source: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 interface StageRow {
   id: string;
   name: string;
   stage_type: string;
+  sort_order: number;
+  color: string;
 }
 
 export default function DashboardHome() {
@@ -29,6 +38,9 @@ export default function DashboardHome() {
   const [sourceData, setSourceData] = useState<{ name: string; value: number }[]>([]);
   const [funnelData, setFunnelData] = useState<{ name: string; value: number; fill: string }[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string; leads: number; value: number }[]>([]);
+  const [allDeals, setAllDeals] = useState<DealRow[]>([]);
+  const [allStages, setAllStages] = useState<StageRow[]>([]);
+  const [staleDays, setStaleDays] = useState(3);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +51,7 @@ export default function DashboardHome() {
         supabase.from("leads").select("id, created_at", { count: "exact" }).eq("tenant_id", tenantId),
         supabase.from("clients").select("id", { count: "exact", head: true }).eq("tenant_id", tenantId),
         supabase.from("quotes").select("id, total", { count: "exact" }).eq("tenant_id", tenantId),
-        supabase.from("pipeline_deals").select("value, stage, stage_id, source, created_at").eq("tenant_id", tenantId),
+        supabase.from("pipeline_deals").select("id, name, company, value, stage, stage_id, source, created_at, updated_at").eq("tenant_id", tenantId),
         supabase.from("pipeline_stages").select("id, name, stage_type, sort_order, color").eq("tenant_id", tenantId),
       ]);
 
@@ -104,7 +116,10 @@ export default function DashboardHome() {
       setMonthlyData(Object.entries(months).map(([month, data]) => ({ month, ...data })));
 
       // Funnel data: count deals per stage, ordered by sort_order
-      const allStages = (stagesRes.data || []) as (StageRow & { sort_order: number; color: string })[];
+      const stagesData = (stagesRes.data || []) as StageRow[];
+      setAllDeals(deals);
+      setAllStages(stagesData);
+      const allStages = stagesData;
       const stageCountMap: Record<string, number> = {};
       deals.forEach(d => {
         if (d.stage_id) stageCountMap[d.stage_id] = (stageCountMap[d.stage_id] || 0) + 1;
@@ -124,6 +139,27 @@ export default function DashboardHome() {
 
     fetchAll();
   }, [tenantId]);
+
+  // Stale deals computation
+  const stageNameMap = useMemo(() => {
+    const m: Record<string, string> = {};
+    allStages.forEach(s => { m[s.id] = s.name; });
+    return m;
+  }, [allStages]);
+
+  const staleDeals = useMemo(() => {
+    const now = new Date();
+    const threshold = staleDays * 24 * 60 * 60 * 1000;
+    // Exclude won/lost stages
+    const terminalIds = new Set(allStages.filter(s => s.stage_type === "won" || s.stage_type === "lost").map(s => s.id));
+    return allDeals
+      .filter(d => {
+        if (d.stage_id && terminalIds.has(d.stage_id)) return false;
+        const elapsed = now.getTime() - new Date(d.updated_at).getTime();
+        return elapsed > threshold;
+      })
+      .sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime());
+  }, [allDeals, allStages, staleDays]);
 
   const PIE_COLORS = ["hsl(25, 100%, 50%)", "hsl(200, 80%, 50%)", "hsl(150, 70%, 45%)", "hsl(280, 60%, 55%)", "hsl(45, 90%, 50%)"];
 
@@ -262,6 +298,78 @@ export default function DashboardHome() {
               </ResponsiveContainer>
             )}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Stale Deals Alerts */}
+      <Card className="bg-card border-border">
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+              Alertas de Inactividad
+              {staleDeals.length > 0 && (
+                <Badge variant="destructive" className="text-xs">{staleDeals.length}</Badge>
+              )}
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">Sin actividad por más de</span>
+              <Select value={String(staleDays)} onValueChange={(v) => setStaleDays(Number(v))}>
+                <SelectTrigger className="w-20 h-7 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 día</SelectItem>
+                  <SelectItem value="2">2 días</SelectItem>
+                  <SelectItem value="3">3 días</SelectItem>
+                  <SelectItem value="5">5 días</SelectItem>
+                  <SelectItem value="7">7 días</SelectItem>
+                  <SelectItem value="14">14 días</SelectItem>
+                  <SelectItem value="30">30 días</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {staleDeals.length === 0 ? (
+            <div className="text-center py-6">
+              <p className="text-muted-foreground text-sm">🎉 No hay deals inactivos. ¡Todo al día!</p>
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {staleDeals.map((deal) => {
+                const daysAgo = Math.floor((Date.now() - new Date(deal.updated_at).getTime()) / (1000 * 60 * 60 * 24));
+                const stageName = deal.stage_id ? stageNameMap[deal.stage_id] : deal.stage;
+                const severity = daysAgo >= 7 ? "destructive" : daysAgo >= 3 ? "secondary" : "outline";
+                return (
+                  <Link
+                    key={deal.id}
+                    to="/dashboard/pipeline"
+                    className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Clock className={`h-4 w-4 flex-shrink-0 ${daysAgo >= 7 ? "text-destructive" : daysAgo >= 3 ? "text-orange-400" : "text-yellow-400"}`} />
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{deal.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {deal.company ? `${deal.company} · ` : ""}{stageName}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {deal.value ? (
+                        <span className="text-xs text-muted-foreground">${Number(deal.value).toLocaleString()}</span>
+                      ) : null}
+                      <Badge variant={severity} className="text-xs whitespace-nowrap">
+                        {daysAgo}d sin actividad
+                      </Badge>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
