@@ -228,6 +228,42 @@ export default function DashboardHome() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Funnel Chart */}
+      <Card className="bg-card border-border">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Embudo de Ventas
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80">
+            {funnelData.length === 0 || funnelData.every(d => d.value === 0) ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground text-sm">Sin deals en el pipeline aún</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <FunnelChart>
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "hsl(0, 0%, 12%)", border: "1px solid hsl(0, 0%, 20%)", borderRadius: 8, color: "hsl(0, 0%, 96%)" }}
+                    formatter={(value: number, name: string) => [`${value} deals`, name]}
+                  />
+                  <Funnel
+                    dataKey="value"
+                    data={funnelData}
+                    isAnimationActive
+                  >
+                    <LabelList position="right" fill="hsl(0, 0%, 80%)" stroke="none" dataKey="name" fontSize={12} />
+                    <LabelList position="center" fill="hsl(0, 0%, 100%)" stroke="none" dataKey="value" fontSize={14} fontWeight="bold" />
+                  </Funnel>
+                </FunnelChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
