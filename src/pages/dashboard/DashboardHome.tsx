@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
 
 interface DealRow {
   value: number | null;
@@ -27,6 +27,7 @@ export default function DashboardHome() {
     wonDeals: 0, lostDeals: 0, winRate: 0,
   });
   const [sourceData, setSourceData] = useState<{ name: string; value: number }[]>([]);
+  const [funnelData, setFunnelData] = useState<{ name: string; value: number; fill: string }[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string; leads: number; value: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +40,7 @@ export default function DashboardHome() {
         supabase.from("clients").select("id", { count: "exact", head: true }).eq("tenant_id", tenantId),
         supabase.from("quotes").select("id, total", { count: "exact" }).eq("tenant_id", tenantId),
         supabase.from("pipeline_deals").select("value, stage, stage_id, source, created_at").eq("tenant_id", tenantId),
-        supabase.from("pipeline_stages").select("id, name, stage_type").eq("tenant_id", tenantId),
+        supabase.from("pipeline_stages").select("id, name, stage_type, sort_order, color").eq("tenant_id", tenantId),
       ]);
 
       const leadsCount = leadsRes.count || 0;
@@ -101,6 +102,22 @@ export default function DashboardHome() {
         if (months[key]) months[key].value += (d.value || 0);
       });
       setMonthlyData(Object.entries(months).map(([month, data]) => ({ month, ...data })));
+
+      // Funnel data: count deals per stage, ordered by sort_order
+      const allStages = (stagesRes.data || []) as (StageRow & { sort_order: number; color: string })[];
+      const stageCountMap: Record<string, number> = {};
+      deals.forEach(d => {
+        if (d.stage_id) stageCountMap[d.stage_id] = (stageCountMap[d.stage_id] || 0) + 1;
+      });
+      const FUNNEL_COLORS = ["hsl(25,100%,50%)", "hsl(30,90%,55%)", "hsl(35,85%,50%)", "hsl(200,80%,50%)", "hsl(150,70%,45%)", "hsl(280,60%,55%)", "hsl(45,90%,50%)", "hsl(0,70%,55%)"];
+      const sortedStages = [...allStages].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+      setFunnelData(
+        sortedStages.map((s, i) => ({
+          name: s.name,
+          value: stageCountMap[s.id] || 0,
+          fill: s.color || FUNNEL_COLORS[i % FUNNEL_COLORS.length],
+        }))
+      );
 
       setLoading(false);
     };
@@ -211,6 +228,42 @@ export default function DashboardHome() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Funnel Chart */}
+      <Card className="bg-card border-border">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Embudo de Ventas
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80">
+            {funnelData.length === 0 || funnelData.every(d => d.value === 0) ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground text-sm">Sin deals en el pipeline aún</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <FunnelChart>
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "hsl(0, 0%, 12%)", border: "1px solid hsl(0, 0%, 20%)", borderRadius: 8, color: "hsl(0, 0%, 96%)" }}
+                    formatter={(value: number, name: string) => [`${value} deals`, name]}
+                  />
+                  <Funnel
+                    dataKey="value"
+                    data={funnelData}
+                    isAnimationActive
+                  >
+                    <LabelList position="right" fill="hsl(0, 0%, 80%)" stroke="none" dataKey="name" fontSize={12} />
+                    <LabelList position="center" fill="hsl(0, 0%, 100%)" stroke="none" dataKey="value" fontSize={14} fontWeight="bold" />
+                  </Funnel>
+                </FunnelChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
