@@ -1,22 +1,31 @@
 import { useAuth } from "@/hooks/use-auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle } from "lucide-react";
+import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle, AlertTriangle, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
 
 interface DealRow {
+  id: string;
+  name: string;
+  company: string | null;
   value: number | null;
   stage: string;
   stage_id: string | null;
   source: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 interface StageRow {
   id: string;
   name: string;
   stage_type: string;
+  sort_order: number;
+  color: string;
 }
 
 export default function DashboardHome() {
@@ -29,6 +38,9 @@ export default function DashboardHome() {
   const [sourceData, setSourceData] = useState<{ name: string; value: number }[]>([]);
   const [funnelData, setFunnelData] = useState<{ name: string; value: number; fill: string }[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string; leads: number; value: number }[]>([]);
+  const [allDeals, setAllDeals] = useState<DealRow[]>([]);
+  const [allStages, setAllStages] = useState<StageRow[]>([]);
+  const [staleDays, setStaleDays] = useState(3);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +51,7 @@ export default function DashboardHome() {
         supabase.from("leads").select("id, created_at", { count: "exact" }).eq("tenant_id", tenantId),
         supabase.from("clients").select("id", { count: "exact", head: true }).eq("tenant_id", tenantId),
         supabase.from("quotes").select("id, total", { count: "exact" }).eq("tenant_id", tenantId),
-        supabase.from("pipeline_deals").select("value, stage, stage_id, source, created_at").eq("tenant_id", tenantId),
+        supabase.from("pipeline_deals").select("id, name, company, value, stage, stage_id, source, created_at, updated_at").eq("tenant_id", tenantId),
         supabase.from("pipeline_stages").select("id, name, stage_type, sort_order, color").eq("tenant_id", tenantId),
       ]);
 
