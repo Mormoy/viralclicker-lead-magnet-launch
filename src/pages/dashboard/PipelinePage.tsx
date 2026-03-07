@@ -23,6 +23,7 @@ interface StageConfig {
   color: string;
   sort_order: number;
   is_default: boolean;
+  stage_type: string;
 }
 
 interface Deal {

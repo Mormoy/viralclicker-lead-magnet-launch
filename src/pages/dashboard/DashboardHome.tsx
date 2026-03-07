@@ -2,14 +2,21 @@ import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap } from "lucide-react";
+import { Users, UserCheck, FileText, TrendingUp, DollarSign, BarChart3, Target, Zap, Trophy, XCircle } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from "recharts";
 
 interface DealRow {
   value: number | null;
   stage: string;
+  stage_id: string | null;
   source: string | null;
   created_at: string;
+}
+
+interface StageRow {
+  id: string;
+  name: string;
+  stage_type: string;
 }
 
 export default function DashboardHome() {
@@ -17,6 +24,7 @@ export default function DashboardHome() {
   const [stats, setStats] = useState({
     leads: 0, clients: 0, quotes: 0, deals: 0,
     totalValue: 0, wonValue: 0, avgQuote: 0, conversionRate: 0,
+    wonDeals: 0, lostDeals: 0, winRate: 0,
   });
   const [sourceData, setSourceData] = useState<{ name: string; value: number }[]>([]);
   const [monthlyData, setMonthlyData] = useState<{ month: string; leads: number; value: number }[]>([]);
@@ -26,11 +34,12 @@ export default function DashboardHome() {
     if (!tenantId) return;
 
     const fetchAll = async () => {
-      const [leadsRes, clientsRes, quotesRes, dealsRes] = await Promise.all([
+      const [leadsRes, clientsRes, quotesRes, dealsRes, stagesRes] = await Promise.all([
         supabase.from("leads").select("id, created_at", { count: "exact" }).eq("tenant_id", tenantId),
         supabase.from("clients").select("id", { count: "exact", head: true }).eq("tenant_id", tenantId),
         supabase.from("quotes").select("id, total", { count: "exact" }).eq("tenant_id", tenantId),
-        supabase.from("pipeline_deals").select("value, stage, source, created_at").eq("tenant_id", tenantId),
+        supabase.from("pipeline_deals").select("value, stage, stage_id, source, created_at").eq("tenant_id", tenantId),
+        supabase.from("pipeline_stages").select("id, name, stage_type").eq("tenant_id", tenantId),
       ]);
 
       const leadsCount = leadsRes.count || 0;
@@ -38,18 +47,31 @@ export default function DashboardHome() {
       const quotesCount = quotesRes.count || 0;
       const deals = (dealsRes.data || []) as DealRow[];
       const quotesData = quotesRes.data || [];
+      const stages = (stagesRes.data || []) as StageRow[];
+
+      // Build stage type lookup
+      const stageTypeMap: Record<string, string> = {};
+      stages.forEach(s => { stageTypeMap[s.id] = s.stage_type || "normal"; });
 
       const totalValue = deals.reduce((a, d) => a + (d.value || 0), 0);
-      const wonDeals = deals.filter(d => d.stage === "payment_received" || d.stage === "active_customer");
+      
+      // Use stage_type to determine won/lost
+      const wonDeals = deals.filter(d => d.stage_id && stageTypeMap[d.stage_id] === "won");
+      const lostDeals = deals.filter(d => d.stage_id && stageTypeMap[d.stage_id] === "lost");
       const wonValue = wonDeals.reduce((a, d) => a + (d.value || 0), 0);
+      
       const avgQuote = quotesData.length > 0
         ? quotesData.reduce((a: number, q: any) => a + (Number(q.total) || 0), 0) / quotesData.length
         : 0;
+      
+      const decidedDeals = wonDeals.length + lostDeals.length;
+      const winRate = decidedDeals > 0 ? Math.round((wonDeals.length / decidedDeals) * 100) : 0;
       const conversionRate = leadsCount > 0 ? Math.round((clientsCount / leadsCount) * 100) : 0;
 
       setStats({
         leads: leadsCount, clients: clientsCount, quotes: quotesCount,
         deals: deals.length, totalValue, wonValue, avgQuote, conversionRate,
+        wonDeals: wonDeals.length, lostDeals: lostDeals.length, winRate,
       });
 
       // Source breakdown
@@ -89,14 +111,14 @@ export default function DashboardHome() {
   const PIE_COLORS = ["hsl(25, 100%, 50%)", "hsl(200, 80%, 50%)", "hsl(150, 70%, 45%)", "hsl(280, 60%, 55%)", "hsl(45, 90%, 50%)"];
 
   const metricCards = [
-    { label: "Leads", value: stats.leads, icon: Users, trend: null },
-    { label: "Clientes", value: stats.clients, icon: UserCheck, trend: null },
-    { label: "Cotizaciones", value: stats.quotes, icon: FileText, trend: null },
-    { label: "Deals", value: stats.deals, icon: Target, trend: null },
-    { label: "Valor Total", value: `$${stats.totalValue.toLocaleString()}`, icon: DollarSign, trend: null },
-    { label: "Ventas Cerradas", value: `$${stats.wonValue.toLocaleString()}`, icon: TrendingUp, trend: null },
-    { label: "Promedio Cotización", value: `$${Math.round(stats.avgQuote).toLocaleString()}`, icon: BarChart3, trend: null },
-    { label: "Tasa Conversión", value: `${stats.conversionRate}%`, icon: Zap, trend: null },
+    { label: "Leads", value: stats.leads, icon: Users },
+    { label: "Clientes", value: stats.clients, icon: UserCheck },
+    { label: "Cotizaciones", value: stats.quotes, icon: FileText },
+    { label: "Deals", value: stats.deals, icon: Target },
+    { label: "Valor Total", value: `$${stats.totalValue.toLocaleString()}`, icon: DollarSign },
+    { label: "Ventas Cerradas", value: `$${stats.wonValue.toLocaleString()}`, icon: TrendingUp },
+    { label: "Win Rate", value: `${stats.winRate}%`, icon: Trophy, highlight: "green" },
+    { label: "Ganados / Perdidos", value: `${stats.wonDeals} / ${stats.lostDeals}`, icon: Zap },
   ];
 
   return (
