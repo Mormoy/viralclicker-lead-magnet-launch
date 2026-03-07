@@ -82,9 +82,9 @@ export default function SmartQuotePage() {
     setPage(pageData as any);
 
     // Fetch tenant logo if not already loaded
-    const tenantId = (pageData as any).tenant_id;
+    const pageTenantId = (pageData as any).tenant_id;
     if (!tenantLogo) {
-      const { data: tData } = await supabase.from("tenants").select("logo_url, name").eq("id", tenantId).maybeSingle();
+      const { data: tData } = await supabase.from("tenants").select("logo_url, name").eq("id", pageTenantId).maybeSingle();
       if (tData) {
         setTenantLogo((tData as any).logo_url);
         setTenantName((tData as any).name);
@@ -92,7 +92,6 @@ export default function SmartQuotePage() {
     }
 
     // Load related data
-    const tenantId = (pageData as any).tenant_id;
     const [catsRes, svcsRes] = await Promise.all([
       supabase.from("quote_service_categories").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
       supabase.from("quote_services").select("*").eq("tenant_id", tenantId).eq("is_active", true).order("sort_order"),
