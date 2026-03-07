@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { MessageCircle, Plus, Minus, Trash2, ShoppingCart, ArrowRight, Check, Zap } from "lucide-react";
+import { MessageCircle, Plus, Minus, Trash2, ShoppingCart, ArrowRight, Check, Zap, CreditCard } from "lucide-react";
 
 interface QuotePage { id: string; tenant_id: string; title: string; slug: string; description: string | null; thank_you_message: string | null; whatsapp_cta_text: string | null; }
 interface Category { id: string; name: string; }
@@ -50,8 +50,10 @@ export default function SmartQuotePage() {
   const [contact, setContact] = useState({ name: "", company: "", phone: "", email: "", city: "", notes: "" });
 
   // Result
-  const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number } | null>(null);
+  const [quoteResult, setQuoteResult] = useState<{ short_code: string; total: number; quoteId: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [payingFull, setPayingFull] = useState(false);
+  const [payingDeposit, setPayingDeposit] = useState(false);
 
   // Tenant info
   const [tenantPhone, setTenantPhone] = useState("");
