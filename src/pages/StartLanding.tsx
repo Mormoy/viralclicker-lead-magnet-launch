@@ -431,13 +431,14 @@ const VideoSection = () => {
           <motion.p variants={fadeUp} className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
             {t('startLanding.videoDesc')}
           </motion.p>
-          <motion.div variants={fadeUp} className="relative mt-4 rounded-2xl overflow-hidden border border-border bg-card aspect-video" ref={videoContainerRef}>
-            <wistia-player
-              media-id="sb3tom78nu"
-              player-color="#f97316"
-              style={{ width: '100%', height: '100%', display: 'block' }}
-            />
-          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="relative mt-4 rounded-2xl overflow-hidden border border-border bg-card aspect-video"
+            ref={videoContainerRef}
+            dangerouslySetInnerHTML={{
+              __html: '<wistia-player media-id="sb3tom78nu" player-color="#f97316" style="width:100%;height:100%;display:block"></wistia-player>'
+            }}
+          />
         </motion.div>
       </div>
     </section>
