@@ -1,18 +1,22 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Calendar, ArrowRight, Clock, MessageCircle, FileText, Zap, Users, CheckCircle, AlertTriangle, Search, Bot, Wrench, Shield, Home, Sun, ChevronRight, Globe } from 'lucide-react';
+import {
+  Play, Calendar, ArrowRight, MessageCircle, FileText, Zap, Users,
+  CheckCircle, ChevronRight, Globe, BarChart3, Bot, Wrench, Shield,
+  Home, Sun, HelpCircle, Clock, Settings, Send
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from '@/components/ui/accordion';
+import PricingSection from '@/components/clickcrm/pricing-section';
 
 const BASE_CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
-const MAIN_SITE_URL = '/';
 
 const useUtmParams = () => {
   const [searchParams] = useSearchParams();
@@ -38,76 +42,10 @@ const fadeUp = {
 };
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
-/* ─── Countdown Timer ─── */
-const CountdownBlock = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 23, minutes: 59, seconds: 59 };
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const pad = (n: number) => String(n).padStart(2, '0');
-
-  return (
-    <div className="flex items-center justify-center gap-2">
-      {[
-        { label: 'HRS', value: pad(timeLeft.hours) },
-        { label: 'MIN', value: pad(timeLeft.minutes) },
-        { label: 'SEC', value: pad(timeLeft.seconds) },
-      ].map((unit, i) => (
-        <React.Fragment key={unit.label}>
-          {i > 0 && <span className="text-primary text-3xl font-bold">:</span>}
-          <div className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
-            <span className="text-primary text-3xl md:text-4xl font-bold font-mono">{unit.value}</span>
-            <p className="text-muted-foreground text-[10px] uppercase tracking-widest mt-1">{unit.label}</p>
-          </div>
-        </React.Fragment>
-      ))}
-    </div>
-  );
-};
-
-/* ─── Calendly URL Context ─── */
-const CalendlyContext = React.createContext(BASE_CALENDLY_URL);
-
-/* ─── CTA Button ─── */
-const CtaButton = ({ children, secondary = false, className = '' }: { children: React.ReactNode; secondary?: boolean; className?: string }) => {
-  const calendlyUrl = React.useContext(CalendlyContext);
-  return (
-    <Button
-      asChild
-      size="lg"
-      variant={secondary ? 'outline' : 'default'}
-      className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold ${
-        secondary
-          ? 'border-primary/40 text-primary hover:bg-primary/10'
-          : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
-      } ${className}`}
-    >
-      <a
-        href={secondary ? '#video-demo' : calendlyUrl}
-        target={secondary ? '_self' : '_blank'}
-        rel="noopener noreferrer"
-        data-cta={secondary ? 'see-how-it-works' : 'book-demo'}
-      >
-        {children}
-      </a>
-    </Button>
-  );
-};
-
-/* ─── Top Bar with Logo + Language Switcher ─── */
+/* ─── Top Bar ─── */
 const TopBar = () => {
   const { i18n } = useTranslation();
   const currentLang = i18n.language === 'es' ? 'ES' : 'EN';
@@ -120,201 +58,122 @@ const TopBar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center">
+        <a href="#" className="flex items-center">
           <span className="text-primary font-bold text-2xl">Viral</span>
           <span className="text-foreground font-bold text-2xl">Clicker</span>
+        </a>
+        <div className="flex items-center gap-3">
+          <a href="#pricing" className="hidden md:inline-block text-muted-foreground hover:text-foreground text-sm transition-colors">
+            Pricing
+          </a>
+          <a href="#faq" className="hidden md:inline-block text-muted-foreground hover:text-foreground text-sm transition-colors">
+            FAQ
+          </a>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground gap-1.5">
+                <Globe className="w-4 h-4" />
+                <span className="text-sm font-medium">{currentLang}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-card border-border">
+              <DropdownMenuItem onClick={() => changeLanguage('es')} className={`cursor-pointer ${i18n.language === 'es' ? 'text-primary' : 'text-foreground'}`}>
+                🇪🇸 Español
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('en')} className={`cursor-pointer ${i18n.language === 'en' ? 'text-primary' : 'text-foreground'}`}>
+                🇺🇸 English
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground gap-1.5">
-              <Globe className="w-4 h-4" />
-              <span className="text-sm font-medium">{currentLang}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card border-border">
-            <DropdownMenuItem
-              onClick={() => changeLanguage('es')}
-              className={`cursor-pointer ${i18n.language === 'es' ? 'text-primary' : 'text-foreground'}`}
-            >
-              🇪🇸 Español
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => changeLanguage('en')}
-              className={`cursor-pointer ${i18n.language === 'en' ? 'text-primary' : 'text-foreground'}`}
-            >
-              🇺🇸 English
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </header>
   );
 };
 
-/* ─── HERO ─── */
-const HeroSection = () => {
-  const { t } = useTranslation();
-  return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 pt-20 pb-16 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-      <motion.div className="relative z-10 max-w-3xl mx-auto text-center" initial="hidden" animate="visible" variants={stagger}>
-        <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-8">
-          <Zap className="w-4 h-4 text-primary" />
-          <span className="text-primary text-sm font-medium">{t('startLanding.badge')}</span>
-        </motion.div>
+/* ─── SECTION 1: HERO ─── */
+const HeroSection = ({ calendlyUrl }: { calendlyUrl: string }) => (
+  <section className="relative min-h-[85vh] flex items-center justify-center px-4 pt-20 pb-16 overflow-hidden">
+    <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+    <motion.div className="relative z-10 max-w-3xl mx-auto text-center" initial="hidden" animate="visible" variants={stagger}>
+      <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-8">
+        <Zap className="w-4 h-4 text-primary" />
+        <span className="text-primary text-sm font-medium">Quote-to-Sale CRM for Service Businesses</span>
+      </motion.div>
 
-        <motion.h1 variants={fadeUp} className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-foreground leading-[1.1] tracking-tight">
-          {t('startLanding.heroTitle1')}{' '}
-          <span className="text-primary">{t('startLanding.heroTitle2')}</span>
-        </motion.h1>
+      <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.1] tracking-tight">
+        Send quotes, follow up automatically and{' '}
+        <span className="text-primary">close more sales on WhatsApp.</span>
+      </motion.h1>
 
-        <motion.p variants={fadeUp} className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto">
-          {t('startLanding.heroSubtitle')}
-        </motion.p>
+      <motion.p variants={fadeUp} className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+        ViralClicker is the CRM built for service businesses that sell through quotes.
+      </motion.p>
 
-        <motion.div variants={fadeUp} className="mt-8 flex flex-wrap justify-center gap-4 md:gap-6">
-          {[t('startLanding.trustSetup'), t('startLanding.trustBuilt'), t('startLanding.trustNoCRM')].map((txt) => (
-            <span key={txt} className="flex items-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-              {txt}
-            </span>
-          ))}
-        </motion.div>
-
-        <motion.div variants={fadeUp} className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <CtaButton>
-            <Calendar className="w-5 h-5 mr-2" />
-            {t('startLanding.bookDemo')}
-          </CtaButton>
-          <CtaButton secondary>
+      <motion.div variants={fadeUp} className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base md:text-lg rounded-xl font-semibold shadow-[0_0_30px_hsl(25_100%_50%/0.3)]">
+          <a href="#video-demo" data-cta="watch-demo">
             <Play className="w-5 h-5 mr-2" />
-            {t('startLanding.seeHow')}
-          </CtaButton>
-        </motion.div>
+            Watch Demo
+          </a>
+        </Button>
+        <Button asChild size="lg" variant="outline" className="border-primary/40 text-primary hover:bg-primary/10 px-8 py-6 text-base md:text-lg rounded-xl font-semibold">
+          <a href="#pricing" data-cta="view-pricing">
+            View Pricing
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </a>
+        </Button>
       </motion.div>
-    </section>
-  );
-};
 
-/* ─── VIDEO DEMO ─── */
-const VideoSection = () => {
-  const { t } = useTranslation();
-  return (
-    <section id="video-demo" className="py-16 md:py-24 px-4">
-      <div className="max-w-4xl mx-auto">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="text-center">
-          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {t('startLanding.videoTitle1')} <span className="text-primary">{t('startLanding.videoTitle2')}</span>
-          </motion.h2>
+      <motion.div variants={fadeUp} className="mt-8 flex flex-wrap justify-center gap-4 md:gap-6">
+        {['No technical skills needed', 'Setup in 7 days', 'Cancel anytime'].map((txt) => (
+          <span key={txt} className="flex items-center gap-2 text-sm text-muted-foreground">
+            <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+            {txt}
+          </span>
+        ))}
+      </motion.div>
+    </motion.div>
+  </section>
+);
 
-          <motion.div variants={fadeUp} className="relative mt-8 rounded-2xl overflow-hidden border border-border bg-card aspect-video flex items-center justify-center group cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
-            <div className="relative z-10 flex flex-col items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Play className="w-8 h-8 text-primary ml-1" />
-              </div>
-              <p className="text-muted-foreground text-sm">{t('startLanding.videoPlay')}</p>
-            </div>
-          </motion.div>
-
-          <motion.p variants={fadeUp} className="mt-6 text-muted-foreground max-w-lg mx-auto">
-            {t('startLanding.videoDesc')}
-          </motion.p>
-
-          <motion.div variants={fadeUp} className="mt-8">
-            <CtaButton>
-              <Calendar className="w-5 h-5 mr-2" />
-              {t('startLanding.bookDemo')}
-            </CtaButton>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-/* ─── OFFER ─── */
-const OfferSection = () => {
-  const { t } = useTranslation();
-  const items = [
-    t('startLanding.offerItem1'),
-    t('startLanding.offerItem2'),
-    t('startLanding.offerItem3'),
-    t('startLanding.offerItem4'),
-    t('startLanding.offerItem5'),
+/* ─── SECTION 2: PRODUCT OVERVIEW ─── */
+const ProductOverview = () => {
+  const features = [
+    {
+      icon: FileText,
+      title: 'Smart Quote System',
+      desc: 'Generate live quotes with a unique link customers can review and approve.',
+    },
+    {
+      icon: BarChart3,
+      title: 'CRM Pipeline',
+      desc: 'Track every opportunity from new lead to closed sale.',
+    },
+    {
+      icon: MessageCircle,
+      title: 'WhatsApp Automation',
+      desc: 'Follow up automatically and keep leads engaged until they convert.',
+    },
   ];
 
   return (
-    <section className="py-16 md:py-24 px-4">
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-3xl mx-auto">
-        <motion.div variants={fadeUp} className="rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/5 to-card p-8 md:p-12 text-center relative overflow-hidden">
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="relative z-10">
-            <span className="inline-block bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-6">
-              {t('startLanding.offerBadge')}
-            </span>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-              {t('startLanding.offerTitle')}
-            </h2>
-
-            <p className="text-muted-foreground text-lg mb-8 max-w-md mx-auto">
-              {t('startLanding.offerDesc')} <span className="text-primary font-semibold">{t('startLanding.offerDays')}</span>.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto mb-10 text-left">
-              {items.map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-                  <span className="text-foreground text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-
-            <CountdownBlock />
-
-            <p className="mt-6 text-sm text-primary/80 font-medium flex items-center justify-center gap-2">
-              <Clock className="w-4 h-4" />
-              {t('startLanding.offerUrgency')}
-            </p>
-
-            <div className="mt-8">
-              <CtaButton>
-                <Calendar className="w-5 h-5 mr-2" />
-                {t('startLanding.bookDemo')}
-              </CtaButton>
-            </div>
-          </div>
+    <section className="py-20 md:py-28 px-4">
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-5xl mx-auto">
+        <motion.div variants={fadeUp} className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            The complete <span className="text-primary">Quote-to-Sale</span> system
+          </h2>
         </motion.div>
-      </motion.div>
-    </section>
-  );
-};
 
-/* ─── PROBLEM ─── */
-const ProblemSection = () => {
-  const { t } = useTranslation();
-  const problems = [
-    { icon: AlertTriangle, title: t('startLanding.problem1Title'), desc: t('startLanding.problem1Desc') },
-    { icon: Search, title: t('startLanding.problem2Title'), desc: t('startLanding.problem2Desc') },
-    { icon: MessageCircle, title: t('startLanding.problem3Title'), desc: t('startLanding.problem3Desc') },
-  ];
-
-  return (
-    <section className="py-16 md:py-24 px-4 bg-card/50">
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-5xl mx-auto text-center">
-        <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-          {t('startLanding.problemTitle1')} <span className="text-primary">{t('startLanding.problemTitle2')}</span>
-        </motion.h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {problems.map((p) => (
-            <motion.div key={p.title} variants={fadeUp} className="bg-card border border-border rounded-2xl p-8 text-center hover:border-primary/40 transition-colors">
-              <div className="w-14 h-14 mx-auto rounded-xl bg-destructive/10 flex items-center justify-center mb-5">
-                <p.icon className="w-7 h-7 text-destructive" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {features.map((f) => (
+            <motion.div key={f.title} variants={fadeUp} className="bg-card border border-border rounded-2xl p-8 text-center hover:border-primary/40 transition-colors group">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                <f.icon className="w-7 h-7 text-primary" />
               </div>
-              <h3 className="text-foreground font-semibold text-xl mb-2">{p.title}</h3>
-              <p className="text-muted-foreground text-sm">{p.desc}</p>
+              <h3 className="text-foreground font-semibold text-xl mb-3">{f.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -323,28 +182,30 @@ const ProblemSection = () => {
   );
 };
 
-/* ─── SOLUTION ─── */
-const SolutionSection = () => {
-  const { t } = useTranslation();
+/* ─── SECTION 3: HOW IT WORKS ─── */
+const HowItWorks = () => {
   const steps = [
-    { icon: Users, title: t('startLanding.step1'), step: '01' },
-    { icon: FileText, title: t('startLanding.step2'), step: '02' },
-    { icon: Zap, title: t('startLanding.step3'), step: '03' },
-    { icon: Bot, title: t('startLanding.step4'), step: '04' },
+    { icon: Users, title: 'Customer requests quote', step: '01' },
+    { icon: FileText, title: 'Smart quote generated', step: '02' },
+    { icon: BarChart3, title: 'Lead enters CRM pipeline', step: '03' },
+    { icon: Bot, title: 'Follow-up closes the deal on WhatsApp', step: '04' },
   ];
 
   return (
-    <section className="py-16 md:py-24 px-4">
+    <section className="py-20 md:py-28 px-4 bg-card/50">
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-5xl mx-auto text-center">
         <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-          {t('startLanding.solutionTitle1')} <span className="text-primary">{t('startLanding.solutionTitle2')}</span>
+          How it <span className="text-primary">works</span>
         </motion.h2>
+        <motion.p variants={fadeUp} className="text-muted-foreground text-lg mb-14 max-w-xl mx-auto">
+          From quote request to closed deal — fully automated.
+        </motion.p>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {steps.map((s, i) => (
             <motion.div key={s.step} variants={fadeUp} className="relative">
               <div className="bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/40 transition-colors h-full">
-                <span className="text-primary/30 text-5xl font-black absolute top-4 right-4">{s.step}</span>
+                <span className="text-primary/20 text-5xl font-black absolute top-4 right-4">{s.step}</span>
                 <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                   <s.icon className="w-6 h-6 text-primary" />
                 </div>
@@ -361,115 +222,280 @@ const SolutionSection = () => {
   );
 };
 
-/* ─── WHO IT'S FOR ─── */
-const ForWhoSection = () => {
-  const { t } = useTranslation();
+/* ─── SECTION 4: USE CASES ─── */
+const UseCases = () => {
   const industries = [
-    { icon: Wrench, label: t('startLanding.ind1') },
-    { icon: Home, label: t('startLanding.ind2') },
-    { icon: Shield, label: t('startLanding.ind3') },
-    { icon: Home, label: t('startLanding.ind4') },
-    { icon: Home, label: t('startLanding.ind5') },
-    { icon: Wrench, label: t('startLanding.ind6') },
-    { icon: Sun, label: t('startLanding.ind7') },
+    { icon: Wrench, label: 'Installers' },
+    { icon: Home, label: 'Contractors' },
+    { icon: Shield, label: 'Security companies' },
+    { icon: Home, label: 'Construction businesses' },
+    { icon: Wrench, label: 'Repair services' },
+    { icon: Sun, label: 'Solar installers' },
+    { icon: Users, label: 'Service providers' },
   ];
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-card/50">
+    <section className="py-20 md:py-28 px-4">
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-4xl mx-auto text-center">
-        <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-10">
-          {t('startLanding.forWhoTitle1')} <span className="text-primary">{t('startLanding.forWhoTitle2')}</span>
+        <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          Perfect for businesses that{' '}
+          <span className="text-primary">sell through quotes</span>
         </motion.h2>
+        <motion.p variants={fadeUp} className="text-muted-foreground text-lg mb-12 max-w-xl mx-auto">
+          If your sales process starts with a quote, ViralClicker is built for you.
+        </motion.p>
 
-        <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-3 mb-10">
+        <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-3">
           {industries.map((ind) => (
-            <span key={ind.label} className="flex items-center gap-2 bg-card border border-border rounded-full px-5 py-2.5 text-sm text-foreground">
+            <span key={ind.label} className="flex items-center gap-2 bg-card border border-border rounded-full px-5 py-3 text-sm text-foreground hover:border-primary/40 transition-colors">
               <ind.icon className="w-4 h-4 text-primary" />
               {ind.label}
             </span>
           ))}
         </motion.div>
-
-        <motion.p variants={fadeUp} className="text-muted-foreground text-lg max-w-xl mx-auto">
-          {t('startLanding.forWhoDesc1')}{' '}
-          <span className="text-primary font-semibold">{t('startLanding.forWhoDesc2')}</span>
-        </motion.p>
       </motion.div>
     </section>
   );
 };
 
-/* ─── FINAL CTA ─── */
-const FinalCta = () => {
-  const { t } = useTranslation();
+/* ─── SECTION 5: CASE STUDY ─── */
+const CaseStudy = () => (
+  <section className="py-20 md:py-28 px-4 bg-card/50">
+    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-4xl mx-auto">
+      <motion.div variants={fadeUp} className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+          Real Business <span className="text-primary">Example</span>
+        </h2>
+      </motion.div>
+
+      <motion.div variants={fadeUp} className="rounded-2xl border border-border bg-card p-8 md:p-12">
+        <p className="text-muted-foreground text-lg text-center max-w-2xl mx-auto mb-10">
+          See how a service business organized its quotes and follow-up process using ViralClicker.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {[
+            { metric: '-80%', label: 'Response time' },
+            { metric: '+35%', label: 'Close rate' },
+            { metric: '18h', label: 'Saved per week' },
+          ].map((item) => (
+            <div key={item.label} className="text-center p-6 rounded-xl bg-secondary/50 border border-border">
+              <p className="text-3xl md:text-4xl font-extrabold text-primary">{item.metric}</p>
+              <p className="text-muted-foreground text-sm mt-2">{item.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <p className="text-muted-foreground text-sm italic">
+            Case study details coming soon. These metrics represent typical results from early adopters.
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  </section>
+);
+
+/* ─── SECTION 6: PRICING — uses existing component ─── */
+const PricingWrapper = () => (
+  <div id="pricing">
+    <PricingSection />
+  </div>
+);
+
+/* ─── SECTION 7: IMPLEMENTATION ─── */
+const Implementation = () => {
+  const steps = [
+    { icon: CheckCircle, title: 'Choose your plan', desc: 'Pick the plan that fits your business needs.' },
+    { icon: Calendar, title: 'Schedule setup session', desc: 'Book a 1-on-1 onboarding call with our team.' },
+    { icon: Settings, title: 'We configure your quote funnel', desc: 'We set up your quote page, CRM, and WhatsApp automation.' },
+    { icon: Send, title: 'Start receiving and managing quotes', desc: 'Go live and start converting leads into sales.' },
+  ];
+
   return (
-    <section className="py-20 md:py-28 px-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="relative z-10 max-w-2xl mx-auto text-center">
-        <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          {t('startLanding.finalTitle1')} <span className="text-primary">{t('startLanding.finalTitle2')}</span>
-        </motion.h2>
+    <section className="py-20 md:py-28 px-4">
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-4xl mx-auto">
+        <motion.div variants={fadeUp} className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            Setup and <span className="text-primary">onboarding</span>
+          </h2>
+          <p className="text-muted-foreground text-lg mt-4 max-w-xl mx-auto">
+            We handle everything. You just pick a plan and show up.
+          </p>
+        </motion.div>
 
-        <motion.p variants={fadeUp} className="text-muted-foreground text-lg mb-10 max-w-md mx-auto">
-          {t('startLanding.finalDesc')}
-        </motion.p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {steps.map((s, i) => (
+            <motion.div key={i} variants={fadeUp} className="flex gap-4 bg-card border border-border rounded-2xl p-6 hover:border-primary/40 transition-colors">
+              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <span className="text-primary font-bold text-sm">{i + 1}</span>
+              </div>
+              <div>
+                <h3 className="text-foreground font-semibold text-base mb-1">{s.title}</h3>
+                <p className="text-muted-foreground text-sm">{s.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+};
 
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <CtaButton>
-            <Calendar className="w-5 h-5 mr-2" />
-            {t('startLanding.bookDemo')}
-          </CtaButton>
-          <Button asChild size="lg" variant="ghost" className="text-muted-foreground hover:text-foreground text-base px-8 py-6">
-            <a href={MAIN_SITE_URL}>
-              {t('startLanding.visitSite')}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </a>
-          </Button>
+/* ─── SECTION 8: FAQ ─── */
+const FaqSection = () => {
+  const faqs = [
+    {
+      q: 'Do I need technical knowledge?',
+      a: 'No. We handle the entire setup — quote page design, CRM configuration, and WhatsApp integration. You just use the system.',
+    },
+    {
+      q: 'How long does setup take?',
+      a: 'Setup takes 7 business days. We only need your logo, brand colors, product/service list with pricing, and access to your WhatsApp number.',
+    },
+    {
+      q: 'Does it work with WhatsApp Business?',
+      a: 'Yes. ViralClicker integrates with WhatsApp Business API via Twilio, enabling automated messages, approved templates, and delivery tracking.',
+    },
+    {
+      q: 'Can I customize the quote system?',
+      a: 'Absolutely. You can customize fields, pricing models (fixed, variable, formula-based), add extras, and create multiple quote pages for different services.',
+    },
+    {
+      q: 'Is Stripe used for payments?',
+      a: 'Yes. All subscription payments are processed securely through Stripe. You can pay monthly or annually with significant savings.',
+    },
+    {
+      q: 'Can my team use the CRM?',
+      a: 'Yes. The Pro and Elite plans support team access with role-based permissions so multiple team members can manage leads and quotes.',
+    },
+  ];
+
+  return (
+    <section id="faq" className="py-20 md:py-28 px-4 bg-card/50">
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="max-w-3xl mx-auto">
+        <motion.div variants={fadeUp} className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            Frequently asked <span className="text-primary">questions</span>
+          </h2>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <Accordion type="multiple" defaultValue={['item-0']} className="space-y-3">
+            {faqs.map((faq, i) => (
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="bg-card border border-border rounded-xl px-5 data-[state=open]:border-primary/40 transition-colors"
+              >
+                <AccordionTrigger className="text-foreground hover:text-primary text-left py-5 text-base font-medium gap-4">
+                  <span className="flex items-center gap-3">
+                    <HelpCircle className="w-5 h-5 text-primary shrink-0" />
+                    {faq.q}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-5 pt-0 text-sm leading-relaxed pl-8">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </motion.div>
       </motion.div>
     </section>
   );
 };
 
-/* ─── Floating CTA (mobile) ─── */
-const FloatingCta = () => {
-  const calendlyUrl = React.useContext(CalendlyContext);
-  const { t } = useTranslation();
-  return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
-      <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
-        <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" data-cta="book-demo-floating">
-          <Calendar className="w-5 h-5 mr-2" />
-          {t('startLanding.bookDemo')}
-        </a>
-      </Button>
+/* ─── SECTION 9: FINAL CTA ─── */
+const FinalCtaSection = ({ calendlyUrl }: { calendlyUrl: string }) => (
+  <section className="py-24 md:py-32 px-4 relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="relative z-10 max-w-2xl mx-auto text-center">
+      <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+        Start organizing your quotes <span className="text-primary">today</span>
+      </motion.h2>
+
+      <motion.p variants={fadeUp} className="text-muted-foreground text-lg mb-10 max-w-md mx-auto">
+        Join service businesses that close more deals with ViralClicker.
+      </motion.p>
+
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base md:text-lg rounded-xl font-semibold shadow-[0_0_30px_hsl(25_100%_50%/0.3)]">
+          <a href="#pricing" data-cta="view-pricing-final">
+            View Pricing
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </a>
+        </Button>
+        <Button asChild size="lg" variant="outline" className="border-primary/40 text-primary hover:bg-primary/10 px-8 py-6 text-base md:text-lg rounded-xl font-semibold">
+          <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" data-cta="book-demo-final">
+            <Calendar className="w-5 h-5 mr-2" />
+            Book Demo
+          </a>
+        </Button>
+      </motion.div>
+    </motion.div>
+  </section>
+);
+
+/* ─── VIDEO DEMO (kept minimal) ─── */
+const VideoSection = () => (
+  <section id="video-demo" className="py-16 md:py-24 px-4 bg-card/50">
+    <div className="max-w-4xl mx-auto">
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="text-center">
+        <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          See it in <span className="text-primary">action</span>
+        </motion.h2>
+
+        <motion.div variants={fadeUp} className="relative mt-8 rounded-2xl overflow-hidden border border-border bg-card aspect-video flex items-center justify-center group cursor-pointer">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            <div className="w-20 h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Play className="w-8 h-8 text-primary ml-1" />
+            </div>
+            <p className="text-muted-foreground text-sm">Watch a 2-minute demo</p>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
-  );
-};
+  </section>
+);
+
+/* ─── FLOATING CTA (mobile) ─── */
+const FloatingCta = ({ calendlyUrl }: { calendlyUrl: string }) => (
+  <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
+    <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
+      <a href="#pricing" data-cta="view-pricing-floating">
+        View Pricing
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </a>
+    </Button>
+  </div>
+);
 
 /* ─── PAGE ─── */
 const StartLanding = () => {
   const calendlyUrl = useCalendlyUrl();
-  const { t } = useTranslation();
+
   return (
-    <CalendlyContext.Provider value={calendlyUrl}>
-      <div className="min-h-screen bg-background text-foreground">
-        <TopBar />
-        <HeroSection />
-        <VideoSection />
-        <OfferSection />
-        <ProblemSection />
-        <SolutionSection />
-        <ForWhoSection />
-        <FinalCta />
-        <FloatingCta />
-        <footer className="py-8 text-center border-t border-border">
-          <p className="text-muted-foreground text-xs">
-            {t('startLanding.footer')} <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
-          </p>
-        </footer>
-      </div>
-    </CalendlyContext.Provider>
+    <div className="min-h-screen bg-background text-foreground">
+      <TopBar />
+      <HeroSection calendlyUrl={calendlyUrl} />
+      <VideoSection />
+      <ProductOverview />
+      <HowItWorks />
+      <UseCases />
+      <CaseStudy />
+      <PricingWrapper />
+      <Implementation />
+      <FaqSection />
+      <FinalCtaSection calendlyUrl={calendlyUrl} />
+      <FloatingCta calendlyUrl={calendlyUrl} />
+      <footer className="py-8 text-center border-t border-border">
+        <p className="text-muted-foreground text-xs">
+          © {new Date().getFullYear()} <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
+        </p>
+      </footer>
+    </div>
   );
 };
 
