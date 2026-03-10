@@ -390,23 +390,20 @@ const StartLanding = () => {
   return (
     <CalendlyContext.Provider value={calendlyUrl}>
       <div className="min-h-screen bg-background text-foreground">
-      <HeroSection />
-      <VideoSection />
-      <OfferSection />
-      <ProblemSection />
-      <SolutionSection />
-      <ForWhoSection />
-      <FinalCta />
-      <FloatingCta />
-
-      {/* Footer */}
-      <footer className="py-8 text-center border-t border-border">
-        <p className="text-muted-foreground text-xs">
-          Powered by <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
-        </p>
-      </footer>
-      </footer>
-    </div>
+        <HeroSection />
+        <VideoSection />
+        <OfferSection />
+        <ProblemSection />
+        <SolutionSection />
+        <ForWhoSection />
+        <FinalCta />
+        <FloatingCta />
+        <footer className="py-8 text-center border-t border-border">
+          <p className="text-muted-foreground text-xs">
+            Powered by <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
+          </p>
+        </footer>
+      </div>
     </CalendlyContext.Provider>
   );
 };
