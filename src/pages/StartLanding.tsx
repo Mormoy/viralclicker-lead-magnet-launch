@@ -75,7 +75,7 @@ const CountdownBlock = () => {
 };
 
 /* ─── CTA Button ─── */
-const CtaButton = ({ children, secondary = false, className = '' }: { children: React.ReactNode; secondary?: boolean; className?: string }) => (
+const CtaButton = ({ children, secondary = false, className = '', calendlyUrl = '' }: { children: React.ReactNode; secondary?: boolean; className?: string; calendlyUrl?: string }) => (
   <Button
     asChild
     size="lg"
@@ -86,7 +86,12 @@ const CtaButton = ({ children, secondary = false, className = '' }: { children: 
         : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
     } ${className}`}
   >
-    <a href={secondary ? '#video-demo' : CALENDLY_URL} target={secondary ? '_self' : '_blank'} rel="noopener noreferrer">
+    <a
+      href={secondary ? '#video-demo' : calendlyUrl}
+      target={secondary ? '_self' : '_blank'}
+      rel="noopener noreferrer"
+      data-cta={secondary ? 'see-how-it-works' : 'book-demo'}
+    >
       {children}
     </a>
   </Button>
