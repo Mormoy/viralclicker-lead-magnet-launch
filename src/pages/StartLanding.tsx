@@ -107,8 +107,8 @@ const CtaButton = ({ children, secondary = false, className = '' }: { children: 
   );
 };
 
-/* ─── Language Switcher (minimal, top-right) ─── */
-const LangSwitcher = () => {
+/* ─── Top Bar with Logo + Language Switcher ─── */
+const TopBar = () => {
   const { i18n } = useTranslation();
   const currentLang = i18n.language === 'es' ? 'ES' : 'EN';
 
@@ -118,30 +118,36 @@ const LangSwitcher = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="border-border bg-card/80 backdrop-blur-sm text-foreground hover:bg-card gap-1.5">
-            <Globe className="w-4 h-4" />
-            <span className="text-sm font-medium">{currentLang}</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-card border-border">
-          <DropdownMenuItem
-            onClick={() => changeLanguage('es')}
-            className={`cursor-pointer ${i18n.language === 'es' ? 'text-primary' : 'text-foreground'}`}
-          >
-            🇪🇸 Español
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => changeLanguage('en')}
-            className={`cursor-pointer ${i18n.language === 'en' ? 'text-primary' : 'text-foreground'}`}
-          >
-            🇺🇸 English
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <div className="flex items-center">
+          <span className="text-primary font-bold text-2xl">Viral</span>
+          <span className="text-foreground font-bold text-2xl">Clicker</span>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground gap-1.5">
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">{currentLang}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-card border-border">
+            <DropdownMenuItem
+              onClick={() => changeLanguage('es')}
+              className={`cursor-pointer ${i18n.language === 'es' ? 'text-primary' : 'text-foreground'}`}
+            >
+              🇪🇸 Español
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => changeLanguage('en')}
+              className={`cursor-pointer ${i18n.language === 'en' ? 'text-primary' : 'text-foreground'}`}
+            >
+              🇺🇸 English
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
   );
 };
 
