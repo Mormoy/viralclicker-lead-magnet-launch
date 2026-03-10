@@ -454,7 +454,7 @@ const StartLanding = () => {
   return (
     <CalendlyContext.Provider value={calendlyUrl}>
       <div className="min-h-screen bg-background text-foreground">
-        <LangSwitcher />
+        <TopBar />
         <HeroSection />
         <VideoSection />
         <OfferSection />
