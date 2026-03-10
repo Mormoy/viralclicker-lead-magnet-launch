@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, CreditCard, Shield, Check, Settings, Star } from 'lucide-react';
+import { ArrowLeft, CreditCard, Shield, Check, Info } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/logo';
@@ -22,30 +22,6 @@ const plans = {
   elite: { name: 'Elite', price: 449, priceId: 'price_elite' }
 };
 
-const setupOptions = {
-  simple: { 
-    id: 'simple',
-    name: 'Simple', 
-    price: 500, 
-    landings: 1,
-    features: ['1 landing page', 'Flujo básico de cotización', 'Configuración estándar']
-  },
-  standard: { 
-    id: 'standard',
-    name: 'Estándar', 
-    price: 1000, 
-    landings: 3,
-    features: ['Hasta 3 landing pages', 'Flujos personalizados', 'Landing Pack Pro incluido']
-  },
-  complex: { 
-    id: 'complex',
-    name: 'Complejo', 
-    price: 1600, 
-    landings: 5,
-    features: ['Hasta 5 landing pages', 'Integraciones ERP/Inventario', 'Catálogos grandes (30+ productos)']
-  }
-};
-
 const Checkout = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -54,7 +30,6 @@ const Checkout = () => {
   const initialPlanId = (searchParams.get('plan') || 'starter') as keyof typeof plans;
   
   const [selectedPlan, setSelectedPlan] = useState<keyof typeof plans>(initialPlanId);
-  const [selectedSetup, setSelectedSetup] = useState<keyof typeof setupOptions>('simple');
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     empresa: '',
@@ -70,8 +45,6 @@ const Checkout = () => {
   };
 
   const plan = plans[selectedPlan];
-  const setup = setupOptions[selectedSetup];
-  const totalFirstPayment = plan.price + setup.price;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +67,6 @@ const Checkout = () => {
         email: formData.correo,
         nombre: formData.nombre,
         empresa: formData.empresa,
-        setup: selectedSetup
       });
       const successUrl = `${baseUrl}/success?${successParams.toString()}`;
       const cancelUrl = `${baseUrl}/pago-fallido?plan=${selectedPlan}`;
@@ -102,7 +74,6 @@ const Checkout = () => {
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
           planId: selectedPlan,
-          setupType: selectedSetup,
           nombre: formData.nombre,
           empresa: formData.empresa,
           correo: formData.correo,
@@ -204,64 +175,17 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* Setup Selection */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-viralOrange" />
-              Elige tu tipo de Setup Inicial
-            </h2>
-            <p className="text-white/60 text-sm mb-4">
-              Selecciona el nivel de configuración que mejor se adapte a tu negocio (pago único)
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-4">
-              {Object.entries(setupOptions).map(([key, option]) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setSelectedSetup(key as keyof typeof setupOptions)}
-                  className={`relative text-left p-5 rounded-xl border-2 transition-all ${
-                    selectedSetup === key
-                      ? 'border-viralOrange bg-viralOrange/10'
-                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
-                  }`}
-                >
-                  {key === 'standard' && (
-                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-viralOrange text-white text-xs px-2 py-0.5 rounded-full font-semibold">
-                      Más común
-                    </span>
-                  )}
-                  
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white font-semibold">{option.name}</h3>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      selectedSetup === key ? 'border-viralOrange bg-viralOrange' : 'border-gray-500'
-                    }`}>
-                      {selectedSetup === key && <Check className="w-3 h-3 text-white" />}
-                    </div>
-                  </div>
-                  
-                  <p className="text-viralOrange font-bold text-2xl mb-3">${option.price.toLocaleString()}</p>
-                  
-                  <ul className="space-y-1.5">
-                    {option.features.map((feature, idx) => (
-                      <li key={idx} className="text-white/60 text-sm flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 text-viralOrange flex-shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {key === 'standard' && (
-                    <div className="mt-3 bg-viralOrange/20 rounded-lg p-2 border border-viralOrange/30">
-                      <p className="text-viralOrange text-xs flex items-center gap-1">
-                        <Star className="w-3 h-3" />
-                        Incluye Landing Pack Pro
-                      </p>
-                    </div>
-                  )}
-                </button>
-              ))}
+          {/* Setup Info Banner */}
+          <div className="mb-8 bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-5">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-viralOrange flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-white font-semibold text-sm mb-1">Pago único de Setup Inicial</h3>
+                <p className="text-white/60 text-sm">
+                  Además de tu plan mensual, se cobrará un pago único de configuración inicial que va desde <span className="text-viralOrange font-semibold">$500 a $2,000 USD</span> dependiendo de la complejidad de tu negocio (tamaño de catálogo, variables de cotización, integraciones, etc.). 
+                  El monto exacto se define en una reunión de onboarding una vez elijas tu plan.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -353,7 +277,7 @@ const Checkout = () => {
                   ) : (
                     <>
                       <CreditCard className="w-5 h-5 mr-2" />
-                      Continuar al pago - ${totalFirstPayment.toLocaleString()}
+                      Continuar al pago - ${plan.price}/mes
                     </>
                   )}
                 </Button>
@@ -386,34 +310,27 @@ const Checkout = () => {
                     </p>
                   </div>
 
-                  {/* Setup details */}
+                  {/* Setup note */}
                   <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-lg p-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-white font-semibold flex items-center gap-2">
-                        <Settings className="w-4 h-4 text-viralOrange" />
-                        Setup {setup.name}
-                      </span>
-                      <span className="text-viralOrange font-bold">
-                        ${setup.price.toLocaleString()}
-                      </span>
+                    <div className="flex items-start gap-2">
+                      <Info className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-semibold text-sm">Setup Inicial</span>
+                        <p className="text-white/50 text-xs mt-1">
+                          Pago único de $500 a $2,000 USD. Se define en reunión de onboarding según la complejidad de tu configuración.
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-white/50 text-xs">
-                      Pago único • {setup.landings} landing{setup.landings > 1 ? 's' : ''} incluida{setup.landings > 1 ? 's' : ''}
-                    </p>
                   </div>
 
                   {/* Total */}
                   <div className="border-t border-gray-700 pt-4 bg-viralOrange/10 -mx-6 px-6 py-4 rounded-b-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-white font-semibold">Total a pagar hoy:</span>
-                      <span className="text-viralOrange font-bold text-2xl">${totalFirstPayment.toLocaleString()}</span>
-                    </div>
-                    <div className="text-white/60 text-xs space-y-1">
-                      <p>• Plan {plan.name}: ${plan.price}</p>
-                      <p>• Setup {setup.name}: ${setup.price.toLocaleString()}</p>
+                      <span className="text-white font-semibold">Pago mensual:</span>
+                      <span className="text-viralOrange font-bold text-2xl">${plan.price}/mes</span>
                     </div>
                     <p className="text-white/50 text-xs mt-2 pt-2 border-t border-white/10">
-                      * Después del primer pago, se cobrará ${plan.price}/mes
+                      * El pago de setup se coordinará después de la reunión de onboarding.
                     </p>
                   </div>
 
