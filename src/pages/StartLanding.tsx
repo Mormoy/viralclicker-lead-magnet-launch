@@ -74,28 +74,34 @@ const CountdownBlock = () => {
   );
 };
 
+/* ─── Calendly URL Context ─── */
+const CalendlyContext = React.createContext(BASE_CALENDLY_URL);
+
 /* ─── CTA Button ─── */
-const CtaButton = ({ children, secondary = false, className = '', calendlyUrl = '' }: { children: React.ReactNode; secondary?: boolean; className?: string; calendlyUrl?: string }) => (
-  <Button
-    asChild
-    size="lg"
-    variant={secondary ? 'outline' : 'default'}
-    className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold ${
-      secondary
-        ? 'border-primary/40 text-primary hover:bg-primary/10'
-        : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
-    } ${className}`}
-  >
-    <a
-      href={secondary ? '#video-demo' : calendlyUrl}
-      target={secondary ? '_self' : '_blank'}
-      rel="noopener noreferrer"
-      data-cta={secondary ? 'see-how-it-works' : 'book-demo'}
+const CtaButton = ({ children, secondary = false, className = '' }: { children: React.ReactNode; secondary?: boolean; className?: string }) => {
+  const calendlyUrl = React.useContext(CalendlyContext);
+  return (
+    <Button
+      asChild
+      size="lg"
+      variant={secondary ? 'outline' : 'default'}
+      className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold ${
+        secondary
+          ? 'border-primary/40 text-primary hover:bg-primary/10'
+          : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
+      } ${className}`}
     >
-      {children}
-    </a>
-  </Button>
-);
+      <a
+        href={secondary ? '#video-demo' : calendlyUrl}
+        target={secondary ? '_self' : '_blank'}
+        rel="noopener noreferrer"
+        data-cta={secondary ? 'see-how-it-works' : 'book-demo'}
+      >
+        {children}
+      </a>
+    </Button>
+  );
+};
 
 /* ─── HERO ─── */
 const HeroSection = () => (
