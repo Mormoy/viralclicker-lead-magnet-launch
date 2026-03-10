@@ -1,10 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Calendar, ArrowRight, Clock, MessageCircle, FileText, Zap, Users, CheckCircle, AlertTriangle, Search, Bot, Wrench, Shield, Home, Sun, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSearchParams } from 'react-router-dom';
 
-const CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
+const BASE_CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
 const MAIN_SITE_URL = '/';
+
+/** Captures UTM params from the current URL and forwards them to outbound links */
+const useUtmParams = () => {
+  const [searchParams] = useSearchParams();
+
+  return useMemo(() => {
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    const params = new URLSearchParams();
+    utmKeys.forEach((key) => {
+      const val = searchParams.get(key);
+      if (val) params.set(key, val);
+    });
+    return params.toString();
+  }, [searchParams]);
+};
+
+/** Builds the Calendly URL with forwarded UTM params */
+const useCalendlyUrl = () => {
+  const utmString = useUtmParams();
+  return utmString ? `${BASE_CALENDLY_URL}?${utmString}` : BASE_CALENDLY_URL;
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -52,23 +74,34 @@ const CountdownBlock = () => {
   );
 };
 
+/* ─── Calendly URL Context ─── */
+const CalendlyContext = React.createContext(BASE_CALENDLY_URL);
+
 /* ─── CTA Button ─── */
-const CtaButton = ({ children, secondary = false, className = '' }: { children: React.ReactNode; secondary?: boolean; className?: string }) => (
-  <Button
-    asChild
-    size="lg"
-    variant={secondary ? 'outline' : 'default'}
-    className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold ${
-      secondary
-        ? 'border-primary/40 text-primary hover:bg-primary/10'
-        : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
-    } ${className}`}
-  >
-    <a href={secondary ? '#video-demo' : CALENDLY_URL} target={secondary ? '_self' : '_blank'} rel="noopener noreferrer">
-      {children}
-    </a>
-  </Button>
-);
+const CtaButton = ({ children, secondary = false, className = '' }: { children: React.ReactNode; secondary?: boolean; className?: string }) => {
+  const calendlyUrl = React.useContext(CalendlyContext);
+  return (
+    <Button
+      asChild
+      size="lg"
+      variant={secondary ? 'outline' : 'default'}
+      className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold ${
+        secondary
+          ? 'border-primary/40 text-primary hover:bg-primary/10'
+          : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_30px_hsl(25_100%_50%/0.35)]'
+      } ${className}`}
+    >
+      <a
+        href={secondary ? '#video-demo' : calendlyUrl}
+        target={secondary ? '_self' : '_blank'}
+        rel="noopener noreferrer"
+        data-cta={secondary ? 'see-how-it-works' : 'book-demo'}
+      >
+        {children}
+      </a>
+    </Button>
+  );
+};
 
 /* ─── HERO ─── */
 const HeroSection = () => (
@@ -337,37 +370,41 @@ const FinalCta = () => (
 );
 
 /* ─── Floating CTA (mobile) ─── */
-const FloatingCta = () => (
-  <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
-    <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
-      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
-        <Calendar className="w-5 h-5 mr-2" />
-        Book Your Demo
-      </a>
-    </Button>
-  </div>
-);
+const FloatingCta = () => {
+  const calendlyUrl = React.useContext(CalendlyContext);
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
+      <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
+        <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" data-cta="book-demo-floating">
+          <Calendar className="w-5 h-5 mr-2" />
+          Book Your Demo
+        </a>
+      </Button>
+    </div>
+  );
+};
 
 /* ─── PAGE ─── */
 const StartLanding = () => {
+  const calendlyUrl = useCalendlyUrl();
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <HeroSection />
-      <VideoSection />
-      <OfferSection />
-      <ProblemSection />
-      <SolutionSection />
-      <ForWhoSection />
-      <FinalCta />
-      <FloatingCta />
-
-      {/* Footer */}
-      <footer className="py-8 text-center border-t border-border">
-        <p className="text-muted-foreground text-xs">
-          Powered by <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
-        </p>
-      </footer>
-    </div>
+    <CalendlyContext.Provider value={calendlyUrl}>
+      <div className="min-h-screen bg-background text-foreground">
+        <HeroSection />
+        <VideoSection />
+        <OfferSection />
+        <ProblemSection />
+        <SolutionSection />
+        <ForWhoSection />
+        <FinalCta />
+        <FloatingCta />
+        <footer className="py-8 text-center border-t border-border">
+          <p className="text-muted-foreground text-xs">
+            Powered by <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
+          </p>
+        </footer>
+      </div>
+    </CalendlyContext.Provider>
   );
 };
 
