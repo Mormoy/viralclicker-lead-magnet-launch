@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Play, Calendar, ArrowRight, Clock, MessageCircle, FileText, Zap, Users, CheckCircle, AlertTriangle, Search, Bot, Wrench, Shield, Home, Sun, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const CALENDLY_URL = 'https://calendly.com/mormoy/viralclicker-demo';
+const CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
 const MAIN_SITE_URL = '/';
 
 const fadeUp = {
