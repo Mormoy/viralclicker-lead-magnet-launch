@@ -370,21 +370,26 @@ const FinalCta = () => (
 );
 
 /* ─── Floating CTA (mobile) ─── */
-const FloatingCta = ({ calendlyUrl }: { calendlyUrl: string }) => (
-  <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
-    <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
-      <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" data-cta="book-demo-floating">
-        <Calendar className="w-5 h-5 mr-2" />
-        Book Your Demo
-      </a>
-    </Button>
-  </div>
-);
+const FloatingCta = () => {
+  const calendlyUrl = React.useContext(CalendlyContext);
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:hidden">
+      <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base font-semibold rounded-xl shadow-[0_0_30px_hsl(25_100%_50%/0.4)]">
+        <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" data-cta="book-demo-floating">
+          <Calendar className="w-5 h-5 mr-2" />
+          Book Your Demo
+        </a>
+      </Button>
+    </div>
+  );
+};
 
 /* ─── PAGE ─── */
 const StartLanding = () => {
+  const calendlyUrl = useCalendlyUrl();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <CalendlyContext.Provider value={calendlyUrl}>
+      <div className="min-h-screen bg-background text-foreground">
       <HeroSection />
       <VideoSection />
       <OfferSection />
