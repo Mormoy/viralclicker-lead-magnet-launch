@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Star, CreditCard, MessageSquare, Settings, Wrench } from 'lucide-react';
+import { Check, Star, CreditCard, MessageSquare, Wrench, CalendarCheck, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,6 @@ import ComparisonTable from './comparison-table';
 import { cn } from '@/lib/utils';
 import PricingToggle, { BillingPeriod, AnnualDiscount } from './pricing-toggle';
 
-type SetupType = 'simple' | 'standard' | 'complex' | null;
 type PlanType = 'starter' | 'pro' | 'elite' | null;
 
 const PROMO_LAUNCH = true;
@@ -31,7 +30,6 @@ const PricingSection = () => {
   const [searchParams] = useSearchParams();
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
   const [annualDiscount, setAnnualDiscount] = useState<AnnualDiscount>('30');
-  const recommendedSetup = searchParams.get('setup') as SetupType;
   const recommendedPlan = searchParams.get('plan') as PlanType;
 
   const plans = [
@@ -142,66 +140,68 @@ const PricingSection = () => {
 
         <ComparisonTable />
 
-        {/* Setup Section */}
+        {/* Setup Info Banner */}
         <div className="max-w-4xl mx-auto mt-12 mb-6">
-          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-6">
+          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-8">
             <div className="text-center mb-6">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Settings className="w-6 h-6 text-viralOrange" />
-                <h4 className="text-white font-bold text-xl">{t('pricing.setupTitle')}</h4>
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <CalendarCheck className="w-7 h-7 text-viralOrange" />
+                <h4 className="text-white font-bold text-xl">{t('pricing.setupBannerTitle')}</h4>
               </div>
-              <p className="text-white/70 text-sm font-medium mb-1">{t('pricing.setupSubtitle')}</p>
-              <a href="https://wa.me/13051234567?text=Hi,%20I%20need%20an%20exact%20setup%20estimate" target="_blank" rel="noopener noreferrer" className="text-viralOrange hover:underline text-xs mt-2 inline-block" data-cta="whatsapp">
-                {t('pricing.setupNote', { defaultValue: 'Need an exact estimate? Talk on WhatsApp →' })}
-              </a>
+              <p className="text-white/80 text-base max-w-2xl mx-auto mb-4">
+                {t('pricing.setupBannerDesc')}
+              </p>
+              <div className="inline-flex items-center gap-2 bg-viralOrange/20 border border-viralOrange/40 rounded-full px-5 py-2 mb-5">
+                <span className="text-viralOrange font-bold text-lg">$500 – $2,000 USD</span>
+                <span className="text-white/60 text-sm">{t('pricing.setupBannerRange')}</span>
+              </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className={cn("rounded-xl p-5 border transition-all duration-300", recommendedSetup === 'simple' ? "bg-green-500/10 border-green-500 ring-2 ring-green-500/50" : "bg-gray-900/60 border-gray-700")}>
-                <div className="text-center mb-4">
-                  <span className="text-viralOrange font-bold text-2xl">$500</span>
-                  <h5 className="text-white font-semibold mt-1">{t('pricing.setupSimple')}</h5>
-                </div>
-                <ul className="text-white/60 text-sm space-y-2">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupSimple1')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupSimple2')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupSimple3')}</span></li>
+            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-6">
+              <div className="bg-gray-900/60 rounded-lg p-4 border border-gray-700/50">
+                <h5 className="text-white font-semibold text-sm mb-2">{t('pricing.setupIncludesTitle')}</h5>
+                <ul className="text-white/60 text-sm space-y-1.5">
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes1')}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes2')}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes3')}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes4')}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes5')}</span></li>
                 </ul>
               </div>
+              <div className="bg-gray-900/60 rounded-lg p-4 border border-gray-700/50">
+                <h5 className="text-white font-semibold text-sm mb-2">{t('pricing.setupProcessTitle')}</h5>
+                <ol className="text-white/60 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                    <span>{t('pricing.setupStep1')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                    <span>{t('pricing.setupStep2')}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                    <span>{t('pricing.setupStep3')}</span>
+                  </li>
+                </ol>
+              </div>
+            </div>
 
-              <div className={cn("rounded-xl p-5 border relative transition-all duration-300", recommendedSetup === 'standard' ? "bg-green-500/10 border-green-500 ring-2 ring-green-500/50" : "bg-gray-900/60 border-viralOrange/50")}>
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-viralOrange text-white px-3 py-0.5 rounded-full text-xs font-semibold">{t('pricing.setupMostCommon')}</span>
-                </div>
-                <div className="text-center mb-4 pt-2">
-                  <span className="text-viralOrange font-bold text-2xl">$1,000</span>
-                  <h5 className="text-white font-semibold mt-1">{t('pricing.setupStandard')}</h5>
-                </div>
-                <ul className="text-white/60 text-sm space-y-2">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupStandard1')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupStandard2')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupStandard3')}</span></li>
-                </ul>
-              </div>
-
-              <div className={cn("rounded-xl p-5 border relative transition-all duration-300", recommendedSetup === 'complex' ? "bg-green-500/10 border-green-500 ring-2 ring-green-500/50" : "bg-gray-900/60 border-gray-700")}>
-                <div className="text-center mb-4 pt-1">
-                  <span className="text-viralOrange font-bold text-2xl">$1,600</span>
-                  <h5 className="text-white font-semibold mt-1">{t('pricing.setupComplex')}</h5>
-                </div>
-                <ul className="text-white/60 text-sm space-y-2">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupComplex1')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupComplex2')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupComplex3')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupComplex4')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupComplex5')}</span></li>
-                </ul>
-              </div>
+            <div className="text-center">
+              <a
+                href="https://wa.me/13051234567?text=Hola,%20quiero%20más%20información%20sobre%20el%20setup%20inicial"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-viralOrange hover:text-viralOrange/80 font-semibold text-sm transition-colors"
+                data-cta="whatsapp-setup"
+              >
+                {t('pricing.setupCTA')} <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Important Info */}
+        {/* Important Info - simplified */}
         <div className="max-w-3xl mx-auto">
           <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
             <h4 className="text-white font-semibold mb-4 text-center text-lg">{t('pricing.infoTitle')}</h4>
@@ -214,11 +214,7 @@ const PricingSection = () => {
                 <div className="flex items-center gap-2 mb-2"><CreditCard className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.stripeTitle')}</span></div>
                 <p className="text-white/60 text-sm">{t('pricing.stripeDesc')}</p>
               </div>
-              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
-                <div className="flex items-center gap-2 mb-2"><Settings className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.setupInfoTitle')}</span></div>
-                <p className="text-white/60 text-sm">{t('pricing.setupInfoDesc')}</p>
-              </div>
-              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50 md:col-span-2">
                 <div className="flex items-center gap-2 mb-2"><Wrench className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.monthlyTitle')}</span></div>
                 <p className="text-white/60 text-sm">{t('pricing.monthlyDesc')}</p>
               </div>
