@@ -405,7 +405,9 @@ const StartLanding = () => {
           Powered by <span className="text-foreground font-medium">Mormoy LLC</span> · ViralClicker
         </p>
       </footer>
+      </footer>
     </div>
+    </CalendlyContext.Provider>
   );
 };
 
