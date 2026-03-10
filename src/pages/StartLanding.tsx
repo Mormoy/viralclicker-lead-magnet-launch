@@ -1,10 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Calendar, ArrowRight, Clock, MessageCircle, FileText, Zap, Users, CheckCircle, AlertTriangle, Search, Bot, Wrench, Shield, Home, Sun, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSearchParams } from 'react-router-dom';
 
-const CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
+const BASE_CALENDLY_URL = 'https://calendly.com/atacamacortinas/onbording-viralclicker';
 const MAIN_SITE_URL = '/';
+
+/** Captures UTM params from the current URL and forwards them to outbound links */
+const useUtmParams = () => {
+  const [searchParams] = useSearchParams();
+
+  return useMemo(() => {
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    const params = new URLSearchParams();
+    utmKeys.forEach((key) => {
+      const val = searchParams.get(key);
+      if (val) params.set(key, val);
+    });
+    return params.toString();
+  }, [searchParams]);
+};
+
+/** Builds the Calendly URL with forwarded UTM params */
+const useCalendlyUrl = () => {
+  const utmString = useUtmParams();
+  return utmString ? `${BASE_CALENDLY_URL}?${utmString}` : BASE_CALENDLY_URL;
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
