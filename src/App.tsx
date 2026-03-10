@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/use-auth";
 import ViralClicker from "./pages/ClickCRM";
+import StartLanding from "./pages/StartLanding";
 import Gracias from "./pages/Gracias";
 import Admin from "./pages/Admin";
 import AdminCotizaciones from "./pages/AdminCotizaciones";
@@ -47,6 +48,9 @@ const App = () => (
             <Route path="/pago-fallido" element={<PagoFallido />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/terminos" element={<Terminos />} />
+            <Route path="/start" element={<StartLanding />} />
+            <Route path="/demo" element={<StartLanding />} />
+            <Route path="/get-started" element={<StartLanding />} />
 
             {/* Smart Quote Pages (public) */}
             <Route path="/q/:slug" element={<SmartQuotePage />} />
