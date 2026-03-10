@@ -399,6 +399,7 @@ const FloatingCta = ({ calendlyUrl }: { calendlyUrl: string }) => {
 /* ─── PAGE ─── */
 const StartLanding = () => {
   const calendlyUrl = useCalendlyUrl();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
