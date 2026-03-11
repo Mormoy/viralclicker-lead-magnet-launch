@@ -14,6 +14,61 @@ export type Database = {
   }
   public: {
     Tables: {
+      automation_queue: {
+        Row: {
+          automation_id: string
+          created_at: string
+          deal_id: string | null
+          id: string
+          processed_at: string | null
+          scheduled_at: string
+          status: string
+          tenant_id: string
+        }
+        Insert: {
+          automation_id: string
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          processed_at?: string | null
+          scheduled_at: string
+          status?: string
+          tenant_id: string
+        }
+        Update: {
+          automation_id?: string
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          processed_at?: string | null
+          scheduled_at?: string
+          status?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_queue_automation_id_fkey"
+            columns: ["automation_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_automations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_queue_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_queue_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           calendly_event_date: string | null
@@ -297,6 +352,71 @@ export type Database = {
           },
         ]
       }
+      deal_activity: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deal_id: string
+          description: string
+          id: string
+          new_stage_id: string | null
+          old_stage_id: string | null
+          tenant_id: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deal_id: string
+          description: string
+          id?: string
+          new_stage_id?: string | null
+          old_stage_id?: string | null
+          tenant_id: string
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string
+          description?: string
+          id?: string
+          new_stage_id?: string | null
+          old_stage_id?: string | null
+          tenant_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_activity_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_activity_new_stage_id_fkey"
+            columns: ["new_stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_activity_old_stage_id_fkey"
+            columns: ["old_stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_activity_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       integrations_settings: {
         Row: {
           calendly_url: string | null
@@ -372,6 +492,53 @@ export type Database = {
             foreignKeyName: "leads_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding_progress: {
+        Row: {
+          created_at: string
+          dismissed: boolean
+          id: string
+          step_company: boolean
+          step_first_lead: boolean
+          step_integrations: boolean
+          step_quote_page: boolean
+          step_templates: boolean
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dismissed?: boolean
+          id?: string
+          step_company?: boolean
+          step_first_lead?: boolean
+          step_integrations?: boolean
+          step_quote_page?: boolean
+          step_templates?: boolean
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dismissed?: boolean
+          id?: string
+          step_company?: boolean
+          step_first_lead?: boolean
+          step_integrations?: boolean
+          step_quote_page?: boolean
+          step_templates?: boolean
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_progress_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
             referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
@@ -1187,6 +1354,95 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      whatsapp_automations: {
+        Row: {
+          created_at: string
+          delay_hours: number
+          id: string
+          is_active: boolean
+          template_id: string
+          tenant_id: string
+          trigger_event: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          delay_hours?: number
+          id?: string
+          is_active?: boolean
+          template_id: string
+          tenant_id: string
+          trigger_event: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          delay_hours?: number
+          id?: string
+          is_active?: boolean
+          template_id?: string
+          tenant_id?: string
+          trigger_event?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_automations_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_automations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_templates: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          message: string
+          name: string
+          tenant_id: string
+          updated_at: string
+          variables: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          message: string
+          name: string
+          tenant_id: string
+          updated_at?: string
+          variables?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          message?: string
+          name?: string
+          tenant_id?: string
+          updated_at?: string
+          variables?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_templates_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
