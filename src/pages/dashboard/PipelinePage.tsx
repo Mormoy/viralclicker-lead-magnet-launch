@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, MoreVertical, Phone, Mail, DollarSign, Clock, GripVertical, Loader2, Trash2, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { DealDetailPanel } from "@/components/dashboard/deal-detail-panel";
 
 interface StageConfig {
   id: string;
