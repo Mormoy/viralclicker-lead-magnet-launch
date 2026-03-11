@@ -16,11 +16,12 @@ import {
   Plug,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { label: "Pipeline", icon: Kanban, href: "/dashboard/pipeline" },
-  { label: "Leads", icon: Users, href: "/dashboard/leads" },
+  { label: "Leads", icon: Users, href: "/dashboard/leads", badgeKey: "leads" as const },
   { label: "Clientes", icon: UserCheck, href: "/dashboard/customers" },
   { label: "Quote Builder", icon: Calculator, href: "/dashboard/quote-builder" },
   { label: "Cotizaciones", icon: FileText, href: "/dashboard/quotes" },
@@ -34,6 +35,7 @@ export function DashboardSidebar() {
   const location = useLocation();
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [tenantName, setTenantName] = useState<string | null>(null);
+  const [newLeadsCount, setNewLeadsCount] = useState(0);
 
   useEffect(() => {
     if (!tenantId) return;
@@ -47,6 +49,17 @@ export function DashboardSidebar() {
           setLogoUrl((data as any).logo_url);
           setTenantName((data as any).name);
         }
+      });
+
+    // Count new leads from last 24h
+    const since = new Date(Date.now() - 24 * 3600000).toISOString();
+    supabase
+      .from("pipeline_deals")
+      .select("id", { count: "exact", head: true })
+      .eq("tenant_id", tenantId)
+      .gte("created_at", since)
+      .then(({ count }) => {
+        setNewLeadsCount(count || 0);
       });
   }, [tenantId]);
 
@@ -75,6 +88,7 @@ export function DashboardSidebar() {
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = location.pathname === item.href;
+          const badge = item.badgeKey === "leads" ? newLeadsCount : 0;
           return (
             <Link
               key={item.href}
@@ -86,7 +100,12 @@ export function DashboardSidebar() {
               }`}
             >
               <item.icon className="h-4 w-4" />
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {badge > 0 && (
+                <Badge className="bg-primary text-primary-foreground text-[10px] px-1.5 py-0 min-w-[18px] h-[18px] flex items-center justify-center">
+                  {badge}
+                </Badge>
+              )}
             </Link>
           );
         })}
