@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
+import { OnboardingChecklist } from "@/components/dashboard/onboarding-checklist";
+import { RecentActivity } from "@/components/dashboard/recent-activity";
 
 interface DealRow {
   id: string;
