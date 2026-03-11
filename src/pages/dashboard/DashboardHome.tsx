@@ -178,6 +178,9 @@ export default function DashboardHome() {
 
   return (
     <div className="space-y-6">
+      {/* Onboarding Checklist */}
+      <OnboardingChecklist />
+
       <div>
         <h1 className="text-2xl font-bold text-foreground mb-1">Dashboard</h1>
         <p className="text-muted-foreground">
