@@ -317,8 +317,16 @@ export default function PipelinePage() {
             );
           })}
         </div>
-        <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" />
       </ScrollArea>
+
+      <DealDetailPanel
+        deal={selectedDeal}
+        stages={stages}
+        open={!!selectedDeal}
+        onClose={() => setSelectedDeal(null)}
+        onDealUpdated={() => { fetchDeals(); }}
+      />
     </div>
   );
 }
