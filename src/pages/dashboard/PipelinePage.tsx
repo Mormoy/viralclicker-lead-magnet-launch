@@ -254,6 +254,7 @@ export default function PipelinePage() {
                               key={deal.id}
                               draggable
                               onDragStart={(e) => handleDragStart(e, deal.id)}
+                              onClick={() => setSelectedDeal(deal)}
                               className={`cursor-grab active:cursor-grabbing bg-background border hover:border-primary/40 transition-all ${draggedId === deal.id ? "opacity-50" : ""}`}
                             >
                               <CardContent className="p-3 space-y-2">
