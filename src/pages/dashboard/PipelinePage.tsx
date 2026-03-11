@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, MoreVertical, Phone, Mail, DollarSign, Clock, GripVertical, Loader2, Trash2, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { DealDetailPanel } from "@/components/dashboard/deal-detail-panel";
 
 interface StageConfig {
   id: string;
@@ -53,6 +54,7 @@ export default function PipelinePage() {
   const [showAdd, setShowAdd] = useState(false);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOverStageId, setDragOverStageId] = useState<string | null>(null);
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
   const fetchStages = useCallback(async () => {
     if (!tenantId) return;
@@ -252,6 +254,7 @@ export default function PipelinePage() {
                               key={deal.id}
                               draggable
                               onDragStart={(e) => handleDragStart(e, deal.id)}
+                              onClick={() => setSelectedDeal(deal)}
                               className={`cursor-grab active:cursor-grabbing bg-background border hover:border-primary/40 transition-all ${draggedId === deal.id ? "opacity-50" : ""}`}
                             >
                               <CardContent className="p-3 space-y-2">
@@ -315,8 +318,16 @@ export default function PipelinePage() {
             );
           })}
         </div>
-        <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" />
       </ScrollArea>
+
+      <DealDetailPanel
+        deal={selectedDeal}
+        stages={stages}
+        open={!!selectedDeal}
+        onClose={() => setSelectedDeal(null)}
+        onDealUpdated={() => { fetchDeals(); }}
+      />
     </div>
   );
 }

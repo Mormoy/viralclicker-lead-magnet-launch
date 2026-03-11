@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList } from "recharts";
+import { OnboardingChecklist } from "@/components/dashboard/onboarding-checklist";
+import { RecentActivity } from "@/components/dashboard/recent-activity";
 
 interface DealRow {
   id: string;
@@ -176,6 +178,9 @@ export default function DashboardHome() {
 
   return (
     <div className="space-y-6">
+      {/* Onboarding Checklist */}
+      <OnboardingChecklist />
+
       <div>
         <h1 className="text-2xl font-bold text-foreground mb-1">Dashboard</h1>
         <p className="text-muted-foreground">
@@ -372,6 +377,9 @@ export default function DashboardHome() {
           )}
         </CardContent>
       </Card>
+
+      {/* Recent Activity */}
+      <RecentActivity />
     </div>
   );
 }

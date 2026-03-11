@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Building2, Upload, Key, CreditCard, Calendar, Shield, Loader2, Check, Camera } from "lucide-react";
 import { toast } from "sonner";
+import { WhatsAppTemplatesSettings } from "@/components/dashboard/whatsapp-templates-settings";
+import { WhatsAppAutomationsSettings } from "@/components/dashboard/whatsapp-automations-settings";
 
 interface TenantInfo {
   id: string;
@@ -316,6 +318,12 @@ export default function SettingsPage() {
           </form>
         </CardContent>
       </Card>
+
+      {/* WhatsApp Templates */}
+      <WhatsAppTemplatesSettings />
+
+      {/* WhatsApp Automations */}
+      <WhatsAppAutomationsSettings />
     </div>
   );
 }
