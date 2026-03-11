@@ -318,6 +318,12 @@ export default function SettingsPage() {
           </form>
         </CardContent>
       </Card>
+
+      {/* WhatsApp Templates */}
+      <WhatsAppTemplatesSettings />
+
+      {/* WhatsApp Automations */}
+      <WhatsAppAutomationsSettings />
     </div>
   );
 }

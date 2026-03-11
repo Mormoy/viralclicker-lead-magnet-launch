@@ -377,6 +377,9 @@ export default function DashboardHome() {
           )}
         </CardContent>
       </Card>
+
+      {/* Recent Activity */}
+      <RecentActivity />
     </div>
   );
 }
