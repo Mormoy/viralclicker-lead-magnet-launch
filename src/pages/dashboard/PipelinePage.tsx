@@ -54,6 +54,7 @@ export default function PipelinePage() {
   const [showAdd, setShowAdd] = useState(false);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOverStageId, setDragOverStageId] = useState<string | null>(null);
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
   const fetchStages = useCallback(async () => {
     if (!tenantId) return;
