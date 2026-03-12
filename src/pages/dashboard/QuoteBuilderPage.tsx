@@ -47,8 +47,11 @@ interface QuoteService {
   pricing_model: string;
   base_price: number;
   price_formula: string | null;
+  installation_formula: string | null;
   min_price: number;
   max_price: number | null;
+  min_width: number | null;
+  min_height: number | null;
   is_active: boolean;
   sort_order: number;
 }
@@ -91,6 +94,7 @@ export default function QuoteBuilderPage() {
   const [showServiceDialog, setShowServiceDialog] = useState(false);
   const [showVariableDialog, setShowVariableDialog] = useState(false);
   const [showExtraDialog, setShowExtraDialog] = useState(false);
+  const [showFormulaDialog, setShowFormulaDialog] = useState(false);
 
   // Edit states
   const [editingPage, setEditingPage] = useState<QuotePage | null>(null);
@@ -103,6 +107,8 @@ export default function QuoteBuilderPage() {
   const [serviceForm, setServiceForm] = useState({ name: "", description: "", pricing_model: "fixed", base_price: 0, price_formula: "", category_id: "", min_price: 0, max_price: "" });
   const [variableForm, setVariableForm] = useState({ name: "", label: "", type: "select", is_required: false, affects_price: false, optionsText: "" });
   const [extraForm, setExtraForm] = useState({ name: "", description: "", price: 0, is_percentage: false });
+  const [formulaForm, setFormulaForm] = useState({ price_formula: "", installation_formula: "", min_width: "", min_height: "" });
+  const [editingFormulaService, setEditingFormulaService] = useState<QuoteService | null>(null);
 
   useEffect(() => {
     if (tenantId) fetchAll();
@@ -269,6 +275,21 @@ export default function QuoteBuilderPage() {
     fetchAll();
   };
 
+  const saveFormula = async () => {
+    if (!editingFormulaService) return;
+    const { error } = await supabase.from("quote_services").update({
+      price_formula: formulaForm.price_formula || null,
+      installation_formula: formulaForm.installation_formula || null,
+      min_width: formulaForm.min_width ? Number(formulaForm.min_width) : null,
+      min_height: formulaForm.min_height ? Number(formulaForm.min_height) : null,
+    } as any).eq("id", editingFormulaService.id);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Fórmula actualizada");
+    setShowFormulaDialog(false);
+    setEditingFormulaService(null);
+    fetchAll();
+  };
+
   if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Cargando...</div>;
 
   return (
@@ -281,10 +302,11 @@ export default function QuoteBuilderPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-4 w-full max-w-xl">
+        <TabsList className="grid grid-cols-5 w-full max-w-2xl">
           <TabsTrigger value="pages" className="gap-1"><FileText className="h-3 w-3" /> Páginas</TabsTrigger>
           <TabsTrigger value="categories" className="gap-1"><Layers className="h-3 w-3" /> Categorías</TabsTrigger>
           <TabsTrigger value="services" className="gap-1"><Package className="h-3 w-3" /> Servicios</TabsTrigger>
+          <TabsTrigger value="formulas" className="gap-1"><Settings2 className="h-3 w-3" /> Fórmulas</TabsTrigger>
           <TabsTrigger value="discounts" className="gap-1"><Tag className="h-3 w-3" /> Descuentos</TabsTrigger>
         </TabsList>
 
@@ -445,6 +467,98 @@ export default function QuoteBuilderPage() {
           )}
         </TabsContent>
 
+        {/* ===== FORMULAS TAB ===== */}
+        <TabsContent value="formulas" className="space-y-4">
+          <div>
+            <h2 className="text-xl font-bold text-foreground">Fórmulas de Cálculo</h2>
+            <p className="text-sm text-muted-foreground">Configura las fórmulas de precios e instalación para cada producto.</p>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2"><Settings2 className="h-4 w-4" /> Gestión de Fórmulas</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-muted/50 rounded-lg p-4 text-sm space-y-1 border">
+                <p><strong>Variables disponibles:</strong> {'{area}'}, {'{width}'}, {'{height}'}, {'{fabric_price}'}, {'{quantity}'}</p>
+                <p><strong>Operadores:</strong> +, -, *, /, (, )</p>
+                <p><strong>Ejemplo de precio:</strong> {'{area}'} * {'{fabric_price}'} * 1.3</p>
+                <p><strong>Ejemplo de instalación:</strong> {'{area}'} * 5000 + 15000</p>
+                <p className="text-muted-foreground"><strong>Nota:</strong> Si configuras medidas mínimas, el sistema usará el área mínima cuando las dimensiones sean menores.</p>
+              </div>
+
+              {services.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">No hay productos. Crea servicios primero en la pestaña "Servicios".</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b text-muted-foreground">
+                        <th className="text-left py-3 px-2 font-medium">Producto</th>
+                        <th className="text-left py-3 px-2 font-medium">Fórmula de Precio</th>
+                        <th className="text-left py-3 px-2 font-medium">Fórmula de Instalación</th>
+                        <th className="text-left py-3 px-2 font-medium">Medidas Mínimas</th>
+                        <th className="text-right py-3 px-2 font-medium">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {services.map((svc) => {
+                        const minArea = (svc.min_width && svc.min_height)
+                          ? ((svc.min_width / 100) * (svc.min_height / 100)).toFixed(2)
+                          : null;
+                        return (
+                          <tr key={svc.id} className="border-b last:border-0 hover:bg-muted/30">
+                            <td className="py-4 px-2 font-medium text-foreground">{svc.name}</td>
+                            <td className="py-4 px-2">
+                              {svc.price_formula ? (
+                                <code className="bg-muted px-2 py-1 rounded text-xs">{svc.price_formula}</code>
+                              ) : (
+                                <span className="text-muted-foreground italic">Sin fórmula</span>
+                              )}
+                            </td>
+                            <td className="py-4 px-2">
+                              {(svc as any).installation_formula ? (
+                                <code className="bg-muted px-2 py-1 rounded text-xs">{(svc as any).installation_formula}</code>
+                              ) : (
+                                <span className="text-muted-foreground italic">Sin fórmula</span>
+                              )}
+                            </td>
+                            <td className="py-4 px-2">
+                              {svc.min_width || svc.min_height ? (
+                                <div className="text-xs space-y-0.5">
+                                  {svc.min_width && <p>Ancho: {svc.min_width}cm</p>}
+                                  {svc.min_height && <p>Alto: {svc.min_height}cm</p>}
+                                  {minArea && <p>Área min: {minArea}m²</p>}
+                                </div>
+                              ) : (
+                                <span className="text-muted-foreground italic">Sin mínimos</span>
+                              )}
+                            </td>
+                            <td className="py-4 px-2 text-right">
+                              <Button size="sm" variant="outline" onClick={() => {
+                                setEditingFormulaService(svc);
+                                setFormulaForm({
+                                  price_formula: svc.price_formula || "",
+                                  installation_formula: (svc as any).installation_formula || "",
+                                  min_width: svc.min_width?.toString() || "",
+                                  min_height: svc.min_height?.toString() || "",
+                                });
+                                setShowFormulaDialog(true);
+                              }}>
+                                <Edit className="h-4 w-4 mr-1" /> Editar
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* ===== DISCOUNTS TAB ===== */}
         <TabsContent value="discounts">
           <Card>
@@ -582,6 +696,61 @@ export default function QuoteBuilderPage() {
               <div className="flex items-end"><label className="flex items-center gap-2 text-sm pb-2"><Switch checked={extraForm.is_percentage} onCheckedChange={(v) => setExtraForm({ ...extraForm, is_percentage: v })} /> Es porcentaje (%)</label></div>
             </div>
             <Button className="w-full" onClick={saveExtra}>Crear Extra</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Formula Dialog */}
+      <Dialog open={showFormulaDialog} onOpenChange={setShowFormulaDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Editar Fórmulas — {editingFormulaService?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Fórmula de Precio</Label>
+              <Input
+                value={formulaForm.price_formula}
+                onChange={(e) => setFormulaForm({ ...formulaForm, price_formula: e.target.value })}
+                placeholder="({area} * {fabric_price}) * {quantity}"
+              />
+              <p className="text-xs text-muted-foreground mt-1">Variables: {'{area}'}, {'{width}'}, {'{height}'}, {'{fabric_price}'}, {'{quantity}'}</p>
+            </div>
+            <div>
+              <Label>Fórmula de Instalación</Label>
+              <Input
+                value={formulaForm.installation_formula}
+                onChange={(e) => setFormulaForm({ ...formulaForm, installation_formula: e.target.value })}
+                placeholder="{area} * Math.ceil({area}) * 7500"
+              />
+              <p className="text-xs text-muted-foreground mt-1">Dejar vacío si no aplica instalación por fórmula</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Ancho mínimo (cm)</Label>
+                <Input
+                  type="number"
+                  value={formulaForm.min_width}
+                  onChange={(e) => setFormulaForm({ ...formulaForm, min_width: e.target.value })}
+                  placeholder="100"
+                />
+              </div>
+              <div>
+                <Label>Alto mínimo (cm)</Label>
+                <Input
+                  type="number"
+                  value={formulaForm.min_height}
+                  onChange={(e) => setFormulaForm({ ...formulaForm, min_height: e.target.value })}
+                  placeholder="100"
+                />
+              </div>
+            </div>
+            {formulaForm.min_width && formulaForm.min_height && (
+              <p className="text-xs text-muted-foreground">
+                Área mínima: {((Number(formulaForm.min_width) / 100) * (Number(formulaForm.min_height) / 100)).toFixed(2)}m²
+              </p>
+            )}
+            <Button className="w-full" onClick={saveFormula}>Guardar Fórmulas</Button>
           </div>
         </DialogContent>
       </Dialog>

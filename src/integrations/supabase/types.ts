@@ -1280,9 +1280,12 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          installation_formula: string | null
           is_active: boolean
           max_price: number | null
+          min_height: number | null
           min_price: number | null
+          min_width: number | null
           name: string
           price_formula: string | null
           pricing_model: Database["public"]["Enums"]["pricing_model"]
@@ -1297,9 +1300,12 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          installation_formula?: string | null
           is_active?: boolean
           max_price?: number | null
+          min_height?: number | null
           min_price?: number | null
+          min_width?: number | null
           name: string
           price_formula?: string | null
           pricing_model?: Database["public"]["Enums"]["pricing_model"]
@@ -1314,9 +1320,12 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          installation_formula?: string | null
           is_active?: boolean
           max_price?: number | null
+          min_height?: number | null
           min_price?: number | null
+          min_width?: number | null
           name?: string
           price_formula?: string | null
           pricing_model?: Database["public"]["Enums"]["pricing_model"]
