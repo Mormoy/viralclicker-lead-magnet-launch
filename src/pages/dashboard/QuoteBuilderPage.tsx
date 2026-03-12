@@ -275,6 +275,21 @@ export default function QuoteBuilderPage() {
     fetchAll();
   };
 
+  const saveFormula = async () => {
+    if (!editingFormulaService) return;
+    const { error } = await supabase.from("quote_services").update({
+      price_formula: formulaForm.price_formula || null,
+      installation_formula: formulaForm.installation_formula || null,
+      min_width: formulaForm.min_width ? Number(formulaForm.min_width) : null,
+      min_height: formulaForm.min_height ? Number(formulaForm.min_height) : null,
+    } as any).eq("id", editingFormulaService.id);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Fórmula actualizada");
+    setShowFormulaDialog(false);
+    setEditingFormulaService(null);
+    fetchAll();
+  };
+
   if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Cargando...</div>;
 
   return (
