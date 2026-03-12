@@ -78,6 +78,7 @@ const App = () => (
               <Route path="customers" element={<CustomersPage />} />
               <Route path="quote-builder" element={<QuoteBuilderPage />} />
               <Route path="quotes" element={<QuotesListPage />} />
+              <Route path="new-quote" element={<NewQuotePage />} />
               <Route path="operations" element={<OperationsPage />} />
               <Route path="finances" element={<FinancesPage />} />
               <Route path="automation" element={<AutomationQueuePage />} />
