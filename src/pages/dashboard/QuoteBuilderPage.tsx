@@ -107,6 +107,8 @@ export default function QuoteBuilderPage() {
   const [serviceForm, setServiceForm] = useState({ name: "", description: "", pricing_model: "fixed", base_price: 0, price_formula: "", category_id: "", min_price: 0, max_price: "" });
   const [variableForm, setVariableForm] = useState({ name: "", label: "", type: "select", is_required: false, affects_price: false, optionsText: "" });
   const [extraForm, setExtraForm] = useState({ name: "", description: "", price: 0, is_percentage: false });
+  const [formulaForm, setFormulaForm] = useState({ price_formula: "", installation_formula: "", min_width: "", min_height: "" });
+  const [editingFormulaService, setEditingFormulaService] = useState<QuoteService | null>(null);
 
   useEffect(() => {
     if (tenantId) fetchAll();
