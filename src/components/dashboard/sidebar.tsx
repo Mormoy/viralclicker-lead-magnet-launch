@@ -30,6 +30,7 @@ const navItems = [
   { label: "Finanzas", icon: TrendingUp, href: "/dashboard/finances" },
   { label: "Quote Builder", icon: Calculator, href: "/dashboard/quote-builder" },
   { label: "Cotizaciones", icon: FileText, href: "/dashboard/quotes" },
+  { label: "Nueva Cotización", icon: FileText, href: "/dashboard/new-quote" },
   { label: "Automatización", icon: Bot, href: "/dashboard/automation" },
   { label: "Campañas", icon: Megaphone, href: "/dashboard/campaigns" },
   { label: "Integraciones", icon: Plug, href: "/dashboard/integrations" },
