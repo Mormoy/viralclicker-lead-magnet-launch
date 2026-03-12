@@ -94,6 +94,7 @@ export default function QuoteBuilderPage() {
   const [showServiceDialog, setShowServiceDialog] = useState(false);
   const [showVariableDialog, setShowVariableDialog] = useState(false);
   const [showExtraDialog, setShowExtraDialog] = useState(false);
+  const [showFormulaDialog, setShowFormulaDialog] = useState(false);
 
   // Edit states
   const [editingPage, setEditingPage] = useState<QuotePage | null>(null);
