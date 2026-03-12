@@ -699,6 +699,61 @@ export default function QuoteBuilderPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Formula Dialog */}
+      <Dialog open={showFormulaDialog} onOpenChange={setShowFormulaDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Editar Fórmulas — {editingFormulaService?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Fórmula de Precio</Label>
+              <Input
+                value={formulaForm.price_formula}
+                onChange={(e) => setFormulaForm({ ...formulaForm, price_formula: e.target.value })}
+                placeholder="({area} * {fabric_price}) * {quantity}"
+              />
+              <p className="text-xs text-muted-foreground mt-1">Variables: {'{area}'}, {'{width}'}, {'{height}'}, {'{fabric_price}'}, {'{quantity}'}</p>
+            </div>
+            <div>
+              <Label>Fórmula de Instalación</Label>
+              <Input
+                value={formulaForm.installation_formula}
+                onChange={(e) => setFormulaForm({ ...formulaForm, installation_formula: e.target.value })}
+                placeholder="{area} * Math.ceil({area}) * 7500"
+              />
+              <p className="text-xs text-muted-foreground mt-1">Dejar vacío si no aplica instalación por fórmula</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Ancho mínimo (cm)</Label>
+                <Input
+                  type="number"
+                  value={formulaForm.min_width}
+                  onChange={(e) => setFormulaForm({ ...formulaForm, min_width: e.target.value })}
+                  placeholder="100"
+                />
+              </div>
+              <div>
+                <Label>Alto mínimo (cm)</Label>
+                <Input
+                  type="number"
+                  value={formulaForm.min_height}
+                  onChange={(e) => setFormulaForm({ ...formulaForm, min_height: e.target.value })}
+                  placeholder="100"
+                />
+              </div>
+            </div>
+            {formulaForm.min_width && formulaForm.min_height && (
+              <p className="text-xs text-muted-foreground">
+                Área mínima: {((Number(formulaForm.min_width) / 100) * (Number(formulaForm.min_height) / 100)).toFixed(2)}m²
+              </p>
+            )}
+            <Button className="w-full" onClick={saveFormula}>Guardar Fórmulas</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
