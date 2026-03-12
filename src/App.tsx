@@ -32,6 +32,7 @@ import QuoteViewPage from "./pages/QuoteViewPage";
 import OperationsPage from "./pages/dashboard/OperationsPage";
 import FinancesPage from "./pages/dashboard/FinancesPage";
 import AutomationQueuePage from "./pages/dashboard/AutomationQueuePage";
+import NewQuotePage from "./pages/dashboard/NewQuotePage";
 
 const queryClient = new QueryClient();
 
