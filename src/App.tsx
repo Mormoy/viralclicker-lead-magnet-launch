@@ -29,6 +29,9 @@ import QuotesListPage from "./pages/dashboard/QuotesListPage";
 import SmartQuotePage from "./pages/SmartQuotePage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 import QuoteViewPage from "./pages/QuoteViewPage";
+import OperationsPage from "./pages/dashboard/OperationsPage";
+import FinancesPage from "./pages/dashboard/FinancesPage";
+import AutomationQueuePage from "./pages/dashboard/AutomationQueuePage";
 
 const queryClient = new QueryClient();
 

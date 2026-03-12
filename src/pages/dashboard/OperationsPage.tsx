@@ -61,7 +61,7 @@ export default function OperationsPage() {
         .eq("tenant_id", tenantId)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []) as WorkOrder[];
+      return (data || []) as unknown as WorkOrder[];
     },
     enabled: !!tenantId,
   });
