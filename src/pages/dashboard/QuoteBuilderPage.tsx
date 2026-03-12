@@ -302,10 +302,11 @@ export default function QuoteBuilderPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-4 w-full max-w-xl">
+        <TabsList className="grid grid-cols-5 w-full max-w-2xl">
           <TabsTrigger value="pages" className="gap-1"><FileText className="h-3 w-3" /> Páginas</TabsTrigger>
           <TabsTrigger value="categories" className="gap-1"><Layers className="h-3 w-3" /> Categorías</TabsTrigger>
           <TabsTrigger value="services" className="gap-1"><Package className="h-3 w-3" /> Servicios</TabsTrigger>
+          <TabsTrigger value="formulas" className="gap-1"><Settings2 className="h-3 w-3" /> Fórmulas</TabsTrigger>
           <TabsTrigger value="discounts" className="gap-1"><Tag className="h-3 w-3" /> Descuentos</TabsTrigger>
         </TabsList>
 
