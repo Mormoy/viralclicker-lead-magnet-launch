@@ -47,8 +47,11 @@ interface QuoteService {
   pricing_model: string;
   base_price: number;
   price_formula: string | null;
+  installation_formula: string | null;
   min_price: number;
   max_price: number | null;
+  min_width: number | null;
+  min_height: number | null;
   is_active: boolean;
   sort_order: number;
 }
