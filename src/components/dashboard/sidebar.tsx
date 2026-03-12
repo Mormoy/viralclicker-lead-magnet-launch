@@ -14,17 +14,23 @@ import {
   Kanban,
   Megaphone,
   Plug,
+  Factory,
+  TrendingUp,
+  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-  { label: "Pipeline", icon: Kanban, href: "/dashboard/pipeline" },
-  { label: "Leads", icon: Users, href: "/dashboard/leads", badgeKey: "leads" as const },
+  { label: "Pipeline", icon: Kanban, href: "/dashboard/pipeline", badgeKey: "leads" as const },
+  { label: "Leads", icon: Users, href: "/dashboard/leads" },
   { label: "Clientes", icon: UserCheck, href: "/dashboard/customers" },
+  { label: "Operaciones", icon: Factory, href: "/dashboard/operations" },
+  { label: "Finanzas", icon: TrendingUp, href: "/dashboard/finances" },
   { label: "Quote Builder", icon: Calculator, href: "/dashboard/quote-builder" },
   { label: "Cotizaciones", icon: FileText, href: "/dashboard/quotes" },
+  { label: "Automatización", icon: Bot, href: "/dashboard/automation" },
   { label: "Campañas", icon: Megaphone, href: "/dashboard/campaigns" },
   { label: "Integraciones", icon: Plug, href: "/dashboard/integrations" },
   { label: "Configuración", icon: Settings, href: "/dashboard/settings" },
@@ -51,7 +57,6 @@ export function DashboardSidebar() {
         }
       });
 
-    // Count new leads from last 24h
     const since = new Date(Date.now() - 24 * 3600000).toISOString();
     supabase
       .from("pipeline_deals")

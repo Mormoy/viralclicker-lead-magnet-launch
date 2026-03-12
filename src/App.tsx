@@ -29,6 +29,9 @@ import QuotesListPage from "./pages/dashboard/QuotesListPage";
 import SmartQuotePage from "./pages/SmartQuotePage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
 import QuoteViewPage from "./pages/QuoteViewPage";
+import OperationsPage from "./pages/dashboard/OperationsPage";
+import FinancesPage from "./pages/dashboard/FinancesPage";
+import AutomationQueuePage from "./pages/dashboard/AutomationQueuePage";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +77,9 @@ const App = () => (
               <Route path="customers" element={<CustomersPage />} />
               <Route path="quote-builder" element={<QuoteBuilderPage />} />
               <Route path="quotes" element={<QuotesListPage />} />
+              <Route path="operations" element={<OperationsPage />} />
+              <Route path="finances" element={<FinancesPage />} />
+              <Route path="automation" element={<AutomationQueuePage />} />
               <Route path="integrations" element={<IntegrationsPage />} />
               <Route path="settings" element={<SettingsPage />} />
             </Route>
