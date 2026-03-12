@@ -14,36 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action_type: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          new_value: string | null
+          old_value: string | null
+          template_name: string | null
+          tenant_id: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          template_name?: string | null
+          tenant_id: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          template_name?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       automation_queue: {
         Row: {
           automation_id: string
           created_at: string
           deal_id: string | null
+          entity_type: string | null
+          error_message: string | null
           id: string
+          message_template: string | null
           processed_at: string | null
+          recipient_phone: string | null
           scheduled_at: string
+          sent_at: string | null
           status: string
           tenant_id: string
+          trigger_event: string | null
         }
         Insert: {
           automation_id: string
           created_at?: string
           deal_id?: string | null
+          entity_type?: string | null
+          error_message?: string | null
           id?: string
+          message_template?: string | null
           processed_at?: string | null
+          recipient_phone?: string | null
           scheduled_at: string
+          sent_at?: string | null
           status?: string
           tenant_id: string
+          trigger_event?: string | null
         }
         Update: {
           automation_id?: string
           created_at?: string
           deal_id?: string | null
+          entity_type?: string | null
+          error_message?: string | null
           id?: string
+          message_template?: string | null
           processed_at?: string | null
+          recipient_phone?: string | null
           scheduled_at?: string
+          sent_at?: string | null
           status?: string
           tenant_id?: string
+          trigger_event?: string | null
         }
         Relationships: [
           {
@@ -352,6 +420,86 @@ export type Database = {
           },
         ]
       }
+      customer_payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          created_by: string | null
+          deal_id: string | null
+          id: string
+          notes: string | null
+          payment_date: string | null
+          payment_method: string
+          payment_number: number | null
+          quote_id: string | null
+          receipt_number: string | null
+          tenant_id: string
+          updated_at: string | null
+          work_order_id: string | null
+        }
+        Insert: {
+          amount?: number
+          created_at?: string | null
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          notes?: string | null
+          payment_date?: string | null
+          payment_method?: string
+          payment_number?: number | null
+          quote_id?: string | null
+          receipt_number?: string | null
+          tenant_id: string
+          updated_at?: string | null
+          work_order_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          notes?: string | null
+          payment_date?: string | null
+          payment_method?: string
+          payment_number?: number | null
+          quote_id?: string | null
+          receipt_number?: string | null
+          tenant_id?: string
+          updated_at?: string | null
+          work_order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_payments_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_payments_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_payments_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_payments_work_order_id_fkey"
+            columns: ["work_order_id"]
+            isOneToOne: false
+            referencedRelation: "work_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       deal_activity: {
         Row: {
           created_at: string
@@ -546,12 +694,22 @@ export type Database = {
       }
       pipeline_deals: {
         Row: {
+          assigned_at: string | null
+          assigned_to: string | null
           city: string | null
           company: string | null
           created_at: string
           email: string | null
+          final_value: number | null
+          first_contact_at: string | null
           id: string
+          internal_notes: string | null
+          last_interaction_at: string | null
+          loss_reason: string | null
+          loss_reason_detail: string | null
           name: string
+          next_action: string | null
+          next_action_at: string | null
           next_followup: string | null
           notes: string | null
           phone: string | null
@@ -559,17 +717,32 @@ export type Database = {
           source: string | null
           stage: Database["public"]["Enums"]["pipeline_stage"]
           stage_id: string | null
+          tags: string[] | null
           tenant_id: string
           updated_at: string
           value: number | null
+          visit_address: string | null
+          visit_completed_at: string | null
+          visit_notes: string | null
+          visit_scheduled_at: string | null
         }
         Insert: {
+          assigned_at?: string | null
+          assigned_to?: string | null
           city?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
+          final_value?: number | null
+          first_contact_at?: string | null
           id?: string
+          internal_notes?: string | null
+          last_interaction_at?: string | null
+          loss_reason?: string | null
+          loss_reason_detail?: string | null
           name: string
+          next_action?: string | null
+          next_action_at?: string | null
           next_followup?: string | null
           notes?: string | null
           phone?: string | null
@@ -577,17 +750,32 @@ export type Database = {
           source?: string | null
           stage?: Database["public"]["Enums"]["pipeline_stage"]
           stage_id?: string | null
+          tags?: string[] | null
           tenant_id: string
           updated_at?: string
           value?: number | null
+          visit_address?: string | null
+          visit_completed_at?: string | null
+          visit_notes?: string | null
+          visit_scheduled_at?: string | null
         }
         Update: {
+          assigned_at?: string | null
+          assigned_to?: string | null
           city?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
+          final_value?: number | null
+          first_contact_at?: string | null
           id?: string
+          internal_notes?: string | null
+          last_interaction_at?: string | null
+          loss_reason?: string | null
+          loss_reason_detail?: string | null
           name?: string
+          next_action?: string | null
+          next_action_at?: string | null
           next_followup?: string | null
           notes?: string | null
           phone?: string | null
@@ -595,9 +783,14 @@ export type Database = {
           source?: string | null
           stage?: Database["public"]["Enums"]["pipeline_stage"]
           stage_id?: string | null
+          tags?: string[] | null
           tenant_id?: string
           updated_at?: string
           value?: number | null
+          visit_address?: string | null
+          visit_completed_at?: string | null
+          visit_notes?: string | null
+          visit_scheduled_at?: string | null
         }
         Relationships: [
           {
@@ -1437,6 +1630,118 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "whatsapp_templates_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      work_orders: {
+        Row: {
+          actual_delivery_date: string | null
+          assigned_to: string | null
+          created_at: string | null
+          created_by: string | null
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          deal_id: string | null
+          estimated_days: number | null
+          estimated_delivery_date: string | null
+          final_payment_amount: number | null
+          final_payment_confirmed: boolean | null
+          final_payment_date: string | null
+          id: string
+          initial_payment_amount: number | null
+          initial_payment_confirmed: boolean | null
+          initial_payment_date: string | null
+          internal_notes: string | null
+          order_number: string
+          priority: string | null
+          production_notes: string | null
+          quote_id: string | null
+          start_date: string | null
+          status: string
+          supplier_cost: number | null
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          actual_delivery_date?: string | null
+          assigned_to?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          deal_id?: string | null
+          estimated_days?: number | null
+          estimated_delivery_date?: string | null
+          final_payment_amount?: number | null
+          final_payment_confirmed?: boolean | null
+          final_payment_date?: string | null
+          id?: string
+          initial_payment_amount?: number | null
+          initial_payment_confirmed?: boolean | null
+          initial_payment_date?: string | null
+          internal_notes?: string | null
+          order_number?: string
+          priority?: string | null
+          production_notes?: string | null
+          quote_id?: string | null
+          start_date?: string | null
+          status?: string
+          supplier_cost?: number | null
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          actual_delivery_date?: string | null
+          assigned_to?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          deal_id?: string | null
+          estimated_days?: number | null
+          estimated_delivery_date?: string | null
+          final_payment_amount?: number | null
+          final_payment_confirmed?: boolean | null
+          final_payment_date?: string | null
+          id?: string
+          initial_payment_amount?: number | null
+          initial_payment_confirmed?: boolean | null
+          initial_payment_date?: string | null
+          internal_notes?: string | null
+          order_number?: string
+          priority?: string | null
+          production_notes?: string | null
+          quote_id?: string | null
+          start_date?: string | null
+          status?: string
+          supplier_cost?: number | null
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "work_orders_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "work_orders_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "work_orders_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
