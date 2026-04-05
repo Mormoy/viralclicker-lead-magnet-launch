@@ -1,228 +1,295 @@
-import { useState } from 'react';
-import { Check, Star, CreditCard, MessageSquare, Wrench, CalendarCheck, ArrowRight } from 'lucide-react';
+import { Check, X, Star, Crown, Zap, Rocket, Building2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import ComparisonTable from './comparison-table';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import PricingToggle, { BillingPeriod, AnnualDiscount } from './pricing-toggle';
+import { Badge } from '@/components/ui/badge';
 
-type PlanType = 'starter' | 'pro' | 'elite' | null;
+interface PlanFeature {
+  text: string;
+  included: boolean;
+}
 
-const PROMO_LAUNCH = true;
-const BASE_PRICES = { starter: 99, pro: 249, elite: 449 };
+interface Plan {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  price: number;
+  setup: string;
+  popular: boolean;
+  icon: React.ElementType;
+  features: PlanFeature[];
+  support: string;
+  limits?: string;
+  accentClass: string;
+  borderClass: string;
+  bgClass: string;
+  btnClass: string;
+}
 
-const calculatePricing = (monthlyPrice: number, billingPeriod: BillingPeriod, annualDiscount: AnnualDiscount) => {
-  const anualFull = monthlyPrice * 12;
-  if (billingPeriod === 'monthly') {
-    return { displayPrice: monthlyPrice, period: '/mo', originalMonthly: null, effectiveMonthly: null, annualTotal: null, savings: null };
-  }
-  const discountMultiplier = annualDiscount === '40' ? 0.60 : 0.70;
-  const annualPrice = Math.round(anualFull * discountMultiplier);
-  const effectiveMonthly = Math.round(annualPrice / 12);
-  const savings = anualFull - annualPrice;
-  return { displayPrice: annualPrice, period: '/yr', originalMonthly: monthlyPrice, effectiveMonthly, annualTotal: annualPrice, savings };
-};
+const plans: Plan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    tagline: 'Try it free',
+    description: 'For the small business that wants to try with no risk',
+    price: 0,
+    setup: 'Free',
+    popular: false,
+    icon: Zap,
+    features: [
+      { text: 'Basic CRM with no time limit', included: true },
+      { text: 'Standard quote builder (predefined)', included: true },
+      { text: 'Manual sales pipeline', included: true },
+      { text: 'Self-service video tutorials', included: true },
+      { text: 'No support meetings', included: false },
+      { text: 'No automations', included: false },
+      { text: 'No custom quote builder', included: false },
+    ],
+    support: 'WhatsApp response within 48h',
+    limits: 'Up to 50 quotes · 1 user · ViralClicker watermark',
+    accentClass: 'text-gray-400',
+    borderClass: 'border-gray-700',
+    bgClass: 'bg-gray-800/40',
+    btnClass: 'bg-gray-700 hover:bg-gray-600',
+  },
+  {
+    id: 'basic',
+    name: 'Basic',
+    tagline: 'Starter',
+    description: 'For the business that already tried it and wants the full system',
+    price: 29,
+    setup: 'Free',
+    popular: false,
+    icon: Rocket,
+    features: [
+      { text: 'CRM with unlimited quotes', included: true },
+      { text: 'Standard quote builder (fixed products and prices)', included: true },
+      { text: 'Manual sales pipeline', included: true },
+      { text: 'Full client history', included: true },
+      { text: 'No automated WhatsApp', included: false },
+      { text: 'No automations', included: false },
+    ],
+    support: 'WhatsApp response within 24h',
+    accentClass: 'text-blue-400',
+    borderClass: 'border-blue-500/30',
+    bgClass: 'bg-blue-500/5',
+    btnClass: 'bg-blue-600 hover:bg-blue-700',
+  },
+  {
+    id: 'growth',
+    name: 'Growth',
+    tagline: 'Most popular',
+    description: 'For the active business that wants to automate follow-up',
+    price: 99,
+    setup: '$199 one-time setup',
+    popular: true,
+    icon: Star,
+    features: [
+      { text: 'Custom quote builder (products + prices + taxes)', included: true },
+      { text: 'Pipeline configured with your real business stages', included: true },
+      { text: 'WhatsApp Business connected to CRM', included: true },
+      { text: 'Automated Follow-up Agent (monitors pipeline 24/7)', included: true },
+      { text: 'Automatic alerts to sales rep for stalled quotes', included: true },
+      { text: 'Quote builder embedded as iframe on your website', included: true },
+      { text: 'Automatic messages to client on every status change', included: true },
+    ],
+    support: 'WhatsApp within 12h (Mon–Fri) · 2 Zoom calls/mo',
+    accentClass: 'text-viralOrange',
+    borderClass: 'border-viralOrange',
+    bgClass: 'bg-gradient-to-b from-viralOrange/15 to-gray-900',
+    btnClass: 'bg-viralOrange hover:bg-viralOrange/90',
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'With AI Agents',
+    description: 'For the established business that wants to automate everything',
+    price: 149,
+    setup: '$349 one-time setup',
+    popular: false,
+    icon: Crown,
+    features: [
+      { text: 'Everything in Growth included', included: true },
+      { text: 'Auto-Quote Agent (calculates price + generates PDF + sends via WhatsApp)', included: true },
+      { text: 'Cold Lead Revival Agent (recovers lost sales automatically)', included: true },
+      { text: 'Post-Sale & Referral Agent (requests review + referral automatically)', included: true },
+      { text: 'Approved WhatsApp templates via Meta Business', included: true },
+      { text: 'Cal.com integrated: appointments book themselves', included: true },
+      { text: 'Sales team onboarding & training included', included: true },
+    ],
+    support: 'WhatsApp within 4h (Mon–Sat) · 4 Zoom calls/mo',
+    accentClass: 'text-purple-400',
+    borderClass: 'border-purple-500/40',
+    bgClass: 'bg-purple-500/5',
+    btnClass: 'bg-purple-600 hover:bg-purple-700',
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    tagline: 'All inclusive',
+    description: 'For the full operation that wants everything automated',
+    price: 199,
+    setup: '$499 one-time setup',
+    popular: false,
+    icon: Building2,
+    features: [
+      { text: 'Everything in Pro included', included: true },
+      { text: 'Weekly Reports Agent (automated summary every Monday 8am)', included: true },
+      { text: 'Collections Agent (reminds and escalates until payment is received)', included: true },
+      { text: '24/7 WhatsApp Agent (handles, quotes and books without human input)', included: true },
+      { text: 'Lead Classifier Agent (automatically prioritizes with AI)', included: true },
+      { text: 'Deal Prediction Agent (tells sales rep which leads to focus on)', included: true },
+      { text: 'Custom reporting dashboard with business metrics', included: true },
+      { text: 'Dedicated Mormoy analyst during the first month', included: true },
+    ],
+    support: 'Priority WhatsApp within 1h (7 days) · Unlimited Zoom',
+    accentClass: 'text-amber-400',
+    borderClass: 'border-amber-500/40',
+    bgClass: 'bg-gradient-to-b from-amber-500/10 to-gray-900',
+    btnClass: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700',
+  },
+];
 
 const PricingSection = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
-  const [annualDiscount, setAnnualDiscount] = useState<AnnualDiscount>('30');
-  const recommendedPlan = searchParams.get('plan') as PlanType;
-
-  const plans = [
-    {
-      id: 'starter' as const, name: t('pricing.starterName'), basePrice: BASE_PRICES.starter,
-      description: t('pricing.starterDesc'), popular: false,
-      features: [
-        t('pricing.starterFeature1'), t('pricing.starterFeature2'), t('pricing.starterFeature3'),
-        t('pricing.starterFeature4'), t('pricing.starterFeature5'), t('pricing.starterFeature6'), t('pricing.starterFeature7'),
-      ],
-    },
-    {
-      id: 'pro' as const, name: t('pricing.proName'), basePrice: BASE_PRICES.pro,
-      description: t('pricing.proDesc'), popular: true,
-      features: [
-        t('pricing.proFeature1'), t('pricing.proFeature2'), t('pricing.proFeature3'), t('pricing.proFeature4'),
-        t('pricing.proFeature5'), t('pricing.proFeature6'), t('pricing.proFeature7'), t('pricing.proFeature8'), t('pricing.proFeature9'),
-      ],
-    },
-    {
-      id: 'elite' as const, name: t('pricing.eliteName'), basePrice: BASE_PRICES.elite,
-      description: t('pricing.eliteDesc'), popular: false,
-      features: [
-        t('pricing.eliteFeature1'), t('pricing.eliteFeature2'), t('pricing.eliteFeature3'), t('pricing.eliteFeature4'),
-        t('pricing.eliteFeature5'), t('pricing.eliteFeature6'), t('pricing.eliteFeature7'), t('pricing.eliteFeature8'), t('pricing.eliteFeature9'),
-      ],
-    },
-  ];
 
   const handleSelectPlan = (planId: string) => {
-    const billingParam = billingPeriod === 'annual' ? `&billing=annual&discount=${annualDiscount}` : '';
-    navigate(`/checkout?plan=${planId}${billingParam}`);
+    if (planId === 'free') {
+      navigate('/auth');
+    } else {
+      navigate(`/checkout?plan=${planId}`);
+    }
   };
 
   return (
     <section id="planes" className="py-16 px-4 landscape-padding">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('pricing.title')}</h2>
-          <p className="text-white/70 text-lg mb-6">{t('pricing.subtitle')}</p>
-          <PricingToggle billingPeriod={billingPeriod} onBillingChange={setBillingPeriod} annualDiscount={annualDiscount} onAnnualDiscountChange={setAnnualDiscount} promoLaunch={PROMO_LAUNCH} />
+        <div className="max-w-4xl mx-auto text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            Plans & Pricing
+          </h2>
+          <p className="text-white/60 text-lg">
+            All prices in USD. No hidden fees. Cancel anytime.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8 landscape-grid">
-          {plans.map((plan, index) => {
-            const isRecommended = recommendedPlan === plan.id;
-            const pricing = calculatePricing(plan.basePrice, billingPeriod, annualDiscount);
-            const isAnnual = billingPeriod === 'annual';
+        {/* Plans Grid - 5 columns on desktop, scroll on mobile */}
+        <div className="max-w-7xl mx-auto mb-12">
+          {/* Desktop: 5 columns */}
+          <div className="hidden lg:grid lg:grid-cols-5 gap-4">
+            {plans.map((plan) => (
+              <PlanCard key={plan.id} plan={plan} onSelect={handleSelectPlan} />
+            ))}
+          </div>
 
-            return (
-              <div key={index} className={cn(
-                "relative rounded-2xl p-6 border transition-all duration-300",
-                isRecommended ? 'bg-gradient-to-b from-green-500/20 to-gray-900 border-green-500 ring-2 ring-green-500/50 scale-[1.02]'
-                  : plan.popular ? 'bg-gradient-to-b from-viralOrange/20 to-gray-900 border-viralOrange'
-                  : 'bg-gray-800/50 border-gray-700'
-              )}>
-                {isRecommended && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1 animate-pulse">✓ Recommended</span>
-                  </div>
-                )}
-                {!isRecommended && plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-viralOrange text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-                      <Star className="w-4 h-4" /> {t('pricing.popular')}
-                    </span>
-                  </div>
-                )}
+          {/* Tablet: 3+2 grid */}
+          <div className="hidden md:grid md:grid-cols-3 lg:hidden gap-4 mb-4">
+            {plans.slice(0, 3).map((plan) => (
+              <PlanCard key={plan.id} plan={plan} onSelect={handleSelectPlan} />
+            ))}
+          </div>
+          <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-4 max-w-2xl mx-auto">
+            {plans.slice(3).map((plan) => (
+              <PlanCard key={plan.id} plan={plan} onSelect={handleSelectPlan} />
+            ))}
+          </div>
 
-                <div className="text-center mb-6 pt-2">
-                  <h3 className="text-white font-bold text-xl mb-2">{plan.name}</h3>
-                  {isAnnual && pricing.savings && (
-                    <div className="mb-3">
-                      <span className={cn("px-3 py-1 rounded-full text-sm font-bold border",
-                        annualDiscount === '40' ? "bg-gradient-to-r from-viralOrange/20 to-yellow-500/20 text-yellow-400 border-yellow-500/30" : "bg-green-500/20 text-green-400 border-green-500/30"
-                      )}>🎉 Save ${pricing.savings}</span>
-                    </div>
-                  )}
-                  <div className="flex flex-col items-center gap-1">
-                    {isAnnual && pricing.originalMonthly && <span className="text-lg text-white/40 line-through">${pricing.originalMonthly}/mo</span>}
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold text-viralOrange">${pricing.displayPrice}</span>
-                      <span className="text-white/60">{pricing.period}</span>
-                    </div>
-                    {isAnnual && pricing.effectiveMonthly && <span className="text-sm text-white/50">Equiv. ${pricing.effectiveMonthly}/mo</span>}
-                  </div>
-                  <p className="text-white/50 text-sm mt-2">{plan.description}</p>
-                </div>
-
-                <ul className="space-y-3 mb-6">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-viralOrange flex-shrink-0 mt-0.5" />
-                      <span className="text-white/80 text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button onClick={() => handleSelectPlan(plan.id)} className={cn("w-full",
-                  isRecommended ? 'bg-green-500 hover:bg-green-600' : plan.popular ? 'bg-viralOrange hover:bg-viralOrange/90' : 'bg-gray-700 hover:bg-gray-600'
-                )} data-cta="pricing-plan" data-plan={plan.id}>
-                  {isAnnual ? t('pricingToggle.payAnnual', { defaultValue: 'Pay annually & save' }) : t('pricing.getStarted')}
-                </Button>
-              </div>
-            );
-          })}
-        </div>
-
-        <ComparisonTable />
-
-        {/* Setup Info Banner */}
-        <div className="max-w-4xl mx-auto mt-12 mb-6">
-          <div className="bg-viralOrange/10 border border-viralOrange/30 rounded-xl p-8">
-            <div className="text-center mb-6">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <CalendarCheck className="w-7 h-7 text-viralOrange" />
-                <h4 className="text-white font-bold text-xl">{t('pricing.setupBannerTitle')}</h4>
-              </div>
-              <p className="text-white/80 text-base max-w-2xl mx-auto mb-4">
-                {t('pricing.setupBannerDesc')}
-              </p>
-              <div className="inline-flex items-center gap-2 bg-viralOrange/20 border border-viralOrange/40 rounded-full px-5 py-2 mb-5">
-                <span className="text-viralOrange font-bold text-lg">$500 – $2,000 USD</span>
-                <span className="text-white/60 text-sm">{t('pricing.setupBannerRange')}</span>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-6">
-              <div className="bg-gray-900/60 rounded-lg p-4 border border-gray-700/50">
-                <h5 className="text-white font-semibold text-sm mb-2">{t('pricing.setupIncludesTitle')}</h5>
-                <ul className="text-white/60 text-sm space-y-1.5">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes1')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes2')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes3')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes4')}</span></li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-viralOrange flex-shrink-0 mt-0.5" /><span>{t('pricing.setupIncludes5')}</span></li>
-                </ul>
-              </div>
-              <div className="bg-gray-900/60 rounded-lg p-4 border border-gray-700/50">
-                <h5 className="text-white font-semibold text-sm mb-2">{t('pricing.setupProcessTitle')}</h5>
-                <ol className="text-white/60 text-sm space-y-2">
-                  <li className="flex items-start gap-2">
-                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
-                    <span>{t('pricing.setupStep1')}</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
-                    <span>{t('pricing.setupStep2')}</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="bg-viralOrange/20 text-viralOrange font-bold text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
-                    <span>{t('pricing.setupStep3')}</span>
-                  </li>
-                </ol>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <a
-                href="https://wa.me/13051234567?text=Hola,%20quiero%20más%20información%20sobre%20el%20setup%20inicial"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-viralOrange hover:text-viralOrange/80 font-semibold text-sm transition-colors"
-                data-cta="whatsapp-setup"
-              >
-                {t('pricing.setupCTA')} <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+          {/* Mobile: stacked */}
+          <div className="md:hidden space-y-4">
+            {plans.map((plan) => (
+              <PlanCard key={plan.id} plan={plan} onSelect={handleSelectPlan} />
+            ))}
           </div>
         </div>
 
-        {/* Important Info - simplified */}
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-            <h4 className="text-white font-semibold mb-4 text-center text-lg">{t('pricing.infoTitle')}</h4>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
-                <div className="flex items-center gap-2 mb-2"><MessageSquare className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.twilioTitle')}</span></div>
-                <p className="text-white/60 text-sm">{t('pricing.twilioDesc')}</p>
-              </div>
-              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
-                <div className="flex items-center gap-2 mb-2"><CreditCard className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.stripeTitle')}</span></div>
-                <p className="text-white/60 text-sm">{t('pricing.stripeDesc')}</p>
-              </div>
-              <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700/50 md:col-span-2">
-                <div className="flex items-center gap-2 mb-2"><Wrench className="w-5 h-5 text-viralOrange" /><span className="text-white font-medium">{t('pricing.monthlyTitle')}</span></div>
-                <p className="text-white/60 text-sm">{t('pricing.monthlyDesc')}</p>
-              </div>
-            </div>
-          </div>
+        {/* Bottom note */}
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-white/40 text-sm">
+            WhatsApp messaging costs (Twilio) are paid separately by the client at ~$0.03–$0.05 USD/msg.
+            <br />
+            Setup is a one-time fee that includes full configuration, onboarding and training.
+          </p>
         </div>
       </div>
     </section>
+  );
+};
+
+const PlanCard = ({ plan, onSelect }: { plan: Plan; onSelect: (id: string) => void }) => {
+  const Icon = plan.icon;
+
+  return (
+    <div className={cn(
+      "relative rounded-2xl p-5 border transition-all duration-300 flex flex-col",
+      plan.bgClass,
+      plan.borderClass,
+      plan.popular && 'ring-2 ring-viralOrange/50 scale-[1.02] z-10'
+    )}>
+      {plan.popular && (
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+          <Badge className="bg-viralOrange text-white border-0 px-3 py-1 text-xs font-bold flex items-center gap-1">
+            <Star className="w-3 h-3" /> Most popular
+          </Badge>
+        </div>
+      )}
+
+      <div className="text-center mb-4 pt-2">
+        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3", plan.popular ? 'bg-viralOrange/20' : 'bg-white/5')}>
+          <Icon className={cn("w-5 h-5", plan.accentClass)} />
+        </div>
+        <h3 className="text-white font-bold text-lg">{plan.name}</h3>
+        <p className={cn("text-xs font-medium", plan.accentClass)}>{plan.tagline}</p>
+      </div>
+
+      <div className="text-center mb-4">
+        <div className="flex items-baseline justify-center gap-1">
+          <span className="text-3xl font-bold text-white">${plan.price}</span>
+          <span className="text-white/50 text-sm">/mo</span>
+        </div>
+        <p className="text-white/40 text-xs mt-1">{plan.setup}</p>
+      </div>
+
+      <p className="text-white/50 text-xs text-center mb-4 leading-relaxed">{plan.description}</p>
+
+      <ul className="space-y-2 mb-4 flex-1">
+        {plan.features.map((feature, idx) => (
+          <li key={idx} className="flex items-start gap-2">
+            {feature.included ? (
+              <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+            ) : (
+              <X className="w-4 h-4 text-white/20 flex-shrink-0 mt-0.5" />
+            )}
+            <span className={cn(
+              "text-xs leading-relaxed",
+              feature.included ? 'text-white/80' : 'text-white/30 line-through'
+            )}>
+              {feature.text}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Support */}
+      <div className="border-t border-white/10 pt-3 mb-4">
+        <p className="text-white/40 text-[10px] leading-relaxed">
+          <span className="text-white/60 font-medium">Support:</span> {plan.support}
+        </p>
+        {plan.limits && (
+          <p className="text-white/30 text-[10px] mt-1">{plan.limits}</p>
+        )}
+      </div>
+
+      <Button
+        onClick={() => onSelect(plan.id)}
+        className={cn("w-full text-white text-sm", plan.btnClass)}
+        data-cta="pricing-plan"
+        data-plan={plan.id}
+      >
+        {plan.price === 0 ? 'Start Free' : 'Get Started'}
+        <ArrowRight className="w-4 h-4 ml-1" />
+      </Button>
+    </div>
   );
 };
 
