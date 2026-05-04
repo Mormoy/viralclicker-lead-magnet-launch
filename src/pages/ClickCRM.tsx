@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Logo from '@/components/logo';
 import PricingSection from '@/components/clickcrm/pricing-section';
+import UsageSection from '@/components/clickcrm/usage-section';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import LanguageSwitcher from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
@@ -240,6 +241,9 @@ const ViralClicker = () => {
         {/* SECTION 6 — PRICING (existing component) */}
         <PricingSection />
 
+        {/* SECTION 6b — USAGE INCLUDED + OVERAGE + ADD-ONS */}
+        <UsageSection />
+
         {/* SECTION 7 — IMPLEMENTATION */}
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-4xl">
@@ -331,6 +335,14 @@ const FAQSection = () => {
     { qKey: 'home.faq4Q', aKey: 'home.faq4A' },
     { qKey: 'home.faq5Q', aKey: 'home.faq5A' },
     { qKey: 'home.faq6Q', aKey: 'home.faq6A' },
+    {
+      qKey: 'What if I exceed my monthly limits?',
+      aKey: "Excess usage is billed automatically at the overage rate ($0.05/WhatsApp msg, $0.30/Voice AI min, $5 per 100k AI tokens). You'll get an alert at 80% usage so you can decide whether to upgrade or let it bill at month-end.",
+    },
+    {
+      qKey: 'Does Mormoy handle Twilio / Anthropic / Vapi costs?',
+      aKey: 'Yes. You get a single monthly invoice from ViralClicker that already includes Twilio, Anthropic and Vapi usage. No separate accounts, no juggling vendors.',
+    },
   ];
 
   return (
