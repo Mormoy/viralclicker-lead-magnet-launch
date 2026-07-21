@@ -317,7 +317,9 @@
     "ctaPricing": "View Pricing",
     "ctaDemo": "Book Demo",
     "footerRights": "© {{year}} ViralClicker by Mormoy LLC. All rights reserved.",
-    "footerTerms": "Terms & Conditions",
+    "footerTerms": "Terms",
+    "footerPricing": "Pricing",
+    "footerPrivacy": "Privacy",
     "footerTagline": "Built for service businesses"
   },
   "startLanding": {

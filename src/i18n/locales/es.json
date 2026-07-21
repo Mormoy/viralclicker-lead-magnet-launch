@@ -317,7 +317,9 @@
     "ctaPricing": "Ver Planes",
     "ctaDemo": "Agendar Demo",
     "footerRights": "© {{year}} ViralClicker by Mormoy LLC. Todos los derechos reservados.",
-    "footerTerms": "Términos y Condiciones",
+    "footerTerms": "Términos",
+    "footerPricing": "Precios",
+    "footerPrivacy": "Privacidad",
     "footerTagline": "Hecho para negocios de servicios"
   },
   "startLanding": {

@@ -14,6 +14,9 @@ import Success from "./pages/Success";
 import PagoFallido from "./pages/PagoFallido";
 import Checkout from "./pages/Checkout";
 import Terminos from "./pages/Terminos";
+import Pricing from "./pages/Pricing";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import RegisterCompany from "./pages/RegisterCompany";
@@ -52,6 +55,10 @@ const App = () => (
             <Route path="/pago-fallido" element={<PagoFallido />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/terminos" element={<Terminos />} />
+            <Route path="/pricing" element={<Pricing forceLang="en" />} />
+            <Route path="/precios" element={<Pricing forceLang="es" />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/start" element={<StartLanding />} />
             <Route path="/demo" element={<StartLanding />} />
             <Route path="/get-started" element={<StartLanding />} />

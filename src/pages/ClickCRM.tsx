@@ -309,8 +309,12 @@ const ViralClicker = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-muted-foreground text-center md:text-left text-sm">{t('home.footerRights', { year: new Date().getFullYear() })}</div>
-            <div className="flex items-center gap-4">
-              <a href="/terminos" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerTerms')}</a>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+              <a href="/pricing" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerPricing')}</a>
+              <span className="text-border">|</span>
+              <a href="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerTerms')}</a>
+              <span className="text-border">|</span>
+              <a href="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerPrivacy')}</a>
               <span className="text-border">|</span>
               <span className="text-muted-foreground text-sm">{t('home.footerTagline')}</span>
             </div>
