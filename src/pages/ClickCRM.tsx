@@ -2,8 +2,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Logo from '@/components/logo';
-import PricingSection from '@/components/clickcrm/pricing-section';
-import UsageSection from '@/components/clickcrm/usage-section';
+import PricingCta from '@/components/clickcrm/pricing-cta';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import LanguageSwitcher from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
@@ -238,11 +237,8 @@ const ViralClicker = () => {
           </div>
         </section>
 
-        {/* SECTION 6 — PRICING (existing component) */}
-        <PricingSection />
-
-        {/* SECTION 6b — USAGE INCLUDED + OVERAGE + ADD-ONS */}
-        <UsageSection />
+        {/* SECTION 6 — PRICING (compact CTA → full plans on /pricing) */}
+        <PricingCta />
 
         {/* SECTION 7 — IMPLEMENTATION */}
         <section className="py-20 px-4">
