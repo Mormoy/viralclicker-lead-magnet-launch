@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ViralClicker — Avances del Lanzamiento</title>
+<style>
+  :root{--ink:#101828;--ink2:#475467;--muted:#98a2b3;--line:#eaecf0;--bg:#f4f6f9;--card:#fff;
+        --acc:#f97316;--acc2:#fff2e8;--accd:#e35d05;--verde:#12b76a;--verde2:#ecfdf3;--rojo:#c0392b;--rojo2:#fdecea;--ambar:#b25e09;--ambar2:#fdf3e3;--azul:#1f6feb;--azul2:#e8f0fe;--mora:#6d28d9;--mora2:#f1ebff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:18px 12px 60px}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:21px}
+  h1 b{color:var(--acc)}
+  .sub{color:var(--muted);font-size:12.5px;margin:2px 0 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:10px 0;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  /* LOGIN */
+  #login{max-width:360px;margin:60px auto}
+  #login h2{font-size:18px;margin-bottom:12px;text-align:center}
+  .userpick{display:flex;gap:10px;margin:12px 0}
+  .up{flex:1;border:2px solid var(--line);border-radius:12px;padding:14px;text-align:center;font-weight:800;cursor:pointer;font-size:15px;background:#fff}
+  .up.on{border-color:var(--acc);background:var(--acc2);color:var(--accd)}
+  input[type=password]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-size:16px;text-align:center;letter-spacing:4px}
+  .btn{width:100%;background:var(--acc);color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px}
+  .btn:hover{background:var(--accd)}
+  .err{color:var(--rojo);font-size:12.5px;text-align:center;margin-top:8px;min-height:16px}
+  /* DASH */
+  #dash{display:none}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .hola{font-size:13px;color:var(--ink2)}
+  .hola b{color:var(--accd)}
+  .salir{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline}
+  .semaforo{border-radius:14px;padding:16px 18px;margin:12px 0;color:#fff;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .semaforo .big{font-size:34px;font-weight:900}
+  .semaforo .tx{font-size:13.5px;max-width:520px}
+  .sem-verde{background:linear-gradient(135deg,#0f9d61,#12b76a)}
+  .sem-ambar{background:linear-gradient(135deg,#b25e09,#e08c1e)}
+  .sem-rojo{background:linear-gradient(135deg,#a93226,#c0392b)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:10px 0}
+  @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center}
+  .kpi .t{font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700}
+  .kpi .v{font-size:19px;font-weight:900;margin-top:2px}
+  .barwrap{margin:6px 0 2px}
+  .bartop{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px}
+  .track{background:#eef1f6;border-radius:8px;height:18px;overflow:hidden}
+  .fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#fba85f,var(--acc));transition:width .5s;display:flex;align-items:center;justify-content:flex-end;color:#fff;font-size:10.5px;font-weight:800;padding-right:7px;min-width:32px}
+  .fill.g{background:linear-gradient(90deg,#3ecf8e,var(--verde))}
+  .fill.b{background:linear-gradient(90deg,#6ea8ff,var(--azul))}
+  .fill.m{background:linear-gradient(90deg,#a78bfa,var(--mora))}
+  h2.sec{font-size:15px;margin:20px 0 6px;color:var(--accd);border-bottom:2px solid var(--line);padding-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+  h2.sec span{font-size:11.5px;color:var(--muted);font-weight:600}
+  .task{display:flex;align-items:flex-start;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin:7px 0;transition:.15s}
+  .task.done{background:var(--verde2);border-color:#bfe0cd}
+  .task.late{border-left:4px solid var(--rojo)}
+  .chk{width:24px;height:24px;border:2px solid #cbd3de;border-radius:7px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;background:#fff;margin-top:1px}
+  .task.done .chk{background:var(--verde);border-color:var(--verde);color:#fff}
+  .ttxt{flex:1}
+  .tname{font-size:13.4px;font-weight:600}
+  .task.done .tname{text-decoration:line-through;color:#3d7a5c}
+  .tmeta{font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+  .own{font-weight:800;padding:1px 8px;border-radius:100px;font-size:10px}
+  .own.JAVIER{background:var(--azul2);color:var(--azul)}
+  .own.JC{background:var(--acc2);color:var(--accd)}
+  .own.CC{background:var(--mora2);color:var(--mora)}
+  .own.COWORK{background:var(--verde2);color:#027a48}
+  .own.TODOS{background:#eef1f6;color:var(--ink2)}
+  .due.past{color:var(--rojo);font-weight:800}
+  .doneby{color:#027a48;font-weight:700}
+  .loading{text-align:center;color:var(--muted);padding:30px;font-size:13px}
+  .refresh{font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px}
+  .foot{color:var(--muted);font-size:10.5px;margin-top:20px;text-align:center;border-top:1px solid var(--line);padding-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- LOGIN -->
+  <div id="login" class="card">
+    <h2>🚀 Viral<b style="color:#f97316">Clicker</b> · Avances</h2>
+    <p style="font-size:12.5px;color:var(--muted);text-align:center">¿Quién eres?</p>
+    <div class="userpick">
+      <div class="up" data-u="JC">Juan Carlos</div>
+      <div class="up" data-u="JAVIER">Javier</div>
+    </div>
+    <input type="password" id="pin" placeholder="PIN" maxlength="6" inputmode="numeric">
+    <button class="btn" id="entrar">Entrar</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash">
+    <div class="top">
+      <div>
+        <h1>🚀 Viral<b>Clicker</b> — Avances del Lanzamiento</h1>
+        <div class="sub">Lanzamiento 01-ago-2026 · meta agosto: 2 clientes · marca ✓ lo que esté LISTO y verificado</div>
+      </div>
+      <div style="text-align:right">
+        <div class="hola">Hola, <b id="quien"></b></div>
+        <div class="salir" onclick="salir()">salir</div>
+      </div>
+    </div>
+
+    <div id="semaforo" class="semaforo sem-ambar">
+      <div class="big" id="sem-ico">⏳</div>
+      <div class="tx"><b id="sem-t">Calculando…</b><br><span id="sem-d" style="opacity:.9;font-size:12.5px"></span></div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="t">Avance real</div><div class="v" id="k-real" style="color:var(--accd)">—</div></div>
+      <div class="kpi"><div class="t">Esperado a hoy</div><div class="v" id="k-esp">—</div></div>
+      <div class="kpi"><div class="t">Tareas listas</div><div class="v" id="k-done">—</div></div>
+      <div class="kpi"><div class="t">Días al 01-ago</div><div class="v" id="k-dias">—</div></div>
+    </div>
+
+    <div class="card">
+      <div class="barwrap"><div class="bartop"><span>🌍 AVANCE GLOBAL</span><span id="p-glob-t"></span></div><div class="track"><div class="fill" id="p-glob" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>⚙️ Tripas · resp. Juan Carlos</span><span id="p-tri-t"></span></div><div class="track"><div class="fill" id="p-tri" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>🛍️ Vitrina · resp. Javier</span><span id="p-vit-t"></span></div><div class="track"><div class="fill b" id="p-vit" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>📈 Crecimiento · resp. AMBOS</span><span id="p-cre-t"></span></div><div class="track"><div class="fill g" id="p-cre" style="width:0%"></div></div></div>
+    </div>
+    <div class="card">
+      <div class="barwrap"><div class="bartop"><span>🔵 Ejecuta Javier</span><span id="p-jav-t"></span></div><div class="track"><div class="fill b" id="p-jav" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>🟠 Ejecuta Juan Carlos</span><span id="p-jc-t"></span></div><div class="track"><div class="fill" id="p-jc" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>🟣 Ejecuta Claude Code</span><span id="p-cc-t"></span></div><div class="track"><div class="fill m" id="p-cc" style="width:0%"></div></div></div>
+      <div class="barwrap"><div class="bartop"><span>🟢 Ejecuta Cowork</span><span id="p-cw-t"></span></div><div class="track"><div class="fill g" id="p-cw" style="width:0%"></div></div></div>
+    </div>
+
+    <div id="tareas"><div class="loading">Cargando tareas…</div></div>
+    <div class="refresh">Se actualiza solo cada 30 segundos · el ✓ de la otra persona aparece automáticamente</div>
+    <div class="foot">ViralClicker · Mormoy LLC · tracker de lanzamiento · los datos viven en Supabase (mismos para todos)</div>
+  </div>
+</div>
+
+<script>
+/* ================= CONFIG (CC: rellenar) ================= */
+const SUPABASE_URL  = "https://ypbpwagurkrnehchalef.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwYnB3YWd1cmtybmVoY2hhbGVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyOTI0MzgsImV4cCI6MjA2Nzg2ODQzOH0.-0XvRFIKqqTAj_BzDL6mhLrsP3X0rwSM4xV7cLw9maQ";
+/* ========================================================= */
+const H = {"apikey":SUPABASE_ANON,"Authorization":"Bearer "+SUPABASE_ANON,"Content-Type":"application/json"};
+const REST = SUPABASE_URL + "/rest/v1/";
+let USER = sessionStorage.getItem("vc_user") || null;
+let SEL = null, TASKS = [];
+
+/* ---------- login ---------- */
+document.querySelectorAll('.up').forEach(u=>u.addEventListener('click',()=>{
+  document.querySelectorAll('.up').forEach(x=>x.classList.remove('on'));
+  u.classList.add('on'); SEL = u.dataset.u;
+}));
+document.getElementById('entrar').addEventListener('click', login);
+document.getElementById('pin').addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
+
+async function login(){
+  const pin = document.getElementById('pin').value.trim();
+  const err = document.getElementById('err');
+  if(!SEL){ err.textContent = "Elige quién eres"; return; }
+  if(!pin){ err.textContent = "Escribe tu PIN"; return; }
+  try{
+    const r = await fetch(REST+"vc_tracker_users?username=eq."+SEL+"&pin=eq."+encodeURIComponent(pin)+"&select=username",{headers:H});
+    const d = await r.json();
+    if(Array.isArray(d) && d.length===1){
+      USER = SEL; sessionStorage.setItem("vc_user",USER); mostrar();
+    } else { err.textContent = "PIN incorrecto"; }
+  }catch(e){ err.textContent = "Error de conexión — revisa internet"; }
+}
+function salir(){ sessionStorage.removeItem("vc_user"); location.reload(); }
+
+/* ---------- dashboard ---------- */
+function mostrar(){
+  document.getElementById('login').style.display='none';
+  document.getElementById('dash').style.display='block';
+  document.getElementById('quien').textContent = USER==="JC" ? "Juan Carlos" : "Javier";
+  cargar(); setInterval(cargar, 30000);
+}
+
+async function cargar(){
+  try{
+    const r = await fetch(REST+"vc_launch_tasks?select=*&order=due_date.asc,id.asc",{headers:H});
+    TASKS = await r.json();
+    pintar();
+  }catch(e){ document.getElementById('tareas').innerHTML = '<div class="loading">Error cargando — revisa la conexión</div>'; }
+}
+
+const AREAS = {
+  TRIPAS:      {tit:"⚙️ TRIPAS — el motor", resp:"Responsable: Juan Carlos"},
+  VITRINA:     {tit:"🛍️ VITRINA — lo que ve el cliente", resp:"Responsable: Javier"},
+  CRECIMIENTO: {tit:"📈 CRECIMIENTO — los clientes", resp:"Responsables: JC + Javier"}
+};
+const OWNER_CYCLE = ["JC","JAVIER","CC","COWORK","TODOS"];
+
+function fmt(d){ const x=new Date(d+"T12:00:00"); return x.toLocaleDateString('es-CL',{day:'numeric',month:'short'}); }
+
+function pintar(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const total = TASKS.length, done = TASKS.filter(t=>t.done).length;
+  const esperadas = TASKS.filter(t=> new Date(t.due_date+"T23:59:00") <= new Date());
+  const espDone = esperadas.length;
+  const pReal = total? Math.round(done/total*100):0;
+  const pEsp  = total? Math.round(espDone/total*100):0;
+  const atras = esperadas.filter(t=>!t.done).length;
+
+  // KPIs
+  document.getElementById('k-real').textContent = pReal+"%";
+  document.getElementById('k-esp').textContent  = pEsp+"%";
+  document.getElementById('k-done').textContent = done+" / "+total;
+  const dias = Math.ceil((new Date("2026-08-01") - hoy)/(1000*60*60*24));
+  document.getElementById('k-dias').textContent = dias>0? dias : "🚀";
+
+  // semáforo
+  const sem = document.getElementById('semaforo');
+  sem.classList.remove('sem-verde','sem-ambar','sem-rojo');
+  if(atras===0){ sem.classList.add('sem-verde'); document.getElementById('sem-ico').textContent="✅";
+    document.getElementById('sem-t').textContent="VAMOS BIEN — al día con el plan";
+    document.getElementById('sem-d').textContent="Ninguna tarea vencida sin completar. Avance real "+pReal+"% vs esperado "+pEsp+"%.";
+  } else if(atras<=3){ sem.classList.add('sem-ambar'); document.getElementById('sem-ico').textContent="⚠️";
+    document.getElementById('sem-t').textContent="ATENCIÓN — "+atras+" tarea(s) vencida(s) sin completar";
+    document.getElementById('sem-d').textContent="Avance real "+pReal+"% vs esperado "+pEsp+"%. Revisa las tareas marcadas en rojo y ponles fecha nueva o ciérralas.";
+  } else { sem.classList.add('sem-rojo'); document.getElementById('sem-ico').textContent="🚨";
+    document.getElementById('sem-t').textContent="ATRASADOS — "+atras+" tareas vencidas sin completar";
+    document.getElementById('sem-d').textContent="Avance real "+pReal+"% vs esperado "+pEsp+"%. Hay que repriorizar hoy: enfocarse en las rojas de las personas con más pendientes.";
+  }
+
+  // barras por ÁREA
+  const areas = {TRIPAS:['p-tri','p-tri-t'], VITRINA:['p-vit','p-vit-t'], CRECIMIENTO:['p-cre','p-cre-t']};
+  for(const a in areas){
+    const ts = TASKS.filter(t=>t.area===a), d = ts.filter(t=>t.done).length;
+    const p = ts.length? Math.round(d/ts.length*100):0;
+    document.getElementById(areas[a][0]).style.width = Math.max(p,4)+"%";
+    document.getElementById(areas[a][0]).textContent = p+"%";
+    document.getElementById(areas[a][1]).textContent = d+" / "+ts.length;
+  }
+  // barras por EJECUTOR
+  const owners = {JAVIER:['p-jav','p-jav-t'], JC:['p-jc','p-jc-t'], CC:['p-cc','p-cc-t'], COWORK:['p-cw','p-cw-t']};
+  for(const o in owners){
+    const ts = TASKS.filter(t=>t.owner===o), d = ts.filter(t=>t.done).length;
+    const p = ts.length? Math.round(d/ts.length*100):0;
+    document.getElementById(owners[o][0]).style.width = Math.max(p,4)+"%";
+    document.getElementById(owners[o][0]).textContent = p+"%";
+    document.getElementById(owners[o][1]).textContent = d+" / "+ts.length;
+  }
+  document.getElementById('p-glob').style.width = Math.max(pReal,4)+"%";
+  document.getElementById('p-glob').textContent = pReal+"%";
+  document.getElementById('p-glob-t').textContent = done+" / "+total;
+
+  // listas por ÁREA (Tripas resp. JC · Vitrina resp. Javier · Crecimiento ambos)
+  let html = "";
+  ["TRIPAS","VITRINA","CRECIMIENTO"].forEach(a=>{
+    const ts = TASKS.filter(t=>t.area===a);
+    if(!ts.length) return;
+    const sd = ts.filter(t=>t.done).length;
+    html += '<h2 class="sec">'+AREAS[a].tit+'<span>'+AREAS[a].resp+' · '+sd+' / '+ts.length+'</span></h2>';
+    ts.forEach(t=>{
+      const vencida = !t.done && new Date(t.due_date+"T23:59:00") < new Date();
+      html += '<div class="task '+(t.done?'done':'')+' '+(vencida?'late':'')+'">'
+        + '<div class="chk" onclick="toggle('+t.id+','+(!t.done)+')">'+(t.done?'✓':'')+'</div>'
+        + '<div class="ttxt"><div class="tname">'+t.task+'</div><div class="tmeta">'
+        + '<span class="own '+t.owner+'" style="cursor:pointer" title="Tocar para reasignar" onclick="cycleOwner('+t.id+')">'+t.owner+' ↺</span>'
+        + '<span class="due '+(vencida?'past':'')+'">📅 '+fmt(t.due_date)+(vencida?' · VENCIDA':'')+'</span>'
+        + (t.done? '<span class="doneby">✓ '+(t.done_by||'')+' · '+(t.done_at? new Date(t.done_at).toLocaleDateString('es-CL',{day:'numeric',month:'short'}):'')+'</span>':'')
+        + '</div></div></div>';
+    });
+  });
+  document.getElementById('tareas').innerHTML = html;
+}
+
+async function cycleOwner(id){
+  const t = TASKS.find(x=>x.id===id); if(!t) return;
+  const next = OWNER_CYCLE[(OWNER_CYCLE.indexOf(t.owner)+1) % OWNER_CYCLE.length];
+  try{
+    await fetch(REST+"vc_launch_tasks?id=eq."+id,{method:"PATCH",headers:{...H,"Prefer":"return=minimal"},body:JSON.stringify({owner:next})});
+    t.owner = next; pintar();
+  }catch(e){ alert("No se pudo reasignar — revisa la conexión"); }
+}
+
+async function toggle(id, val){
+  const body = val ? {done:true, done_by:USER, done_at:new Date().toISOString()} : {done:false, done_by:null, done_at:null};
+  try{
+    await fetch(REST+"vc_launch_tasks?id=eq."+id,{method:"PATCH",headers:{...H,"Prefer":"return=minimal"},body:JSON.stringify(body)});
+    const t = TASKS.find(x=>x.id===id);
+    if(t){ t.done=val; t.done_by=body.done_by; t.done_at=body.done_at; }
+    pintar();
+  }catch(e){ alert("No se pudo guardar — revisa la conexión"); }
+}
+
+if(USER){ mostrar(); }
+</script>
+</body>
+</html>
