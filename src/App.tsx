@@ -18,6 +18,7 @@ import Pricing from "./pages/Pricing";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import Avances from "./pages/Avances";
 import Auth from "./pages/Auth";
 import RegisterCompany from "./pages/RegisterCompany";
 import Dashboard from "./pages/Dashboard";
@@ -62,6 +63,9 @@ const App = () => (
             <Route path="/start" element={<StartLanding />} />
             <Route path="/demo" element={<StartLanding />} />
             <Route path="/get-started" element={<StartLanding />} />
+
+            {/* Tracker interno de avances + finanzas (login por PIN) */}
+            <Route path="/avances" element={<Avances />} />
 
             {/* Smart Quote Pages (public) */}
             <Route path="/q/:slug" element={<SmartQuotePage />} />
