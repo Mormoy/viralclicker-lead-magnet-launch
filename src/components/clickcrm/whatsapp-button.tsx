@@ -1,8 +1,9 @@
 import { MessageCircle } from 'lucide-react';
+import { waLink } from '@/config/site';
 
 const WhatsAppButton = () => {
   const handleClick = () => {
-    window.open('https://wa.me/13051234567?text=Hi,%20I%27m%20interested%20in%20ViralClicker', '_blank');
+    window.open(waLink('Hola, quiero saber más de ViralClicker.'), '_blank', 'noopener');
   };
 
   return (

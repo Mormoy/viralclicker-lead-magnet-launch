@@ -6,24 +6,7 @@ import Logo from '@/components/logo';
 import LanguageSwitcher from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
 
-// =====================================================
-// PRICING CONFIG — edita precios / número aquí (una sola fuente)
-// =====================================================
-const PRICING = {
-  starter: 247,
-  pro: 397,
-  setup: 497,
-  overagePerMin: 0.3,
-  includedAiMinutes: 300,
-  // ⚠️ Confirmar número USA final con JC antes de publicar
-  whatsapp: '15052074989',
-  whatsappDisplay: '+1 (505) 207-4989',
-  // Cal.com de JC/Javier para la demo (confirmar slug)
-  demoUrl: 'https://cal.com/mormoy',
-};
-
-const waLink = (msg: string) =>
-  `https://wa.me/${PRICING.whatsapp}?text=${encodeURIComponent(msg)}`;
+import { CONTACT, PRICING, waLink } from '@/config/site';
 
 type Lang = 'es' | 'en';
 
@@ -55,14 +38,14 @@ const content = (lang: Lang) => {
       features: isEs
         ? [
             'Landing + formulario de cotización instantánea',
-            'CRM con pipeline (arrastrar y soltar, desde el celular)',
+            'Tablero de ventas (arrastrar y soltar, desde el celular)',
             'Seguimiento automático por WhatsApp',
             'Sabes qué anuncio trae cada cliente',
             '2 usuarios',
           ]
         : [
             'Landing page + instant quote form',
-            'CRM pipeline (drag & drop, mobile-ready)',
+            'Sales board (drag & drop, mobile-ready)',
             'Automatic WhatsApp follow-up sequences',
             'Lead source tracking (know which ad pays)',
             '2 users',
@@ -84,22 +67,50 @@ const content = (lang: Lang) => {
       features: isEs
         ? [
             'Todo lo de Starter',
-            'Marco: agente de voz con IA — llama a cada lead nuevo en minutos, lo califica y agenda la inspección (español e inglés)',
-            '300 minutos de llamadas IA al mes',
+            'Tu agente de voz con IA — llama a cada cliente nuevo en minutos, lo califica y agenda la visita (español e inglés)',
+            'Tu agente de WhatsApp — responde, cotiza y agenda 24/7',
+            `${PRICING.includedAiMinutes} minutos de llamadas IA al mes`,
             'Usuarios ilimitados',
             'Reportes y tablero de conversión',
           ]
         : [
             'Everything in Starter',
-            'Marco: AI voice agent — calls every new lead in minutes, qualifies, and books the inspection (English & Spanish)',
-            '300 AI call minutes/month included',
+            'Your AI voice agent — calls every new customer in minutes, qualifies, and books the visit (English & Spanish)',
+            'Your WhatsApp agent — answers, quotes and books 24/7',
+            `${PRICING.includedAiMinutes} AI call minutes/month included`,
             'Unlimited users',
             'Reports & conversion dashboard',
           ],
       cta: isEs ? 'Empezar con Pro' : 'Start with Pro',
       waMsg: isEs
-        ? 'Hola, quiero empezar con el plan Pro de ViralClicker (con Marco).'
-        : "Hi, I'd like to start with the ViralClicker Pro plan (with Marco).",
+        ? 'Hola, quiero empezar con el plan Pro de ViralClicker.'
+        : "Hi, I'd like to start with the ViralClicker Pro plan.",
+    },
+    {
+      id: 'growth',
+      name: 'Growth',
+      price: `$${PRICING.growth}`,
+      cadence: perMo,
+      blurb: isEs
+        ? 'Para los que además quieren que alguien maneje sus campañas y les traiga los clientes.'
+        : 'For those who also want someone running their campaigns and bringing the customers in.',
+      features: isEs
+        ? [
+            'Todo lo del Pro',
+            'Gestión completa de tus campañas en Meta (creativos, segmentación y optimización)',
+            'Reporte mensual de qué anuncio trajo cada venta',
+            `La inversión publicitaria la pagas tú directo a Meta con tu tarjeta (desde $${PRICING.adSpendFrom}/mes)`,
+          ]
+        : [
+            'Everything in Pro',
+            'Full management of your Meta campaigns (creative, targeting and optimization)',
+            'Monthly report of which ad brought each sale',
+            `You pay the ad spend directly to Meta with your own card (from $${PRICING.adSpendFrom}/mo)`,
+          ],
+      cta: isEs ? 'Empezar con Growth' : 'Start with Growth',
+      waMsg: isEs
+        ? 'Hola, quiero empezar con el plan Growth de ViralClicker (con campañas gestionadas).'
+        : "Hi, I'd like to start with the ViralClicker Growth plan (managed campaigns).",
     },
   ];
 
@@ -113,41 +124,48 @@ const content = (lang: Lang) => {
     plans,
     setupTitle: isEs ? `Setup — $${PRICING.setup} por única vez` : `Setup — $${PRICING.setup} one-time`,
     setupBody: isEs
-      ? 'Marca, número, agente entrenado con TU negocio, pipeline configurado. Funcionando en 7 días.'
-      : 'Branding, phone number, AI agent trained on YOUR business, pipeline configured. Live in 7 days.',
+      ? 'Marca, número, agente entrenado con TU negocio, tablero configurado. Funcionando en 7 días.'
+      : 'Branding, phone number, AI agent trained on YOUR business, dashboard configured. Live in 7 days.',
     setupOffer: isEs
-      ? '🎁 Oferta de lanzamiento: setup GRATIS para los primeros 5 clientes fundadores (a cambio de un testimonio honesto).'
-      : '🎁 Launch offer: setup FREE for our first 5 founding clients (in exchange for an honest testimonial).',
+      ? '🏷️ Precio de lanzamiento: el setup sube en octubre. Los que entran ahora quedan con este valor.'
+      : '🏷️ Launch price: setup goes up in October. Sign up now and you keep this price.',
+    ownershipNote: isEs
+      ? 'Los servicios de consumo (número, minutos de voz, WhatsApp, publicidad) se configuran a TU nombre y con TU tarjeta — tus cuentas son tuyas.'
+      : 'Usage-based services (phone number, voice minutes, WhatsApp, ad spend) are set up in YOUR name and on YOUR card — your accounts are yours.',
     compareTitle: isEs ? 'Por qué somos distintos' : 'Why we’re different',
     compare: isEs
-      ? 'Los CRM de techos cuestan $225–$550/mes — y ninguno llama a tus leads. Las agencias cobran $300–$600/mes por un "empleado IA" sin CRM. ViralClicker es las dos cosas, por menos.'
-      : 'Roofing CRMs charge $225–$550/mo — and none of them call your leads. Agencies charge $300–$600/mo for an "AI employee" with no CRM. ViralClicker is both, for less.',
+      ? 'Un software de gestión cuesta $225–$550/mes y no llama a nadie: es una base de datos que alguien tiene que llenar. Las agencias cobran $300–$600/mes por un "empleado IA" que no está conectado a tus ventas. ViralClicker es las dos cosas, por menos.'
+      : "Management software costs $225–$550/mo and never calls anyone: it's a database somebody has to fill in. Agencies charge $300–$600/mo for an \"AI employee\" that isn't connected to your sales. ViralClicker is both, for less.",
     faqTitle: 'FAQ',
     faqs: isEs
       ? [
           {
-            q: '¿Y si uso más de 300 minutos de IA?',
+            q: `¿Y si uso más de ${PRICING.includedAiMinutes} minutos de IA?`,
             a: `$${PRICING.overagePerMin.toString().replace('.', ',')}/min adicional. La mayoría usa menos.`,
           },
           { q: '¿Necesito saber de tecnología?', a: 'No. Te lo entregamos funcionando.' },
-          { q: '¿De verdad habla español E inglés?', a: 'Sí — Marco cambia según el cliente.' },
+          { q: '¿De verdad habla español E inglés?', a: 'Sí — el agente detecta el idioma del cliente y responde en el suyo.' },
+          { q: '¿Puedo ponerle nombre y voz a mi agente?', a: 'Sí. Tú eliges cómo se llama, cómo suena y cómo habla.' },
+          { q: '¿Las cuentas quedan a mi nombre?', a: 'Sí. Tu número, tu WhatsApp y tus campañas son tuyos. Si algún día decides irte, te llevas todo.' },
           { q: '¿Contrato?', a: 'Mes a mes. Cancelas cuando quieras.' },
         ]
       : [
           {
-            q: 'What if I use more than 300 AI minutes?',
+            q: `What if I use more than ${PRICING.includedAiMinutes} AI minutes?`,
             a: `$${PRICING.overagePerMin.toFixed(2)}/min after that. Most clients use less.`,
           },
           { q: 'Do I need to be technical?', a: 'No. We set everything up and hand you a working system.' },
-          { q: 'Does it really speak Spanish AND English?', a: 'Yes — Marco switches based on the customer.' },
+          { q: 'Does it really speak Spanish AND English?', a: "Yes — the agent detects the customer's language and answers in it." },
+          { q: 'Can I give my agent a name and a voice?', a: 'Yes. You choose what it is called, how it sounds and how it speaks.' },
+          { q: 'Are the accounts in my name?', a: 'Yes. Your number, your WhatsApp and your campaigns are yours. If you ever leave, you take everything with you.' },
           { q: 'Contract?', a: 'Month to month. Cancel anytime.' },
         ],
-    finalTitle: isEs ? 'Mira a Marco llamar a un lead — en vivo.' : 'See Marco call a lead — live.',
+    finalTitle: isEs ? 'Escúchalo llamando a tu propio celular.' : 'Hear it calling your own phone.',
     finalCtaDemo: isEs ? 'Agenda una demo de 15 min' : 'Book a 15-min demo',
-    finalCtaWa: isEs ? `O escríbenos al WhatsApp: ${PRICING.whatsappDisplay}` : `Or WhatsApp us: ${PRICING.whatsappDisplay}`,
+    finalCtaWa: isEs ? `O escríbenos al WhatsApp: ${CONTACT.whatsappDisplay}` : `Or WhatsApp us: ${CONTACT.whatsappDisplay}`,
     finalWaMsg: isEs
-      ? 'Hola, quiero ver una demo de ViralClicker (Marco llamando a un lead).'
-      : "Hi, I'd like to see a ViralClicker demo (Marco calling a lead).",
+      ? 'Hola, quiero ver una demo de ViralClicker (el agente llamando a un cliente).'
+      : "Hi, I'd like to see a ViralClicker demo (the agent calling a customer).",
     footerTerms: isEs ? 'Términos' : 'Terms',
     footerPrivacy: isEs ? 'Privacidad' : 'Privacy',
   };
@@ -189,7 +207,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
 
       {/* Plan cards */}
       <section className="container mx-auto px-4 pb-8">
-        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
           {c.plans.map((plan) => (
             <div
               key={plan.id}
@@ -234,10 +252,15 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
         </div>
 
         {/* Setup */}
-        <div className="max-w-4xl mx-auto mt-8 rounded-2xl border border-gray-800 bg-viralGray/40 p-8">
+        <div className="max-w-6xl mx-auto mt-8 rounded-2xl border border-gray-800 bg-viralGray/40 p-8">
           <h3 className="text-xl font-bold mb-2">{c.setupTitle}</h3>
           <p className="text-white/70 mb-3">{c.setupBody}</p>
           <p className="text-viralOrange font-semibold">{c.setupOffer}</p>
+        </div>
+
+        {/* Las cuentas de consumo son del cliente */}
+        <div className="max-w-6xl mx-auto mt-4 rounded-2xl border border-gray-800 bg-viralGray/20 p-6">
+          <p className="text-white/60 text-sm">{c.ownershipNote}</p>
         </div>
       </section>
 
@@ -269,7 +292,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
         <div className="max-w-3xl mx-auto text-center rounded-2xl border border-viralOrange/30 bg-viralOrange/5 p-10">
           <h2 className="text-3xl font-bold mb-6">{c.finalTitle}</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href={PRICING.demoUrl} target="_blank" rel="noopener noreferrer">
+            <a href={CONTACT.demoUrl} target="_blank" rel="noopener noreferrer">
               <Button className="h-12 px-6 bg-viralOrange hover:bg-viralOrange/90 text-black font-semibold">
                 {c.finalCtaDemo} <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/use-auth";
 import ViralClicker from "./pages/ClickCRM";
+import Restauracion from "./pages/Restauracion";
 import StartLanding from "./pages/StartLanding";
 import Gracias from "./pages/Gracias";
 import Admin from "./pages/Admin";
@@ -40,6 +41,13 @@ import NewQuotePage from "./pages/dashboard/NewQuotePage";
 
 const queryClient = new QueryClient();
 
+// Los anuncios viejos apuntan a /techos y /reparaciones: se redirigen a la landing
+// del nicho CONSERVANDO el query string, o perderíamos los UTM de la campaña.
+const RedirectToRestauracion = () => {
+  const { search } = useLocation();
+  return <Navigate to={`/restauracion${search}`} replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -50,6 +58,12 @@ const App = () => (
           <Routes>
             {/* Public / Landing */}
             <Route path="/" element={<ViralClicker />} />
+
+            {/* Landing del nicho — aquí aterrizan los anuncios de Meta */}
+            <Route path="/restauracion" element={<Restauracion />} />
+            <Route path="/techos" element={<RedirectToRestauracion />} />
+            <Route path="/reparaciones" element={<RedirectToRestauracion />} />
+
             <Route path="/gracias" element={<Gracias />} />
             <Route path="/playbook" element={<PlaybookClickCRM />} />
             <Route path="/success" element={<Success />} />

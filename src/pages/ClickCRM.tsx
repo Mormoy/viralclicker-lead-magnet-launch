@@ -1,15 +1,17 @@
 
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Logo from '@/components/logo';
 import PricingCta from '@/components/clickcrm/pricing-cta';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import LanguageSwitcher from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
+import { CONTACT } from '@/config/site';
 import {
-  FileText, GitBranch, MessageCircle, Play, ArrowRight,
-  CheckCircle2, Wrench, Shield, Building2, Sun, Hammer, Plug,
-  HelpCircle, ChevronDown, BarChart3, CalendarCheck, Settings, Rocket
+  Megaphone, PhoneCall, Repeat, BarChart3, Play, ArrowRight,
+  CheckCircle2, Droplets, FileSearch, Home, Hammer,
+  HelpCircle, ChevronDown, MessageCircle, CalendarCheck, Settings, Rocket, Bot
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,31 +20,33 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const ViralClicker = () => {
-  const { t } = useTranslation();
+const openDemo = () => window.open(CONTACT.demoUrl, '_blank', 'noopener');
 
-  const productCards = [
-    { icon: FileText, titleKey: 'home.productQuoteTitle', descKey: 'home.productQuoteDesc', color: 'text-primary', bg: 'bg-primary/10' },
-    { icon: GitBranch, titleKey: 'home.productCrmTitle', descKey: 'home.productCrmDesc', color: 'text-blue-400', bg: 'bg-blue-400/10' },
-    { icon: MessageCircle, titleKey: 'home.productWhatsappTitle', descKey: 'home.productWhatsappDesc', color: 'text-green-400', bg: 'bg-green-400/10' },
+const ViralClicker = () => {
+  const { t, i18n } = useTranslation();
+  const pricingHref = i18n.language === 'en' ? '/pricing' : '/precios';
+
+  // CAPTA · ATIENDE · PERSIGUE · CONTROLA
+  const cycleBlocks = [
+    { icon: Megaphone, nameKey: 'home.cycle1Name', descKey: 'home.cycle1Desc' },
+    { icon: PhoneCall, nameKey: 'home.cycle2Name', descKey: 'home.cycle2Desc' },
+    { icon: Repeat, nameKey: 'home.cycle3Name', descKey: 'home.cycle3Desc' },
+    { icon: BarChart3, nameKey: 'home.cycle4Name', descKey: 'home.cycle4Desc' },
   ];
 
   const howSteps = [
-    { step: '1', titleKey: 'home.howStep1', icon: FileText },
-    { step: '2', titleKey: 'home.howStep2', icon: Rocket },
-    { step: '3', titleKey: 'home.howStep3', icon: GitBranch },
-    { step: '4', titleKey: 'home.howStep4', icon: MessageCircle },
+    { step: '1', titleKey: 'home.howStep1Title', descKey: 'home.howStep1Desc', icon: Megaphone },
+    { step: '2', titleKey: 'home.howStep2Title', descKey: 'home.howStep2Desc', icon: PhoneCall },
+    { step: '3', titleKey: 'home.howStep3Title', descKey: 'home.howStep3Desc', icon: CalendarCheck },
+    { step: '4', titleKey: 'home.howStep4Title', descKey: 'home.howStep4Desc', icon: CheckCircle2 },
   ];
 
-  const useCases = [
-    { icon: Wrench, labelKey: 'home.useCase1' },
-    { icon: Hammer, labelKey: 'home.useCase2' },
-    { icon: Shield, labelKey: 'home.useCase3' },
-    { icon: Building2, labelKey: 'home.useCase4' },
-    { icon: Settings, labelKey: 'home.useCase5' },
-    { icon: Sun, labelKey: 'home.useCase6' },
-    { icon: Plug, labelKey: 'home.useCase7' },
-    { icon: BarChart3, labelKey: 'home.useCase8' },
+  // Verticales reales. Por ahora la única landing publicada es /restauracion.
+  const verticals = [
+    { icon: Droplets, nameKey: 'home.vert1Name', descKey: 'home.vert1Desc', href: '/restauracion', live: true },
+    { icon: FileSearch, nameKey: 'home.vert2Name', descKey: 'home.vert2Desc', href: '/restauracion', live: true },
+    { icon: Home, nameKey: 'home.vert3Name', descKey: 'home.vert3Desc', href: '/restauracion', live: false },
+    { icon: Hammer, nameKey: 'home.vert4Name', descKey: 'home.vert4Desc', href: '/restauracion', live: false },
   ];
 
   const caseMetrics = [
@@ -71,7 +75,7 @@ const ViralClicker = () => {
             <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">{t('home.navFaq')}</a>
             <LanguageSwitcher />
             <Button
-              onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={openDemo}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
               size="sm"
             >
@@ -81,7 +85,7 @@ const ViralClicker = () => {
           <div className="md:hidden flex items-center gap-2">
             <LanguageSwitcher />
             <Button
-              onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={openDemo}
               size="sm"
               className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs"
             >
@@ -101,7 +105,7 @@ const ViralClicker = () => {
               </span>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
                 {t('home.heroTitle1')}{' '}
-                <span className="text-primary">{t('home.heroTitle2')}</span> {t('home.heroTitle3')}
+                <span className="text-primary">{t('home.heroTitle2')}</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
                 {t('home.heroSubtitle')}
@@ -110,44 +114,57 @@ const ViralClicker = () => {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 gap-2"
-                  onClick={() => window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20a%20demo%20of%20ViralClicker', '_blank')}
+                  onClick={openDemo}
+                  data-cta="demo-hero"
                 >
                   <Play className="w-4 h-4" /> {t('home.heroDemo')}
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-border text-foreground hover:bg-secondary font-semibold px-8 gap-2"
-                  onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t('home.heroPricing')} <ArrowRight className="w-4 h-4" />
-                </Button>
+                <Link to={pricingHref}>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-border text-foreground hover:bg-secondary font-semibold px-8 gap-2"
+                  >
+                    {t('home.heroPricing')} <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                {[t('home.heroMicro1'), t('home.heroMicro2'), t('home.heroMicro3')].map((txt) => (
+                  <span key={txt} className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" /> {txt}
+                  </span>
+                ))}
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* SECTION 2 — PRODUCT OVERVIEW */}
+        {/* SECTION 2 — CAPTA · ATIENDE · PERSIGUE · CONTROLA */}
         <section id="product" className="py-20 px-4 bg-card/50">
           <div className="container mx-auto max-w-5xl">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.productTitle')}</h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{t('home.productSubtitle')}</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.cycleTitle')}</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{t('home.cycleSubtitle')}</p>
             </motion.div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {productCards.map((item, i) => (
+            <div className="grid sm:grid-cols-2 gap-6">
+              {cycleBlocks.map((item, i) => (
                 <motion.div
-                  key={i}
+                  key={item.nameKey}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={{ ...fadeUp, visible: { ...fadeUp.visible, transition: { duration: 0.5, delay: i * 0.15 } } }}
+                  variants={{ ...fadeUp, visible: { ...fadeUp.visible, transition: { duration: 0.5, delay: i * 0.12 } } }}
                   className="bg-card border border-border rounded-2xl p-8 hover:border-primary/30 transition-colors"
                 >
-                  <div className={`${item.bg} w-12 h-12 rounded-xl flex items-center justify-center mb-5`}>
-                    <item.icon className={`w-6 h-6 ${item.color}`} />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                      <item.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold tracking-wide">
+                      <span className="text-primary mr-1">{i + 1}.</span>{t(item.nameKey)}
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{t(item.titleKey)}</h3>
                   <p className="text-muted-foreground">{t(item.descKey)}</p>
                 </motion.div>
               ))}
@@ -155,8 +172,48 @@ const ViralClicker = () => {
           </div>
         </section>
 
-        {/* SECTION 3 — HOW IT WORKS */}
-        <section id="how-it-works" className="py-20 px-4">
+        {/* SECTION 3 — LOS DOS AGENTES (el diferencial) */}
+        <section id="agentes" className="py-20 px-4">
+          <div className="container mx-auto max-w-5xl">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-1.5 text-sm font-medium mb-5">
+                <Bot className="w-4 h-4" /> {t('home.heroBadge')}
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.agentsTitle')}</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{t('home.agentsSubtitle')}</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { icon: PhoneCall, titleKey: 'home.agentCallTitle', descKey: 'home.agentCallDesc' },
+                { icon: MessageCircle, titleKey: 'home.agentChatTitle', descKey: 'home.agentChatDesc' },
+              ].map((agent, i) => (
+                <motion.div
+                  key={agent.titleKey}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={{ ...fadeUp, visible: { ...fadeUp.visible, transition: { duration: 0.5, delay: i * 0.15 } } }}
+                  className="bg-card border border-primary/20 rounded-2xl p-8"
+                >
+                  <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                    <agent.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{t(agent.titleKey)}</h3>
+                  <p className="text-muted-foreground">{t(agent.descKey)}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mt-8 text-center max-w-2xl mx-auto">
+              <p className="font-semibold text-lg">{t('home.agentsHandoff')}</p>
+              <p className="text-muted-foreground mt-3">{t('home.agentsObjection')}</p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* SECTION 4 — HOW IT WORKS */}
+        <section id="how-it-works" className="py-20 px-4 bg-card/50">
           <div className="container mx-auto max-w-5xl">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.howTitle')}</h2>
@@ -165,7 +222,7 @@ const ViralClicker = () => {
             <div className="grid md:grid-cols-4 gap-6">
               {howSteps.map((item, i) => (
                 <motion.div
-                  key={i}
+                  key={item.titleKey}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -178,7 +235,8 @@ const ViralClicker = () => {
                   <div className="bg-primary text-primary-foreground w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold mx-auto mb-3">
                     {item.step}
                   </div>
-                  <h3 className="font-semibold text-sm md:text-base">{t(item.titleKey)}</h3>
+                  <h3 className="font-semibold text-sm md:text-base mb-1">{t(item.titleKey)}</h3>
+                  <p className="text-muted-foreground text-sm">{t(item.descKey)}</p>
                   {i < 3 && (
                     <div className="hidden md:block absolute top-8 left-[60%] w-[80%] border-t border-dashed border-border" />
                   )}
@@ -188,30 +246,52 @@ const ViralClicker = () => {
           </div>
         </section>
 
-        {/* SECTION 4 — USE CASES */}
-        <section className="py-20 px-4 bg-card/50">
+        {/* SECTION 5 — VERTICALES */}
+        <section className="py-20 px-4">
           <div className="container mx-auto max-w-5xl">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.useCasesTitle')}</h2>
-              <p className="text-muted-foreground text-lg">{t('home.useCasesSubtitle')}</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.vertTitle')}</h2>
+              <p className="text-muted-foreground text-lg">{t('home.vertSubtitle')}</p>
             </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {useCases.map((item, i) => (
-                <div key={i} className="bg-card border border-border rounded-xl p-4 flex flex-col items-center gap-2 hover:border-primary/30 transition-colors">
-                  <item.icon className="w-6 h-6 text-primary" />
-                  <span className="text-sm font-medium text-center">{t(item.labelKey)}</span>
-                </div>
+            <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+              {verticals.map((v, i) => (
+                <motion.div
+                  key={v.nameKey}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={{ ...fadeUp, visible: { ...fadeUp.visible, transition: { duration: 0.5, delay: i * 0.1 } } }}
+                >
+                  <Link
+                    to={v.href}
+                    className="group block h-full bg-card border border-border rounded-2xl p-6 hover:border-primary/40 transition-colors"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                        <v.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg mb-1">{t(v.nameKey)}</h3>
+                        <p className="text-muted-foreground text-sm mb-3">{t(v.descKey)}</p>
+                        <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
+                          {v.live ? t('home.vertCta') : t('home.vertSoon')}
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* SECTION 5 — CASE STUDY */}
-        <section className="py-20 px-4">
+        {/* SECTION 6 — EJEMPLO ILUSTRATIVO (no es un testimonio) */}
+        <section className="py-20 px-4 bg-card/50">
           <div className="container mx-auto max-w-4xl">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="bg-card border border-border rounded-2xl p-8 md:p-12">
               <div className="text-center mb-8">
-                <span className="inline-block bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-1 text-sm font-medium mb-4">
+                <span className="inline-block bg-amber-500/10 text-amber-500 border border-amber-500/30 rounded-full px-4 py-1 text-sm font-semibold mb-4">
                   {t('home.caseBadge')}
                 </span>
                 <h2 className="text-2xl md:text-3xl font-bold mb-3">{t('home.caseTitle')}</h2>
@@ -220,8 +300,8 @@ const ViralClicker = () => {
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-6 mb-8">
-                {caseMetrics.map((item, i) => (
-                  <div key={i} className="bg-secondary/50 border border-border rounded-xl p-5 text-center">
+                {caseMetrics.map((item) => (
+                  <div key={item.labelKey} className="bg-secondary/50 border border-border rounded-xl p-5 text-center">
                     <div className="text-3xl font-bold text-primary mb-1">{t(item.metricKey)}</div>
                     <div className="text-sm font-medium mb-2">{t(item.labelKey)}</div>
                     <div className="text-xs text-muted-foreground">{t('home.caseBefore')} {t(item.beforeKey)}</div>
@@ -229,18 +309,18 @@ const ViralClicker = () => {
                 ))}
               </div>
               <div className="text-center">
-                <p className="text-muted-foreground italic text-sm">
-                  "{t('home.caseQuote')}"
+                <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+                  {t('home.caseQuote')}
                 </p>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* SECTION 6 — PRICING (compact CTA → full plans on /pricing) */}
+        {/* SECTION 7 — PRICING (compact CTA → full plans on /precios) */}
         <PricingCta />
 
-        {/* SECTION 7 — IMPLEMENTATION */}
+        {/* SECTION 8 — IMPLEMENTATION */}
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-4xl">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
@@ -250,7 +330,7 @@ const ViralClicker = () => {
             <div className="grid md:grid-cols-4 gap-6">
               {implSteps.map((item, i) => (
                 <motion.div
-                  key={i}
+                  key={item.titleKey}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -269,10 +349,10 @@ const ViralClicker = () => {
           </div>
         </section>
 
-        {/* SECTION 8 — FAQ */}
+        {/* SECTION 9 — FAQ */}
         <FAQSection />
 
-        {/* SECTION 9 — FINAL CTA */}
+        {/* SECTION 10 — FINAL CTA */}
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-3xl text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -282,18 +362,20 @@ const ViralClicker = () => {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 gap-2"
-                  onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t('home.ctaPricing')} <ArrowRight className="w-4 h-4" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-border text-foreground hover:bg-secondary font-semibold px-8 gap-2"
-                  onClick={() => window.open('https://wa.me/13051234567?text=Hi,%20I%27d%20like%20to%20book%20a%20demo', '_blank')}
+                  onClick={openDemo}
+                  data-cta="demo-final"
                 >
                   <CalendarCheck className="w-4 h-4" /> {t('home.ctaDemo')}
                 </Button>
+                <Link to={pricingHref}>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-border text-foreground hover:bg-secondary font-semibold px-8 gap-2"
+                  >
+                    {t('home.ctaPricing')} <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -306,7 +388,7 @@ const ViralClicker = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-muted-foreground text-center md:text-left text-sm">{t('home.footerRights', { year: new Date().getFullYear() })}</div>
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-              <a href="/pricing" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerPricing')}</a>
+              <Link to={pricingHref} className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerPricing')}</Link>
               <span className="text-border">|</span>
               <a href="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">{t('home.footerTerms')}</a>
               <span className="text-border">|</span>
@@ -328,22 +410,10 @@ const FAQSection = () => {
   const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const faqs = [
-    { qKey: 'home.faq1Q', aKey: 'home.faq1A' },
-    { qKey: 'home.faq2Q', aKey: 'home.faq2A' },
-    { qKey: 'home.faq3Q', aKey: 'home.faq3A' },
-    { qKey: 'home.faq4Q', aKey: 'home.faq4A' },
-    { qKey: 'home.faq5Q', aKey: 'home.faq5A' },
-    { qKey: 'home.faq6Q', aKey: 'home.faq6A' },
-    {
-      qKey: 'What if I exceed my monthly limits?',
-      aKey: "Excess usage is billed automatically at the overage rate ($0.05/WhatsApp msg, $0.30/Voice AI min, $5 per 100k AI tokens). You'll get an alert at 80% usage so you can decide whether to upgrade or let it bill at month-end.",
-    },
-    {
-      qKey: 'Does Mormoy handle Twilio / Anthropic / Vapi costs?',
-      aKey: 'Yes. You get a single monthly invoice from ViralClicker that already includes Twilio, Anthropic and Vapi usage. No separate accounts, no juggling vendors.',
-    },
-  ];
+  const faqs = [1, 2, 3, 4, 5, 6, 7].map((n) => ({
+    qKey: `home.faq${n}Q`,
+    aKey: `home.faq${n}A`,
+  }));
 
   return (
     <section id="faq" className="py-20 px-4 bg-card/50">
@@ -355,7 +425,7 @@ const FAQSection = () => {
         <div className="space-y-3">
           {faqs.map((faq, i) => (
             <motion.div
-              key={i}
+              key={faq.qKey}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}

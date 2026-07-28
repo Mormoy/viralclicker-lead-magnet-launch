@@ -11,8 +11,8 @@ const PricingCta = () => {
 
   const title = isEs ? 'Precios simples. Resultados serios.' : 'Simple pricing. Serious results.';
   const subtitle = isEs
-    ? 'Starter, Pro y setup — implementación en 7 días, seguimiento por WhatsApp y soporte en español e inglés. Sin contratos.'
-    : 'Starter, Pro and setup — live in 7 days, WhatsApp follow-up, and support in English & Spanish. No contracts.';
+    ? 'Starter, Pro, Growth y setup — implementación en 7 días, agentes en español e inglés y soporte incluido. Sin contratos.'
+    : 'Starter, Pro, Growth and setup — live in 7 days, agents in English & Spanish, support included. No contracts.';
   const cta = isEs ? 'Ver precios' : 'See pricing';
 
   return (
