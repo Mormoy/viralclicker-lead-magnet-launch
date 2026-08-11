@@ -257,3 +257,21 @@
     padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
 }
+
+/* ============================================================================
+   Movimiento reducido.
+   El cronómetro del hero y el guion del chat ya se congelan por JS (useChatMarco
+   lee la preferencia al montar), pero esto es la red de seguridad para todo lo
+   demás: el parpadeo del punto rojo, los puntitos de "escribiendo" y cualquier
+   transición que se agregue después.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

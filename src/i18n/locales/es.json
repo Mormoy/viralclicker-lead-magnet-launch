@@ -397,40 +397,49 @@
     "visitSite": "Visitar sitio principal",
     "footer": "Powered by"
   },
-  "incident": {
-    "eyebrow": "Turno de noche · Miami, FL",
-    "logTitle": "Registro del incidente",
-    "clockLabel": "Tiempo transcurrido desde que entró el interesado",
-    "a1Kicker": "Entra un interesado",
-    "a1Detail": "Se reventó una tubería en la cocina. Hay agua en todo el primer piso.",
-    "a1Source": "Anuncio de Facebook",
-    "a1Place": "Coral Gables, FL",
-    "a2Kicker": "El agente llama",
-    "a2Agent": "Sofía",
-    "callLines": [
-      {
-        "quien": "agente",
-        "texto": "Buenas noches, le llamo por el aviso del agua. ¿Alcanzó a cerrar la llave de paso?"
-      },
-      {
-        "quien": "cliente",
-        "texto": "Sí, ya la cerré. Pero está todo empapado."
-      },
-      {
-        "quien": "agente",
-        "texto": "Hizo lo correcto. Le mando un técnico hoy a las 8 de la mañana, ¿le sirve?"
-      },
-      {
-        "quien": "cliente",
-        "texto": "Sí, por favor."
-      }
-    ],
-    "a3Kicker": "Queda agendado",
-    "a3Message": "Confirmado: hoy 8:00 AM. Va Luis con el equipo de secado. Cualquier cosa me escribe por acá.",
-    "closer": "El dueño se enteró a las 7 de la mañana, con la visita ya agendada.",
-    "disclaimer": "Ejemplo de uso, no es el caso de un cliente real",
-    "a1LabelSource": "Origen",
-    "a1LabelZone": "Zona",
-    "a2Status": "en línea"
+  "cuadrilla": {
+    "heroTag": "Para techistas de Florida",
+    "heroTitleA": "El trabajo de",
+    "heroAmount": "$15,000",
+    "heroTitleB": "se lo llevó el que contestó primero.",
+    "heroSub": "Tu negocio responde en 2 minutos, aunque tú estés arriba de un techo. ViralClicker capta, atiende, da seguimiento y agenda por ti — las 24 horas, en español e inglés.",
+    "ctaBanda": "Escucha a Marco llamar en vivo. 15 minutos.",
+    "ctaBandaBoton": "Agendar la demo",
+    "plataforma": "La plataforma",
+    "headerZone": "Florida, EE.UU."
+  },
+  "marco": {
+    "raceTitle": "La carrera por el lead",
+    "raceLabel": "Tú, sin contestar",
+    "contact": "Marco · Techos ABC",
+    "online": "en línea",
+    "today": "HOY",
+    "m1": "Hola, vi su anuncio. Se me voló parte del techo con la tormenta de anoche 😕",
+    "m2": "Hola 👋 Soy Marco, de Techos ABC. Lamento lo del techo — lo llamo en 2 minutos para ver cómo ayudarlo. ¿Le sirve?",
+    "m3": "Sí, dale",
+    "call": "📞 Llamada de voz · 4 min · calificado ✓",
+    "m4a": "Listo ✅ Le agendé la inspección para el",
+    "m4slot": "martes 9:30 AM",
+    "m4b": ". Le llega la confirmación por acá. Cualquier cosa me escribe, atiendo 24/7.",
+    "disclaimer": "Conversación ilustrativa con tiempos de referencia del rubro — no es el testimonio de un cliente."
+  },
+  "caso": {
+    "tag": "El caso real · Techos",
+    "title": "Después de la tormenta entran diez consultas el mismo día.",
+    "sub": "Esto hace Marco con cada una, mientras tú sigues en la obra.",
+    "t1": "Entra el lead desde tu anuncio de Meta o Google. Queda marcado con el anuncio que lo trajo.",
+    "t2strong": "Marco lo llama en unos 15 minutos",
+    "t2": "— en inglés o español, según conteste — y pregunta lo que define si el trabajo existe:",
+    "q1": "¿El daño es de la tormenta?",
+    "q2": "¿Tiene seguro?",
+    "q3": "¿Usted es el dueño de la casa?",
+    "t3a": "Si califica,",
+    "t3strong": "agenda la inspección en tu calendario",
+    "t3b": "y confirma por WhatsApp.",
+    "t4hora": "+24 H",
+    "t4": "¿No contestó? Lo vuelve a llamar. El seguimiento por WhatsApp sigue solo a los 2, 5 y 7 días.",
+    "t5hora": "TÚ",
+    "t5": "Solo llegas a la cita, con el cliente esperándote.",
+    "credit": "Caso validado con un cliente real de ViralClicker · [ nombre pendiente de autorización ]"
   }
 }

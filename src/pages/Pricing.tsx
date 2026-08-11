@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Check, Star, ArrowRight, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Check, Star, ArrowRight, MessageCircle, ArrowLeft, Plus } from 'lucide-react';
 import Logo from '@/components/logo';
 import LanguageSwitcher from '@/components/language-switcher';
-import { Button } from '@/components/ui/button';
+import {
+  Seccion, Titular, Etiqueta, FranjaPeligro, BotonCartel,
+} from '@/components/vc/skin';
 
 import { CONTACT, PRICING, waLink } from '@/config/site';
 
@@ -185,137 +187,160 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
   const c = content(lang);
 
   return (
-    <div className="min-h-screen bg-viralDark text-white">
+    <div className="min-h-screen bg-vc-crema font-body text-vc-tinta antialiased">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-viralDark/90 backdrop-blur border-b border-gray-800">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="text-white/60 hover:text-white flex items-center gap-1 text-sm">
-              <ArrowLeft className="w-4 h-4" /> {c.back}
-            </Link>
-            <Logo className="ml-2" />
+      <header className="sticky top-0 z-50">
+        <div className="bg-vc-marron">
+          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-[5vw] py-3.5">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/"
+                className="flex items-center gap-1 font-mono text-[12px] uppercase tracking-wider text-vc-arena transition-colors hover:text-vc-amarillo"
+              >
+                <ArrowLeft className="h-4 w-4" /> {c.back}
+              </Link>
+              <Logo className="ml-2" />
+            </div>
+            <LanguageSwitcher />
           </div>
-          <LanguageSwitcher />
         </div>
+        <FranjaPeligro />
       </header>
 
       {/* Hero */}
-      <section className="container mx-auto px-4 pt-16 pb-10 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{c.heroTitle}</h1>
-        <p className="text-white/70 text-lg max-w-2xl mx-auto">{c.heroSub}</p>
-      </section>
+      <Seccion ancho="ancho" className="!pb-0">
+        <Etiqueta>{c.mostPopular}</Etiqueta>
+        <Titular className="mt-4">{c.heroTitle}</Titular>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-vc-marron3">{c.heroSub}</p>
+      </Seccion>
 
-      {/* Plan cards */}
-      <section className="container mx-auto px-4 pb-8">
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+      {/* Planes */}
+      <Seccion ancho="ancho">
+        <div className="grid gap-6 md:grid-cols-3">
           {c.plans.map((plan) => (
             <div
               key={plan.id}
-              className={`relative rounded-2xl border p-8 flex flex-col ${
-                plan.popular
-                  ? 'border-viralOrange bg-viralOrange/5 shadow-2xl shadow-viralOrange/10'
-                  : 'border-gray-800 bg-viralGray/40'
+              className={`relative flex flex-col border-[3px] border-vc-marron p-7 ${
+                plan.popular ? 'bg-vc-amarillo shadow-dura-marron' : 'bg-white shadow-dura'
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 bg-viralOrange text-black text-xs font-bold px-3 py-1 rounded-full">
-                  <Star className="w-3 h-3 fill-black" /> {c.mostPopular}
+                <span className="absolute -top-3.5 left-6 inline-flex items-center gap-1 border-2 border-vc-marron bg-vc-naranja px-2.5 py-1 font-mono text-[10px] font-extrabold uppercase tracking-wider text-vc-crema">
+                  <Star className="h-3 w-3 fill-vc-crema" /> {c.mostPopular}
                 </span>
               )}
-              <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-              <div className="flex items-baseline gap-1 mb-3">
-                <span className="text-4xl font-extrabold text-viralOrange">{plan.price}</span>
-                <span className="text-white/50">{plan.cadence}</span>
+              <h3 className="font-display text-3xl font-black uppercase leading-none">{plan.name}</h3>
+              <div className="mt-3 flex items-baseline gap-1.5">
+                {/* Sobre la tarjeta amarilla el naranja no contrasta: ahí el
+                    precio va en marrón (10,9:1). Sobre blanco, óxido (4,7:1). */}
+                <span
+                  className={`font-display text-[3.5rem] font-black leading-none ${
+                    plan.popular ? 'text-vc-marron' : 'text-vc-oxido'
+                  }`}
+                >
+                  {plan.price}
+                </span>
+                <span className="font-mono text-sm text-vc-marron3">{plan.cadence}</span>
               </div>
-              <p className="text-white/60 text-sm mb-6">{plan.blurb}</p>
-              <ul className="space-y-3 mb-8 flex-1">
+              <p className="mt-3 text-sm leading-relaxed text-vc-marron3">{plan.blurb}</p>
+              <ul className="mb-7 mt-6 flex-1 space-y-2.5">
                 {plan.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-white/80">
-                    <Check className="w-4 h-4 text-viralOrange mt-0.5 flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-2 text-sm leading-snug">
+                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-vc-quemado" />
                     <span>{f}</span>
                   </li>
                 ))}
               </ul>
               <a href={waLink(plan.waMsg)} target="_blank" rel="noopener noreferrer">
-                <Button
-                  className={`w-full h-12 font-semibold ${
-                    plan.popular
-                      ? 'bg-viralOrange hover:bg-viralOrange/90 text-black'
-                      : 'bg-gray-700 hover:bg-gray-600 text-white'
-                  }`}
+                <BotonCartel
+                  variante={plan.popular ? 'principal' : 'oscuro'}
+                  className="w-full !shadow-none"
                 >
-                  {plan.cta} <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                  {plan.cta} <ArrowRight className="h-4 w-4" />
+                </BotonCartel>
               </a>
             </div>
           ))}
         </div>
 
         {/* Setup */}
-        <div className="max-w-6xl mx-auto mt-8 rounded-2xl border border-gray-800 bg-viralGray/40 p-8">
-          <h3 className="text-xl font-bold mb-2">{c.setupTitle}</h3>
-          <p className="text-white/70 mb-3">{c.setupBody}</p>
-          <p className="text-viralOrange font-semibold">{c.setupOffer}</p>
+        <div className="mt-6 border-[3px] border-vc-marron bg-white p-7">
+          <h3 className="font-display text-2xl font-black uppercase leading-none">{c.setupTitle}</h3>
+          <p className="mt-3 leading-relaxed text-vc-marron3">{c.setupBody}</p>
+          <p className="mt-2 font-semibold text-vc-quemado">{c.setupOffer}</p>
         </div>
 
         {/* Las cuentas de consumo son del cliente */}
-        <div className="max-w-6xl mx-auto mt-4 rounded-2xl border border-gray-800 bg-viralGray/20 p-6">
-          <p className="text-white/60 text-sm">{c.ownershipNote}</p>
+        <div className="mt-4 border-2 border-dashed border-vc-marron3/50 p-5">
+          <p className="font-mono text-[13px] leading-relaxed text-vc-marron3">{c.ownershipNote}</p>
         </div>
-      </section>
+      </Seccion>
 
-      {/* Comparison */}
-      <section className="container mx-auto px-4 py-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-3">{c.compareTitle}</h2>
-          <p className="text-white/70">{c.compare}</p>
-        </div>
-      </section>
+      <FranjaPeligro />
+
+      {/* Comparación */}
+      <Seccion tono="marron">
+        <Titular sobreOscuro>{c.compareTitle}</Titular>
+        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-vc-arena">{c.compare}</p>
+      </Seccion>
 
       {/* FAQ */}
-      <section className="container mx-auto px-4 py-6">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6 text-center">{c.faqTitle}</h2>
-          <div className="space-y-4">
-            {c.faqs.map((f, i) => (
-              <div key={i} className="rounded-xl border border-gray-800 bg-viralGray/30 p-5">
-                <p className="font-semibold mb-1">{f.q}</p>
-                <p className="text-white/60 text-sm">{f.a}</p>
-              </div>
-            ))}
-          </div>
+      <Seccion>
+        <Titular>{c.faqTitle}</Titular>
+        <div className="mt-7 flex flex-col">
+          {c.faqs.map((f, i) => (
+            <details
+              key={i}
+              className="group border-t-2 border-vc-marron3/40 last:border-b-2"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vc-amarillo">
+                <span className="font-display text-xl font-black uppercase leading-tight">{f.q}</span>
+                <Plus
+                  aria-hidden
+                  className="h-5 w-5 shrink-0 text-vc-oxido transition-transform duration-200 group-open:rotate-45"
+                />
+              </summary>
+              <p className="max-w-3xl pb-6 text-[17px] leading-relaxed text-vc-marron3">{f.a}</p>
+            </details>
+          ))}
         </div>
-      </section>
+      </Seccion>
 
-      {/* Final CTA */}
-      <section className="container mx-auto px-4 py-14">
-        <div className="max-w-3xl mx-auto text-center rounded-2xl border border-viralOrange/30 bg-viralOrange/5 p-10">
-          <h2 className="text-3xl font-bold mb-6">{c.finalTitle}</h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      {/* Cierre */}
+      <Seccion>
+        <div className="flex flex-wrap items-center justify-between gap-6 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-marron">
+          <h2 className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">
+            {c.finalTitle}
+          </h2>
+          <div className="flex flex-wrap items-center gap-4">
             <a href={CONTACT.demoUrl} target="_blank" rel="noopener noreferrer">
-              <Button className="h-12 px-6 bg-viralOrange hover:bg-viralOrange/90 text-black font-semibold">
-                {c.finalCtaDemo} <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+              <BotonCartel variante="oscuro">
+                {c.finalCtaDemo} <ArrowRight className="h-4 w-4" />
+              </BotonCartel>
             </a>
             <a
               href={waLink(c.finalWaMsg)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white"
+              className="inline-flex items-center gap-2 font-semibold text-vc-marron underline decoration-2 underline-offset-4"
             >
-              <MessageCircle className="w-5 h-5 text-green-400" /> {c.finalCtaWa}
+              <MessageCircle className="h-5 w-5" /> {c.finalCtaWa}
             </a>
           </div>
         </div>
-      </section>
+      </Seccion>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 py-8">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
-          <span>© {new Date().getFullYear()} ViralClicker by Mormoy LLC</span>
-          <div className="flex items-center gap-6">
-            <Link to="/terms" className="hover:text-white">{c.footerTerms}</Link>
-            <Link to="/privacy" className="hover:text-white">{c.footerPrivacy}</Link>
+      <footer className="bg-vc-marron">
+        <div className="mx-auto flex max-w-[1100px] flex-col items-start justify-between gap-4 px-[5vw] py-9 font-mono text-[11px] uppercase tracking-wider md:flex-row md:items-center">
+          <span className="text-vc-polvo">© {new Date().getFullYear()} ViralClicker by Mormoy LLC</span>
+          <div className="flex items-center gap-5">
+            <Link to="/terms" className="text-vc-arena transition-colors hover:text-vc-amarillo">
+              {c.footerTerms}
+            </Link>
+            <Link to="/privacy" className="text-vc-arena transition-colors hover:text-vc-amarillo">
+              {c.footerPrivacy}
+            </Link>
           </div>
         </div>
       </footer>

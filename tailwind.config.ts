@@ -29,25 +29,40 @@ export default {
 				viralDark: '#0f0f0f',
 				viralGray: '#1e1e1e',
 				viralLight: '#f5f5f5',
-				// Paleta de la web pública. Vive aparte de los tokens de shadcn
-				// a propósito: el dashboard y el admin siguen con los suyos y no
-				// se enteran de este rediseño.
+				// Piel "Cuadrilla" de la web pública. Vive aparte de los tokens
+				// de shadcn a propósito: el dashboard y el admin siguen con los
+				// suyos y no se enteran de este rediseño.
 				//
-				// La idea: turno de noche. Fondo tinta azulada (no negro plano),
-				// y los artefactos del oficio —la orden de trabajo, la
-				// transcripción, el chat— en papel. Ese contraste papel/tinta es
-				// lo que da imagen a una página que no tiene fotos.
+				// La idea es la obra: cartel, franja de peligro, marrón de
+				// madera y el amarillo de las cintas. Cálida, no fría — el
+				// intento anterior era azul tinta y se sintió distante para un
+				// techista.
 				vc: {
-					ink: '#0B1220',      // el fondo, azul tinta
-					ink2: '#101B2D',     // superficie elevada
-					ink3: '#18273E',     // bordes y separadores
-					paper: '#F3F0EA',    // documentos
-					paperDim: '#DAD4C8', // papel en segundo plano
-					steel: '#8FA2BC',    // texto secundario sobre tinta
-					// El naranja de la marca. Reservado para el reloj y el CTA
-					// principal: si todo es naranja, nada es urgente.
-					signal: '#FF6A00',
-					wa: '#25D366',       // solo dentro del hilo de WhatsApp
+					marron: '#23180F',   // header, secciones oscuras, texto sobre claro
+					marron2: '#2F2013',  // superficie elevada dentro de lo oscuro
+					marron3: '#4A3520',  // bordes y texto secundario sobre crema
+					marron4: '#5A4128',  // bordes dentro de lo oscuro
+					crema: '#FFF9F0',    // el fondo de la página
+					tinta: '#2A1B0E',    // el texto sobre crema
+					// El naranja de la marca. Sobre el marrón da 6,05:1 y se usa
+					// libre; sobre el crema da 2,74:1 y NO pasa AA ni de lejos,
+					// así que ahí solo va como RELLENO (botones, bandas), nunca
+					// como texto.
+					naranja: '#FF6A00',
+					// Naranja para TEXTO sobre crema: 4,58:1, pasa AA en
+					// cualquier tamaño y sigue leyéndose naranja.
+					oxido: '#C24E00',
+					quemado: '#B44A00',  // hover de los rellenos naranjas y bordes
+					amarillo: '#FFC42E', // franjas de peligro, etiquetas, subrayados
+					alerta: '#FF3D00',   // solo el cronómetro "TÚ, SIN CONTESTAR"
+					arena: '#C9A97F',    // texto secundario sobre marrón
+					hueso: '#F2E3C9',    // texto corrido sobre marrón
+					polvo: '#8A6B47',    // notas al pie en mono
+					// El chat usa los colores REALES de WhatsApp: es lo que hace
+					// que se lea como un teléfono y no como una ilustración.
+					waFondo: '#E5DDD5',
+					waVerde: '#DCF8C6',
+					waBarra: '#54473B',
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
@@ -118,9 +133,23 @@ export default {
 			fontFamily: {
 				// No se pisa `sans` a propósito: eso cambiaría la tipografía del
 				// dashboard y del admin, que no son parte de este rediseño.
-				display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
-				body: ['"Public Sans"', 'system-ui', 'sans-serif'],
-				mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+				display: ['"Barlow Condensed"', 'system-ui', 'sans-serif'],
+				body: ['Barlow', 'system-ui', 'sans-serif'],
+				mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+			},
+			backgroundImage: {
+				// La franja de peligro: el guiño a la obra que hace reconocible
+				// la piel. Va bajo el header y como separador de las secciones
+				// clave — sin abusar, o deja de significar algo.
+				'franja-peligro':
+					'repeating-linear-gradient(-45deg,#FFC42E 0 18px,#23180F 18px 36px)',
+			},
+			boxShadow: {
+				// Sombras duras, sin difuminado: es un cartel impreso, no una
+				// tarjeta flotando.
+				dura: '5px 5px 0 #23180F',
+				'dura-lg': '8px 8px 0 #FFC42E',
+				'dura-marron': '6px 6px 0 #23180F',
 			}
 		}
 	},

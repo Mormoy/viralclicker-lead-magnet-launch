@@ -397,40 +397,49 @@
     "visitSite": "Visit Main Website",
     "footer": "Powered by"
   },
-  "incident": {
-    "eyebrow": "Night shift · Miami, FL",
-    "logTitle": "Incident log",
-    "clockLabel": "Time elapsed since the lead came in",
-    "a1Kicker": "A lead comes in",
-    "a1Detail": "A kitchen pipe burst. There is water across the whole first floor.",
-    "a1Source": "Facebook ad",
-    "a1Place": "Coral Gables, FL",
-    "a2Kicker": "The agent calls",
-    "a2Agent": "Sofia",
-    "callLines": [
-      {
-        "quien": "agente",
-        "texto": "Good evening, I am calling about the water report. Were you able to shut off the main valve?"
-      },
-      {
-        "quien": "cliente",
-        "texto": "Yes, I shut it off. But everything is soaked."
-      },
-      {
-        "quien": "agente",
-        "texto": "That was the right call. I can have a tech there at 8 this morning. Does that work?"
-      },
-      {
-        "quien": "cliente",
-        "texto": "Yes, please."
-      }
-    ],
-    "a3Kicker": "Booked",
-    "a3Message": "Confirmed: today 8:00 AM. Luis is coming with the drying crew. Message me here any time.",
-    "closer": "The owner found out at 7 a.m., with the visit already on the calendar.",
-    "disclaimer": "Illustrative example, not a real client case",
-    "a1LabelSource": "Source",
-    "a1LabelZone": "Area",
-    "a2Status": "on the line"
+  "cuadrilla": {
+    "heroTag": "For Florida roofers",
+    "heroTitleA": "The",
+    "heroAmount": "$15,000",
+    "heroTitleB": "job went to whoever called back first.",
+    "heroSub": "Your business answers in 2 minutes, even while you are up on a roof. ViralClicker captures, answers, follows up and books for you — 24/7, in English and Spanish.",
+    "ctaBanda": "Hear Marco make a live call. 15 minutes.",
+    "ctaBandaBoton": "Book the demo",
+    "plataforma": "The platform",
+    "headerZone": "Florida, USA"
+  },
+  "marco": {
+    "raceTitle": "The race for the lead",
+    "raceLabel": "You, still not calling back",
+    "contact": "Marco · ABC Roofing",
+    "online": "online",
+    "today": "TODAY",
+    "m1": "Hi, I saw your ad. Part of my roof blew off in last night storm 😕",
+    "m2": "Hi 👋 This is Marco, from ABC Roofing. Sorry about the roof — I will call you in 2 minutes to see how we can help. Does that work?",
+    "m3": "Yes, go ahead",
+    "call": "📞 Voice call · 4 min · qualified ✓",
+    "m4a": "All set ✅ I booked your inspection for",
+    "m4slot": "Tuesday 9:30 AM",
+    "m4b": ". You will get the confirmation right here. Message me any time, I am on 24/7.",
+    "disclaimer": "Illustrative conversation with reference timings for the trade — not a client testimonial."
+  },
+  "caso": {
+    "tag": "The real case · Roofing",
+    "title": "After the storm, ten enquiries come in the same day.",
+    "sub": "This is what Marco does with every one of them, while you stay on the job.",
+    "t1": "The lead comes in from your Meta or Google ad. It is tagged with the ad that brought it.",
+    "t2strong": "Marco calls within about 15 minutes",
+    "t2": "— in English or Spanish, whichever they answer in — and asks what decides whether the job is real:",
+    "q1": "Is the damage from the storm?",
+    "q2": "Do you have insurance?",
+    "q3": "Are you the homeowner?",
+    "t3a": "If they qualify, he",
+    "t3strong": "books the inspection on your calendar",
+    "t3b": "and confirms over WhatsApp.",
+    "t4hora": "+24 H",
+    "t4": "No answer? He calls again. WhatsApp follow-up keeps going on its own at 2, 5 and 7 days.",
+    "t5hora": "YOU",
+    "t5": "You just show up to the appointment, with the client waiting for you.",
+    "credit": "Case validated with a real ViralClicker client · [ name pending authorisation ]"
   }
 }

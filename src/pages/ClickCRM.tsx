@@ -1,38 +1,36 @@
 // ============================================================================
-// viralclicker.com — la home.
+// viralclicker.com — la home, con la piel "Propuesta A · Cuadrilla".
 //
-// Rediseño (10-ago). Lo que había era el patrón por defecto: fondo casi negro,
-// un único acento naranja repartido por todos lados, ocho secciones idénticas
-// de título centrado + grilla de tarjetas con iconito, y ni una sola imagen.
+// La dirección visual la aprobó JC sobre el mockup
+// `CLIENTES/ViralClicker/MOCKUP_PROPUESTA_A_CUADRILLA.html`. Tres cosas la
+// hacen reconocible y no hay que diluirlas:
 //
-// Las tres decisiones de este rediseño:
+//  1· La franja de peligro amarilla y negra. Va bajo el header y separando las
+//     secciones clave. Si se usa en todas deja de significar algo.
+//  2· Los titulares condensados en mayúsculas, enormes, con la cifra en
+//     naranja. Es un cartel de obra, no una landing de SaaS.
+//  3· El teléfono de Marco con el cronómetro rojo corriendo: el lead atendido
+//     de un lado y el tiempo que uno lleva sin contestar del otro.
 //
-//  1· El hero no promete que se responde en 2 minutos: los hace pasar. Una
-//     emergencia real de las 2:47 AM resolviéndose sola, con el cronómetro
-//     corriendo. Es el único momento con movimiento del sitio y es el producto.
-//
-//  2· Papel sobre tinta. Los artefactos del oficio —la orden que entra, la
-//     transcripción, el hilo de WhatsApp, el informe de cifras— son de papel.
-//     Ese contraste es lo que le da imagen a una página que no tiene fotos, y
-//     no depende de conseguir fotografías que hoy no existen.
-//
-//  3· El naranja se reserva para el reloj y el botón principal. Antes era el
-//     color de todo, y cuando todo grita no se escucha nada.
+// El contenido se conserva del sitio anterior; lo que cambió es la piel y el
+// ejemplo del hero, que ahora es el caso real de techos y no una emergencia de
+// otro rubro.
 // ============================================================================
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CalendarCheck, ArrowRight } from 'lucide-react';
 
 import Logo from '@/components/logo';
 import PricingCta from '@/components/clickcrm/pricing-cta';
 import WhatsAppButton from '@/components/clickcrm/whatsapp-button';
 import LanguageSwitcher from '@/components/language-switcher';
-import { Button } from '@/components/ui/button';
 import { CONTACT } from '@/config/site';
 
-import IncidentHero from '@/components/vc/incident-hero';
-import { Seccion, EncabezadoSeccion, subeSuave } from '@/components/vc/section';
+import HeroCuadrilla from '@/components/vc/hero-cuadrilla';
+import CasoTechos from '@/components/vc/caso-techos';
+import {
+  Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave,
+} from '@/components/vc/skin';
 import CycleLedger from '@/components/vc/cycle-ledger';
 import AgentsSplit from '@/components/vc/agents-split';
 import StepRail from '@/components/vc/step-rail';
@@ -60,118 +58,114 @@ const ViralClicker = () => {
   const { t, i18n } = useTranslation();
   const pricingHref = i18n.language === 'en' ? '/pricing' : '/precios';
 
-  const enlacesNav = [
-    { href: '#product', label: t('home.navProduct') },
-    { href: '#how-it-works', label: t('home.navHow') },
-    { href: '#faq', label: t('home.navFaq') },
-  ];
-
   return (
-    <div className="flex min-h-screen flex-col bg-vc-ink font-body text-vc-paper antialiased">
+    <div className="flex min-h-screen flex-col bg-vc-crema font-body text-vc-tinta antialiased">
       {/* ── Cabecera ──────────────────────────────────────────────────── */}
-      <header className="fixed top-0 z-50 w-full border-b border-vc-ink3 bg-vc-ink/85 backdrop-blur-md">
-        <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Logo />
-          <nav className="hidden items-center gap-7 md:flex">
-            {enlacesNav.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="font-mono text-[11px] uppercase tracking-[0.15em] text-vc-steel transition-colors hover:text-vc-paper"
+      <header className="sticky top-0 z-50">
+        <div className="bg-vc-marron">
+          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-[5vw] py-3.5">
+            <Logo />
+            <div className="flex items-center gap-4">
+              <span className="hidden font-mono text-[13px] font-semibold text-vc-arena sm:inline">
+                {t('cuadrilla.headerZone')}
+              </span>
+              <LanguageSwitcher />
+              <BotonCartel
+                onClick={abrirDemo}
+                data-cta="demo-header"
+                className="!border-vc-naranja !px-4 !py-2.5 !text-[15px] !shadow-none"
               >
-                {l.label}
-              </a>
-            ))}
-            <Link
-              to={pricingHref}
-              className="font-mono text-[11px] uppercase tracking-[0.15em] text-vc-steel transition-colors hover:text-vc-paper"
-            >
-              {t('home.navPricing')}
-            </Link>
-            <LanguageSwitcher />
-            <Button
-              onClick={abrirDemo}
-              size="sm"
-              className="rounded-sm bg-vc-signal font-semibold text-white hover:bg-vc-signal/90"
-            >
-              {t('home.navGetStarted')}
-            </Button>
-          </nav>
-          <div className="flex items-center gap-2 md:hidden">
-            <LanguageSwitcher />
-            <Button
-              onClick={abrirDemo}
-              size="sm"
-              className="rounded-sm bg-vc-signal text-xs font-semibold text-white hover:bg-vc-signal/90"
-            >
-              {t('home.navGetStarted')}
-            </Button>
+                {t('home.navGetStarted')}
+              </BotonCartel>
+            </div>
           </div>
         </div>
+        <FranjaPeligro />
       </header>
 
-      <main className="flex-grow pt-16">
-        {/* 1 · El incidente de las 2:47 AM */}
-        <IncidentHero onDemo={abrirDemo} pricingHref={pricingHref} />
+      <main className="flex-grow">
+        {/* 1 · El titular que nombra la pérdida + el teléfono de Marco */}
+        <HeroCuadrilla onDemo={abrirDemo} pricingHref={pricingHref} />
 
-        {/* 2 · El ciclo comercial */}
-        <Seccion id="product" tono="ink2">
+        {/* 2 · El caso real de techos */}
+        <CasoTechos />
+        <FranjaPeligro />
+
+        {/* 3 · El ciclo comercial */}
+        <Seccion id="product">
           <EncabezadoSeccion
-            indice={t('home.navProduct')}
+            etiqueta={t('cuadrilla.plataforma')}
             titulo={t('home.cycleTitle')}
             bajada={t('home.cycleSubtitle')}
           />
           <CycleLedger />
+
+          {/* La banda naranja. Es el CTA del medio y el único bloque de este
+              color en toda la página. */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={subeSuave}
+            className="mt-10 flex flex-wrap items-center justify-between gap-5 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-marron"
+          >
+            <p className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">
+              {t('cuadrilla.ctaBanda')}
+            </p>
+            <BotonCartel variante="oscuro" onClick={abrirDemo} data-cta="demo-banda">
+              {t('cuadrilla.ctaBandaBoton')}
+            </BotonCartel>
+          </motion.div>
         </Seccion>
 
-        {/* 3 · Los dos agentes */}
-        <Seccion id="agentes">
+        {/* 4 · Los dos agentes */}
+        <Seccion id="agentes" tono="marron">
           <EncabezadoSeccion
-            indice={t('home.heroBadge')}
+            etiqueta={t('home.heroBadge')}
             titulo={t('home.agentsTitle')}
             bajada={t('home.agentsSubtitle')}
+            sobreOscuro
           />
-          <AgentsSplit />
+          <div className="text-vc-tinta">
+            <AgentsSplit />
+          </div>
         </Seccion>
 
-        {/* 4 · Cómo funciona — una secuencia real, por eso va numerada */}
-        <Seccion id="how-it-works" tono="ink2">
-          <EncabezadoSeccion
-            indice={t('home.navHow')}
-            titulo={t('home.howTitle')}
-            bajada={t('home.howSubtitle')}
-          />
+        {/* 5 · Cómo funciona — una secuencia real, por eso va numerada */}
+        <Seccion id="how-it-works">
+          <EncabezadoSeccion titulo={t('home.howTitle')} bajada={t('home.howSubtitle')} />
           <StepRail pasos={PASOS_COMO} />
         </Seccion>
 
-        {/* 5 · Rubros */}
+        {/* 6 · Rubros */}
         <Seccion>
           <EncabezadoSeccion titulo={t('home.vertTitle')} bajada={t('home.vertSubtitle')} />
           <VerticalsList />
         </Seccion>
 
-        {/* 6 · Cifras de referencia. No es un testimonio y lo dice. */}
-        <Seccion tono="ink2">
+        {/* 7 · Cifras de referencia. No es un testimonio y lo dice. */}
+        <Seccion>
           <ExampleReport />
         </Seccion>
 
-        {/* 7 · Planes */}
+        {/* 8 · Planes */}
         <PricingCta />
 
-        {/* 8 · Setup */}
-        <Seccion tono="ink2">
+        {/* 9 · Setup */}
+        <Seccion>
           <EncabezadoSeccion titulo={t('home.implTitle')} bajada={t('home.implSubtitle')} />
-          <StepRail pasos={PASOS_SETUP} denso />
+          <StepRail pasos={PASOS_SETUP} />
         </Seccion>
 
-        {/* 9 · FAQ */}
+        {/* 10 · FAQ */}
         <Seccion id="faq">
           <EncabezadoSeccion titulo={t('home.faqTitle')} bajada={t('home.faqSubtitle')} />
           <FaqList />
         </Seccion>
 
-        {/* 10 · Cierre */}
-        <Seccion tono="ink2">
+        {/* 11 · Cierre */}
+        <FranjaPeligro />
+        <Seccion tono="marron">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -179,27 +173,14 @@ const ViralClicker = () => {
             variants={subeSuave}
             className="max-w-3xl"
           >
-            <h2 className="font-display text-3xl font-bold leading-[1.05] tracking-[-0.015em] text-vc-paper sm:text-[2.75rem]">
-              {t('home.ctaTitle')}
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-vc-steel">{t('home.ctaSubtitle')}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button
-                size="lg"
-                onClick={abrirDemo}
-                data-cta="demo-final"
-                className="h-12 gap-2 rounded-sm bg-vc-signal px-7 font-semibold text-white hover:bg-vc-signal/90"
-              >
-                <CalendarCheck className="h-4 w-4" /> {t('home.ctaDemo')}
-              </Button>
+            <Titular sobreOscuro>{t('home.ctaTitle')}</Titular>
+            <p className="mt-4 text-lg leading-relaxed text-vc-arena">{t('home.ctaSubtitle')}</p>
+            <div className="mt-8 flex flex-wrap gap-3.5">
+              <BotonCartel onClick={abrirDemo} data-cta="demo-final" className="!border-vc-naranja">
+                {t('home.ctaDemo')}
+              </BotonCartel>
               <Link to={pricingHref}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-12 w-full gap-2 rounded-sm border-vc-ink3 bg-transparent px-7 font-semibold text-vc-paper hover:bg-vc-ink hover:text-vc-paper sm:w-auto"
-                >
-                  {t('home.ctaPricing')} <ArrowRight className="h-4 w-4" />
-                </Button>
+                <BotonCartel variante="secundario">{t('home.ctaPricing')}</BotonCartel>
               </Link>
             </div>
           </motion.div>
@@ -207,23 +188,23 @@ const ViralClicker = () => {
       </main>
 
       {/* ── Pie ───────────────────────────────────────────────────────── */}
-      <footer className="bg-vc-ink">
-        <div className="container mx-auto max-w-6xl px-4 py-10">
-          <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-vc-steel">
+      <footer className="bg-vc-marron">
+        <div className="mx-auto max-w-[1100px] px-[5vw] py-9">
+          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-vc-polvo">
               {t('home.footerRights', { year: new Date().getFullYear() })}
             </p>
             <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-wider">
-              <Link to={pricingHref} className="text-vc-steel transition-colors hover:text-vc-paper">
+              <Link to={pricingHref} className="text-vc-arena transition-colors hover:text-vc-amarillo">
                 {t('home.footerPricing')}
               </Link>
-              <a href="/terms" className="text-vc-steel transition-colors hover:text-vc-paper">
+              <a href="/terms" className="text-vc-arena transition-colors hover:text-vc-amarillo">
                 {t('home.footerTerms')}
               </a>
-              <a href="/privacy" className="text-vc-steel transition-colors hover:text-vc-paper">
+              <a href="/privacy" className="text-vc-arena transition-colors hover:text-vc-amarillo">
                 {t('home.footerPrivacy')}
               </a>
-              <span className="text-vc-steel/50">{t('home.footerTagline')}</span>
+              <span className="text-vc-polvo">{t('home.footerTagline')}</span>
             </nav>
           </div>
         </div>

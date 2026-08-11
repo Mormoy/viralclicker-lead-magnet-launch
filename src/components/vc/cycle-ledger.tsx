@@ -1,14 +1,13 @@
 // ============================================================================
 // CAPTA · ATIENDE · PERSIGUE · CONTROLA.
 //
-// No son cuatro tarjetas iguales: son las cuatro columnas de un parte de turno.
-// El verbo manda —grande, en display— y la explicación va al lado, en su ancho
-// de lectura. La regla horizontal entre filas hace el trabajo que hacía el
-// borde de la tarjeta, con mucho menos ruido.
+// El verbo va enorme, condensado y en naranja; la explicación al lado. Las
+// reglas gruesas entre filas hacen el trabajo que hacía el borde de la tarjeta,
+// con la contundencia de un cartel y sin el ruido de cuatro cajas iguales.
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/section';
+import { subeSuave } from '@/components/vc/skin';
 
 const FILAS = [
   { nameKey: 'home.cycle1Name', descKey: 'home.cycle1Desc' },
@@ -21,7 +20,7 @@ export default function CycleLedger() {
   const { t } = useTranslation();
 
   return (
-    <div className="mt-12 border-t border-vc-ink3">
+    <div className="mt-7 flex flex-col">
       {FILAS.map((fila, i) => (
         <motion.div
           key={fila.nameKey}
@@ -30,12 +29,14 @@ export default function CycleLedger() {
           viewport={{ once: true, margin: '-60px' }}
           variants={subeSuave}
           transition={{ delay: i * 0.06 }}
-          className="grid items-baseline gap-x-8 gap-y-2 border-b border-vc-ink3 py-6 md:grid-cols-[8rem_minmax(0,1fr)] md:py-8"
+          className={`grid items-center gap-x-6 gap-y-1.5 border-t-[3px] border-vc-marron py-6 md:grid-cols-[minmax(140px,240px)_minmax(0,1fr)] ${
+            i === FILAS.length - 1 ? 'border-b-[3px]' : ''
+          }`}
         >
-          <h3 className="font-display text-2xl font-extrabold tracking-[-0.01em] text-vc-paper md:text-[1.75rem]">
+          <span className="font-display text-[2.15rem] font-black uppercase leading-none text-vc-oxido sm:text-5xl">
             {t(fila.nameKey)}
-          </h3>
-          <p className="max-w-2xl leading-relaxed text-vc-steel">{t(fila.descKey)}</p>
+          </span>
+          <p className="text-[17px] leading-[1.55] text-vc-marron3">{t(fila.descKey)}</p>
         </motion.div>
       ))}
     </div>

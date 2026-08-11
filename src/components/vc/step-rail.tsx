@@ -10,20 +10,18 @@
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/section';
+import { subeSuave } from '@/components/vc/skin';
 
 export interface Paso {
   titleKey: string;
   descKey: string;
-  /** Marca opcional a la izquierda: la hora del ejemplo o el día del setup. */
-  marca?: string;
 }
 
-export default function StepRail({ pasos, denso = false }: { pasos: Paso[]; denso?: boolean }) {
+export default function StepRail({ pasos }: { pasos: Paso[] }) {
   const { t } = useTranslation();
 
   return (
-    <ol className="mt-12 border-t border-vc-ink3">
+    <ol className="mt-7 flex flex-col">
       {pasos.map((p, i) => (
         <motion.li
           key={p.titleKey}
@@ -32,27 +30,17 @@ export default function StepRail({ pasos, denso = false }: { pasos: Paso[]; dens
           viewport={{ once: true, margin: '-60px' }}
           variants={subeSuave}
           transition={{ delay: i * 0.06 }}
-          // La columna del título necesita ancho de verdad: con 9rem, "El
-          // agente lo llama en 2 minutos" caía en tres líneas al lado de una
-          // descripción de una sola.
-          className={`grid gap-x-8 gap-y-1.5 border-b border-vc-ink3 md:grid-cols-[3rem_16rem_minmax(0,1fr)] ${
-            denso ? 'py-5' : 'py-6 md:py-7'
+          className={`grid gap-x-6 gap-y-1.5 border-t-2 border-vc-marron3/40 py-5 md:grid-cols-[3.5rem_17rem_minmax(0,1fr)] ${
+            i === pasos.length - 1 ? 'border-b-2' : ''
           }`}
         >
-          <span className="font-mono text-sm tabular-nums text-vc-signal">
+          <span className="font-mono text-lg font-extrabold tabular-nums text-vc-oxido">
             {String(i + 1).padStart(2, '0')}
           </span>
-          <h3 className="font-display text-lg font-bold leading-snug text-vc-paper">
+          <h3 className="font-display text-2xl font-black uppercase leading-none text-vc-tinta">
             {t(p.titleKey)}
           </h3>
-          <p className="max-w-2xl leading-relaxed text-vc-steel">
-            {t(p.descKey)}
-            {p.marca && (
-              <span className="ml-2 font-mono text-[11px] uppercase tracking-wider text-vc-steel/60">
-                {p.marca}
-              </span>
-            )}
-          </p>
+          <p className="text-[17px] leading-[1.55] text-vc-marron3">{t(p.descKey)}</p>
         </motion.li>
       ))}
     </ol>

@@ -1,20 +1,20 @@
 // ============================================================================
 // Los rubros.
 //
-// Filas, no tarjetas: son una lista de destinos y así se lee más rápido cuál te
-// toca. Y se dice la verdad de cuáles tienen página propia y cuáles todavía no
-// —una tarjeta idéntica para las cuatro prometía cuatro landings que no existen.
+// Techos va primero: es lo que se está vendiendo hoy en Florida y el rubro del
+// caso del hero. Filas y no tarjetas, para que se lea rápido cuál te toca — y
+// se dice la verdad de cuáles tienen página propia y cuáles todavía no.
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { subeSuave } from '@/components/vc/section';
+import { subeSuave } from '@/components/vc/skin';
 
 const RUBROS = [
+  { nameKey: 'home.vert3Name', descKey: 'home.vert3Desc', href: '/restauracion', live: true },
   { nameKey: 'home.vert1Name', descKey: 'home.vert1Desc', href: '/restauracion', live: true },
   { nameKey: 'home.vert2Name', descKey: 'home.vert2Desc', href: '/restauracion', live: true },
-  { nameKey: 'home.vert3Name', descKey: 'home.vert3Desc', href: '/restauracion', live: false },
   { nameKey: 'home.vert4Name', descKey: 'home.vert4Desc', href: '/restauracion', live: false },
 ];
 
@@ -22,17 +22,17 @@ export default function VerticalsList() {
   const { t } = useTranslation();
 
   return (
-    <div className="mt-12 border-t border-vc-ink3">
+    <div className="mt-7 flex flex-col">
       {RUBROS.map((r, i) => {
         const contenido = (
           <>
-            <h3 className="font-display text-xl font-bold text-vc-paper md:text-2xl">
+            <h3 className="font-display text-2xl font-black uppercase leading-none text-vc-tinta md:text-3xl">
               {t(r.nameKey)}
             </h3>
-            <p className="max-w-xl leading-relaxed text-vc-steel">{t(r.descKey)}</p>
+            <p className="text-[17px] leading-[1.55] text-vc-marron3">{t(r.descKey)}</p>
             <span
-              className={`flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider md:justify-end ${
-                r.live ? 'text-vc-signal' : 'text-vc-steel/50'
+              className={`flex items-center gap-1.5 whitespace-nowrap font-mono text-[11px] font-extrabold uppercase tracking-[0.14em] md:justify-end ${
+                r.live ? 'text-vc-quemado' : 'text-vc-marron3/60'
               }`}
             >
               {r.live ? t('home.vertCta') : t('home.vertSoon')}
@@ -43,8 +43,9 @@ export default function VerticalsList() {
           </>
         );
 
-        const clases =
-          'group grid items-center gap-x-8 gap-y-2 border-b border-vc-ink3 py-6 md:grid-cols-[14rem_minmax(0,1fr)_11rem]';
+        const clases = `group grid items-center gap-x-6 gap-y-2 border-t-2 border-vc-marron3/40 py-5 md:grid-cols-[15rem_minmax(0,1fr)_10rem] ${
+          i === RUBROS.length - 1 ? 'border-b-2' : ''
+        }`;
 
         return (
           <motion.div
@@ -58,7 +59,7 @@ export default function VerticalsList() {
             {r.live ? (
               <Link
                 to={r.href}
-                className={`${clases} transition-colors hover:bg-vc-ink2/60 focus-visible:bg-vc-ink2/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vc-signal`}
+                className={`${clases} transition-colors hover:bg-vc-amarillo/25 focus-visible:bg-vc-amarillo/25 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vc-amarillo`}
               >
                 {contenido}
               </Link>
