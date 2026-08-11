@@ -16,8 +16,12 @@ const FILAS = [
   { nameKey: 'home.cycle4Name', descKey: 'home.cycle4Desc' },
 ];
 
-export default function CycleLedger() {
+export default function CycleLedger({ sobreOscuro = false }: { sobreOscuro?: boolean }) {
   const { t } = useTranslation();
+
+  const borde = sobreOscuro ? 'border-vc-marron4' : 'border-vc-marron';
+  const palabra = sobreOscuro ? 'text-vc-amarillo' : 'text-vc-oxido';
+  const cuerpo = sobreOscuro ? 'text-vc-arena' : 'text-vc-marron3';
 
   return (
     <div className="mt-7 flex flex-col">
@@ -29,14 +33,14 @@ export default function CycleLedger() {
           viewport={{ once: true, margin: '-60px' }}
           variants={subeSuave}
           transition={{ delay: i * 0.06 }}
-          className={`grid items-center gap-x-6 gap-y-1.5 border-t-[3px] border-vc-marron py-6 md:grid-cols-[minmax(140px,240px)_minmax(0,1fr)] ${
+          className={`grid items-center gap-x-6 gap-y-1.5 border-t-[3px] ${borde} py-6 md:grid-cols-[minmax(140px,240px)_minmax(0,1fr)] ${
             i === FILAS.length - 1 ? 'border-b-[3px]' : ''
           }`}
         >
-          <span className="font-display text-[2.15rem] font-black uppercase leading-none text-vc-oxido sm:text-5xl">
+          <span className={`font-display text-[2.15rem] font-black uppercase leading-none sm:text-5xl ${palabra}`}>
             {t(fila.nameKey)}
           </span>
-          <p className="text-[17px] leading-[1.55] text-vc-marron3">{t(fila.descKey)}</p>
+          <p className={`text-[17px] leading-[1.55] ${cuerpo}`}>{t(fila.descKey)}</p>
         </motion.div>
       ))}
     </div>

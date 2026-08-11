@@ -14,6 +14,8 @@
 // ============================================================================
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { Seccion, EncabezadoSeccion, subeSuave } from '@/components/vc/skin';
 
 interface Fila {
@@ -68,8 +70,10 @@ export default function CasoTechos() {
   return (
     <Seccion tono="marron">
       <div className="flex flex-col gap-9">
+        {/* La home habla del sistema, no de un rubro: por eso el caso va
+            etiquetado como EJEMPLO y con la puerta a su landing. */}
         <EncabezadoSeccion
-          etiqueta={t('caso.tag')}
+          etiqueta={t('cuadrilla.casoTag')}
           titulo={t('caso.title')}
           bajada={t('caso.sub')}
           sobreOscuro
@@ -101,10 +105,20 @@ export default function CasoTechos() {
           ))}
         </div>
 
-        {/* El caso es real, pero el nombre del cliente todavía no se puede usar. */}
-        <p className="border-2 border-dashed border-vc-marron4 px-4 py-3.5 font-mono text-[13px] leading-snug text-vc-polvo">
-          {t('caso.credit')}
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          {/* La credencial honesta: no se nombra a ningún cliente, se nombra la
+              empresa propia. Es verificable y no necesita permiso de nadie. */}
+          <p className="max-w-2xl border-2 border-dashed border-vc-marron4 px-4 py-3.5 font-mono text-[13px] leading-snug text-vc-polvo">
+            {t('cuadrilla.casoCredito')}
+          </p>
+          <Link
+            to="/restauracion"
+            className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-vc-amarillo pb-1 font-mono text-[12px] font-extrabold uppercase tracking-[0.14em] text-vc-amarillo transition-colors hover:text-vc-crema focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vc-amarillo"
+          >
+            {t('cuadrilla.casoLink')}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
       </div>
     </Seccion>
   );

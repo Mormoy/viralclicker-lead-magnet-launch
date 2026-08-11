@@ -27,12 +27,14 @@ import LanguageSwitcher from '@/components/language-switcher';
 import { CONTACT } from '@/config/site';
 
 import HeroCuadrilla from '@/components/vc/hero-cuadrilla';
+import FlujoSistema from '@/components/vc/flujo-sistema';
+import AgentesCuatro from '@/components/vc/agentes-cuatro';
+import SupervisorTelegram from '@/components/vc/supervisor-telegram';
 import CasoTechos from '@/components/vc/caso-techos';
 import {
   Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave,
 } from '@/components/vc/skin';
 import CycleLedger from '@/components/vc/cycle-ledger';
-import AgentsSplit from '@/components/vc/agents-split';
 import StepRail from '@/components/vc/step-rail';
 import VerticalsList from '@/components/vc/verticals-list';
 import ExampleReport from '@/components/vc/example-report';
@@ -86,84 +88,83 @@ const ViralClicker = () => {
       <main className="flex-grow">
         {/* 1 · El titular que nombra la pérdida + el teléfono de Marco */}
         <HeroCuadrilla onDemo={abrirDemo} pricingHref={pricingHref} />
-
-        {/* 2 · El caso real de techos */}
-        <CasoTechos />
         <FranjaPeligro />
 
-        {/* 3 · El ciclo comercial */}
-        <Seccion id="product">
+        {/* 2 · El flujo completo. Es la sección que explica QUÉ es esto. */}
+        <FlujoSistema />
+
+        {/* 3 · Los cuatro agentes, con su mini-visual cada uno */}
+        <Seccion id="agentes">
+          <EncabezadoSeccion
+            etiqueta={t('cuadrilla.agentesTag')}
+            titulo={t('cuadrilla.agentesTitle')}
+            bajada={t('cuadrilla.agentesSub')}
+          />
+          <AgentesCuatro />
+        </Seccion>
+
+        {/* 4 · El supervisor merece sección propia: es el diferencial */}
+        <FranjaPeligro />
+        <SupervisorTelegram />
+
+        {/* 5 · El ciclo comercial */}
+        <Seccion id="product" tono="marron">
           <EncabezadoSeccion
             etiqueta={t('cuadrilla.plataforma')}
             titulo={t('home.cycleTitle')}
             bajada={t('home.cycleSubtitle')}
-          />
-          <CycleLedger />
-
-          {/* La banda naranja. Es el CTA del medio y el único bloque de este
-              color en toda la página. */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={subeSuave}
-            className="mt-10 flex flex-wrap items-center justify-between gap-5 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-marron"
-          >
-            <p className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">
-              {t('cuadrilla.ctaBanda')}
-            </p>
-            <BotonCartel variante="oscuro" onClick={abrirDemo} data-cta="demo-banda">
-              {t('cuadrilla.ctaBandaBoton')}
-            </BotonCartel>
-          </motion.div>
-        </Seccion>
-
-        {/* 4 · Los dos agentes */}
-        <Seccion id="agentes" tono="marron">
-          <EncabezadoSeccion
-            etiqueta={t('home.heroBadge')}
-            titulo={t('home.agentsTitle')}
-            bajada={t('home.agentsSubtitle')}
             sobreOscuro
           />
-          <div className="text-vc-tinta">
-            <AgentsSplit />
-          </div>
+          <CycleLedger sobreOscuro />
         </Seccion>
 
-        {/* 5 · Cómo funciona — una secuencia real, por eso va numerada */}
-        <Seccion id="how-it-works">
-          <EncabezadoSeccion titulo={t('home.howTitle')} bajada={t('home.howSubtitle')} />
-          <StepRail pasos={PASOS_COMO} />
-        </Seccion>
-
-        {/* 6 · Rubros */}
+        {/* 6 · Rubros: las puertas de entrada a cada landing */}
         <Seccion>
           <EncabezadoSeccion titulo={t('home.vertTitle')} bajada={t('home.vertSubtitle')} />
           <VerticalsList />
         </Seccion>
 
-        {/* 7 · Cifras de referencia. No es un testimonio y lo dice. */}
+        {/* 7 · El caso demostrativo, etiquetado como ejemplo de un rubro */}
+        <CasoTechos />
+
+        {/* 8 · Cifras de referencia. No es un testimonio y lo dice. */}
         <Seccion>
           <ExampleReport />
         </Seccion>
 
-        {/* 8 · Planes */}
-        <PricingCta />
+        {/* 9 · Cómo funciona, paso a paso */}
+        <Seccion id="how-it-works">
+          <EncabezadoSeccion titulo={t('home.howTitle')} bajada={t('home.howSubtitle')} />
+          <StepRail pasos={PASOS_COMO} />
+        </Seccion>
 
-        {/* 9 · Setup */}
+        {/* 10 · Setup y onboarding — con el detalle de las cuentas a nombre
+            del cliente, que es lo que más se pregunta en la venta. */}
         <Seccion>
           <EncabezadoSeccion titulo={t('home.implTitle')} bajada={t('home.implSubtitle')} />
           <StepRail pasos={PASOS_SETUP} />
+          <motion.p
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={subeSuave}
+            className="mt-7 max-w-3xl border-[3px] border-vc-marron bg-vc-amarillo p-6 text-[17px] leading-relaxed text-vc-marron"
+          >
+            {t('cuadrilla.setupCuentas')}
+          </motion.p>
         </Seccion>
 
-        {/* 10 · FAQ */}
+        {/* 11 · Planes */}
+        <PricingCta />
+
+        {/* 12 · FAQ */}
         <Seccion id="faq">
           <EncabezadoSeccion titulo={t('home.faqTitle')} bajada={t('home.faqSubtitle')} />
           <FaqList />
         </Seccion>
 
-        {/* 11 · Cierre */}
+        {/* 13 · El cierre. La banda naranja es el último bloque de la página y
+            el único de este color: por eso funciona como remate. */}
         <FranjaPeligro />
         <Seccion tono="marron">
           <motion.div
@@ -175,9 +176,21 @@ const ViralClicker = () => {
           >
             <Titular sobreOscuro>{t('home.ctaTitle')}</Titular>
             <p className="mt-4 text-lg leading-relaxed text-vc-arena">{t('home.ctaSubtitle')}</p>
-            <div className="mt-8 flex flex-wrap gap-3.5">
-              <BotonCartel onClick={abrirDemo} data-cta="demo-final" className="!border-vc-naranja">
-                {t('home.ctaDemo')}
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={subeSuave}
+            className="mt-9 flex flex-wrap items-center justify-between gap-5 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-lg"
+          >
+            <p className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">
+              {t('cuadrilla.ctaBanda')}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <BotonCartel variante="oscuro" onClick={abrirDemo} data-cta="demo-final">
+                {t('cuadrilla.ctaBandaBoton')}
               </BotonCartel>
               <Link to={pricingHref}>
                 <BotonCartel variante="secundario">{t('home.ctaPricing')}</BotonCartel>
