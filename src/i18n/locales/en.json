@@ -290,7 +290,7 @@
     "vert3Desc": "After the storm, ten enquiries land the same day.",
     "vert4Name": "Remodeling",
     "vert4Desc": "High-ticket estimates that go cold if nobody chases them.",
-    "vertCta": "See this trade's page",
+    "vertCta": "See the page",
     "vertSoon": "Dedicated page coming soon",
     "caseBadge": "Illustrative example",
     "caseTitle": "What the before and after looks like",
@@ -396,5 +396,41 @@
     "finalDesc": "Book a demo and see how ViralClicker can organize your sales process.",
     "visitSite": "Visit Main Website",
     "footer": "Powered by"
+  },
+  "incident": {
+    "eyebrow": "Night shift · Miami, FL",
+    "logTitle": "Incident log",
+    "clockLabel": "Time elapsed since the lead came in",
+    "a1Kicker": "A lead comes in",
+    "a1Detail": "A kitchen pipe burst. There is water across the whole first floor.",
+    "a1Source": "Facebook ad",
+    "a1Place": "Coral Gables, FL",
+    "a2Kicker": "The agent calls",
+    "a2Agent": "Sofia",
+    "callLines": [
+      {
+        "quien": "agente",
+        "texto": "Good evening, I am calling about the water report. Were you able to shut off the main valve?"
+      },
+      {
+        "quien": "cliente",
+        "texto": "Yes, I shut it off. But everything is soaked."
+      },
+      {
+        "quien": "agente",
+        "texto": "That was the right call. I can have a tech there at 8 this morning. Does that work?"
+      },
+      {
+        "quien": "cliente",
+        "texto": "Yes, please."
+      }
+    ],
+    "a3Kicker": "Booked",
+    "a3Message": "Confirmed: today 8:00 AM. Luis is coming with the drying crew. Message me here any time.",
+    "closer": "The owner found out at 7 a.m., with the visit already on the calendar.",
+    "disclaimer": "Illustrative example, not a real client case",
+    "a1LabelSource": "Source",
+    "a1LabelZone": "Area",
+    "a2Status": "on the line"
   }
 }
