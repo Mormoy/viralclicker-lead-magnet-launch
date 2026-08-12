@@ -25,7 +25,7 @@ const PricingCta = () => {
       <div className="border-[3px] border-vc-marron bg-vc-crema p-7 shadow-dura-marron md:p-10">
         <div className="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
           <div>
-            <Etiqueta tono="suelto">{etiqueta}</Etiqueta>
+            <Etiqueta>{etiqueta}</Etiqueta>
             <Titular className="mt-3 !text-[2rem] sm:!text-[2.5rem]">{title}</Titular>
             <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-vc-marron3">{subtitle}</p>
           </div>
