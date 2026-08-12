@@ -87,9 +87,12 @@ function CifraArmada({ valor, clase }: { valor: string; clase: string }) {
         {numero}
       </motion.span>
       {unidad && (
+        {/* Tamaño absoluto y no `em`: el `em` se resuelve contra el tamaño
+            heredado del contenedor (16px), no contra el del número, y la
+            unidad salía en 7px — parecía un error de maquetación. */}
         <motion.span
           {...anim(0, false)}
-          className={`${clase} !text-[0.45em]`}
+          className={`${clase} !text-[1.35rem] !leading-none`}
         >
           {unidad}
         </motion.span>
