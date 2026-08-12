@@ -105,10 +105,12 @@ const CallCard = ({ lang }: { lang: Lang }) => {
         {bubbles.map((b) => (
           <div
             key={b.text}
+            // Las dos burbujas tienen que verse distintas o no se entiende
+            // quién habla: el agente en marrón, el cliente en claro.
             className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm ${
               b.from === 'ai'
-                ? 'rounded-bl-sm bg-vc-amarillo/25 text-vc-marron'
-                : 'ml-auto rounded-br-sm bg-vc-amarillo/25 text-vc-marron3'
+                ? 'rounded-bl-sm bg-vc-marron text-vc-crema'
+                : 'ml-auto rounded-br-sm border border-vc-marron3/25 bg-white text-vc-marron3'
             }`}
           >
             {b.text}
@@ -222,7 +224,7 @@ const Restauracion = () => {
       </section>
 
       {/* 3 — LA CUENTA QUE DUELE */}
-      <section className="border-y border-vc-marron bg-vc-amarillo/25 px-5 py-16">
+      <section className="border-y border-vc-marron bg-white px-5 py-16">
         <motion.div {...reveal} className="mx-auto max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[1.2px] text-vc-quemado">{c.math.kicker}</div>
           <h2 className="mt-3 font-display font-black uppercase leading-none text-4xl tracking-tight text-vc-tinta md:text-[34px]">{c.math.title}</h2>
@@ -245,7 +247,7 @@ const Restauracion = () => {
                 variants={{ ...fadeUp, visible: { ...fadeUp.visible, transition: { duration: 0.5, delay: i * 0.1 } } }}
                 className="rounded-2xl border border-vc-marron3/30 bg-white/60 p-7"
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-vc-amarillo/25 text-2xl">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-2xl">
                   {item.icon}
                 </div>
                 <h3 className="text-lg font-extrabold text-vc-tinta">{item.title}</h3>
@@ -273,7 +275,7 @@ const Restauracion = () => {
           </motion.div>
           <motion.div {...reveal} className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2.5">
             {c.niche.questions.map((q) => (
-              <span key={q} className="rounded-full border border-vc-marron bg-vc-amarillo/25 px-4 py-2 text-sm font-semibold text-vc-marron">
+              <span key={q} className="rounded-full border border-vc-marron bg-white px-4 py-2 text-sm font-semibold text-vc-marron">
                 {q}
               </span>
             ))}

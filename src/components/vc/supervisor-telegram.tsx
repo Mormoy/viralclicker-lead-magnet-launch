@@ -33,11 +33,12 @@ export default function SupervisorTelegram() {
   const { t } = useTranslation();
 
   return (
-    <Seccion id="supervisor">
+    <Seccion id="supervisor" tono="marron">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(300px,26rem)] lg:gap-14">
         <div>
           <EncabezadoSeccion
             etiqueta={t('cuadrilla.supTag')}
+            sobreOscuro
             titulo={t('cuadrilla.supTitle')}
             bajada={t('cuadrilla.supSub')}
           />
@@ -46,7 +47,7 @@ export default function SupervisorTelegram() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={subeSuave}
-            className="mt-6 max-w-xl border-l-[5px] border-vc-naranja pl-4 text-lg font-semibold leading-relaxed text-vc-tinta"
+            className="mt-6 max-w-xl border-l-[5px] border-vc-naranja pl-4 text-lg font-semibold leading-relaxed text-vc-crema"
           >
             {t('cuadrilla.supCloser')}
           </motion.p>
@@ -57,7 +58,7 @@ export default function SupervisorTelegram() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={subeSuave}
-          className="border-[3px] border-vc-marron bg-vc-marron p-5 shadow-dura-lg"
+          className="border-2 border-vc-marron4 bg-vc-marron2 p-5"
         >
           <div className="overflow-hidden rounded-xl" style={{ background: TG_FONDO }}>
             {/* Barra del chat */}
@@ -69,7 +70,7 @@ export default function SupervisorTelegram() {
                 <span className="truncate text-sm font-bold text-white">
                   {t('cuadrilla.supChatName')}
                 </span>
-                <span className="text-[11px] text-[#7AA5C7]">{t('cuadrilla.supChatSub')}</span>
+                <span className="text-[11px] text-[#BFD9EC]">{t('cuadrilla.supChatSub')}</span>
               </span>
             </div>
 
@@ -82,13 +83,13 @@ export default function SupervisorTelegram() {
                   style={{ background: TG_BURBUJA }}
                 >
                   <p className="text-[13.5px] leading-[1.45] text-white">{t(m.key)}</p>
-                  <p className="mt-0.5 text-right font-mono text-[10px] text-[#9DC0DC]">{m.hora}</p>
+                  <p className="mt-0.5 text-right font-mono text-[10px] text-[#D6E8F5]">{m.hora}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="mt-3 font-mono text-[12px] leading-snug text-vc-polvo">
+          <p className="mt-3 font-mono text-[12px] leading-snug text-vc-arena">
             {t('cuadrilla.supDisclaimer')}
           </p>
         </motion.div>

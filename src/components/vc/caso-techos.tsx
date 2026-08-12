@@ -37,11 +37,11 @@ export default function CasoTechos() {
       cuerpo: (
         <div className="flex flex-col gap-3">
           <p className="text-[17px] leading-[1.55]">
-            <strong className="text-vc-naranja">{t('caso.t2strong')}</strong> {t('caso.t2')}
+            <strong className="text-vc-oxido">{t('caso.t2strong')}</strong> {t('caso.t2')}
           </p>
           <ul className="flex flex-col gap-2 text-base">
             {preguntas.map((q) => (
-              <li key={q} className="border border-vc-marron4 bg-vc-marron2 px-3.5 py-2.5">
+              <li key={q} className="border border-vc-marron3/40 bg-white px-3.5 py-2.5">
                 ☐ {q}
               </li>
             ))}
@@ -53,7 +53,7 @@ export default function CasoTechos() {
       hora: '10:51 AM',
       cuerpo: (
         <p className="text-[17px] leading-[1.55]">
-          {t('caso.t3a')} <strong className="text-vc-crema">{t('caso.t3strong')}</strong> {t('caso.t3b')}
+          {t('caso.t3a')} <strong className="text-vc-tinta">{t('caso.t3strong')}</strong> {t('caso.t3b')}
         </p>
       ),
     },
@@ -62,13 +62,13 @@ export default function CasoTechos() {
       hora: t('caso.t5hora'),
       remate: true,
       cuerpo: (
-        <p className="text-[19px] font-semibold leading-[1.5] text-vc-crema">{t('caso.t5')}</p>
+        <p className="text-[19px] font-semibold leading-[1.5] text-vc-tinta">{t('caso.t5')}</p>
       ),
     },
   ];
 
   return (
-    <Seccion tono="marron">
+    <Seccion>
       <div className="flex flex-col gap-9">
         {/* La home habla del sistema, no de un rubro: por eso el caso va
             etiquetado como EJEMPLO y con la puerta a su landing. */}
@@ -76,8 +76,7 @@ export default function CasoTechos() {
           etiqueta={t('cuadrilla.casoTag')}
           titulo={t('caso.title')}
           bajada={t('caso.sub')}
-          sobreOscuro
-        />
+          />
 
         <div className="flex flex-col">
           {filas.map((f) => (
@@ -89,13 +88,13 @@ export default function CasoTechos() {
               variants={subeSuave}
               className={`grid gap-x-5 gap-y-2 py-5 md:grid-cols-[110px_minmax(0,1fr)] ${
                 f.remate
-                  ? 'border-b border-vc-marron3 border-t-[3px] border-t-vc-naranja'
-                  : 'border-t border-vc-marron3'
+                  ? 'border-b border-vc-marron3/30 border-t-[3px] border-t-vc-naranja'
+                  : 'border-t border-vc-marron3/30'
               }`}
             >
               <span
                 className={`font-mono text-base font-extrabold ${
-                  f.remate ? 'text-vc-naranja' : 'text-vc-amarillo'
+                  f.remate ? 'text-vc-oxido' : 'text-vc-quemado'
                 }`}
               >
                 {f.hora}
@@ -108,12 +107,12 @@ export default function CasoTechos() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* La credencial honesta: no se nombra a ningún cliente, se nombra la
               empresa propia. Es verificable y no necesita permiso de nadie. */}
-          <p className="max-w-2xl border-2 border-dashed border-vc-marron4 px-4 py-3.5 font-mono text-[13px] leading-snug text-vc-polvo">
+          <p className="max-w-2xl border-2 border-dashed border-vc-marron3/40 px-4 py-3.5 font-mono text-[13px] leading-snug text-vc-marron3">
             {t('cuadrilla.casoCredito')}
           </p>
           <Link
             to="/restauracion"
-            className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-vc-amarillo pb-1 font-mono text-[12px] font-extrabold uppercase tracking-[0.14em] text-vc-amarillo transition-colors hover:text-vc-crema focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vc-amarillo"
+            className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-vc-amarillo pb-1 font-mono text-[12px] font-extrabold uppercase tracking-[0.14em] text-vc-quemado transition-colors hover:text-vc-tinta focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vc-amarillo"
           >
             {t('cuadrilla.casoLink')}
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />

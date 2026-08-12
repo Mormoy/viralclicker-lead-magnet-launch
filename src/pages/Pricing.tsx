@@ -220,8 +220,8 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
           {c.plans.map((plan) => (
             <div
               key={plan.id}
-              className={`relative flex flex-col border-[3px] border-vc-marron p-7 ${
-                plan.popular ? 'bg-vc-amarillo shadow-dura-marron' : 'bg-white shadow-dura'
+              className={`relative flex flex-col border-2 border-vc-marron p-7 ${
+                plan.popular ? 'border-vc-oxido bg-white' : 'bg-white'
               }`}
             >
               {plan.popular && (
@@ -235,7 +235,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
                     precio va en marrón (10,9:1). Sobre blanco, óxido (4,7:1). */}
                 <span
                   className={`font-display text-[3.5rem] font-black leading-none ${
-                    plan.popular ? 'text-vc-marron' : 'text-vc-oxido'
+                    'text-vc-oxido'
                   }`}
                 >
                   {plan.price}
@@ -264,7 +264,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
         </div>
 
         {/* Setup */}
-        <div className="mt-6 border-[3px] border-vc-marron bg-white p-7">
+        <div className="mt-6 border-2 border-vc-marron bg-white p-7">
           <h3 className="font-display text-2xl font-black uppercase leading-none">{c.setupTitle}</h3>
           <p className="mt-3 leading-relaxed text-vc-marron3">{c.setupBody}</p>
           <p className="mt-2 font-semibold text-vc-quemado">{c.setupOffer}</p>
@@ -276,12 +276,10 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
         </div>
       </Seccion>
 
-      <FranjaPeligro />
-
       {/* Comparación */}
-      <Seccion tono="marron">
-        <Titular sobreOscuro>{c.compareTitle}</Titular>
-        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-vc-arena">{c.compare}</p>
+      <Seccion>
+        <Titular>{c.compareTitle}</Titular>
+        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-vc-marron3">{c.compare}</p>
       </Seccion>
 
       {/* FAQ */}
@@ -308,7 +306,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
 
       {/* Cierre */}
       <Seccion>
-        <div className="flex flex-wrap items-center justify-between gap-6 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-marron">
+        <div className="flex flex-wrap items-center justify-between gap-6 border-2 border-vc-marron bg-vc-naranja p-8">
           <h2 className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">
             {c.finalTitle}
           </h2>
@@ -333,7 +331,7 @@ const Pricing = ({ forceLang }: { forceLang?: Lang }) => {
       {/* Footer */}
       <footer className="bg-vc-marron">
         <div className="mx-auto flex max-w-[1100px] flex-col items-start justify-between gap-4 px-[5vw] py-9 font-mono text-[11px] uppercase tracking-wider md:flex-row md:items-center">
-          <span className="text-vc-polvo">© {new Date().getFullYear()} ViralClicker by Mormoy LLC</span>
+          <span className="text-vc-arena">© {new Date().getFullYear()} ViralClicker by Mormoy LLC</span>
           <div className="flex items-center gap-5">
             <Link to="/terms" className="text-vc-arena transition-colors hover:text-vc-amarillo">
               {c.footerTerms}

@@ -88,7 +88,6 @@ const ViralClicker = () => {
       <main className="flex-grow">
         {/* 1 · El titular que nombra la pérdida + el teléfono de Marco */}
         <HeroCuadrilla onDemo={abrirDemo} pricingHref={pricingHref} />
-        <FranjaPeligro />
 
         {/* 2 · El flujo completo. Es la sección que explica QUÉ es esto. */}
         <FlujoSistema />
@@ -103,19 +102,17 @@ const ViralClicker = () => {
           <AgentesCuatro />
         </Seccion>
 
-        {/* 4 · El supervisor merece sección propia: es el diferencial */}
-        <FranjaPeligro />
+        {/* 4 · El supervisor: LA sección oscura de la página */}
         <SupervisorTelegram />
 
         {/* 5 · El ciclo comercial */}
-        <Seccion id="product" tono="marron">
+        <Seccion id="product">
           <EncabezadoSeccion
             etiqueta={t('cuadrilla.plataforma')}
             titulo={t('home.cycleTitle')}
             bajada={t('home.cycleSubtitle')}
-            sobreOscuro
           />
-          <CycleLedger sobreOscuro />
+          <CycleLedger />
         </Seccion>
 
         {/* 6 · Rubros: las puertas de entrada a cada landing */}
@@ -148,7 +145,7 @@ const ViralClicker = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={subeSuave}
-            className="mt-7 max-w-3xl border-[3px] border-vc-marron bg-vc-amarillo p-6 text-[17px] leading-relaxed text-vc-marron"
+            className="mt-8 max-w-3xl border-l-[5px] border-vc-amarillo bg-white px-5 py-4 text-[17px] leading-relaxed text-vc-marron3"
           >
             {t('cuadrilla.setupCuentas')}
           </motion.p>
@@ -165,8 +162,7 @@ const ViralClicker = () => {
 
         {/* 13 · El cierre. La banda naranja es el último bloque de la página y
             el único de este color: por eso funciona como remate. */}
-        <FranjaPeligro />
-        <Seccion tono="marron">
+        <Seccion>
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -174,8 +170,8 @@ const ViralClicker = () => {
             variants={subeSuave}
             className="max-w-3xl"
           >
-            <Titular sobreOscuro>{t('home.ctaTitle')}</Titular>
-            <p className="mt-4 text-lg leading-relaxed text-vc-arena">{t('home.ctaSubtitle')}</p>
+            <Titular>{t('home.ctaTitle')}</Titular>
+            <p className="mt-4 text-lg leading-relaxed text-vc-marron3">{t('home.ctaSubtitle')}</p>
           </motion.div>
 
           <motion.div
@@ -204,7 +200,7 @@ const ViralClicker = () => {
       <footer className="bg-vc-marron">
         <div className="mx-auto max-w-[1100px] px-[5vw] py-9">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-vc-polvo">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-vc-arena">
               {t('home.footerRights', { year: new Date().getFullYear() })}
             </p>
             <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-wider">
@@ -217,7 +213,7 @@ const ViralClicker = () => {
               <a href="/privacy" className="text-vc-arena transition-colors hover:text-vc-amarillo">
                 {t('home.footerPrivacy')}
               </a>
-              <span className="text-vc-polvo">{t('home.footerTagline')}</span>
+              <span className="text-vc-arena">{t('home.footerTagline')}</span>
             </nav>
           </div>
         </div>

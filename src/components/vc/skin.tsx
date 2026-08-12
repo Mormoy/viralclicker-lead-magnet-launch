@@ -18,25 +18,24 @@ export function FranjaPeligro({ className = '' }: { className?: string }) {
   return <div aria-hidden className={`h-3.5 w-full bg-franja-peligro ${className}`} />;
 }
 
-/** Etiqueta estampada: mono en mayúsculas sobre un rectángulo sólido. */
+/** Etiqueta: mono en mayúsculas, SIN caja.
+ *
+ *  Antes iba dentro de un rectángulo amarillo o marrón. Con una caja por
+ *  sección la página se llenaba de bloques de color compitiendo entre sí; el
+ *  mockup original las tiene sueltas y así respiran. */
 export function Etiqueta({
-  children, tono = 'oscuro', className = '',
+  children, tono = 'claro', className = '',
 }: {
   children: React.ReactNode;
-  /** `oscuro` sobre fondo crema · `amarillo` dentro de secciones marrones. */
-  tono?: 'oscuro' | 'amarillo' | 'suelto';
+  /** `claro` sobre crema · `oscuro` dentro de la sección marrón. */
+  tono?: 'claro' | 'oscuro';
   className?: string;
 }) {
-  const estilos = {
-    oscuro: 'bg-vc-marron text-vc-amarillo px-3 py-1.5',
-    amarillo: 'bg-vc-amarillo text-vc-marron px-3 py-1.5',
-    // Sin recuadro, para cuando ya hay demasiadas cajas alrededor.
-    suelto: 'text-vc-quemado',
-  }[tono];
+  const color = tono === 'oscuro' ? 'text-vc-amarillo' : 'text-vc-quemado';
 
   return (
     <span
-      className={`inline-block font-mono text-[11px] font-extrabold uppercase tracking-[0.15em] ${estilos} ${className}`}
+      className={`inline-block font-mono text-[11px] font-extrabold uppercase tracking-[0.18em] ${color} ${className}`}
     >
       {children}
     </span>
@@ -79,11 +78,7 @@ export function EncabezadoSeccion({
       variants={subeSuave}
       className="flex max-w-3xl flex-col gap-3"
     >
-      {etiqueta && (
-        <Etiqueta tono={sobreOscuro ? 'suelto' : 'suelto'} className={sobreOscuro ? '!text-vc-amarillo' : ''}>
-          {etiqueta}
-        </Etiqueta>
-      )}
+      {etiqueta && <Etiqueta tono={sobreOscuro ? 'oscuro' : 'claro'}>{etiqueta}</Etiqueta>}
       <Titular sobreOscuro={sobreOscuro}>{titulo}</Titular>
       {bajada && (
         <p className={`text-lg leading-relaxed ${sobreOscuro ? 'text-vc-arena' : 'text-vc-marron3'}`}>
@@ -109,8 +104,10 @@ export function Seccion({
       id={id}
       className={`${tono === 'crema' ? 'bg-vc-crema text-vc-tinta' : 'bg-vc-marron text-vc-hueso'} ${className}`}
     >
+      {/* Aire: 64px en móvil, 96px en escritorio. Con menos, las secciones se
+          pisan y la página se siente recargada aunque cada bloque esté bien. */}
       <div
-        className={`mx-auto px-[5vw] py-16 md:py-20 ${ancho === 'ancho' ? 'max-w-[1280px]' : 'max-w-[1100px]'}`}
+        className={`mx-auto px-[5vw] py-16 md:py-24 ${ancho === 'ancho' ? 'max-w-[1280px]' : 'max-w-[1100px]'}`}
       >
         {children}
       </div>
@@ -133,8 +130,12 @@ export function BotonCartel({
   // El texto del botón naranja va en marrón y no en crema: crema sobre naranja
   // da 2,74:1 y no pasa AA. Marrón sobre naranja da 6,05:1 — y es lo que hace
   // el propio mockup en el CTA del header.
+  //
+  // La sombra dura amarilla queda SOLO acá, en los botones. Cuando la llevaban
+  // también las tarjetas, el amarillo dejaba de ser un acento y se volvía el
+  // color de fondo de la página.
   const estilos = {
-    principal: 'bg-vc-naranja text-vc-marron shadow-dura hover:bg-vc-amarillo',
+    principal: 'bg-vc-naranja text-vc-marron shadow-dura-lg hover:bg-vc-amarillo',
     secundario: 'bg-vc-crema text-vc-marron hover:bg-vc-amarillo',
     oscuro: 'bg-vc-marron text-vc-crema hover:bg-vc-marron2',
   }[variante];

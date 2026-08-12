@@ -49,7 +49,7 @@ function Burbuja({
       }`}
     >
       {children ?? texto}
-      <div className={`mt-0.5 text-right text-[10px] ${mia ? 'text-[#7A9A6A]' : 'text-[#9A8C7A]'}`}>
+      <div className={`mt-0.5 text-right text-[10px] ${mia ? 'text-[#3F6B2E]' : 'text-[#5A5148]'}`}>
         {hora}
         {mia && ' ✓✓'}
       </div>
@@ -93,7 +93,7 @@ export default function TelefonoMarco() {
         </div>
 
         <div className="mb-2.5 flex justify-center">
-          <span className="rounded-md bg-[#DCD3C8] px-2.5 py-0.5 text-[11px] font-semibold text-[#6B5D4D]">
+          <span className="rounded-md bg-[#DCD3C8] px-2.5 py-0.5 text-[11px] font-semibold text-[#4A4036]">
             {t('marco.today')}
           </span>
         </div>
@@ -125,7 +125,7 @@ export default function TelefonoMarco() {
 
       {/* La aclaración va acá, pegada a la conversación, no al pie de página:
           es donde alguien podría confundirla con el caso de un cliente. */}
-      <p className="mt-3 font-mono text-[12px] leading-snug text-vc-polvo">
+      <p className="mt-3 font-mono text-[12px] leading-snug text-vc-arena">
         {t('marco.disclaimer')}
       </p>
     </div>
