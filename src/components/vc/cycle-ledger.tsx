@@ -7,7 +7,7 @@
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/skin';
+import { subeSuave, useEntrada } from '@/components/vc/skin';
 
 const FILAS = [
   { nameKey: 'home.cycle1Name', descKey: 'home.cycle1Desc' },
@@ -18,6 +18,7 @@ const FILAS = [
 
 export default function CycleLedger({ sobreOscuro = false }: { sobreOscuro?: boolean }) {
   const { t } = useTranslation();
+  const entrada = useEntrada();
 
   const borde = sobreOscuro ? 'border-vc-marron4' : 'border-vc-marron';
   const palabra = sobreOscuro ? 'text-vc-amarillo' : 'text-vc-oxido';
@@ -28,10 +29,7 @@ export default function CycleLedger({ sobreOscuro = false }: { sobreOscuro?: boo
       {FILAS.map((fila, i) => (
         <motion.div
           key={fila.nameKey}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={subeSuave}
+          {...entrada}
           transition={{ delay: i * 0.06 }}
           className={`grid items-center gap-x-6 gap-y-1.5 border-t-[3px] ${borde} py-6 md:grid-cols-[minmax(140px,240px)_minmax(0,1fr)] ${
             i === FILAS.length - 1 ? 'border-b-[3px]' : ''

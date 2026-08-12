@@ -9,10 +9,9 @@
 // El aviso de la FTC se mantiene, pero en UNA línea al pie: es obligatorio,
 // no un párrafo de introducción y otro de cierre.
 // ============================================================================
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { PhoneMissed, PhoneCall, MessageSquareOff } from 'lucide-react';
-import { subeSuave } from '@/components/vc/skin';
 
 /** Un teléfono dibujado en código: no hay fotos y no hacen falta. */
 function Telefono({ apagado, children }: { apagado?: boolean; children: React.ReactNode }) {
@@ -50,18 +49,82 @@ function Aviso({
   );
 }
 
-export default function AntesDespues() {
-  const { t } = useTranslation();
+/** Parte "<1 min" en el número y su unidad, sin tocar el texto: se anima cada
+ *  pieza por separado para que el dato se arme delante del lector. Si la cadena
+ *  no tiene espacio, se muestra entera y no pasa nada. */
+const partir = (valor: string) => {
+  const i = valor.indexOf(' ');
+  return i === -1 ? { numero: valor, unidad: '' } : { numero: valor.slice(0, i), unidad: valor.slice(i + 1) };
+};
+
+/** La cifra grande: primero aparece la unidad, después el número. El número es
+ *  el espectáculo, así que entra último y con más peso. */
+function CifraArmada({ valor, clase }: { valor: string; clase: string }) {
+  const { numero, unidad } = partir(valor);
+  const reducido = useReducedMotion();
+
+  // Con movimiento reducido la cifra se muestra entera y quieta.
+  const anim = (delay: number, pop: boolean) =>
+    reducido
+      ? {}
+      : {
+          initial: { opacity: 0, y: pop ? 14 : 8, ...(pop ? { scale: 0.86 } : {}) },
+          whileInView: { opacity: 1, y: 0, ...(pop ? { scale: 1 } : {}) },
+          viewport: { once: true, margin: '-80px' },
+          transition: {
+            duration: pop ? 0.5 : 0.35,
+            delay,
+            ease: pop ? [0.2, 1.25, 0.35, 1] : [0.16, 1, 0.3, 1],
+          },
+        };
 
   return (
-    <div>
+    <span className="flex flex-wrap items-baseline gap-x-2">
+      <motion.span
+        {...anim(0.22, true)}
+        className={clase}
+      >
+        {numero}
+      </motion.span>
+      {unidad && (
+        <motion.span
+          {...anim(0, false)}
+          className={`${clase} !text-[0.45em]`}
+        >
+          {unidad}
+        </motion.span>
+      )}
+    </span>
+  );
+}
+
+export default function AntesDespues() {
+  const { t } = useTranslation();
+  const reducido = useReducedMotion();
+
+  // El desplazamiento lateral es justo lo que ensanchaba el documento en móvil:
+  // con movimiento reducido no existe y las tarjetas nacen en su sitio.
+  const lado = (x: number, delay = 0) =>
+    reducido
+      ? {}
+      : {
+          initial: { opacity: 0, x },
+          whileInView: { opacity: 1, x: 0 },
+          viewport: { once: true, margin: '-60px' },
+          transition: { duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] },
+        };
+
+  return (
+    // `overflow-x-clip` no es cosmético: la tarjeta de la derecha arranca
+    // desplazada 28px hacia afuera esperando su fade lateral, y mientras no
+    // entra en pantalla ese desplazamiento ensancha el documento entero y
+    // aparece scroll horizontal en móvil. Clip lo contiene sin crear un
+    // contenedor de scroll (a diferencia de overflow-hidden).
+    <div className="overflow-x-clip">
       <div className="grid items-stretch gap-0 md:grid-cols-[1fr_auto_1fr]">
         {/* ── SIN ─────────────────────────────────────────────────────── */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={subeSuave}
+          {...lado(-28)}
           className="flex flex-col border-2 border-vc-marron3/40 bg-[#F3EEE5] p-6 md:p-8"
         >
           <p className="font-mono text-[11px] font-extrabold uppercase tracking-[0.18em] text-vc-marron3">
@@ -76,9 +139,7 @@ export default function AntesDespues() {
           </div>
 
           <div className="mt-auto">
-            <p className="font-display text-[3.25rem] font-black leading-[0.9] text-vc-marron3">
-              {t('home.caseBefore1')}
-            </p>
+            <CifraArmada valor={t('home.caseBefore1')} clase="font-display text-[3.25rem] font-black leading-[0.9] text-vc-marron3" />
             <p className="mt-1 font-semibold text-vc-marron3">{t('comparacion.sinLabel')}</p>
           </div>
         </motion.div>
@@ -96,11 +157,7 @@ export default function AntesDespues() {
 
         {/* ── CON ─────────────────────────────────────────────────────── */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={subeSuave}
-          transition={{ delay: 0.08 }}
+          {...lado(28, 0.1)}
           className="flex flex-col border-2 border-vc-marron bg-white p-6 md:p-8"
         >
           <p className="font-mono text-[11px] font-extrabold uppercase tracking-[0.18em] text-vc-oxido">
@@ -118,9 +175,7 @@ export default function AntesDespues() {
 
           <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-4">
             <div className="col-span-2">
-              <dd className="font-display text-[3.25rem] font-black leading-[0.9] text-vc-oxido">
-                {t('home.caseMetric1')}
-              </dd>
+              <dd><CifraArmada valor={t('home.caseMetric1')} clase="font-display text-[3.25rem] font-black leading-[0.9] text-vc-oxido" /></dd>
               <dt className="mt-1 font-semibold text-vc-marron3">{t('home.caseLabel1')}</dt>
             </div>
             <div className="border-t-2 border-vc-marron3/25 pt-3">

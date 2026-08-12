@@ -8,7 +8,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
-import { subeSuave } from '@/components/vc/skin';
+import { subeSuave, useEntrada } from '@/components/vc/skin';
 
 const PREGUNTAS = [1, 2, 3, 4, 5, 6, 7].map((n) => ({
   qKey: `home.faq${n}Q`,
@@ -17,6 +17,7 @@ const PREGUNTAS = [1, 2, 3, 4, 5, 6, 7].map((n) => ({
 
 export default function FaqList() {
   const { t } = useTranslation();
+  const entrada = useEntrada();
 
   return (
     <div className="mt-7 flex flex-col">
@@ -29,10 +30,7 @@ export default function FaqList() {
         return (
           <motion.div
             key={f.qKey}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-            variants={subeSuave}
+            {...entrada}
             transition={{ delay: Math.min(i, 4) * 0.04 }}
           >
             <details className="group border-t-2 border-vc-marron3/40 last:border-b-2">

@@ -30,9 +30,7 @@ import HeroCuadrilla from '@/components/vc/hero-cuadrilla';
 import FlujoSistema from '@/components/vc/flujo-sistema';
 import AgentesCuatro from '@/components/vc/agentes-cuatro';
 import SupervisorTelegram from '@/components/vc/supervisor-telegram';
-import {
-  Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave,
-} from '@/components/vc/skin';
+import { Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave, useEntrada } from '@/components/vc/skin';
 import CycleLedger from '@/components/vc/cycle-ledger';
 import RubrosTarjetas from '@/components/vc/rubros-tarjetas';
 import AntesDespues from '@/components/vc/antes-despues';
@@ -44,6 +42,7 @@ const abrirDemo = () => window.open(CONTACT.demoUrl, '_blank', 'noopener');
 const ViralClicker = () => {
   const { t, i18n } = useTranslation();
   const pricingHref = i18n.language === 'en' ? '/pricing' : '/precios';
+  const entrada = useEntrada();
 
   return (
     <div className="flex min-h-screen flex-col bg-vc-crema font-body text-vc-tinta antialiased">
@@ -124,10 +123,7 @@ const ViralClicker = () => {
           <EncabezadoSeccion titulo={t('home.implTitle')} bajada={t('home.implSubtitle')} />
           <SetupSieteDias />
           <motion.p
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={subeSuave}
+            {...entrada}
             className="mt-8 max-w-3xl border-l-[5px] border-vc-amarillo bg-white px-5 py-4 text-[17px] leading-relaxed text-vc-marron3"
           >
             {t('cuadrilla.setupCuentas')}
@@ -147,10 +143,7 @@ const ViralClicker = () => {
             el único de este color: por eso funciona como remate. */}
         <Seccion>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={subeSuave}
+            {...entrada}
             className="max-w-3xl"
           >
             <Titular>{t('home.ctaTitle')}</Titular>
@@ -166,10 +159,7 @@ const ViralClicker = () => {
           </motion.div>
 
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={subeSuave}
+            {...entrada}
             className="mt-9 flex flex-wrap items-center justify-between gap-5 border-[3px] border-vc-marron bg-vc-naranja p-8 shadow-dura-lg"
           >
             <p className="max-w-2xl font-display text-[1.7rem] font-black uppercase leading-none text-vc-marron sm:text-4xl">

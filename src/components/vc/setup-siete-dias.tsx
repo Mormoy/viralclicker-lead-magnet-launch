@@ -9,9 +9,9 @@
 // conectora a la izquierda, que es la única forma en que cuatro nodos caben sin
 // apretarse.
 // ============================================================================
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/skin';
+import { subeSuave, useEntrada } from '@/components/vc/skin';
 
 const NODOS = [
   { diaKey: 'setup.d1Dia', textoKey: 'setup.d1Texto' },
@@ -22,25 +22,35 @@ const NODOS = [
 
 export default function SetupSieteDias() {
   const { t } = useTranslation();
+  const entrada = useEntrada();
+  const reducido = useReducedMotion();
+  // La línea se dibuja solo si hay movimiento permitido; si no, ya está entera.
+  const trazo = (eje: 'X' | 'Y') =>
+    reducido ? {} : { initial: { [`scale${eje}`]: 0 }, whileInView: { [`scale${eje}`]: 1 }, viewport: { once: true, margin: '-80px' }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } };
 
   return (
     <div className="mt-10">
       <ol className="relative grid gap-8 md:grid-cols-4 md:gap-6">
-        {/* La línea. Vertical en móvil, horizontal desde `md`. */}
-        <span
+        {/* La línea se DIBUJA al entrar en pantalla. Son dos elementos y no uno
+            porque el eje cambia con el breakpoint —vertical en móvil,
+            horizontal en escritorio— y una sola animación no puede escalar en
+            un eje distinto según el ancho. */}
+        <motion.span
           aria-hidden
-          className="absolute left-[1.4rem] top-3 h-[calc(100%-1.5rem)] w-[3px] bg-vc-naranja
-                     md:left-0 md:top-[1.4rem] md:h-[3px] md:w-full"
+          {...trazo('Y')}
+          className="absolute left-[1.4rem] top-3 h-[calc(100%-1.5rem)] w-[3px] origin-top bg-vc-naranja md:hidden"
+        />
+        <motion.span
+          aria-hidden
+          {...trazo('X')}
+          className="absolute left-0 top-[1.4rem] hidden h-[3px] w-full origin-left bg-vc-naranja md:block"
         />
 
         {NODOS.map((n, i) => (
           <motion.li
             key={n.diaKey}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            variants={subeSuave}
-            transition={{ delay: Math.min(i, 3) * 0.08 }}
+            {...entrada}
+            transition={{ duration: 0.4, delay: 0.2 + Math.min(i, 3) * 0.13, ease: [0.16, 1, 0.3, 1] }}
             className="relative grid grid-cols-[3.5rem_minmax(0,1fr)] items-start gap-x-4 md:block"
           >
             {/* El nodo. El último va relleno: es el día en que ya funciona. */}

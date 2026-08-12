@@ -13,9 +13,9 @@
 // ⚠️ Va etiquetado como simulación: son datos inventados y la regla FTC exige
 // que se note. Ningún número de acá es de un cliente.
 // ============================================================================
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Seccion, EncabezadoSeccion, subeSuave } from '@/components/vc/skin';
+import { Seccion, EncabezadoSeccion, subeSuave, useEntrada } from '@/components/vc/skin';
 
 /** Colores reales de Telegram, igual que se hizo con WhatsApp en el hero. */
 const TG_FONDO = '#17212B';
@@ -31,6 +31,18 @@ const MENSAJES = [
 
 export default function SupervisorTelegram() {
   const { t } = useTranslation();
+  const entrada = useEntrada();
+  const reducido = useReducedMotion();
+  // Con movimiento reducido los avisos ya están puestos: no "llegan".
+  const llegada = (i: number) =>
+    reducido
+      ? {}
+      : {
+          initial: { opacity: 0, y: 12, scale: 0.97 },
+          whileInView: { opacity: 1, y: 0, scale: 1 },
+          viewport: { once: true, margin: '-120px' },
+          transition: { duration: 0.4, delay: i * 0.45, ease: [0.16, 1, 0.3, 1] },
+        };
 
   return (
     <Seccion id="supervisor" tono="marron">
@@ -43,10 +55,7 @@ export default function SupervisorTelegram() {
             bajada={t('cuadrilla.supSub')}
           />
           <motion.p
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={subeSuave}
+            {...entrada}
             className="mt-6 max-w-xl border-l-[5px] border-vc-naranja pl-4 text-lg font-semibold leading-relaxed text-vc-crema"
           >
             {t('cuadrilla.supCloser')}
@@ -54,10 +63,7 @@ export default function SupervisorTelegram() {
         </div>
 
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={subeSuave}
+          {...entrada}
           className="border-2 border-vc-marron4 bg-vc-marron2 p-5"
         >
           <div className="overflow-hidden rounded-xl" style={{ background: TG_FONDO }}>
@@ -74,17 +80,22 @@ export default function SupervisorTelegram() {
               </span>
             </div>
 
-            {/* Los avisos del día */}
-            <div className="flex flex-col gap-2.5 px-3 py-4">
-              {MENSAJES.map((m) => (
-                <div
+            {/* Los avisos del día.
+                Llegan de a uno al entrar en pantalla, no todos juntos: es la
+                demo del producto —el dueño recibiendo su día— y verlos caer en
+                secuencia es lo que lo cuenta. El alto mínimo evita que la
+                tarjeta crezca a saltos mientras aparecen. */}
+            <div className="flex min-h-[15.5rem] flex-col gap-2.5 px-3 py-4">
+              {MENSAJES.map((m, i) => (
+                <motion.div
                   key={m.key}
+                  {...llegada(i)}
                   className="max-w-[92%] self-start rounded-[10px_10px_10px_2px] px-3 py-2"
                   style={{ background: TG_BURBUJA }}
                 >
                   <p className="text-[13.5px] leading-[1.45] text-white">{t(m.key)}</p>
                   <p className="mt-0.5 text-right font-mono text-[10px] text-[#D6E8F5]">{m.hora}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

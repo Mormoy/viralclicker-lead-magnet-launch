@@ -12,7 +12,7 @@
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/skin';
+import { subeSuave, useEntrada } from '@/components/vc/skin';
 import Carrusel from '@/components/vc/carrusel';
 
 const RUBROS = [
@@ -24,6 +24,7 @@ const RUBROS = [
 
 export default function RubrosTarjetas() {
   const { t } = useTranslation();
+  const entrada = useEntrada();
 
   return (
     <div className="mt-9">
@@ -31,11 +32,8 @@ export default function RubrosTarjetas() {
         {RUBROS.map((r, i) => (
           <motion.article
             key={r.nameKey}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            variants={subeSuave}
-            transition={{ delay: Math.min(i, 3) * 0.06 }}
+            {...entrada}
+            transition={{ duration: 0.4 }}
             className="flex h-full flex-col border-2 border-vc-marron bg-white p-6"
           >
             <h3 className="font-display text-[1.9rem] font-black uppercase leading-[0.95] text-vc-oxido">

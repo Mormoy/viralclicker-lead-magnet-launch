@@ -14,7 +14,7 @@
 // ============================================================================
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave } from '@/components/vc/skin';
+import { subeSuave, useEntrada } from '@/components/vc/skin';
 import Carrusel from '@/components/vc/carrusel';
 
 /** Voz: una onda sonora. Alturas fijas para que no baile en cada render. */
@@ -86,6 +86,7 @@ const AGENTES = [
 
 export default function AgentesCuatro() {
   const { t } = useTranslation();
+  const entrada = useEntrada();
 
   return (
     <>
@@ -94,12 +95,10 @@ export default function AgentesCuatro() {
         {AGENTES.map((a, i) => (
           <motion.article
             key={a.nameKey}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            variants={subeSuave}
-            transition={{ delay: Math.min(i, 3) * 0.06 }}
-            className={`flex h-full flex-col border-2 border-vc-marron p-6 ${
+            {...entrada}
+            transition={{ duration: 0.45, delay: Math.min(i, 3) * 0.12, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ y: -6 }}
+            className={`flex h-full flex-col border-2 border-vc-marron p-6 transition-shadow hover:shadow-dura ${
               a.oscura ? 'bg-vc-marron' : 'bg-white'
             }`}
           >
@@ -127,10 +126,7 @@ export default function AgentesCuatro() {
       </div>
 
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={subeSuave}
+        {...entrada}
         className="mt-8 max-w-3xl"
       >
         <p className="text-lg font-semibold leading-relaxed text-vc-tinta">

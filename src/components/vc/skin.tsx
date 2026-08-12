@@ -6,12 +6,41 @@
 // de oficio, porque quien mira esto es un techista de Florida, no un director
 // de tecnología.
 // ============================================================================
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export const subeSuave = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
 };
+
+/**
+ * Props de entrada al hacer scroll, con la salida honesta para quien pidió
+ * menos movimiento.
+ *
+ * `MotionConfig reducedMotion="user"` sola no alcanza: framer desactiva las
+ * transformaciones pero SIGUE animando la opacidad, así que el contenido
+ * quedaría invisible hasta que entra en pantalla. Devolviendo un objeto vacío
+ * el elemento se pinta en su estado final desde el primer momento, que es lo
+ * que la regla pide: todo estático y visible de inmediato.
+ */
+export function useEntrada(extra: Record<string, unknown> = {}) {
+  const reducido = useReducedMotion();
+  if (reducido) return {};
+  return {
+    initial: 'hidden',
+    whileInView: 'visible',
+    viewport: { once: true, margin: '-60px' },
+    variants: subeSuave,
+    ...extra,
+  };
+}
+
+/** Igual que `useEntrada` pero para animaciones escritas con objetos sueltos
+ *  (fades laterales, pops, secuencias) en vez de variantes. */
+export function useEntradaLibre<T extends Record<string, unknown>>(props: T) {
+  const reducido = useReducedMotion();
+  return (reducido ? {} : props) as T | Record<string, never>;
+}
 
 /** La franja amarilla y negra. Separa bloques importantes, no cualquier cosa. */
 export function FranjaPeligro({ className = '' }: { className?: string }) {
@@ -70,12 +99,10 @@ export function EncabezadoSeccion({
   bajada?: string;
   sobreOscuro?: boolean;
 }) {
+  const entrada = useEntrada();
   return (
     <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      variants={subeSuave}
+      {...entrada}
       className="flex max-w-3xl flex-col gap-3"
     >
       {etiqueta && <Etiqueta tono={sobreOscuro ? 'oscuro' : 'claro'}>{etiqueta}</Etiqueta>}

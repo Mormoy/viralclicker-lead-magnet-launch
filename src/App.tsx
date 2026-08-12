@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
 import { AuthProvider } from "@/hooks/use-auth";
 import ViralClicker from "./pages/ClickCRM";
 import Restauracion from "./pages/Restauracion";
@@ -51,6 +52,7 @@ const RedirectToRestauracion = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <MotionConfig reducedMotion="user">
       <Toaster />
       <Sonner />
       <BrowserRouter>
@@ -115,6 +117,7 @@ const App = () => (
           </Routes>
         </AuthProvider>
       </BrowserRouter>
+      </MotionConfig>
     </TooltipProvider>
   </QueryClientProvider>
 );
