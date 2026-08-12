@@ -30,7 +30,6 @@ import HeroCuadrilla from '@/components/vc/hero-cuadrilla';
 import FlujoSistema from '@/components/vc/flujo-sistema';
 import AgentesCuatro from '@/components/vc/agentes-cuatro';
 import SupervisorTelegram from '@/components/vc/supervisor-telegram';
-import CasoTechos from '@/components/vc/caso-techos';
 import {
   Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave,
 } from '@/components/vc/skin';
@@ -121,10 +120,7 @@ const ViralClicker = () => {
           <VerticalsList />
         </Seccion>
 
-        {/* 7 · El caso demostrativo, etiquetado como ejemplo de un rubro */}
-        <CasoTechos />
-
-        {/* 8 · Cifras de referencia. No es un testimonio y lo dice. */}
+        {/* 7 · Cifras de referencia. No es un testimonio y lo dice. */}
         <Seccion>
           <ExampleReport />
         </Seccion>
@@ -172,6 +168,14 @@ const ViralClicker = () => {
           >
             <Titular>{t('home.ctaTitle')}</Titular>
             <p className="mt-4 text-lg leading-relaxed text-vc-marron3">{t('home.ctaSubtitle')}</p>
+
+            {/* La credencial honesta. Vivía en la sección del caso de techos,
+                que se fue a su landing; acá sigue haciendo el mismo trabajo —
+                y justo antes del CTA, que es donde más pesa: no nombra a
+                ningún cliente, nombra la empresa propia. */}
+            <p className="mt-7 border-l-[5px] border-vc-amarillo bg-white px-5 py-4 text-[17px] leading-relaxed text-vc-marron3">
+              {t('cuadrilla.casoCredito')}
+            </p>
           </motion.div>
 
           <motion.div
