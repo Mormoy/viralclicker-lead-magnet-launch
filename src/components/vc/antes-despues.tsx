@@ -64,12 +64,16 @@ function CifraArmada({ valor, clase }: { valor: string; clase: string }) {
   const reducido = useReducedMotion();
 
   // Con movimiento reducido la cifra se muestra entera y quieta.
+  // La cifra se arma moviéndose y escalando, nunca desapareciendo: es el dato
+  // más importante del módulo y no puede quedar invisible si el observador de
+  // scroll tarda. Se midió exactamente eso en producción: el "4+" en opacidad
+  // 0 mientras su unidad ya se veía.
   const anim = (delay: number, pop: boolean) =>
     reducido
       ? {}
       : {
-          initial: { opacity: 0, y: pop ? 14 : 8, ...(pop ? { scale: 0.86 } : {}) },
-          whileInView: { opacity: 1, y: 0, ...(pop ? { scale: 1 } : {}) },
+          initial: { y: pop ? 14 : 8, ...(pop ? { scale: 0.86 } : {}) },
+          whileInView: { y: 0, ...(pop ? { scale: 1 } : {}) },
           viewport: { once: true, margin: '-80px' },
           transition: {
             duration: pop ? 0.5 : 0.35,
@@ -111,8 +115,8 @@ export default function AntesDespues() {
     reducido
       ? {}
       : {
-          initial: { opacity: 0, x },
-          whileInView: { opacity: 1, x: 0 },
+          initial: { x },
+          whileInView: { x: 0 },
           viewport: { once: true, margin: '-60px' },
           transition: { duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] },
         };

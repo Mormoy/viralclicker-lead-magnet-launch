@@ -11,7 +11,7 @@
 // ============================================================================
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { subeSuave, useEntrada } from '@/components/vc/skin';
+import { subeSuave, useEntrada, useEnPantalla } from '@/components/vc/skin';
 
 const NODOS = [
   { diaKey: 'setup.d1Dia', textoKey: 'setup.d1Texto' },
@@ -24,26 +24,29 @@ export default function SetupSieteDias() {
   const { t } = useTranslation();
   const entrada = useEntrada();
   const reducido = useReducedMotion();
-  // La línea se dibuja solo si hay movimiento permitido; si no, ya está entera.
-  const trazo = (eje: 'X' | 'Y') =>
-    reducido ? {} : { initial: { [`scale${eje}`]: 0 }, whileInView: { [`scale${eje}`]: 1 }, viewport: { once: true, margin: '-80px' }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } };
+  const { ref: refLinea, mostrar } = useEnPantalla<HTMLOListElement>();
+  // Sin la línea la sección queda coja, así que se dibuja con CSS y no con
+  // framer: el temporizador de seguridad la termina de trazar aunque el
+  // observador de scroll no haya llegado a dispararse nunca.
+  const dibujada = reducido || mostrar;
+  const trazo = `bg-vc-naranja transition-transform duration-[600ms] ease-out ${
+    dibujada ? 'scale-100' : 'scale-0'
+  }`;
 
   return (
     <div className="mt-10">
-      <ol className="relative grid gap-8 md:grid-cols-4 md:gap-6">
+      <ol ref={refLinea} className="relative grid gap-8 md:grid-cols-4 md:gap-6">
         {/* La línea se DIBUJA al entrar en pantalla. Son dos elementos y no uno
             porque el eje cambia con el breakpoint —vertical en móvil,
             horizontal en escritorio— y una sola animación no puede escalar en
             un eje distinto según el ancho. */}
-        <motion.span
+        <span
           aria-hidden
-          {...trazo('Y')}
-          className="absolute left-[1.4rem] top-3 h-[calc(100%-1.5rem)] w-[3px] origin-top bg-vc-naranja md:hidden"
+          className={`absolute left-[1.4rem] top-3 h-[calc(100%-1.5rem)] w-[3px] origin-top md:hidden ${trazo}`}
         />
-        <motion.span
+        <span
           aria-hidden
-          {...trazo('X')}
-          className="absolute left-0 top-[1.4rem] hidden h-[3px] w-full origin-left bg-vc-naranja md:block"
+          className={`absolute left-0 top-[1.4rem] hidden h-[3px] w-full origin-left md:block ${trazo}`}
         />
 
         {NODOS.map((n, i) => (

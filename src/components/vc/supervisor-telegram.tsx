@@ -15,7 +15,7 @@
 // ============================================================================
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Seccion, EncabezadoSeccion, subeSuave, useEntrada } from '@/components/vc/skin';
+import { Seccion, EncabezadoSeccion, subeSuave, useEntrada, useEnPantalla } from '@/components/vc/skin';
 
 /** Colores reales de Telegram, igual que se hizo con WhatsApp en el hero. */
 const TG_FONDO = '#17212B';
@@ -33,16 +33,27 @@ export default function SupervisorTelegram() {
   const { t } = useTranslation();
   const entrada = useEntrada();
   const reducido = useReducedMotion();
-  // Con movimiento reducido los avisos ya están puestos: no "llegan".
-  const llegada = (i: number) =>
-    reducido
-      ? {}
-      : {
-          initial: { opacity: 0, y: 12, scale: 0.97 },
-          whileInView: { opacity: 1, y: 0, scale: 1 },
-          viewport: { once: true, margin: '-120px' },
-          transition: { duration: 0.4, delay: i * 0.45, ease: [0.16, 1, 0.3, 1] },
-        };
+
+  // Acá aparecer SÍ es el efecto: los avisos tienen que llegar de a uno, así
+  // que se mantiene la opacidad. Pero el movimiento va con CSS y NO con framer.
+  //
+  // Por qué: estos avisos cuelgan de un `motion` con variantes, y framer hace
+  // que los hijos esperen a que el padre entre en pantalla. Se midió el
+  // resultado — los cuatro avisos en opacidad 0 dos minutos después de cargar
+  // la página, porque nadie había scrolleado hasta ahí. Con una clase y una
+  // transición de CSS, el temporizador de seguridad manda de verdad.
+  const { ref: refChat, mostrar } = useEnPantalla();
+  const visible = reducido || mostrar;
+
+  const llegada = (i: number) => ({
+    className: `max-w-[92%] self-start rounded-[10px_10px_10px_2px] px-3 py-2 ${
+      reducido ? '' : 'transition-all duration-[400ms] ease-out'
+    } ${visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'}`,
+    style: {
+      background: TG_BURBUJA,
+      transitionDelay: visible && !reducido ? `${i * 450}ms` : '0ms',
+    },
+  });
 
   return (
     <Seccion id="supervisor" tono="marron">
@@ -85,17 +96,12 @@ export default function SupervisorTelegram() {
                 demo del producto —el dueño recibiendo su día— y verlos caer en
                 secuencia es lo que lo cuenta. El alto mínimo evita que la
                 tarjeta crezca a saltos mientras aparecen. */}
-            <div className="flex min-h-[15.5rem] flex-col gap-2.5 px-3 py-4">
+            <div ref={refChat} className="flex min-h-[15.5rem] flex-col gap-2.5 px-3 py-4">
               {MENSAJES.map((m, i) => (
-                <motion.div
-                  key={m.key}
-                  {...llegada(i)}
-                  className="max-w-[92%] self-start rounded-[10px_10px_10px_2px] px-3 py-2"
-                  style={{ background: TG_BURBUJA }}
-                >
+                <div key={m.key} {...llegada(i)}>
                   <p className="text-[13.5px] leading-[1.45] text-white">{t(m.key)}</p>
                   <p className="mt-0.5 text-right font-mono text-[10px] text-[#D6E8F5]">{m.hora}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

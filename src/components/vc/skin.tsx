@@ -6,12 +6,44 @@
 // de oficio, porque quien mira esto es un techista de Florida, no un director
 // de tecnología.
 // ============================================================================
-import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 
+/**
+ * La entrada de los bloques de contenido: SIN opacidad, solo desplazamiento.
+ *
+ * Es una decisión de robustez, no estética. Con `opacity: 0` de partida, el
+ * texto solo existe si el observador de scroll llega a dispararse; en un
+ * teléfono lento se midió una tarjeta en opacidad 0,001 tres segundos después
+ * de entrar en pantalla, o sea un bloque en blanco. Animando únicamente la
+ * posición, el peor caso posible es un bloque 16px más abajo de su sitio —
+ * invisible para cualquiera— y el contenido siempre se lee.
+ */
 export const subeSuave = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { y: 16 },
+  visible: { y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
 };
+
+/**
+ * Para los efectos donde aparecer SÍ es el efecto (los avisos que van llegando,
+ * la línea que se dibuja): devuelve true cuando el elemento entra en pantalla
+ * **o** cuando pasa el tiempo de seguridad, lo que ocurra primero.
+ *
+ * Así el efecto se ve cuando todo va bien, y cuando el navegador va ahogado el
+ * contenido aparece igual en vez de quedarse escondido para siempre.
+ */
+export function useEnPantalla<T extends HTMLElement = HTMLDivElement>(msDeSeguridad = 2500) {
+  const ref = useRef<T>(null);
+  const enVista = useInView(ref, { once: true, margin: '-80px' });
+  const [porTiempo, setPorTiempo] = useState(false);
+
+  useEffect(() => {
+    const id = setTimeout(() => setPorTiempo(true), msDeSeguridad);
+    return () => clearTimeout(id);
+  }, [msDeSeguridad]);
+
+  return { ref, mostrar: enVista || porTiempo };
+}
 
 /**
  * Props de entrada al hacer scroll, con la salida honesta para quien pidió

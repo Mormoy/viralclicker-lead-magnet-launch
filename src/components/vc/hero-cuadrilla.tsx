@@ -24,12 +24,15 @@ export default function HeroCuadrilla({ onDemo, pricingHref }: Props) {
   const { t } = useTranslation();
   const reducido = useReducedMotion();
   // El titular se revela por partes solo si el visitante acepta movimiento.
+  // Sin opacidad: el titular es lo primero que tiene que leerse, así que nunca
+  // puede depender de que una animación llegue a correr. Se mueve y escala, y
+  // si algo falla queda simplemente en su sitio.
   const pieza = (delay: number, pop = false) =>
     reducido
       ? {}
       : {
-          initial: { opacity: 0, y: 18, ...(pop ? { scale: 0.82 } : {}) },
-          animate: { opacity: 1, y: 0, ...(pop ? { scale: 1 } : {}) },
+          initial: { y: 18, ...(pop ? { scale: 0.82 } : {}) },
+          animate: { y: 0, ...(pop ? { scale: 1 } : {}) },
           transition: { duration: pop ? 0.55 : 0.5, delay, ease: pop ? [0.2, 1.25, 0.35, 1] : [0.16, 1, 0.3, 1] },
         };
 
