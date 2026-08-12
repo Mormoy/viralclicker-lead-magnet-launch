@@ -239,7 +239,6 @@
   },
   "home": {
     "navProduct": "Producto",
-    "navHow": "Cómo funciona",
     "navPricing": "Planes",
     "navFaq": "FAQ",
     "navGetStarted": "Ver demo",
@@ -270,16 +269,6 @@
     "agentChatDesc": "Atiende por WhatsApp, responde dudas, muestra fotos, cotiza y agenda. Si el cliente escribe en inglés, le responde en inglés.",
     "agentsHandoff": "Y si el cliente prefiere hablar con una persona, te lo pasa a ti con el resumen de la conversación.",
     "agentsObjection": "No es un software más: es más parecido a contratar un vendedor que a comprar un CRM.",
-    "howTitle": "Cómo funciona",
-    "howSubtitle": "De cliente interesado a venta cerrada, sin que tengas que estar pendiente del teléfono.",
-    "howStep1Title": "Entra un cliente interesado",
-    "howStep1Desc": "Desde tu anuncio, tu página o tu WhatsApp.",
-    "howStep2Title": "El agente lo llama en 2 minutos",
-    "howStep2Desc": "Pregunta qué necesita y lo califica.",
-    "howStep3Title": "Le agenda la visita",
-    "howStep3Desc": "En tu calendario, y le confirma por WhatsApp.",
-    "howStep4Title": "Tú solo llegas a cerrar",
-    "howStep4Desc": "Con el cliente esperándote y todo el contexto en tu teléfono.",
     "vertTitle": "Hecho para negocios donde el primero que responde se queda con el trabajo",
     "vertSubtitle": "Cada rubro con su propia página, sus propias preguntas y su propio agente entrenado.",
     "vert1Name": "Restauración de daños",
@@ -290,8 +279,6 @@
     "vert3Desc": "Después de la tormenta entran diez consultas el mismo día.",
     "vert4Name": "Remodelación",
     "vert4Desc": "Presupuestos altos que se enfrían si nadie los persigue.",
-    "vertCta": "Ver la página",
-    "vertSoon": "Landing propia próximamente",
     "caseBadge": "Ejemplo ilustrativo",
     "caseTitle": "Así se ve el antes y el después",
     "caseDesc": "Ejemplo de uso construido con cifras de referencia del rubro para mostrar el tipo de cambio que produce la plataforma. No es el testimonio de un cliente.",
@@ -458,7 +445,8 @@
     "casoCredito": "Lo construimos primero para nuestra propia empresa de instalaciones en Chile, que factura con este sistema todos los días.",
     "setupCuentas": "En la primera reunión dejamos configuradas todas las plataformas —voz, Meta, inteligencia artificial y las demás herramientas— contratadas a TU nombre y con TU tarjeta. Tú administras esos pagos y decides cuánto invertir en publicidad. Tus cuentas son tuyas: si algún día te vas, te llevas todo.",
     "flujoLeyendaCapta": "Traen al interesado",
-    "flujoLeyendaAgentes": "Hacen que pasen cosas"
+    "flujoLeyendaAgentes": "Hacen que pasen cosas",
+    "remateFlujo": "Tú solo llegas a cerrar, con el cliente esperándote."
   },
   "marco": {
     "raceTitle": "La carrera por el lead",
@@ -474,5 +462,25 @@
     "m4slot": "martes 9:30 AM",
     "m4b": ". Le llega la confirmación por acá. Cualquier cosa me escribe, atiendo 24/7.",
     "disclaimer": "Conversación ilustrativa con tiempos de referencia — no es el testimonio de un cliente."
+  },
+  "comparacion": {
+    "sinTag": "Sin ViralClicker",
+    "sinLlamadas": "3 llamadas perdidas",
+    "sinMensaje": "Un mensaje sin leer",
+    "sinLabel": "en responder",
+    "conTag": "Con ViralClicker",
+    "conLlamada": "Llamada contestada",
+    "conAgenda": "📅 Visita agendada",
+    "nota": "Ejemplo con cifras de referencia del rubro — no es el testimonio de un cliente."
+  },
+  "setup": {
+    "d1Dia": "Día 1",
+    "d1Texto": "Una sola reunión contigo.",
+    "d2Dia": "Días 2–3",
+    "d2Texto": "Configuramos tus plataformas, a tu nombre.",
+    "d3Dia": "Días 4–6",
+    "d3Texto": "Entrenamos a tus agentes con TU negocio.",
+    "d4Dia": "Día 7",
+    "d4Texto": "Tu agente contesta su primera llamada."
   }
 }

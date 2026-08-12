@@ -239,7 +239,6 @@
   },
   "home": {
     "navProduct": "Product",
-    "navHow": "How it Works",
     "navPricing": "Pricing",
     "navFaq": "FAQ",
     "navGetStarted": "See a demo",
@@ -270,16 +269,6 @@
     "agentChatDesc": "Handles WhatsApp, answers questions, shows photos, quotes and books. If the customer writes in English, it answers in English.",
     "agentsHandoff": "And if the customer would rather talk to a person, it hands them over to you with a summary of the conversation.",
     "agentsObjection": "It isn't one more piece of software: it's closer to hiring a salesperson than to buying a CRM.",
-    "howTitle": "How it works",
-    "howSubtitle": "From new prospect to closed sale, without you watching the phone.",
-    "howStep1Title": "A prospect comes in",
-    "howStep1Desc": "From your ad, your website or your WhatsApp.",
-    "howStep2Title": "The agent calls in 2 minutes",
-    "howStep2Desc": "Asks what they need and qualifies them.",
-    "howStep3Title": "It books the visit",
-    "howStep3Desc": "In your calendar, and confirms on WhatsApp.",
-    "howStep4Title": "You just show up to close",
-    "howStep4Desc": "With the customer waiting and the full context on your phone.",
     "vertTitle": "Built for businesses where the first to respond wins the job",
     "vertSubtitle": "Each trade with its own page, its own questions and its own trained agent.",
     "vert1Name": "Damage restoration",
@@ -290,8 +279,6 @@
     "vert3Desc": "After the storm, ten enquiries land the same day.",
     "vert4Name": "Remodeling",
     "vert4Desc": "High-ticket estimates that go cold if nobody chases them.",
-    "vertCta": "See the page",
-    "vertSoon": "Dedicated page coming soon",
     "caseBadge": "Illustrative example",
     "caseTitle": "What the before and after looks like",
     "caseDesc": "An illustrative example built with industry reference figures to show the kind of change the platform produces. It is not a customer testimonial.",
@@ -458,7 +445,8 @@
     "casoCredito": "We built it first for our own installation company in Chile, which invoices with this system every day.",
     "setupCuentas": "In the first meeting we set up every platform — voice, Meta, AI and the rest — contracted in YOUR name and on YOUR card. You manage those payments and decide how much to invest in advertising. Your accounts are yours: if you ever leave, you take everything.",
     "flujoLeyendaCapta": "Bring the lead in",
-    "flujoLeyendaAgentes": "Make things happen"
+    "flujoLeyendaAgentes": "Make things happen",
+    "remateFlujo": "You just show up to close, with the customer waiting for you."
   },
   "marco": {
     "raceTitle": "The race for the lead",
@@ -474,5 +462,25 @@
     "m4slot": "Tuesday 9:30 AM",
     "m4b": ". You will get the confirmation right here. Message me any time, I am on 24/7.",
     "disclaimer": "Illustrative conversation with reference timings — not a client testimonial."
+  },
+  "comparacion": {
+    "sinTag": "Without ViralClicker",
+    "sinLlamadas": "3 missed calls",
+    "sinMensaje": "One unread message",
+    "sinLabel": "to respond",
+    "conTag": "With ViralClicker",
+    "conLlamada": "Call answered",
+    "conAgenda": "📅 Visit booked",
+    "nota": "Example built with reference figures for the trade — not a client testimonial."
+  },
+  "setup": {
+    "d1Dia": "Day 1",
+    "d1Texto": "One single meeting with you.",
+    "d2Dia": "Days 2–3",
+    "d2Texto": "We set up your platforms, in your name.",
+    "d3Dia": "Days 4–6",
+    "d3Texto": "We train your agents on YOUR business.",
+    "d4Dia": "Day 7",
+    "d4Texto": "Your agent answers its first call."
   }
 }

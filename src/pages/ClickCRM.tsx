@@ -34,26 +34,12 @@ import {
   Seccion, EncabezadoSeccion, FranjaPeligro, BotonCartel, Titular, subeSuave,
 } from '@/components/vc/skin';
 import CycleLedger from '@/components/vc/cycle-ledger';
-import StepRail from '@/components/vc/step-rail';
-import VerticalsList from '@/components/vc/verticals-list';
-import ExampleReport from '@/components/vc/example-report';
+import RubrosTarjetas from '@/components/vc/rubros-tarjetas';
+import AntesDespues from '@/components/vc/antes-despues';
+import SetupSieteDias from '@/components/vc/setup-siete-dias';
 import FaqList from '@/components/vc/faq-list';
 
 const abrirDemo = () => window.open(CONTACT.demoUrl, '_blank', 'noopener');
-
-const PASOS_COMO = [
-  { titleKey: 'home.howStep1Title', descKey: 'home.howStep1Desc' },
-  { titleKey: 'home.howStep2Title', descKey: 'home.howStep2Desc' },
-  { titleKey: 'home.howStep3Title', descKey: 'home.howStep3Desc' },
-  { titleKey: 'home.howStep4Title', descKey: 'home.howStep4Desc' },
-];
-
-const PASOS_SETUP = [
-  { titleKey: 'home.implStep1Title', descKey: 'home.implStep1Desc' },
-  { titleKey: 'home.implStep2Title', descKey: 'home.implStep2Desc' },
-  { titleKey: 'home.implStep3Title', descKey: 'home.implStep3Desc' },
-  { titleKey: 'home.implStep4Title', descKey: 'home.implStep4Desc' },
-];
 
 const ViralClicker = () => {
   const { t, i18n } = useTranslation();
@@ -64,9 +50,11 @@ const ViralClicker = () => {
       {/* ── Cabecera ──────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50">
         <div className="bg-vc-marron">
-          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-[5vw] py-3.5">
+          {/* A 360px el conjunto logo + selector + botón se pasaba 13px del
+              ancho. El botón se achica en móvil y el gap se cierra. */}
+          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-2 px-[5vw] py-3.5 sm:gap-4">
             <Logo />
-            <div className="flex items-center gap-4">
+            <div className="flex shrink-0 items-center gap-2 sm:gap-4">
               <span className="hidden font-mono text-[13px] font-semibold text-vc-arena sm:inline">
                 {t('cuadrilla.headerZone')}
               </span>
@@ -74,7 +62,7 @@ const ViralClicker = () => {
               <BotonCartel
                 onClick={abrirDemo}
                 data-cta="demo-header"
-                className="!border-vc-naranja !px-4 !py-2.5 !text-[15px] !shadow-none"
+                className="!border-vc-naranja !px-3 !py-2 !text-[13px] !shadow-none sm:!px-4 sm:!py-2.5 sm:!text-[15px]"
               >
                 {t('home.navGetStarted')}
               </BotonCartel>
@@ -114,28 +102,27 @@ const ViralClicker = () => {
           <CycleLedger />
         </Seccion>
 
-        {/* 6 · Rubros: las puertas de entrada a cada landing */}
+        {/* 6 · Rubros: para quién es esto. Sin enlaces a las landings — son
+            destino exclusivo de los anuncios. */}
         <Seccion>
           <EncabezadoSeccion titulo={t('home.vertTitle')} bajada={t('home.vertSubtitle')} />
-          <VerticalsList />
+          <RubrosTarjetas />
         </Seccion>
 
-        {/* 7 · Cifras de referencia. No es un testimonio y lo dice. */}
+        {/* 7 · La comparación. Se entiende sin leer los párrafos. */}
         <Seccion>
-          <ExampleReport />
+          <EncabezadoSeccion titulo={t('home.caseTitle')} />
+          <div className="mt-9">
+            <AntesDespues />
+          </div>
         </Seccion>
 
-        {/* 9 · Cómo funciona, paso a paso */}
-        <Seccion id="how-it-works">
-          <EncabezadoSeccion titulo={t('home.howTitle')} bajada={t('home.howSubtitle')} />
-          <StepRail pasos={PASOS_COMO} />
-        </Seccion>
-
-        {/* 10 · Setup y onboarding — con el detalle de las cuentas a nombre
-            del cliente, que es lo que más se pregunta en la venta. */}
+        {/* 8 · Setup: la promesa de los 7 días, mostrada como calendario.
+            (La sección de "cómo funciona" en 4 pasos se eliminó: repetía los
+            6 pasos del flujo y era la tercera tabla de filas seguida.) */}
         <Seccion>
           <EncabezadoSeccion titulo={t('home.implTitle')} bajada={t('home.implSubtitle')} />
-          <StepRail pasos={PASOS_SETUP} />
+          <SetupSieteDias />
           <motion.p
             initial="hidden"
             whileInView="visible"

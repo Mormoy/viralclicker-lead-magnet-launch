@@ -15,6 +15,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { subeSuave } from '@/components/vc/skin';
+import Carrusel from '@/components/vc/carrusel';
 
 /** Voz: una onda sonora. Alturas fijas para que no baile en cada render. */
 function Onda({ claro }: { claro?: boolean }) {
@@ -88,7 +89,8 @@ export default function AgentesCuatro() {
 
   return (
     <>
-      <div className="mt-9 grid gap-5 sm:grid-cols-2">
+      <div className="mt-9">
+        <Carrusel titulo={t('cuadrilla.agentesTitle')} grilla="sm:grid-cols-2">
         {AGENTES.map((a, i) => (
           <motion.article
             key={a.nameKey}
@@ -97,7 +99,7 @@ export default function AgentesCuatro() {
             viewport={{ once: true, margin: '-60px' }}
             variants={subeSuave}
             transition={{ delay: Math.min(i, 3) * 0.06 }}
-            className={`flex flex-col border-2 border-vc-marron p-6 ${
+            className={`flex h-full flex-col border-2 border-vc-marron p-6 ${
               a.oscura ? 'bg-vc-marron' : 'bg-white'
             }`}
           >
@@ -121,6 +123,7 @@ export default function AgentesCuatro() {
             </p>
           </motion.article>
         ))}
+        </Carrusel>
       </div>
 
       <motion.div

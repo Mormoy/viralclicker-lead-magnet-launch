@@ -108,6 +108,19 @@ export default function FlujoSistema() {
           );
         })}
       </ol>
+
+      {/* El remate. Es la única línea que valía la pena de la sección de "cómo
+          funciona" en 4 pasos, que se eliminó por repetir este mismo recorrido:
+          acá cierra el hilo en vez de abrir una sección nueva. */}
+      <motion.p
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={subeSuave}
+        className="mt-4 border-l-[5px] border-vc-naranja pl-5 font-display text-[1.6rem] font-black uppercase leading-none text-vc-tinta sm:ml-[7.5rem] sm:text-[2rem]"
+      >
+        {t('cuadrilla.remateFlujo')}
+      </motion.p>
     </Seccion>
   );
 }
